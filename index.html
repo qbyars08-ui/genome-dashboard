@@ -73,8 +73,21 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
 .fb.lipid{background:rgba(196,168,108,.12);color:#c4a86c;border-color:rgba(196,168,108,.3)}
 
 /* ─── Doctor Summary Modal ─── */
-#doc-modal,#pred-modal,#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
-#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show,#behcet-modal.show,#byars-family-modal.show{display:flex}
+#doc-modal,#pred-modal,#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show,#behcet-modal.show,#byars-family-modal.show,#icbd-modal.show,#clinical-modal.show{display:flex}
+.icbd-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:9px;margin-bottom:8px}
+.icbd-label{flex:1;font-size:.88rem;color:#e8d5c4;font-family:'EB Garamond',serif}
+.icbd-pts{font-size:.78rem;color:rgba(196,154,108,.5);margin:0 12px;min-width:50px;text-align:center}
+.icbd-toggle{width:48px;height:26px;background:rgba(196,154,108,.15);border-radius:13px;border:1px solid rgba(196,154,108,.25);cursor:pointer;position:relative;transition:background .3s}
+.icbd-toggle.on{background:rgba(165,28,48,.4);border-color:#A51C30}
+.icbd-toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#C49A6C;border-radius:50%;transition:left .3s}
+.icbd-toggle.on::after{left:24px;background:#A51C30}
+#icbd-total{font-family:'EB Garamond',serif;font-size:2.5rem;font-weight:700;text-align:center;margin:20px 0 8px}
+#icbd-interpretation{text-align:center;font-size:.9rem;margin-bottom:20px}
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:9px;margin-bottom:6px}
+.checklist-item input[type=checkbox]{margin-top:3px;accent-color:#A51C30;width:16px;height:16px;flex-shrink:0}
+.checklist-label{font-size:.82rem;color:#c4b4a4;line-height:1.5}
+.checklist-label b{color:#e8d5c4}
 .modal-box{background:rgba(18,12,10,.99);border:1px solid rgba(165,28,48,.3);border-radius:16px;width:min(700px,95vw);max-height:85vh;overflow-y:auto;padding:36px}
 .modal-box h2{font-family:'EB Garamond',Georgia,serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;color:#f0e6dc}
 .modal-box .msub{font-size:.68rem;color:rgba(196,154,108,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:24px;font-family:'Inter',sans-serif}
@@ -155,7 +168,9 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   <button class="tbtn" onclick="document.getElementById('fam-modal').classList.add('show')">&#128106; Family &amp; History</button>
   <button class="tbtn" onclick="document.getElementById('anc-modal').classList.add('show')">&#127758; Ancestry Map</button>
   <button class="tbtn" style="background:rgba(165,28,48,.3);border-color:rgba(165,28,48,.5);color:#d4838f" onclick="document.getElementById('behcet-modal').classList.add('show')">&#9877;&#65039; Behçet's / HLA-B*51</button>
-  <button class="tbtn" onclick="document.getElementById('byars-family-modal').classList.add('show')">&#128209; Byars Family Dashboard</button>
+  <button class="tbtn" onclick="document.getElementById('byars-family-modal').classList.add('show')">&#128209; Family Dashboard</button>
+  <button class="tbtn" onclick="document.getElementById('icbd-modal').classList.add('show')">&#128203; ICBD Scorer</button>
+  <button class="tbtn" onclick="document.getElementById('clinical-modal').classList.add('show')">&#128137; Clinical Tools</button>
 </div>
 
 <!-- Doctor Summary Modal -->
@@ -831,9 +846,235 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   </div>
 </div>
 
+<!-- ICBD Interactive Scorer -->
+<div id="icbd-modal">
+  <div class="modal-box" style="width:min(620px,95vw)">
+    <button class="mclose" onclick="document.getElementById('icbd-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128203; ICBD Behçet's Disease Scorer</h2>
+    <div class="msub">International Criteria for Behçet's Disease (2014) &nbsp;&middot;&nbsp; Interactive</div>
+
+    <div class="icbd-row" data-pts="2"><div class="icbd-label">Recurrent Oral Aphthous Ulcers</div><div class="icbd-pts">2 pts</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="2"><div class="icbd-label">Genital Aphthous Ulcers or Scarring</div><div class="icbd-pts">2 pts</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="2"><div class="icbd-label">Eye Lesions (Uveitis, Retinal Vasculitis)</div><div class="icbd-pts">2 pts</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="1"><div class="icbd-label">Skin Lesions (Erythema Nodosum, Pseudofolliculitis, Papulopustular)</div><div class="icbd-pts">1 pt</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="1"><div class="icbd-label">Vascular Involvement (Venous Thrombosis, Arterial Aneurysm)</div><div class="icbd-pts">1 pt</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="1"><div class="icbd-label">CNS / Neurological Manifestations</div><div class="icbd-pts">1 pt</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+    <div class="icbd-row" data-pts="1"><div class="icbd-label">Positive Pathergy Test</div><div class="icbd-pts">1 pt</div><div class="icbd-toggle" onclick="this.classList.toggle('on');updateICBD()"></div></div>
+
+    <div id="icbd-total" style="color:#C49A6C">0</div>
+    <div id="icbd-interpretation" style="color:rgba(196,154,108,.6)">Toggle symptoms above to calculate ICBD score</div>
+
+    <div class="pstat" style="margin-top:16px"><div class="pstat-l">Scoring Guide</div><div class="pstat-v" style="font-size:.8rem;font-weight:400;color:#b0a090">&ge;4 points = Behçet's disease diagnosis (sensitivity 94.8%, specificity 90.5%). Score 2-3 = possible/incomplete BD — clinical judgment and genetic context (B*51 homozygous) may support diagnosis even below threshold. HLA-B*51 is NOT part of the ICBD point system but strongly supports clinical diagnosis when present.</div></div>
+
+    <div class="interaction-card" style="margin-top:12px"><div class="interaction-title">Genetic Context for Quinn</div><div class="interaction-body">Quinn's HLA-B*51/B*51 homozygous status (OR ~10.96&times;) means that even a subthreshold ICBD score (2-3 points) should be taken very seriously. Many Behçet's experts consider B*51 positivity a strong supporting criterion even though it is not formally included in the ICBD point system. In a patient with B*51 homozygosity AND a suggestive clinical picture, the pretest probability of BD is extremely high.</div></div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print ICBD Score</button>
+  </div>
+</div>
+
+<!-- Clinical Tools Modal -->
+<div id="clinical-modal">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:90vh">
+    <button class="mclose" onclick="document.getElementById('clinical-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128137; Clinical Tools</h2>
+    <div class="msub">Referral Letter &nbsp;&middot;&nbsp; Lab Checklist &nbsp;&middot;&nbsp; Treatment Matrix &nbsp;&middot;&nbsp; Raw Data Upload</div>
+
+    <!-- Referral Letter -->
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:8px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Clinical Referral Letter</div>
+
+    <div style="background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);border-radius:10px;padding:20px;font-size:.82rem;color:#c4b4a4;line-height:1.8;margin-bottom:20px;font-family:'EB Garamond',serif">
+      <div style="text-align:center;margin-bottom:16px;font-family:'Inter',sans-serif">
+        <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(196,154,108,.4)">Genomic Referral Summary</div>
+        <div style="font-size:1.1rem;font-weight:700;color:#f0e6dc;margin:4px 0">Quinn Byars &mdash; Behçet's Disease Workup</div>
+        <div style="font-size:.7rem;color:rgba(196,154,108,.5)">Prepared by Chad Byars, M.D. (Emergency Medicine) &nbsp;&middot;&nbsp; April 2026</div>
+      </div>
+      <b style="color:#e8d5c4">To the Consulting Rheumatologist:</b><br><br>
+      I am referring my son Quinn Byars for evaluation of suspected Behçet's disease based on the following genomic and clinical findings:<br><br>
+      <b style="color:#d4838f">HLA Typing:</b> Quinn is <b>HLA-B*51 homozygous</b> (B*51/B*51), conferring OR ~10.96&times; for Behçet's disease (Takeuchi et al., PNAS 2014). Both parents are obligate B*51 carriers. Homozygosity in a Northern European family is rare and suggests retained Anatolian farmer ancestry at this locus (confirmed by Feb 2025 Genome Biology ancient DNA study showing B*51:01 at 31% frequency in Neolithic European farmers).<br><br>
+      <b style="color:#d4838f">Family History:</b> Sister with paroxysmal atrial fibrillation (PITX2 rs2200733 CT confirmed in father). Father: CAD (stent age 62, CABG &times;4 age 75), advanced dementia (APOE &epsilon;3/&epsilon;4 confirmed), lifelong 2+ ppd smoker. Mother: lung cancer (&dagger; Sept 2016). Paternal aunt: breast cancer age 33.<br><br>
+      <b style="color:#d4838f">Relevant Paternal Modifier Genes (50% inheritance probability each):</b><br>
+      &bull; IL-6 rs1800795 CC &mdash; pro-inflammatory baseline (tocilizumab target)<br>
+      &bull; IL-10 rs1800896 CT &mdash; reduced anti-inflammatory capacity (GWAS BD locus)<br>
+      &bull; CTLA4 rs3087243 AG &mdash; weakened immune checkpoint (abatacept target)<br>
+      &bull; STAT4 rs7574865 GT &mdash; Th1/Th17 amplifier (JAK inhibitor target)<br>
+      &bull; TYK2 rs12720356 AC &mdash; JAK/STAT pathway variant<br>
+      &bull; FUT2 rs601338 AA &mdash; non-secretor (gut-immune axis, altered microbiome)<br>
+      &bull; ATG16L1 rs2241880 AG &mdash; autophagy defect (sirolimus target)<br>
+      &bull; CYP2C9 rs1799853 CT &mdash; *1/*2 intermediate metabolizer (NSAID caution)<br>
+      &bull; MTHFR C677T + A1298C compound heterozygous &mdash; elevated homocysteine<br><br>
+      <b style="color:#d4838f">Requested Workup:</b><br>
+      &bull; ICBD scoring &amp; clinical assessment<br>
+      &bull; Ophthalmology: slit-lamp, fundoscopy (rule out subclinical uveitis)<br>
+      &bull; Labs: ESR, CRP, IL-6, IL-18, CBC with diff, CMP, homocysteine, MMA<br>
+      &bull; HLA confirmation: full class I typing including B*51 subtype &amp; ERAP1<br>
+      &bull; Pathergy test if clinically indicated<br>
+      &bull; Vascular imaging if thrombotic symptoms present<br>
+      &bull; Microbiome assessment (16S rRNA) if available<br><br>
+      <b style="color:#d4838f">Pharmacogenomic Considerations:</b> If CYP2C9 *1/*2 inherited from father, NSAID plasma levels will be elevated at standard doses. Colchicine (CYP3A4) is unaffected. Apremilast (PDE4 inhibitor) is FDA-approved for BD oral ulcers. JAK inhibitors (tofacitinib/baricitinib) target STAT4/TYK2 pathway variants present in father's genome.<br><br>
+      <i style="color:rgba(196,154,108,.5)">This analysis is based on whole genome sequencing of the father (Chad Byars) and known HLA typing of the patient. Full genotyping of Quinn and maternal genome (incoming) will refine the modifier gene assessment. Prepared using peer-reviewed genetic association data (de Menthon AJHG 2009, Takeuchi PNAS 2014, Genome Biology Feb 2025, Ye Microbiome 2018).</i>
+    </div>
+
+    <!-- Monday Morning Lab Checklist -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Monday Morning Checklist</div>
+
+    <div style="font-size:.72rem;color:rgba(196,154,108,.5);margin-bottom:10px;font-family:'Inter',sans-serif">Check off as completed &mdash; printable</div>
+
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>HLA typing confirmation</b> &mdash; Confirm B*51 subtype (B*51:01 vs others), full Class I (HLA-A, B, C), check for extended Mediterranean haplotype A*02:01~C*12:03~B*51:01~DRB1*11:01</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>ERAP1 genotyping</b> &mdash; Epistatic interaction with B*51 (Sousa, Arthritis Rheumatol 2015). If available through clinical genetics lab or research protocol</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Inflammatory markers</b> &mdash; ESR, hs-CRP, IL-6, IL-18. Baseline and serial monitoring</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>CBC with differential</b> &mdash; Neutrophilia common in active BD. Lymphocyte subsets if available</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>CMP + homocysteine + MMA</b> &mdash; MTHFR compound status elevates homocysteine (vascular BD risk). MMA for functional B12 (FUT2 non-secretor)</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Ophthalmology referral</b> &mdash; Slit-lamp biomicroscopy + fundoscopy. Rule out subclinical anterior/posterior uveitis. Retinal vasculitis screening. URGENT if any eye symptoms</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Dermatology assessment</b> &mdash; Document any skin lesions (pseudofolliculitis, erythema nodosum, papulopustular). Pathergy test if clinically indicated</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Rheumatology referral</b> &mdash; Behçet's specialist or Center of Excellence. See specialist list in this dashboard</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Serum B12 + methylmalonic acid</b> &mdash; If FUT2 non-secretor inherited: serum B12 may look falsely normal. MMA is the true functional marker</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Lipid panel + Lp(a) + ApoB</b> &mdash; 9p21 CAD risk context. Annual monitoring for Quinn given family cardiac history</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Vascular imaging</b> &mdash; If thrombotic symptoms, venous duplex or CT angiography. BD vascular involvement is a major complication</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Gut microbiome sequencing</b> &mdash; 16S rRNA or shotgun metagenomics if available. Look for BD signature: depleted Roseburia/Subdoligranulum, altered Bifidobacterium, reduced butyrate</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Upload Brigitte's 23andMe raw data</b> &mdash; Confirm maternal B*51 carrier status, build complete inheritance map</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Brother HLA typing</b> &mdash; 75% chance of carrying &ge;1 B*51 allele. Screen for Behçet's symptoms</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>Upload Chad's raw genome file</b> &mdash; Extract ERAP1, IL-23R, CCR1, GIMAP, KLRC4 variants not yet analyzed</div></div>
+
+    <!-- Treatment Decision Matrix -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Pharmacogenomic Treatment Decision Matrix</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Based on Chad's confirmed variants &mdash; Quinn has 50% probability of inheriting each (except B*51 = confirmed)</div>
+
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.76rem;color:#c4b4a4">
+      <thead><tr style="border-bottom:1px solid rgba(196,154,108,.2)">
+        <th style="text-align:left;padding:8px;color:#C49A6C;font-family:'Inter',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Drug</th>
+        <th style="text-align:left;padding:8px;color:#C49A6C;font-family:'Inter',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">BD Indication</th>
+        <th style="text-align:left;padding:8px;color:#C49A6C;font-family:'Inter',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Genetic Target</th>
+        <th style="text-align:center;padding:8px;color:#C49A6C;font-family:'Inter',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">CYP2C9 Impact</th>
+        <th style="text-align:center;padding:8px;color:#C49A6C;font-family:'Inter',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em">Fit</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Colchicine</b></td><td style="padding:8px">Mucocutaneous (1st line)</td><td style="padding:8px">Neutrophil chemotaxis</td><td style="padding:8px;text-align:center">None (CYP3A4)</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Apremilast</b></td><td style="padding:8px">Oral ulcers (FDA-approved)</td><td style="padding:8px">PDE4 inhibitor</td><td style="padding:8px;text-align:center">None (CYP3A4)</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Tofacitinib</b></td><td style="padding:8px">Refractory vascular</td><td style="padding:8px;color:#d4838f">STAT4 GT + TYK2 AC</td><td style="padding:8px;text-align:center">Minimal (CYP3A4)</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Tocilizumab</b></td><td style="padding:8px">Vasculitis, uveitis</td><td style="padding:8px;color:#d4838f">IL-6 CC</td><td style="padding:8px;text-align:center">None</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Infliximab</b></td><td style="padding:8px">Severe ocular/neuro/vascular</td><td style="padding:8px">TNF-&alpha; blockade</td><td style="padding:8px;text-align:center">None</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Adalimumab</b></td><td style="padding:8px">Ocular BD</td><td style="padding:8px">TNF-&alpha; blockade</td><td style="padding:8px;text-align:center">None</td><td style="padding:8px;text-align:center;color:#6db87d">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Abatacept</b></td><td style="padding:8px">Refractory (investigational)</td><td style="padding:8px;color:#d4838f">CTLA4 AG</td><td style="padding:8px;text-align:center">None</td><td style="padding:8px;text-align:center;color:#C49A6C">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px"><b style="color:#e8d5c4">Sirolimus</b></td><td style="padding:8px">Refractory vascular</td><td style="padding:8px;color:#d4838f">ATG16L1 AG autophagy</td><td style="padding:8px;text-align:center">None (CYP3A4)</td><td style="padding:8px;text-align:center;color:#C49A6C">&#9679;</td></tr>
+        <tr style="border-bottom:1px solid rgba(196,154,108,.08)"><td style="padding:8px;color:#d4838f"><b>Ibuprofen/Naproxen</b></td><td style="padding:8px">Arthritis</td><td style="padding:8px">&mdash;</td><td style="padding:8px;text-align:center;color:#d4838f">CAUTION *1/*2</td><td style="padding:8px;text-align:center;color:#d4838f">&#9888;</td></tr>
+        <tr><td style="padding:8px;color:#d4838f"><b>Celecoxib</b></td><td style="padding:8px">Arthritis</td><td style="padding:8px">&mdash;</td><td style="padding:8px;text-align:center;color:#d4838f">CAUTION *1/*2</td><td style="padding:8px;text-align:center;color:#d4838f">&#9888;</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="font-size:.65rem;color:rgba(196,154,108,.35);margin-top:6px">&#9679;&#9679; = Genotype-targeted (genetic basis for this specific pathway) &nbsp;&middot;&nbsp; &#9679; = Standard fit &nbsp;&middot;&nbsp; &#9888; = Pharmacogenomic caution</div>
+
+    <!-- Behcet's Specialist Centers -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem" id="specialists">Behçet's Centers of Excellence</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px" id="specialist-list">Loading specialist data...</div>
+
+    <!-- Raw Data Upload Section -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Raw Genome Data</div>
+
+    <div class="pred-grid">
+      <div class="pred-card" style="border-left:3px solid #6db87d"><div class="pred-label">Chad's Raw File</div><div class="pred-value">Not Yet Uploaded</div><div class="pred-basis">When uploaded: extract ERAP1, IL-23R-IL12RB2, CCR1, GIMAP, KLRC4, full HLA haplotype reconstruction</div></div>
+      <div class="pred-card" style="border-left:3px solid #C49A6C"><div class="pred-label">Brigitte's 23andMe</div><div class="pred-value">Expected This Week</div><div class="pred-basis">When uploaded: confirm B*51 carrier, build complete inheritance map, identify maternal modifiers</div></div>
+      <div class="pred-card" style="border-left:3px solid rgba(196,154,108,.3)"><div class="pred-label">Quinn's Full Data</div><div class="pred-value">Pending</div><div class="pred-basis">When available: confirm which variants inherited, build Quinn's own brain map, definitive modifier assessment</div></div>
+      <div class="pred-card" style="border-left:3px solid rgba(196,154,108,.3)"><div class="pred-label">Brother's Data</div><div class="pred-value">Planned</div><div class="pred-basis">Priority: HLA-B*51 status. Then full sibling comparison across all 170+ loci</div></div>
+    </div>
+
+    <!-- Three-Generation Pedigree -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Three-Generation Pedigree &mdash; Disease-Gene Mapping</div>
+
+    <svg viewBox="0 0 740 320" style="width:100%;border-radius:12px;background:rgba(30,22,18,.4);margin-bottom:12px">
+      <!-- Generation 1 (Grandparents) -->
+      <text x="370" y="18" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif" letter-spacing=".1em">GENERATION 1</text>
+
+      <!-- Paternal grandparents -->
+      <rect x="80" y="28" width="120" height="55" rx="8" fill="rgba(165,28,48,.1)" stroke="rgba(165,28,48,.3)" stroke-width="1"/>
+      <text x="140" y="47" text-anchor="middle" fill="#d4838f" font-size="9" font-family="EB Garamond,serif" font-weight="700">Chad's Father</text>
+      <text x="140" y="60" text-anchor="middle" fill="rgba(196,154,108,.45)" font-size="7" font-family="Inter,sans-serif">ENT physician</text>
+      <text x="140" y="72" text-anchor="middle" fill="#d4838f" font-size="6.5" font-family="Inter,sans-serif">CAD stent 62 &middot; CABG 75 &middot; Dementia</text>
+      <text x="140" y="80" text-anchor="middle" fill="#d4838f" font-size="6" font-family="Inter,sans-serif">2+ ppd smoker &middot; B*51 carrier?</text>
+
+      <rect x="240" y="28" width="120" height="55" rx="8" fill="rgba(165,28,48,.1)" stroke="rgba(165,28,48,.3)" stroke-width="1"/>
+      <text x="300" y="47" text-anchor="middle" fill="#d4838f" font-size="9" font-family="EB Garamond,serif" font-weight="700">Chad's Mother</text>
+      <text x="300" y="60" text-anchor="middle" fill="rgba(196,154,108,.45)" font-size="7" font-family="Inter,sans-serif">&dagger; Sept 5, 2016</text>
+      <text x="300" y="72" text-anchor="middle" fill="#d4838f" font-size="6.5" font-family="Inter,sans-serif">Lung cancer</text>
+
+      <line x1="200" y1="55" x2="240" y2="55" stroke="rgba(196,154,108,.2)" stroke-width="1"/>
+
+      <!-- Maternal grandparents (unknown) -->
+      <rect x="460" y="28" width="120" height="55" rx="8" fill="rgba(196,154,108,.05)" stroke="rgba(196,154,108,.15)" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="520" y="52" text-anchor="middle" fill="rgba(196,154,108,.35)" font-size="9" font-family="EB Garamond,serif">Brigitte's Parents</text>
+      <text x="520" y="66" text-anchor="middle" fill="rgba(196,154,108,.25)" font-size="7" font-family="Inter,sans-serif">Unknown &mdash; data pending</text>
+
+      <!-- Siblings of parents -->
+      <rect x="10" y="100" width="90" height="40" rx="6" fill="rgba(165,28,48,.08)" stroke="rgba(165,28,48,.2)" stroke-width="1"/>
+      <text x="55" y="116" text-anchor="middle" fill="#d4838f" font-size="7.5" font-family="EB Garamond,serif" font-weight="600">Chad's Sister</text>
+      <text x="55" y="128" text-anchor="middle" fill="#d4838f" font-size="6" font-family="Inter,sans-serif">Paroxysmal AFib</text>
+      <line x1="55" y1="83" x2="55" y2="100" stroke="rgba(196,154,108,.15)" stroke-width="1"/>
+      <line x1="55" y1="83" x2="140" y2="83" stroke="rgba(196,154,108,.15)" stroke-width="1"/>
+
+      <rect x="350" y="100" width="90" height="40" rx="6" fill="rgba(165,28,48,.08)" stroke="rgba(165,28,48,.2)" stroke-width="1"/>
+      <text x="395" y="116" text-anchor="middle" fill="#d4838f" font-size="7.5" font-family="EB Garamond,serif" font-weight="600">Chad's Aunt</text>
+      <text x="395" y="128" text-anchor="middle" fill="#d4838f" font-size="6" font-family="Inter,sans-serif">Breast Ca age 33</text>
+      <line x1="300" y1="83" x2="395" y2="83" stroke="rgba(196,154,108,.15)" stroke-width="1"/>
+      <line x1="395" y1="83" x2="395" y2="100" stroke="rgba(196,154,108,.15)" stroke-width="1"/>
+
+      <!-- Generation 2 (Parents) -->
+      <text x="370" y="162" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif" letter-spacing=".1em">GENERATION 2</text>
+
+      <rect x="160" y="172" width="140" height="55" rx="8" fill="rgba(165,28,48,.15)" stroke="#A51C30" stroke-width="1.5"/>
+      <text x="230" y="191" text-anchor="middle" fill="#f0e6dc" font-size="10" font-family="EB Garamond,serif" font-weight="700">Chad Byars, M.D.</text>
+      <text x="230" y="204" text-anchor="middle" fill="#6db87d" font-size="7" font-family="Inter,sans-serif">WGS Complete &middot; 170+ variants</text>
+      <text x="230" y="216" text-anchor="middle" fill="#C49A6C" font-size="6.5" font-family="Inter,sans-serif">APOE &epsilon;3/&epsilon;4 &middot; B*51 carrier &middot; Triple MC1R</text>
+
+      <rect x="380" y="172" width="140" height="55" rx="8" fill="rgba(196,154,108,.06)" stroke="rgba(196,154,108,.25)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="450" y="191" text-anchor="middle" fill="#f0e6dc" font-size="10" font-family="EB Garamond,serif" font-weight="700">Brigitte Byars</text>
+      <text x="450" y="204" text-anchor="middle" fill="#C49A6C" font-size="7" font-family="Inter,sans-serif">23andMe &middot; INCOMING</text>
+      <text x="450" y="216" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="6.5" font-family="Inter,sans-serif">B*51 carrier (obligate) &middot; Modifiers TBD</text>
+
+      <line x1="300" y1="199" x2="380" y2="199" stroke="rgba(196,154,108,.25)" stroke-width="1.5"/>
+      <line x1="340" y1="199" x2="340" y2="245" stroke="rgba(196,154,108,.25)" stroke-width="1.5"/>
+      <line x1="230" y1="245" x2="500" y2="245" stroke="rgba(196,154,108,.25)" stroke-width="1"/>
+
+      <!-- Generation 3 (Children) -->
+      <text x="370" y="258" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif" letter-spacing=".1em">GENERATION 3</text>
+
+      <line x1="280" y1="245" x2="280" y2="268" stroke="rgba(196,154,108,.25)" stroke-width="1"/>
+      <rect x="210" y="268" width="140" height="45" rx="8" fill="rgba(196,154,108,.06)" stroke="rgba(196,154,108,.25)" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="280" y="286" text-anchor="middle" fill="#e8d5c4" font-size="9" font-family="EB Garamond,serif" font-weight="700">Older Brother (21)</text>
+      <text x="280" y="300" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="6.5" font-family="Inter,sans-serif">B*51 status unknown &middot; 75% chance carrier</text>
+
+      <line x1="440" y1="245" x2="440" y2="268" stroke="rgba(196,154,108,.25)" stroke-width="1"/>
+      <rect x="370" y="268" width="140" height="45" rx="8" fill="rgba(165,28,48,.15)" stroke="#A51C30" stroke-width="2"/>
+      <text x="440" y="286" text-anchor="middle" fill="#f0e6dc" font-size="9" font-family="EB Garamond,serif" font-weight="700">Quinn Byars</text>
+      <text x="440" y="300" text-anchor="middle" fill="#A51C30" font-size="7" font-family="Inter,sans-serif" font-weight="700">B*51/B*51 HOMOZYGOUS</text>
+
+      <!-- Gene flow annotations -->
+      <text x="695" y="195" fill="rgba(196,154,108,.3)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="end">9p21 &rarr; Father's CAD</text>
+      <text x="695" y="207" fill="rgba(196,154,108,.3)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="end">APOE &epsilon;4 &rarr; Father's dementia</text>
+      <text x="695" y="219" fill="rgba(196,154,108,.3)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="end">PITX2 &rarr; Sister's AFib</text>
+      <text x="695" y="231" fill="rgba(196,154,108,.3)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="end">B*51 &rarr; Quinn's Behçet's risk</text>
+    </svg>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print All Clinical Tools</button>
+  </div>
+</div>
+
 <script>
+// ICBD Scorer
+function updateICBD(){
+  let total=0;
+  document.querySelectorAll('.icbd-row').forEach(row=>{
+    if(row.querySelector('.icbd-toggle.on')) total+=parseInt(row.dataset.pts);
+  });
+  const el=document.getElementById('icbd-total');
+  const interp=document.getElementById('icbd-interpretation');
+  el.textContent=total;
+  if(total>=4){el.style.color='#A51C30';interp.innerHTML='<b style="color:#A51C30">MEETS ICBD CRITERIA FOR BEHÇET\'S DISEASE</b><br>Score &ge;4 (sensitivity 94.8%, specificity 90.5%). Combined with HLA-B*51 homozygosity (OR ~10.96&times;), diagnostic confidence is very high.';}
+  else if(total>=2){el.style.color='#C49A6C';interp.innerHTML='<b style="color:#C49A6C">POSSIBLE / INCOMPLETE BEHÇET\'S</b><br>Score 2-3. In the context of HLA-B*51 homozygosity, many experts would consider this diagnostically significant. Clinical judgment and serial monitoring recommended.';}
+  else{el.style.color='rgba(196,154,108,.5)';interp.textContent=total===0?'Toggle symptoms above to calculate ICBD score':'Score '+total+' — below diagnostic threshold. Continue monitoring and reassess over time.';}
+}
+
 // Make all modals closeable by clicking backdrop
-document.querySelectorAll('#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal').forEach(m=>{
+document.querySelectorAll('#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal').forEach(m=>{
   m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});
 });
 </script>
