@@ -186,7 +186,7 @@ body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-seri
     <div class="action-card discovery">
       <div class="action-num">#5 &mdash; Key Discovery</div>
       <div class="action-title">FUT2 Non-Secretor &mdash; B12 Malabsorption Risk (rs601338 AA)</div>
-      <div class="action-body">FUT2 AA Non-Secretor status — gut mucosa lacks FUT2 enzyme, impairing intrinsic factor-mediated B12 absorption. 2.5× higher B12 deficiency risk. B12 deficiency causes irreversible subacute combined degeneration of the spinal cord if untreated. MTRR GG compounds this. <b>Action: Methylcobalamin 1000-2000mcg/day (sublingual or injection preferred over oral tablets). Annual serum B12 and MMA levels. Target B12 &gt;400 pg/mL.</b></div>
+      <div class="action-body">FUT2 AA Non-Secretor status — gut mucosa lacks fucosylated glycans, dramatically reducing Bifidobacterium colonization and impairing B12 absorption. CRITICAL NUANCE: serum B12 may paradoxically appear normal or HIGH in non-secretors — this reflects impaired cellular transport, not sufficiency. True functional B12 status requires methylmalonic acid (MMA) and homocysteine levels. MTRR GG compounds this. <b>Action: Methylcobalamin 1000-2000mcg/day sublingual or injection (NOT oral tablets). Annual MMA + homocysteine — do NOT rely on serum B12 alone. Probiotic with Bifidobacterium longum.</b></div>
     </div>
 
     <div class="action-card discovery">
@@ -380,7 +380,7 @@ N("b_psych","Psychiatric\nProfile","branch","psych",null,"purple","","15 psychia
 N("b_immune","Auto-\nimmune","branch","immune",null,"yellow","","15 autoimmune variants. CTLA4 AG immune checkpoint, ATG16L1 Crohn's pathway. HLA-DQ2/DQ8 celiac absent.",
   [{l:"Total SNPs",v:"15 autoimmune"},{l:"Celiac",v:"Very low risk (DQ2/DQ8 absent)"},{l:"Crohn's",v:"Moderate ATG16L1 signal"}]),
 N("b_pharma","Pharmaco-\ngenomics","branch","pharma",null,"yellow","","22 pharmacogenomic variants. CRITICAL: CYP2C9 *1/*2 warfarin. CYP1A2 AA fast caffeine. DPYD intact (5-FU safe).",
-  [{l:"Total SNPs",v:"22 pharmacogenomic"},{l:"CRITICAL",v:"CYP2C9 *1/*2 warfarin dose ↓20%"},{l:"Fast",v:"CYP1A2 AA caffeine metabolizer"}]),
+  [{l:"Total SNPs",v:"22 pharmacogenomic"},{l:"CRITICAL",v:"CYP2C9 *1/*2 — use IWPC algorithm, prefer DOACs"},{l:"Fast",v:"CYP1A2 AA caffeine metabolizer"}]),
 N("b_nutri","Nutri-\ngenomics","branch","nutri",null,"gold","","17 nutrigenomics variants. KEY DISCOVERY: FUT2 AA Non-Secretor — B12 malabsorption. FADS intermediate omega-3 conversion.",
   [{l:"Total SNPs",v:"17 nutrition"},{l:"KEY",v:"FUT2 AA — Non-Secretor (B12 risk!)"},{l:"Action",v:"Methylcobalamin 2000mcg/day essential"}]),
 N("b_longevity","Longevity\nPathways","branch","longevity",null,"pink","","11 longevity variants. KEY: FOXO3 TT (no centenarian allele), APOE ε4 main risk, TERT/TERC intermediate.",
@@ -502,8 +502,8 @@ N("ph_tpmt","TPMT\nPanel Normal","leaf","pharma","b_pharma","green","rs1142345/1
   [{l:"TPMT Status",v:"Normal enzyme activity"},{l:"Thiopurines",v:"Standard dosing safe"}]),
 N("ph_mthfr_677","MTHFR\nC677T","leaf","pharma","b_pharma","yellow","rs1801133 = AG","MTHFR C677T + A1298C compound. Methotrexate toxicity elevated. Use methylfolate not folic acid.",
   [{l:"Combined Status",v:"Compound heterozygous C677T + A1298C"},{l:"Methotrexate",v:"Elevated toxicity risk"},{l:"Action",v:"L-methylfolate + methylcobalamin"}]),
-N("ph_warfarin_algo","Warfarin\nDosing Guide","leaf","pharma","b_pharma","red","CYP2C9 *1/*2","CYP2C9 *1/*2: Start warfarin 20-30% below standard dose. INR every 3-5 days during initiation. Consider apixaban instead.",
-  [{l:"Starting Dose",v:"20-30% below standard"},{l:"INR Check",v:"Every 3-5 days initially"},{l:"Alternative",v:"Apixaban — no CYP2C9 interaction"}]),
+N("ph_warfarin_algo","Warfarin\nDosing Guide","leaf","pharma","b_pharma","red","CYP2C9 *1/*2 + VKORC1","CYP2C9 *1/*2: CPIC recommends using the IWPC pharmacogenetic dosing algorithm incorporating VKORC1 genotype — not a blanket dose reduction. *1/*2 alone does not mandate automatic reduction. If warfarin is needed, insist on IWPC-guided calculation. Preferred strategy: DOACs (apixaban/rivaroxaban) bypass CYP2C9 entirely.",
+  [{l:"Dosing Method",v:"IWPC algorithm with VKORC1 genotype — not blanket cut"},{l:"INR Check",v:"Every 3-5 days during warfarin initiation"},{l:"Preferred",v:"Apixaban or rivaroxaban — bypass CYP2C9"},{l:"Key Point",v:"*1/*2 alone ≠ automatic dose reduction per CPIC"}]),
 N("ph_hlab5701","HLA-B*57:01\nAbacavir Safe","leaf","pharma","b_pharma","green","rs2395029 = TT","B*57:01 absent — abacavir HIV drug and carbamazepine safe from this HLA allele.",
   [{l:"Abacavir",v:"Safe — no hypersensitivity"},{l:"Carbamazepine",v:"No B*57:01 SJS risk"}]),
 N("ph_statins","Statin\nPreference","leaf","pharma","b_pharma","yellow","CYP2C9 *1/*2","CYP2C9 *1/*2: prefer rosuvastatin or pravastatin (less CYP2C9 dependent). Avoid high-dose simvastatin.",
