@@ -73,8 +73,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
 .fb.lipid{background:rgba(196,168,108,.12);color:#c4a86c;border-color:rgba(196,168,108,.3)}
 
 /* ─── Doctor Summary Modal ─── */
-#doc-modal,#pred-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
-#doc-modal.show,#pred-modal.show{display:flex}
+#doc-modal,#pred-modal,#fam-modal,#anc-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show{display:flex}
 .modal-box{background:rgba(18,12,10,.99);border:1px solid rgba(165,28,48,.3);border-radius:16px;width:min(700px,95vw);max-height:85vh;overflow-y:auto;padding:36px}
 .modal-box h2{font-family:'EB Garamond',Georgia,serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;color:#f0e6dc}
 .modal-box .msub{font-size:.68rem;color:rgba(196,154,108,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:24px;font-family:'Inter',sans-serif}
@@ -152,6 +152,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   <div id="hint">Click node to explore &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Drag to pan</div>
   <button class="tbtn" onclick="document.getElementById('doc-modal').classList.add('show')">&#128203; Doctor Summary</button>
   <button class="tbtn" onclick="document.getElementById('pred-modal').classList.add('show')">&#129504; Predictions</button>
+  <button class="tbtn" onclick="document.getElementById('fam-modal').classList.add('show')">&#128106; Family &amp; History</button>
+  <button class="tbtn" onclick="document.getElementById('anc-modal').classList.add('show')">&#127758; Ancestry Map</button>
 </div>
 
 <!-- Doctor Summary Modal -->
@@ -161,64 +163,64 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
     <h2>&#128203; What Your Doctor Should Know</h2>
     <div class="msub">Top 10 Clinically Actionable Findings &mdash; Chad Byars, M.D.</div>
 
-    <div class="action-card urgent">
-      <div class="action-num">#1 &mdash; Critical / Flag in EMR</div>
-      <div class="action-title">CYP2C9 *1/*2 &mdash; Pharmacogenomic-Guided Warfarin Dosing Required</div>
-      <div class="action-body">rs1799853 CT. Intermediate metabolizer — CYP2C9 *2 allele reduces S-warfarin metabolism ~30-40%. CPIC guideline (active 2025): *1/*2 alone does <b>not</b> mandate a blanket dose reduction. Instead, use the IWPC pharmacogenetic dosing algorithm incorporating VKORC1-1639G>A alongside CYP2C9 *2 for individualized dosing. Blanket reductions are reserved for *2/*2, *1/*3, *2/*3, *3/*3. Also affects NSAIDs (higher plasma levels at standard doses). <b>Action: Flag in EMR. Insist on IWPC-guided dosing with VKORC1 genotype before any warfarin. Prefer DOACs (apixaban/rivaroxaban) — no CYP2C9 interaction. Inform anesthesia and all treating physicians.</b></div>
+    <div class="action-card urgent" style="border-left-color:#A51C30;border-left-width:4px">
+      <div class="action-num">#1 &mdash; URGENT &mdash; Family-Confirmed</div>
+      <div class="action-title">Triple MC1R + Childhood Sun Damage &mdash; Critical Melanoma Surveillance</div>
+      <div class="action-body">Three MC1R variants (rs1805007 CT R151C + rs1805008 CC + rs910873 AG) compound melanoma risk up to OR ~10× for compound R-allele carriers. <b>COMPOUNDING PERSONAL HISTORY:</b> Grew up in New Orleans with extensive sun exposure and multiple blistering sunburns before age 25. Blistering sunburns in childhood/adolescence are among the strongest independent melanoma risk factors (2-3× alone). Combined with triple MC1R genetic impairment of UV-DNA repair, Chad's melanoma risk profile is in the highest-risk tier. Sun protection was not adopted until his 30s. <b>Action: IMMEDIATE dermatology referral for full-body mole mapping with dermoscopy. Skin exams every 6 months MINIMUM. SPF 50+ broad-spectrum daily (even overcast days). Self-exam monthly. Educate family. Consider total-body photography for baseline comparison. Any changing mole = urgent biopsy.</b></div>
     </div>
 
-    <div class="action-card discovery">
-      <div class="action-num">#2 &mdash; Key Discovery</div>
-      <div class="action-title">9p21 CAD Risk &mdash; Three Variants (rs10757278 AG, rs1333049 CG, rs4977574 AG)</div>
-      <div class="action-body">The 9p21 locus is the most replicated genetic risk factor for coronary artery disease. Chad carries heterozygous risk alleles at all three independent 9p21 signals, conferring ~1.4-1.7× elevated MI risk. This is independent of traditional risk factors. <b>Action: Coronary artery calcium (CAC) score at age 40-45, aggressive LDL target (&lt;70 mg/dL), statin consideration even at normal LDL. Annual CV risk calculation.</b></div>
+    <div class="action-card urgent" style="border-left-color:#A51C30;border-left-width:4px">
+      <div class="action-num">#2 &mdash; URGENT &mdash; Family-Confirmed</div>
+      <div class="action-title">APOE ε3/ε4 + Father's Advanced Dementia &mdash; Alzheimer's Prevention NOW</div>
+      <div class="action-body">rs429358 CT. APOE ε4 elevates lifetime Alzheimer's risk to ~15-25%. <b>FAMILY CONFIRMATION:</b> Chad's father is currently suffering from advanced dementia. Given Chad's ε3/ε4 status, his father very likely carries at least one ε4 allele — meaning this is a confirmed familial pattern, not just a statistical risk. The ε4 allele is actively causing disease in Chad's immediate family. Prevention window is NOW (40s). <b>Action: Begin structured Alzheimer's prevention protocol immediately. Exercise ≥150 min/week vigorous cardio (strongest evidence for ε4 carriers). 7-9h high-quality sleep (amyloid clearance). MIND diet strictly. DHA omega-3 1g/day. BP target &lt;120/80. Cognitive baseline testing for longitudinal tracking. Consider enrolling in ε4 carrier prevention trials.</b></div>
     </div>
 
-    <div class="action-card discovery">
-      <div class="action-num">#3 &mdash; Key Discovery</div>
-      <div class="action-title">PITX2 &mdash; Atrial Fibrillation Risk (rs2200733 CT)</div>
-      <div class="action-body">PITX2 is the strongest known genetic risk factor for AFib. CT heterozygous confers ~1.7× elevated lifetime AFib risk. As an ER physician, self-awareness is critical. <b>Action: Annual EKG baseline. Holter monitor if palpitations. Minimize alcohol (major modifiable AFib trigger in PITX2 carriers). Maintain healthy weight — obesity is a key AFib amplifier.</b></div>
+    <div class="action-card urgent" style="border-left-color:#A51C30;border-left-width:4px">
+      <div class="action-num">#3 &mdash; URGENT &mdash; Family-Confirmed</div>
+      <div class="action-title">9p21 CAD Risk + Father's CAD (Stent at 62, CABG at 75)</div>
+      <div class="action-body">Three heterozygous 9p21 CAD signals (rs10757278 AG, rs1333049 CG, rs4977574 AG). <b>FAMILY CONFIRMATION:</b> Chad's father developed coronary artery disease requiring stent placement at age 62 and 4-vessel CABG at age 75, despite being a 2+ pack/day lifelong smoker. The 9p21 genetic risk is confirmed as expressing in the family — and Chad has ALL THREE independent 9p21 signals. Unlike his father, Chad is a non-smoker, which is strongly protective. Mediterranean diet has been shown to completely eliminate 9p21-associated MI risk. <b>Action: Coronary artery calcium (CAC) score NOW (don't wait until 45). Aggressive LDL target &lt;70 mg/dL. Mediterranean diet strictly. Annual comprehensive lipid panel + hs-CRP. Strong statin candidacy given family history + triple 9p21. PCSK9 inhibitor if LDL remains elevated.</b></div>
     </div>
 
-    <div class="action-card urgent">
-      <div class="action-num">#4 &mdash; Elevated Risk</div>
-      <div class="action-title">APOE ε3/ε4 &mdash; 3× Alzheimer's Risk</div>
-      <div class="action-body">rs429358 CT. The strongest genetic risk factor for late-onset Alzheimer's. One copy of ε4 elevates lifetime risk to ~15-25% (vs 9% baseline). Onset risk rises from age 40 for ε4 carriers. 2025 RCT data (EXERT trial and Finnish FINGER-2 data): structured aerobic exercise ≥150 min/week reduces cognitive decline trajectory in ε4 carriers significantly. <b>Action: Start Alzheimer's prevention protocol now. Exercise ≥150 min/week vigorous cardio, 7-9h sleep, MIND diet, DHA 1g/day, control BP &lt;120/80.</b></div>
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">#4 &mdash; Family-Confirmed</div>
+      <div class="action-title">PITX2 AFib Risk + Sister's Paroxysmal AFib</div>
+      <div class="action-body">PITX2 rs2200733 CT — ~1.5-1.8× elevated AFib risk. <b>FAMILY CONFIRMATION:</b> Chad's sister has paroxysmal atrial fibrillation (not yet requiring anticoagulation). The PITX2 variant is confirmed as segregating and expressing in this family. Chad should consider himself pre-symptomatic for AFib until proven otherwise. <b>Action: Annual EKG baseline starting now. Holter monitor if ANY palpitations, skipped beats, or exercise intolerance. Minimize alcohol (strongest modifiable trigger for PITX2 carriers). Maintain healthy weight — obesity dramatically amplifies PITX2 AFib risk. Treat sleep apnea aggressively if present. If AFib develops, DOACs (apixaban) preferred — avoid warfarin per patient preference.</b></div>
     </div>
 
     <div class="action-card discovery">
       <div class="action-num">#5 &mdash; Key Discovery</div>
-      <div class="action-title">FUT2 Non-Secretor &mdash; B12 Malabsorption Risk (rs601338 AA)</div>
-      <div class="action-body">FUT2 AA Non-Secretor status — gut mucosa lacks fucosylated glycans, dramatically reducing Bifidobacterium colonization and impairing B12 absorption. CRITICAL NUANCE: serum B12 may paradoxically appear normal or HIGH in non-secretors — this reflects impaired cellular transport, not sufficiency. True functional B12 status requires methylmalonic acid (MMA) and homocysteine levels. MTRR GG compounds this. <b>Action: Methylcobalamin 1000-2000mcg/day sublingual or injection (NOT oral tablets). Annual MMA + homocysteine — do NOT rely on serum B12 alone. Probiotic with Bifidobacterium longum.</b></div>
+      <div class="action-title">FUT2 Non-Secretor &mdash; Functional B12 Deficiency Risk (rs601338 AA)</div>
+      <div class="action-body">FUT2 AA Non-Secretor — gut mucosa lacks fucosylated glycans, dramatically reducing Bifidobacterium colonization and impairing B12 absorption. CRITICAL NUANCE: serum B12 may paradoxically appear NORMAL or HIGH in non-secretors — this reflects impaired cellular transport, not true sufficiency. Functional B12 status requires methylmalonic acid (MMA) and homocysteine. <b>Action: Methylcobalamin 1000-2000mcg/day sublingual or injection (NOT oral tablets). Annual MMA + homocysteine — do NOT rely on serum B12 alone. Probiotic with Bifidobacterium longum BB536.</b></div>
     </div>
 
-    <div class="action-card discovery">
-      <div class="action-num">#6 &mdash; Key Discovery</div>
-      <div class="action-title">Triple MC1R Carrier &mdash; Elevated Melanoma Risk (rs1805007 CT + rs1805008 CC + rs910873 AG)</div>
-      <div class="action-body">Three distinct MC1R variants present. MC1R compound heterozygosity substantially elevates melanoma risk — estimated 3-5× increased risk compared to non-carriers. MC1R impairs UV-induced DNA repair signaling via MC1R/cAMP/MITF pathway. <b>Action: Dermatology referral for full-body baseline mapping. Every 6 months skin exam. SPF 50+ every day (UVA+UVB), no tanning beds, protective clothing. Family must be screened.</b></div>
+    <div class="action-card warning">
+      <div class="action-num">#6 &mdash; Moderate Risk</div>
+      <div class="action-title">CYP2C9 *1/*2 &mdash; NSAID Caution (rs1799853 CT)</div>
+      <div class="action-body">Intermediate metabolizer — CYP2C9 *2 allele reduces enzyme activity ~30-40%. Higher plasma levels of ibuprofen, naproxen, celecoxib, diclofenac at standard doses. Increased GI hemorrhage and nephrotoxicity risk. Also affects phenytoin, glipizide. <b>Action: Use lowest effective NSAID dose for shortest duration. Prefer acetaminophen when possible (not CYP2C9-dependent). Flag in EMR for anesthesia and prescribing physicians.</b></div>
     </div>
 
     <div class="action-card warning">
       <div class="action-num">#7 &mdash; Moderate Risk</div>
       <div class="action-title">MTHFR Compound Heterozygous &mdash; C677T + A1298C</div>
-      <div class="action-body">rs1801133 AG + rs1801131 GT. Compound heterozygous MTHFR significantly reduces methylfolate production (&lt;50% enzyme activity), elevating homocysteine. Homocysteine is an independent CV risk factor and accelerates epigenetic aging. Methotrexate toxicity risk elevated. <b>Action: Methylfolate (L-5-MTHF) 800mcg/day + Methylcobalamin 1000mcg. Annual homocysteine (target &lt;10 μmol/L). Avoid high-dose synthetic folic acid.</b></div>
+      <div class="action-body">rs1801133 AG + rs1801131 GT. Compound heterozygous MTHFR significantly reduces methylfolate production (&lt;50% enzyme activity), elevating homocysteine — an independent CV risk factor that compounds the 9p21/family CAD risk. <b>Action: Methylfolate (L-5-MTHF) 800mcg/day + Methylcobalamin 1000mcg. Annual homocysteine (target &lt;10 &mu;mol/L). Avoid high-dose synthetic folic acid.</b></div>
     </div>
 
     <div class="action-card discovery">
       <div class="action-num">#8 &mdash; Key Discovery</div>
       <div class="action-title">FOXO3 TT &mdash; Longevity Allele Absent (rs2802292)</div>
-      <div class="action-body">Chad does NOT carry the FOXO3 G allele associated with centenarians worldwide. FOXO3 regulates autophagy, oxidative stress, and apoptosis. The good news: FOXO3 is powerfully activated by caloric restriction, HIIT exercise, and time-restricted eating regardless of genotype. <b>Action: Intermittent fasting (16:8 or 5:2), regular HIIT, Mediterranean diet with caloric awareness.</b></div>
+      <div class="action-body">Chad does NOT carry the FOXO3 G allele associated with centenarians. Given father's advanced dementia and CAD, longevity optimization is especially important. FOXO3 is activated by HIIT exercise and intermittent fasting regardless of genotype. <b>Action: HIIT 2×/week (30+ min), intermittent fasting (16:8), Mediterranean diet with caloric awareness.</b></div>
     </div>
 
-    <div class="action-card warning">
-      <div class="action-num">#9 &mdash; Monitor</div>
-      <div class="action-title">PCSK9 Heterozygous &mdash; Precision Therapy Candidate (rs11206510 CT)</div>
-      <div class="action-body">PCSK9 pathway heterozygous. Combined with 9p21 CAD risk, Chad may be a candidate for PCSK9 inhibitor therapy (evolocumab/alirocumab) if LDL becomes elevated. These drugs are among the most effective CV prevention therapies available. <b>Action: Track LDL trajectory. If elevated despite lifestyle, PCSK9 inhibitor is genetically-targeted therapy option.</b></div>
+    <div class="action-card discovery">
+      <div class="action-num">#9 &mdash; Precision Therapy</div>
+      <div class="action-title">PCSK9 Heterozygous + Family CAD &mdash; Targeted Therapy Candidate</div>
+      <div class="action-body">PCSK9 rs11206510 CT + triple 9p21 + father's CAD requiring CABG = strong candidacy for PCSK9 inhibitor therapy (evolocumab/alirocumab) if LDL is suboptimal despite lifestyle and statins. These are among the most effective CV prevention drugs available and specifically target Chad's pathway variant. <b>Action: Track LDL aggressively. If &gt;70 mg/dL despite statin + lifestyle, PCSK9 inhibitor is the precision therapy option.</b></div>
     </div>
 
     <div class="action-card warning">
       <div class="action-num">#10 &mdash; Monitor</div>
-      <div class="action-title">CYP1A2 Fast Metabolizer + 9p21 CAD Risk &mdash; Caffeine Strategy</div>
-      <div class="action-body">Fast CYP1A2 metabolizer (AA) with 9p21 CAD risk. A landmark 2006 NEJM study and follow-up 2024 replication show fast CYP1A2 metabolizers have ELEVATED CAD risk with &gt;4 cups coffee/day (slower clearance of vasoactive metabolites despite fast caffeine clearance). <b>Action: Cap at 2-3 cups/day. Last coffee by noon. Green tea may be safer due to L-theanine.</b></div>
+      <div class="action-title">CYP1A2 Fast Metabolizer + Family CAD Risk &mdash; Caffeine Strategy</div>
+      <div class="action-body">Fast CYP1A2 metabolizer (AA) with triple 9p21 CAD risk AND confirmed family CAD (father stent at 62). Fast CYP1A2 metabolizers with &gt;4 cups coffee/day have elevated CAD risk. <b>Action: Cap at 2-3 cups/day. Last coffee by noon. Green tea with L-theanine may be a safer daily option.</b></div>
     </div>
 
     <button class="print-btn" onclick="window.print()">&#128247; Print Clinical Summary</button>
@@ -235,8 +237,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
     <div class="pred-grid">
       <div class="pred-card">
         <div class="pred-label">Eye Color</div>
-        <div class="pred-value">Brown</div>
-        <div class="pred-basis">rs12913832 GG (OCA2/HERC2) — homozygous brown</div>
+        <div class="pred-value">Blue</div>
+        <div class="pred-basis">rs12913832 AA (OCA2/HERC2) — homozygous blue eye allele (corrected from initial data)</div>
       </div>
       <div class="pred-card">
         <div class="pred-label">Hair Color</div>
@@ -360,6 +362,159 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   </div>
 </div>
 
+<!-- Family & Personal History Modal -->
+<div id="fam-modal" style="position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)">
+  <div class="modal-box">
+    <button class="mclose" onclick="document.getElementById('fam-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128106; Family &amp; Personal Health History</h2>
+    <div class="msub">How life experience intersects with Chad's genome</div>
+
+    <div style="font-size:.78rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Chad Byars &mdash; Personal History</div>
+
+    <div class="action-card" style="border-left-color:#A51C30;border-left-width:4px">
+      <div class="action-title">Childhood Sun Exposure &mdash; New Orleans</div>
+      <div class="action-body">Grew up in New Orleans, Louisiana with extensive outdoor sun exposure throughout childhood and young adulthood. Sustained <b>multiple blistering sunburns before age 25</b>. Did not adopt consistent sunscreen habits until his 30s.<br><br><b>Why this matters:</b> Blistering sunburns before age 20 are an independent 2-3&times; melanoma risk factor. Combined with Chad's triple MC1R carrier status (impaired UV-DNA repair), this personal history places him in the <b>highest melanoma risk tier</b>. The UV damage from those early years is already written into the DNA of his skin cells &mdash; it cannot be undone, only monitored. Regular dermatology with full-body dermoscopy and mole mapping is essential for life.</div>
+    </div>
+
+    <div class="action-card good">
+      <div class="action-title">Protective Factors</div>
+      <div class="action-body"><b>Non-smoker</b> &mdash; unlike his father, Chad does not smoke. This is one of the strongest protective factors given his 9p21 CAD risk and family cardiac history. His father's 2+ pack/day habit dramatically amplified the same genetic CAD risk Chad carries.<br><br><b>ER Physician</b> &mdash; medical knowledge enables informed prevention decisions. OXTR GG empathy genotype is an asset in emergency medicine. COMT Val/Met provides balanced decision-making under acute stress.</div>
+    </div>
+
+    <div style="font-size:.78rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px">Mother</div>
+
+    <div class="action-card urgent">
+      <div class="action-title">Died of Lung Cancer &mdash; September 5, 2016</div>
+      <div class="action-body">Chad's mother died of lung cancer. This is a significant family history finding. While Chad's own lung cancer genetic variants (CHRNA3 rs1051730 GG, 15q25 rs8034191 TT) are lower-risk genotypes, maternal lung cancer adds a family history risk layer independent of these specific SNPs. There are hundreds of lung cancer susceptibility loci beyond what consumer genotyping covers.<br><br><b>Implications:</b> Even as a non-smoker, Chad should be aware that first-degree family history of lung cancer confers ~1.5-2&times; elevated risk independent of smoking. Low-dose CT screening may be discussed with his physician based on comprehensive risk assessment. Avoid secondhand smoke exposure absolutely. Monitor for environmental/occupational exposures.</div>
+    </div>
+
+    <div style="font-size:.78rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px">Father</div>
+
+    <div class="action-card urgent">
+      <div class="action-title">Coronary Artery Disease &mdash; Stent at 62, 4-Vessel CABG at 75</div>
+      <div class="action-body">Lifelong 2+ pack/day smoker. Developed coronary artery disease requiring stent placement at age 62 and four-vessel coronary artery bypass grafting at age 75.<br><br><b>Genetic confirmation:</b> Chad carries ALL THREE independent 9p21 CAD risk signals (rs10757278 AG, rs1333049 CG, rs4977574 AG). His father's cardiac history confirms these variants are actively causing disease in this family. Chad's advantage: he is a non-smoker, and Mediterranean diet has been shown to completely eliminate 9p21-associated MI risk. PCSK9 heterozygous status makes him a candidate for precision lipid therapy if needed.</div>
+    </div>
+
+    <div class="action-card urgent">
+      <div class="action-title">Advanced Dementia &mdash; Currently Affected</div>
+      <div class="action-body">Chad's father currently suffers from advanced dementia. Given Chad's APOE &epsilon;3/&epsilon;4 genotype, his father very likely carries at least one &epsilon;4 allele &mdash; the strongest genetic risk factor for late-onset Alzheimer's.<br><br><b>Genetic confirmation:</b> APOE &epsilon;4 is confirmed as actively causing neurodegenerative disease in this family. This transforms Chad's &epsilon;4 status from a statistical risk into a confirmed familial pattern. The 40s are the critical intervention window &mdash; amyloid accumulation begins 15-20 years before symptoms. Exercise (&ge;150 min/week vigorous), 7-9h sleep, MIND diet, DHA 1g/day, and BP &lt;120/80 are the evidence-based prevention pillars.</div>
+    </div>
+
+    <div style="font-size:.78rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px">Paternal Aunt</div>
+
+    <div class="action-card urgent">
+      <div class="action-title">Breast Cancer &mdash; Diagnosed at Age 33</div>
+      <div class="action-body">Chad's paternal aunt was diagnosed with breast cancer at age 33 &mdash; an exceptionally early onset. Breast cancer before age 40 in a first-degree relative strongly suggests a hereditary cancer predisposition. While Chad's BRCA1/BRCA2 SNPs tested so far (rs1799950, rs16942, rs11571833, rs1801426) show common variants, consumer genotyping covers only a handful of the thousands of known pathogenic BRCA mutations.<br><br><b>Genetic relevance:</b> Chad carries <b>FGFR2 rs2981582 GG</b> (both risk alleles &mdash; the top breast cancer GWAS hit), plus MAP3K1 AC and TOX3 AG. While these are relevant for daughters' risk, the paternal aunt's early-onset breast cancer raises the question of whether a rare high-penetrance BRCA or other hereditary cancer variant exists in the paternal line that standard SNP arrays wouldn't detect.<br><br><b>Action for Quinn and any daughters:</b> Consider full BRCA1/BRCA2/PALB2 clinical sequencing (not just SNP genotyping) given paternal aunt's diagnosis at 33. Genetic counseling recommended for comprehensive hereditary cancer assessment. This is especially important for any daughters who would inherit paternal breast cancer genetics.</div>
+    </div>
+
+    <div style="font-size:.78rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px">Sister</div>
+
+    <div class="action-card discovery">
+      <div class="action-title">Paroxysmal Atrial Fibrillation</div>
+      <div class="action-body">Chad's sister has paroxysmal AFib, not yet requiring anticoagulation.<br><br><b>Genetic confirmation:</b> PITX2 rs2200733 CT (OR ~1.5-1.8&times; AFib risk) is confirmed as segregating and actively expressing in this family. The PITX2 variant is the strongest known genetic locus for atrial fibrillation. Chad should consider himself pre-symptomatic until proven otherwise. Annual EKG, immediate evaluation of any palpitations, and strict alcohol moderation are indicated.</div>
+    </div>
+
+    <div style="margin-top:24px;font-size:.78rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">How Family History Changes the Risk Picture</div>
+
+    <div class="pstat" style="margin-bottom:8px">
+      <div class="pstat-l">Risks upgraded from statistical to family-confirmed</div>
+      <div class="pstat-v" style="font-size:.82rem;font-weight:400;color:#b0a090">APOE &epsilon;4 Alzheimer's (father's dementia), 9p21 CAD (father's stent/CABG), PITX2 AFib (sister's PAF), Lung cancer susceptibility (mother's death)</div>
+    </div>
+    <div class="pstat">
+      <div class="pstat-l">Chad's protective advantages vs. his parents</div>
+      <div class="pstat-v" style="font-size:.82rem;font-weight:400;color:#b0a090">Non-smoker (father smoked 2+ packs/day), medical knowledge, now vigilant about sun protection, genetic awareness enables targeted prevention, ACTN3 XX endurance genetics support exercise habit, FTO TT protects against obesity (a major CAD/AFib amplifier)</div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Family History</button>
+  </div>
+</div>
+
+<!-- Ancestry Geography Modal -->
+<div id="anc-modal" style="position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)">
+  <div class="modal-box">
+    <button class="mclose" onclick="document.getElementById('anc-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#127758; Ancestry Geography</h2>
+    <div class="msub">Where Chad's Genome Points on the Map</div>
+
+    <svg viewBox="0 0 700 420" style="width:100%;margin-bottom:20px;border-radius:12px;background:rgba(30,22,18,.5)">
+      <!-- Simplified Europe map outline -->
+      <path d="M280,120 L310,100 L340,95 L360,100 L380,90 L400,95 L420,88 L440,95 L450,110 L445,130 L450,150 L440,170 L430,190 L415,200 L400,195 L385,205 L370,200 L360,210 L345,200 L330,210 L315,205 L305,195 L290,200 L275,190 L270,175 L275,155 L270,140 L280,120Z" fill="rgba(196,154,108,.1)" stroke="rgba(196,154,108,.25)" stroke-width="1"/>
+      <!-- British Isles -->
+      <path d="M260,100 L270,90 L280,92 L285,105 L280,118 L270,120 L260,115 L255,108Z" fill="rgba(165,28,48,.15)" stroke="rgba(165,28,48,.5)" stroke-width="1.5"/>
+      <!-- Ireland -->
+      <path d="M245,100 L255,95 L258,105 L255,115 L248,115 L242,108Z" fill="rgba(165,28,48,.25)" stroke="rgba(165,28,48,.6)" stroke-width="2"/>
+      <!-- Scandinavia -->
+      <path d="M340,50 L350,40 L360,45 L370,35 L375,50 L370,70 L360,80 L350,85 L340,75 L335,60Z" fill="rgba(196,154,108,.1)" stroke="rgba(196,154,108,.2)" stroke-width="1"/>
+
+      <!-- Markers -->
+      <circle cx="250" cy="108" r="8" fill="#A51C30" opacity=".8"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/></circle>
+      <text x="250" y="135" text-anchor="middle" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Ireland</text>
+      <text x="250" y="147" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">MC1R R151C Celtic variant</text>
+
+      <circle cx="275" cy="108" r="6" fill="#A51C30" opacity=".6"><animate attributeName="r" values="6;9;6" dur="2.3s" repeatCount="indefinite"/></circle>
+      <text x="300" y="130" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Britain</text>
+      <text x="300" y="142" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">HFE H63D, lactase persistence</text>
+
+      <circle cx="355" cy="70" r="5" fill="#C49A6C" opacity=".5"><animate attributeName="r" values="5;7;5" dur="2.7s" repeatCount="indefinite"/></circle>
+      <text x="390" y="65" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Scandinavia</text>
+      <text x="390" y="77" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">SLC24A5 AA, lactase rs4988235</text>
+
+      <circle cx="340" cy="105" r="4" fill="#C49A6C" opacity=".4"/>
+      <text x="340" y="165" text-anchor="middle" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Northern Europe</text>
+      <text x="340" y="177" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">ABCC11 CT wet earwax, European skin</text>
+
+      <!-- Legend box -->
+      <rect x="480" y="40" width="200" height="160" rx="8" fill="rgba(18,12,10,.8)" stroke="rgba(196,154,108,.2)"/>
+      <text x="500" y="62" fill="#C49A6C" font-size="9" font-family="Inter,sans-serif" font-weight="700" letter-spacing=".08em">GENETIC ANCESTRY MARKERS</text>
+      <text x="500" y="82" fill="#d4838f" font-size="8" font-family="Inter,sans-serif">&#9679; MC1R R151C &mdash; Celtic/Irish</text>
+      <text x="500" y="98" fill="#d4838f" font-size="8" font-family="Inter,sans-serif">&#9679; MC1R triple carrier &mdash; Celtic</text>
+      <text x="500" y="114" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; HFE H63D &mdash; N. European</text>
+      <text x="500" y="130" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; Lactase AA &mdash; N. European</text>
+      <text x="500" y="146" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; SLC24A5 AA &mdash; European skin</text>
+      <text x="500" y="162" fill="#8ab0d4" font-size="8" font-family="Inter,sans-serif">&#9679; Blue eyes (AA) &mdash; N. European</text>
+      <text x="500" y="178" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; ABCC11 CT &mdash; Wet earwax</text>
+    </svg>
+
+    <div style="font-size:.78rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Ancestry Interpretation</div>
+
+    <div class="pred-grid">
+      <div class="pred-card">
+        <div class="pred-label">Primary Origin</div>
+        <div class="pred-value">Northwestern European</div>
+        <div class="pred-basis">All ancestry markers consistently point to the British Isles, Ireland, and broader Northern Europe</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Strongest Signal</div>
+        <div class="pred-value">Celtic / Irish</div>
+        <div class="pred-basis">Triple MC1R carrier — R151C is specifically called the "Celtic variant" in genetics literature. Strongest Irish/Scottish association</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Northern European</div>
+        <div class="pred-value">Confirmed</div>
+        <div class="pred-basis">Lactase persistence (AA) evolved ~7,500 years ago in Northern Europe. Blue eyes (OCA2 AA) originated in same population near the Baltic</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Iron Metabolism</div>
+        <div class="pred-value">HFE H63D Carrier</div>
+        <div class="pred-basis">H63D variant is most common in populations of Northern European descent — another Celtic/Northern European marker</div>
+      </div>
+    </div>
+
+    <div class="interaction-card" style="margin-top:16px">
+      <div class="interaction-title">The Celtic Genome Story</div>
+      <div class="interaction-body">Chad's genome tells a remarkably consistent ancestral story. The triple MC1R carrier status (including the R151C "Celtic variant"), combined with HFE H63D (highest prevalence in Ireland/Britain), blue eyes (Baltic/Northern European origin ~6,000-10,000 years ago), lactase persistence (Northern European pastoral adaptation ~7,500 years ago), European skin pigmentation (SLC24A5), and wet earwax (ABCC11 — European type) all converge on a Northwestern European/Celtic origin with strong Irish and British components. This is consistent with the Byars family surname etymology, which traces to Old English/Anglo-Saxon origins.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Make fam-modal and anc-modal respond to .show class
+document.querySelectorAll('#fam-modal,#anc-modal').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});
+});
+
+</script>
+
 <script>
 const C={green:"#6db87d",yellow:"#C49A6C",red:"#A51C30",purple:"#a090c0",blue:"#8ab0d4",gold:"#d4a060",pink:"#c46478",cyan:"#7abcc5",center:"#f0e6dc"};
 const RL={green:"Favorable",yellow:"Moderate Risk",red:"Elevated Risk",gold:"Key Discovery",purple:"Notable",blue:"Ancestry / Trait",pink:"Longevity",cyan:"Athletic"};
@@ -381,8 +536,8 @@ N("b_psych","Psychiatric\nProfile","branch","psych",null,"purple","","15 psychia
   [{l:"Total SNPs",v:"15 psych/neuro"},{l:"Dopamine",v:"COMT Val/Met — balanced"},{l:"Empathy",v:"OXTR GG — highest variant"}]),
 N("b_immune","Auto-\nimmune","branch","immune",null,"yellow","","15 autoimmune variants. CTLA4 AG immune checkpoint, ATG16L1 Crohn's pathway. HLA-DQ2/DQ8 celiac absent.",
   [{l:"Total SNPs",v:"15 autoimmune"},{l:"Celiac",v:"Very low risk (DQ2/DQ8 absent)"},{l:"Crohn's",v:"Moderate ATG16L1 signal"}]),
-N("b_pharma","Pharmaco-\ngenomics","branch","pharma",null,"yellow","","22 pharmacogenomic variants. CRITICAL: CYP2C9 *1/*2 warfarin. CYP1A2 AA fast caffeine. DPYD intact (5-FU safe).",
-  [{l:"Total SNPs",v:"22 pharmacogenomic"},{l:"CRITICAL",v:"CYP2C9 *1/*2 — use IWPC algorithm, prefer DOACs"},{l:"Fast",v:"CYP1A2 AA caffeine metabolizer"}]),
+N("b_pharma","Pharmaco-\ngenomics","branch","pharma",null,"yellow","","22 pharmacogenomic variants. CYP2C9 *1/*2 affects NSAID metabolism (higher plasma levels). CYP1A2 AA fast caffeine metabolizer. DPYD intact (5-FU chemotherapy safe). TPMT normal.",
+  [{l:"Total SNPs",v:"22 pharmacogenomic"},{l:"CYP2C9",v:"*1/*2 — NSAID caution (higher plasma levels)"},{l:"CYP1A2",v:"AA — Fast caffeine metabolizer"},{l:"DPYD/TPMT",v:"Both intact — chemo safe if ever needed"}]),
 N("b_nutri","Nutri-\ngenomics","branch","nutri",null,"gold","","17 nutrigenomics variants. KEY DISCOVERY: FUT2 AA Non-Secretor — B12 malabsorption. FADS intermediate omega-3 conversion.",
   [{l:"Total SNPs",v:"17 nutrition"},{l:"KEY",v:"FUT2 AA — Non-Secretor (B12 risk!)"},{l:"Action",v:"Methylcobalamin 2000mcg/day essential"}]),
 N("b_longevity","Longevity\nPathways","branch","longevity",null,"pink","","11 longevity variants. KEY: FOXO3 TT (no centenarian allele), APOE ε4 main risk, TERT/TERC intermediate.",
@@ -411,8 +566,8 @@ N("c_msmb","MSMB\nProstate","leaf","cancer","b_cancer","yellow","rs10993994 = CC
   [{l:"Genotype",v:"CC — Both risk alleles"},{l:"Risk",v:"~1.4× elevated prostate risk"},{l:"Action",v:"PSA starting 40-45"}]),
 N("c_hnf1b","HNF1B\nrs4430796","leaf","cancer","b_cancer","yellow","rs4430796 = AG","HNF1B AG heterozygous. Associated with prostate, endometrial cancer and T2D risk.",
   [{l:"Genotype",v:"AG — Heterozygous"}]),
-N("c_mc1r_1","MC1R CT\nMelanoma #1","leaf","cancer","b_cancer","red","rs1805007 = CT","MC1R R151C variant — ~2× melanoma risk. Celtic red hair carrier, 50% transmission to children.",
-  [{l:"Genotype",v:"CT — Celtic R151C"},{l:"Melanoma",v:"~2× elevated"},{l:"Children",v:"50% transmission"}]),
+N("c_mc1r_1","MC1R CT\nMelanoma #1","leaf","cancer","b_cancer","red","rs1805007 = CT","MC1R R151C variant — high-penetrance 'R' allele. ~2× melanoma risk from genetics alone. PERSONAL HISTORY: extensive sun exposure growing up in New Orleans with multiple blistering sunburns before age 25. Blistering childhood sunburns are an independent 2-3× melanoma risk factor. Combined with R151C, this represents a multiplicative risk interaction.",
+  [{l:"Genotype",v:"CT — Celtic R151C (high-penetrance)"},{l:"Genetic Risk",v:"~2× melanoma from MC1R alone"},{l:"Sun History",v:"Blistering sunburns before 25 in New Orleans"},{l:"Combined Risk",v:"Genetics × sun damage = highest-tier risk"},{l:"Children",v:"50% transmission per child"}]),
 N("c_mc1r_2","MC1R CC\nMelanoma #2","leaf","cancer","b_cancer","gold","rs1805008 = CC","SECOND MC1R variant. Double MC1R significantly elevates melanoma risk.",
   [{l:"Genotype",v:"CC — Second MC1R variant"},{l:"Risk",v:"3-5× skin cancer risk with triple MC1R"}],
   "2024 research (Pigment Cell Melanoma Res): MC1R compound carriers have significantly impaired UV-induced DNA damage response via cAMP/MITF pathway. Each additional MC1R variant multiplies melanoma risk non-linearly."),
@@ -435,8 +590,8 @@ N("c_8q23","8q23\nColorectal rs7014346","leaf","cancer","b_cancer","green","rs70
   [{l:"Genotype",v:"GG — Lower risk"}]),
 
 // ══ CARDIOVASCULAR LEAVES ══
-N("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG","KEY DISCOVERY: 9p21.3 CAD locus — AG heterozygous. Most replicated population-level genetic CAD risk marker. AG confers OR ~1.25–1.35 for MI. CRITICAL MODIFIABLE FACTOR: Mediterranean diet adherence has been shown to completely eliminate the 9p21-associated MI risk increase.",
-  [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"CAD Risk",v:"OR ~1.25–1.35 for MI (AG)"},{l:"Top Action",v:"Mediterranean diet — eliminates 9p21 MI risk"},{l:"Screening",v:"CAC score at 40-45, annual lipid panel"}],
+N("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG","FAMILY-CONFIRMED: 9p21.3 CAD locus — AG heterozygous. Father developed CAD requiring stent at 62 and 4-vessel CABG at 75 (lifelong 2+ pack/day smoker). Chad carries all three independent 9p21 CAD signals. As a non-smoker, Chad has a powerful protective factor his father lacked. Mediterranean diet has been shown to completely eliminate 9p21-associated MI risk.",
+  [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"Family History",v:"Father: stent at 62, CABG ×4 at 75"},{l:"Key Difference",v:"Chad is non-smoker — major protective factor"},{l:"Top Action",v:"Mediterranean diet eliminates 9p21 MI risk"},{l:"Screening",v:"CAC score NOW, aggressive LDL <70"}],
   "2024 review (Am J Physiology Heart): 9p21.3 (ANRIL lncRNA locus) confirmed as most robust genetic CAD risk marker. AG heterozygote carries OR ~1.25–1.35 for MI; GG homozygote OR ~1.70. ACC/AHA and ESC 2024–2025 guidelines do not yet integrate 9p21 into standard algorithms. Landmark finding: a 2008 study (replicated since) showed Mediterranean diet adherence completely eliminated the 9p21-associated MI risk increase in AG/GG carriers. Adding 9p21 to Framingham Risk Score improves targeting but awaits formal guideline validation."),
 N("cv_9p21_2","9p21 CAD\nrs1333049","leaf","cardio","b_cardio","yellow","rs1333049 = CG","Second 9p21 CAD locus — CG. Corroborates primary 9p21 signal.",
   [{l:"Genotype",v:"CG — Intermediate risk"},{l:"Region",v:"CDKN2A/B cell cycle locus"}]),
@@ -448,8 +603,8 @@ N("cv_pcsk9","PCSK9\nHeterozygous","leaf","cardio","b_cardio","gold","rs11206510
   [{l:"Genotype",v:"CT — Heterozygous"},{l:"Opportunity",v:"PCSK9 inhibitors — targeted therapy"},{l:"Action",v:"Track LDL — PCSK9i if elevated"}]),
 N("cv_f5","Factor V\nNo Leiden","leaf","cardio","b_cardio","green","rs6025 = CC","No Factor V Leiden. Normal clotting risk.",
   [{l:"Genotype",v:"CC — No Factor V Leiden"},{l:"Clotting",v:"Normal"}]),
-N("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT","KEY DISCOVERY: PITX2 rs2200733 CT — strongest known genetic locus for atrial fibrillation. CT heterozygous confers OR ~1.5–1.8× elevated AFib risk. Mechanism: PITX2 loss-of-function induces a sinus-node-like phenotype in atrial/pulmonary myocardium, creating an AF substrate. Also associated with AF recurrence after catheter ablation.",
-  [{l:"Genotype",v:"CT — Heterozygous risk"},{l:"AFib Risk",v:"OR ~1.5–1.8× (2024 data)"},{l:"Mechanism",v:"Sinus-node-like atrial phenotype"},{l:"Post-Ablation",v:"Higher AF recurrence risk if ablated"},{l:"Action",v:"Annual EKG, avoid excess alcohol, maintain weight"}],
+N("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT","FAMILY-CONFIRMED: PITX2 rs2200733 CT — strongest AFib genetic locus. Chad's sister has paroxysmal AFib, confirming this variant is segregating and actively expressing in the family. CT confers OR ~1.5–1.8× elevated AFib risk. PITX2 loss-of-function induces sinus-node-like phenotype in atrial myocardium. Also predicts AF recurrence after catheter ablation.",
+  [{l:"Genotype",v:"CT — Heterozygous risk"},{l:"Family",v:"Sister has paroxysmal AFib — confirmed"},{l:"AFib Risk",v:"OR ~1.5–1.8× (2024 data)"},{l:"Post-Ablation",v:"Higher AF recurrence risk if ablated"},{l:"Action",v:"Annual EKG, minimize alcohol, maintain weight"}],
   "2024–2025 cross-population GWAS (Nature Communications 2025): PITX2 confirmed as one of 525 genome-wide significant AF loci across populations. CT heterozygote OR ~1.5–1.8 (Jordan 2024 study: OR 1.806, 95% CI 1.179–2.766). TT homozygotes carry higher risk. PITX2 loss-of-function promotes AF by inducing sinus-node-like electrophysiology in atrial myocardium. Clinically: this locus predicts AF recurrence after catheter ablation — relevant for procedural counseling. Strongest modifiable risk amplifiers: alcohol (even moderate intake), obesity, sleep apnea."),
 N("cv_agtr1","AGTR1\nrs5186","leaf","cardio","b_cardio","yellow","rs5186 = AC","Angiotensin receptor AGTR1 — AC heterozygous. Modestly elevated hypertension susceptibility.",
   [{l:"Genotype",v:"AC — Moderate HTN risk"}]),
@@ -493,9 +648,9 @@ N("ai_tyk2","TYK2\nrs12720356","leaf","immune","b_immune","yellow","rs12720356 =
   [{l:"Genotype",v:"AC — Heterozygous"}]),
 
 // ══ PHARMACOGENOMICS LEAVES ══
-N("ph_cyp2c9","CYP2C9\n*1/*2 CRITICAL","leaf","pharma","b_pharma","red","rs1799853 = CT","IMPORTANT: CYP2C9 *1/*2 intermediate metabolizer. CPIC guideline: *1/*2 alone does NOT mandate blanket dose reduction — instead, use the IWPC pharmacogenetic dosing algorithm incorporating VKORC1-1639G>A alongside CYP2C9 *2. Blanket dose reductions are reserved for *2/*2, *1/*3, *2/*3, *3/*3 genotypes. NSAIDs (ibuprofen, naproxen, celecoxib) are affected — higher plasma levels at standard doses.",
-  [{l:"Genotype",v:"CT — *1/*2 Intermediate metabolizer"},{l:"Warfarin Action",v:"Use IWPC algorithm with VKORC1 — not blanket reduction"},{l:"DOACs",v:"Apixaban/rivaroxaban preferred (bypass CYP2C9)"},{l:"NSAIDs",v:"Higher plasma levels — use low end of dose range"},{l:"EMR",v:"Flag for anesthesia and treating physicians"}],
-  "CPIC 2017 (active 2025): CYP2C9 *1/*2 is Intermediate Metabolizer class. CPIC does NOT recommend automatic dose reduction for *1/*2 alone — recommends IWPC algorithm incorporating VKORC1 genotype alongside CYP2C9 *2 for individualized dosing. Dose reductions are reserved for *2/*2, *1/*3, *2/*3, and *3/*3. Clinical implication: when warfarin is needed, insist on pharmacogenomic-guided IWPC calculation before starting. DOACs (apixaban, rivaroxaban) bypass CYP2C9 entirely and are the preferred anticoagulant strategy."),
+N("ph_cyp2c9","CYP2C9\n*1/*2","leaf","pharma","b_pharma","yellow","rs1799853 = CT","CYP2C9 *1/*2 intermediate metabolizer. The *2 allele reduces CYP2C9 enzyme activity ~30-40%. This primarily affects NSAIDs (ibuprofen, naproxen, celecoxib, diclofenac) — higher plasma levels at standard doses increase GI and renal side effects. Also affects phenytoin and glipizide metabolism. Use lowest effective NSAID dose for shortest duration.",
+  [{l:"Genotype",v:"CT — *1/*2 Intermediate metabolizer"},{l:"Key Impact",v:"NSAIDs accumulate at higher plasma levels"},{l:"Affected Drugs",v:"Ibuprofen, naproxen, celecoxib, phenytoin, glipizide"},{l:"Action",v:"Lowest NSAID dose, shortest duration; prefer acetaminophen"},{l:"EMR",v:"Flag for anesthesia and prescribing physicians"}],
+  "CPIC 2017 (active 2025): CYP2C9 *1/*2 classified as Intermediate Metabolizer. *2 allele reduces S-warfarin metabolism ~30-40% and similarly affects NSAID clearance. For NSAIDs, intermediate metabolizers have ~20-30% higher AUC (area under curve), increasing risk of GI hemorrhage and nephrotoxicity at standard doses. Celecoxib and diclofenac are most significantly affected. Ibuprofen and naproxen are also CYP2C9 substrates."),
 N("ph_cyp1a2","CYP1A2\nFast Caffeine","leaf","pharma","b_pharma","gold","rs762551 = AA","KEY: CYP1A2 AA fast metabolizer — caffeine half-life 2-3h. Fast metabolizers with >4 cups/day have elevated CAD risk in 9p21 background.",
   [{l:"Genotype",v:"AA — Fast metabolizer"},{l:"Caffeine t½",v:"~2-3 hours"},{l:"CAD Note",v:"High caffeine + 9p21 = caution"}]),
 N("ph_dpyd","DPYD\nPanel 5-FU Safe","leaf","pharma","b_pharma","green","rs3918290/55886062/67376798 = CC/AA/TT","All three DPYD variants normal. 5-FU/capecitabine chemotherapy is safe — no dose reduction needed.",
@@ -504,8 +659,8 @@ N("ph_tpmt","TPMT\nPanel Normal","leaf","pharma","b_pharma","green","rs1142345/1
   [{l:"TPMT Status",v:"Normal enzyme activity"},{l:"Thiopurines",v:"Standard dosing safe"}]),
 N("ph_mthfr_677","MTHFR\nC677T","leaf","pharma","b_pharma","yellow","rs1801133 = AG","MTHFR C677T + A1298C compound. Methotrexate toxicity elevated. Use methylfolate not folic acid.",
   [{l:"Combined Status",v:"Compound heterozygous C677T + A1298C"},{l:"Methotrexate",v:"Elevated toxicity risk"},{l:"Action",v:"L-methylfolate + methylcobalamin"}]),
-N("ph_warfarin_algo","Warfarin\nDosing Guide","leaf","pharma","b_pharma","red","CYP2C9 *1/*2 + VKORC1","CYP2C9 *1/*2: CPIC recommends using the IWPC pharmacogenetic dosing algorithm incorporating VKORC1 genotype — not a blanket dose reduction. *1/*2 alone does not mandate automatic reduction. If warfarin is needed, insist on IWPC-guided calculation. Preferred strategy: DOACs (apixaban/rivaroxaban) bypass CYP2C9 entirely.",
-  [{l:"Dosing Method",v:"IWPC algorithm with VKORC1 genotype — not blanket cut"},{l:"INR Check",v:"Every 3-5 days during warfarin initiation"},{l:"Preferred",v:"Apixaban or rivaroxaban — bypass CYP2C9"},{l:"Key Point",v:"*1/*2 alone ≠ automatic dose reduction per CPIC"}]),
+N("ph_nsaid_caution","NSAID\nDosing Caution","leaf","pharma","b_pharma","yellow","CYP2C9 *1/*2","CYP2C9 *1/*2 affects all CYP2C9-metabolized NSAIDs: ibuprofen, naproxen, celecoxib, diclofenac. Intermediate metabolizers have higher plasma levels at standard doses, increasing GI bleeding and renal side effects. Use lowest effective dose for shortest duration. Acetaminophen (CYP2E1) is unaffected.",
+  [{l:"Affected NSAIDs",v:"Ibuprofen, naproxen, celecoxib, diclofenac"},{l:"Risk",v:"Higher plasma levels → GI/renal side effects"},{l:"Action",v:"Lowest dose, shortest duration"},{l:"Alternative",v:"Acetaminophen (unaffected by CYP2C9)"}]),
 N("ph_hlab5701","HLA-B*57:01\nAbacavir Safe","leaf","pharma","b_pharma","green","rs2395029 = TT","B*57:01 absent — abacavir HIV drug and carbamazepine safe from this HLA allele.",
   [{l:"Abacavir",v:"Safe — no hypersensitivity"},{l:"Carbamazepine",v:"No B*57:01 SJS risk"}]),
 N("ph_statins","Statin\nPreference","leaf","pharma","b_pharma","yellow","CYP2C9 *1/*2","CYP2C9 *1/*2: prefer rosuvastatin or pravastatin (less CYP2C9 dependent). Avoid high-dose simvastatin.",
@@ -534,8 +689,8 @@ N("nu_vitd","Vitamin D\nStrategy","leaf","nutri","b_nutri","yellow","IL-6 CC + M
 N("lo_foxo3","FOXO3\nNo Longevity Allele","leaf","longevity","b_longevity","gold","rs2802292 = TT","KEY DISCOVERY: FOXO3 TT — does not carry the G allele found in centenarians worldwide. FOXO3 regulates autophagy, oxidative stress resistance, and apoptosis. The good news: FOXO3 protein activity is powerfully induced by lifestyle regardless of genotype — HIIT and intermittent fasting are the strongest activators.",
   [{l:"Genotype",v:"TT — No longevity allele"},{l:"Missing",v:"G allele found in centenarians worldwide"},{l:"Top Activator",v:"HIIT exercise — blunts AKT-driven FOXO3 export"},{l:"Fasting",v:"16:8 IF raised FOXO3 mRNA 2.5× vs controls"},{l:"NAD+",v:"Caloric restriction → NAD+ → SIRT1 → FOXO3"}],
   "2025 Frontiers in Cell and Developmental Biology: FOXO3 is activated via AMPK and SIRT1 upregulation (which deacetylate FOXO3, promoting nuclear localization). HIIT specifically blunts AKT-driven FOXO3 nuclear export more than moderate continuous training, making it the superior exercise modality for FOXO3 activation. Intermittent fasting (16:8) raised FOXO3 mRNA 2.5-fold versus controls — outperforming prolonged fasting — via low insulin → reduced AKT → FOXO3 nuclear retention. Caloric restriction restores cellular NAD+, activating SIRT1/SIRT3 which deacetylate FOXO3. The NAD+/sirtuin/FOXO3 axis is mechanistically well-established; most NMN/NR data are preclinical."),
-N("lo_apoe_longevity","APOE ε3/ε4\nLongevity","leaf","longevity","b_longevity","red","APOE ε3/ε4","APOE ε4 — primary longevity risk. Associated with shorter lifespan via Alzheimer's and cardiovascular pathways. Exercise evidence is nuanced: ε4 carriers show greater gains in executive function and telomere length with exercise, but non-carriers outperform on global cognition and verbal memory. Lifestyle intervention is still strongly indicated — the benefit profile is just different.",
-  [{l:"Risk",v:"Primary longevity concern"},{l:"Exercise",v:"Greater gains in executive function — do it"},{l:"Prevention",v:"MIND diet, sleep, BP control, no smoking"},{l:"Timeline",v:"Start prevention protocol in 40s — now"}],
+N("lo_apoe_longevity","APOE ε3/ε4\nLongevity","leaf","longevity","b_longevity","red","APOE ε3/ε4","FAMILY-CONFIRMED: APOE ε4 — primary longevity risk. Chad's father has advanced dementia, confirming ε4 is expressing in this family. The 40s are the critical prevention window — amyloid accumulation begins decades before symptoms. Exercise shows greatest executive function and telomere gains specifically in ε4 carriers. Combined with father's CAD history (stent 62, CABG 75), the ε4 allele is driving both Alzheimer's and cardiovascular disease in this family.",
+  [{l:"Family",v:"Father: advanced dementia — ε4 confirmed active"},{l:"Father CAD",v:"Stent at 62, CABG ×4 at 75"},{l:"Prevention Window",v:"NOW — 40s are critical"},{l:"Exercise",v:"≥150 min/week vigorous — greatest ε4 carrier benefit"},{l:"Timeline",v:"Begin structured prevention protocol immediately"}],
   "2025 systematic review (19 RCTs, Trials/Springer): APOE4 carriers showed greater exercise-driven gains in executive function, learning, and relative telomere length vs non-carriers. However, non-carriers outperformed carriers on global cognition, verbal memory, and serum BDNF gains. Evidence quality rated 'very low to moderate' (GRADE). The ongoing CYCLE-AD RCT (150 APOE4 carriers, 18-month high-intensity cycling) will provide definitive carrier-specific data mid-2026. Bottom line: exercise remains strongly recommended for ε4 carriers — the executive function and telomere benefits are specific advantages. A 2025 multidomain lifestyle intervention meta-analysis found lifestyle interventions may particularly benefit APOE4 carriers overall."),
 N("lo_tert","TERT/TERC\nTelomeres","leaf","longevity","b_longevity","yellow","rs2736100 AC / rs12696304 CG","TERT AC + TERC CG — intermediate telomere maintenance. Sleep and exercise are strongest telomere protectors.",
   [{l:"TERT",v:"AC — Intermediate"},{l:"TERC",v:"CG — Slightly shorter telomeres"},{l:"Best Action",v:"7-9h sleep + aerobic exercise"}]),
@@ -614,7 +769,7 @@ nodes.forEach(n=>{
   ["lo_foxo3","lo_foxo3_strategy","cross"],
   ["at_actn3","lo_foxo3_strategy","cross"],
   ["ph_cyp1a2","nu_caffeine_strat","cross"],
-  ["ph_cyp2c9","ph_warfarin_algo","cross"],
+  ["ph_cyp2c9","ph_nsaid_caution","cross"],
   ["ai_ctla4","c_mc1r_3","cross"],
   ["ph_statins","cv_9p21_summary","cross"],
   ["nu_mtnr1b","tr_sleep","cross"],
@@ -737,14 +892,14 @@ const PLAIN={
   "b_athletic":"These findings are about athletic potential. Chad has the 'endurance athlete' version of the ACTN3 gene — the same one found in most elite marathon runners and long-distance cyclists.",
   "b_traits":"These findings describe physical traits and ancestry written in DNA — eye color, taste sensitivity, earwax type, sleep tendencies, and where Chad's ancestors came from.",
   "b_lipid":"These findings are about cholesterol and triglycerides (fats in the blood). Chad's genetic risk for high triglycerides is low.",
-  "ph_cyp2c9":"Chad's body processes certain medications differently because of a gene variant. The most important drug affected is warfarin (a blood thinner). Standard doses may be too high or too low for him — doctors need to use a special calculation that considers his genetics before prescribing it. A safer option is a newer class of blood thinners (like apixaban) that isn't affected by this gene.",
+  "ph_cyp2c9":"Chad's body processes certain medications more slowly than average because of a gene variant called CYP2C9. The most important drugs affected are common pain relievers like ibuprofen (Advil), naproxen (Aleve), and celecoxib (Celebrex). These drugs stay in his system longer at standard doses, which can increase the risk of stomach bleeding and kidney side effects. He should use the lowest effective dose for the shortest time and prefer acetaminophen (Tylenol) when possible.",
   "nu_fut2":"Chad has a gene variant called 'non-secretor' that affects how his gut absorbs Vitamin B12. B12 is like fuel for nerves — without enough, people can gradually lose sensation in their hands and feet, feel foggy, or develop anemia. The catch: his blood B12 level might look normal even when his body is actually running low. The only way to check truly is with tests called MMA and homocysteine. He should take a B12 supplement (the methylcobalamin form, under the tongue) every day.",
-  "c_mc1r_1":"Chad carries a gene variant called MC1R that affects how his skin responds to sunlight. This variant is more common in people with Irish or Scottish ancestry. It makes skin less able to repair DNA damage from UV rays, which raises the risk of melanoma (a serious type of skin cancer). He carries three different versions of this gene — which is unusual and means he needs to be especially careful about sun protection.",
+  "c_mc1r_1":"Chad carries a gene variant called MC1R that affects how his skin repairs damage from sunlight. He carries THREE different versions of this gene — which is rare and significantly raises melanoma risk. This is compounded by his personal history: growing up in New Orleans, he had extensive sun exposure with multiple blistering sunburns before age 25, and didn't adopt consistent sunscreen use until his 30s. Blistering sunburns in childhood are one of the strongest known melanoma risk factors on their own — combined with triple MC1R, this makes regular skin checks absolutely essential.",
   "c_mc1r_2":"This is a second MC1R skin protection gene variant in Chad's DNA. Having two or more of these variants significantly raises melanoma risk. A skin doctor should do a full check every 6 months.",
   "c_mc1r_3":"This is a third MC1R variant — a key discovery. Research shows people with two or more of these variants can have up to 10× the average risk of melanoma. Sunscreen every single day (SPF 50+), shade during peak hours, and regular skin checks are essential.",
-  "cv_9p21_1":"There is a specific location on chromosome 9 where Chad carries a version of the DNA that raises heart attack risk. This is the most well-studied genetic heart risk factor known. The remarkable finding from research: people with this variant who follow a Mediterranean diet (olive oil, fish, vegetables, nuts, whole grains) have the SAME heart attack risk as people without the variant. Diet literally switches off this genetic risk.",
-  "cv_pitx2":"Chad carries a genetic variant near a gene called PITX2 that raises the risk of developing an irregular heartbeat called atrial fibrillation (AFib). AFib itself isn't dangerous day-to-day but increases stroke risk. The biggest triggers that make this gene worse are: alcohol (even a few drinks a week), being overweight, and sleep apnea. Annual heart rhythm checks (EKG) are a good idea.",
-  "lo_foxo3":"Scientists studied people who lived past 100 in Japan, Italy, California, and elsewhere and found they often shared a specific version of a gene called FOXO3. Chad doesn't have that version. But here's the good news — the FOXO3 gene can be 'turned on' by exercise and by skipping breakfast occasionally (intermittent fasting), regardless of which DNA version you were born with.",
+  "cv_9p21_1":"Chad carries a genetic variant on chromosome 9 that raises heart attack risk — and this isn't just theory. His father developed blocked arteries that required a stent at age 62 and open-heart surgery (4-vessel bypass) at 75. His father was also a lifelong heavy smoker, which dramatically worsened his risk. The great news for Chad: he's a non-smoker, which is hugely protective. Even better — research has shown that people with this exact variant who follow a Mediterranean diet (olive oil, fish, vegetables, nuts, whole grains) have the SAME heart attack risk as people without the variant. Diet literally switches off this genetic risk.",
+  "cv_pitx2":"Chad carries a genetic variant that raises the risk of developing an irregular heartbeat called atrial fibrillation (AFib). This isn't just a theoretical risk — his sister already has paroxysmal AFib, confirming this gene variant is active in the family. AFib itself isn't immediately dangerous but significantly increases stroke risk over time. The biggest triggers that amplify this genetic risk are: alcohol (even moderate amounts), being overweight, and untreated sleep apnea. Annual heart rhythm checks (EKG) and immediate evaluation of any palpitations are important.",
+  "lo_foxo3":"Scientists found that people who live past 100 often share a specific version of a gene called FOXO3. Chad doesn't have that version. Given that his father developed advanced dementia and needed heart surgery, longevity optimization is especially important. The good news: the FOXO3 gene can be 'turned on' by high-intensity exercise and intermittent fasting, regardless of which DNA version you were born with. Chad can compensate for this genetic gap through lifestyle.",
   "lo_apoe_longevity":"Chad carries one copy of a gene variant called APOE ε4. This is the strongest known genetic risk factor for Alzheimer's disease — it raises his lifetime risk from about 9% to roughly 15-25%. The most powerful thing he can do about it: exercise. Studies show that people with this variant who exercise regularly for 150+ minutes per week protect their brain significantly more than sedentary people with the same gene.",
   "ps_oxtr":"Chad carries the GG version of the oxytocin receptor gene — the 'empathy gene'. Oxytocin is the hormone that creates feelings of connection and trust. GG individuals naturally feel others' emotions more strongly, form deeper bonds, and are unusually good at comforting people in distress. For an ER doctor, this is a superpower. The one watch-out: feeling everyone else's pain deeply in a high-stress job can lead to burnout — so protecting mental health with strong personal relationships matters.",
   "ps_comt":"This gene controls how quickly dopamine (a brain chemical related to focus and reward) is cleared from the prefrontal cortex — the thinking, decision-making part of the brain. Chad has the 'balanced' version that works well both in calm situations AND under acute stress. This is considered the ideal genotype for high-stakes decision-making jobs.",
@@ -754,7 +909,7 @@ const PLAIN={
   "tr_taste":"Chad cannot taste bitter compounds the way most people do — he's what scientists call a 'non-taster'. This actually has a dietary silver lining: bitter healthy foods like broccoli, kale, dark chocolate, and coffee taste less harsh to him than to most people, making it easier to eat a healthy diet.",
   "lo_foxo3_strategy":"Even without the centenarian FOXO3 gene variant, Chad can activate this longevity gene through lifestyle. High-intensity interval exercise (like sprinting or hard cycling intervals for 30 minutes) and intermittent fasting (skipping breakfast a few days a week) both measurably increase FOXO3 activity. Caloric restriction also works. These aren't just general health tips — they're specifically activating this gene.",
   "cv_pcsk9":"There's a gene called PCSK9 that controls how well the liver clears bad cholesterol (LDL) from the blood. Chad has a heterozygous variant here — one copy of a variant. This is actually an opportunity: drugs called PCSK9 inhibitors (brand names Repatha, Praluent) are among the most powerful cholesterol-lowering treatments available and are specifically targeted at this gene pathway. If Chad ever has high LDL, this is likely the ideal precision therapy for him.",
-  "ph_warfarin_algo":"When Chad needs a blood thinner, the safest approach is to avoid warfarin if possible and use a newer drug like apixaban (Eliquis) instead — these drugs don't go through the CYP2C9 enzyme at all. If warfarin is truly necessary, doctors need to use a special genetic dosing calculator (called IWPC) that factors in this gene variant plus another gene (VKORC1) to find the right dose.",
+  "ph_nsaid_caution":"Common over-the-counter pain relievers like ibuprofen (Advil/Motrin) and naproxen (Aleve) are broken down by an enzyme called CYP2C9 in the liver. Chad has a slower-working version of this enzyme. This means these medications build up to higher levels in his blood than they would in most people, which can increase the risk of stomach problems and kidney stress. The safest option is to use acetaminophen (Tylenol) instead when possible — it goes through a completely different pathway.",
   "ai_ctla4":"CTLA4 is a gene that acts like a brake on the immune system, preventing it from attacking the body's own tissues. Chad has a variant version of this gene that may make the immune system's brakes slightly less reliable. This raises his risk slightly for autoimmune conditions — particularly autoimmune thyroid disease (where the immune system attacks the thyroid gland). Annual thyroid function tests (TSH) are worth adding to routine labs."
 };
 
