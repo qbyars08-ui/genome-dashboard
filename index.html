@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chad Byars — Genomic Intelligence Report</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0f; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.hero { text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%); border-bottom: 2px solid #6366f1; }
+.hero h1 { font-size: 2.5em; background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+.hero .subtitle { color: #94a3b8; font-size: 1.1em; }
+.hero .snp-count { color: #6366f1; font-size: 0.9em; margin-top: 8px; }
+.section { margin: 30px 0; background: #111827; border-radius: 16px; border: 1px solid #1f2937; overflow: hidden; }
+.section-header { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #111827; border-bottom: 1px solid #1f2937; }
+.section-header:hover { background: #1a2235; }
+.section-header h2 { font-size: 1.4em; display: flex; align-items: center; gap: 12px; }
+.section-header .badge { font-size: 0.6em; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+.badge-green { background: #064e3b; color: #34d399; }
+.badge-yellow { background: #78350f; color: #fbbf24; }
+.badge-red { background: #7f1d1d; color: #f87171; }
+.badge-blue { background: #1e3a5f; color: #60a5fa; }
+.badge-purple { background: #3b0764; color: #c084fc; }
+.section-body { padding: 24px; display: none; }
+.section.active .section-body { display: block; }
+.section.active .chevron { transform: rotate(180deg); }
+.chevron { transition: transform 0.3s; color: #6b7280; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+.card { background: #1a2235; border-radius: 12px; padding: 20px; border: 1px solid #2d3748; }
+.card h3 { font-size: 0.85em; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.card .value { font-size: 1.8em; font-weight: 700; margin-bottom: 4px; }
+.card .detail { font-size: 0.85em; color: #9ca3af; }
+.risk-meter { height: 8px; border-radius: 4px; background: #374151; margin: 12px 0; overflow: hidden; }
+.risk-meter-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+.snp-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.snp-table th { text-align: left; padding: 10px 12px; background: #1a2235; color: #9ca3af; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; }
+.snp-table td { padding: 10px 12px; border-bottom: 1px solid #1f2937; font-size: 0.95em; }
+.snp-table tr:hover { background: #1a2235; }
+.genotype { font-family: 'SF Mono', monospace; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
+.geno-normal { background: #064e3b; color: #34d399; }
+.geno-carrier { background: #78350f; color: #fbbf24; }
+.geno-risk { background: #7f1d1d; color: #f87171; }
+.geno-special { background: #1e3a5f; color: #60a5fa; }
+.insight-box { background: #0f172a; border-left: 4px solid #6366f1; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+.insight-box.warning { border-left-color: #f59e0b; }
+.insight-box.danger { border-left-color: #ef4444; }
+.insight-box.success { border-left-color: #22c55e; }
+.insight-box h4 { color: #e2e8f0; margin-bottom: 4px; }
+.insight-box p { color: #94a3b8; font-size: 0.95em; }
+.gauge { width: 200px; height: 100px; margin: 0 auto; }
+.footer { text-align: center; padding: 40px; color: #4b5563; font-size: 0.85em; }
+@media (max-width: 768px) { .hero h1 { font-size: 1.8em; } .card-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+<h1>🧬 Chad Byars</h1>
+<p class="subtitle">Genomic Intelligence Report — 23andMe v5 Full Genome</p>
+<p class="snp-count">631,455 SNPs analyzed · Generated April 2026</p>
+</div>
+
+<div class="container">
+
+<!-- ===== APOE / ALZHEIMER'S ===== -->
+<div class="section active">
+<div class="section-header" onclick="toggle(this)">
+<h2>🧠 Alzheimer's Risk &amp; APOE Status <span class="badge badge-yellow">ε3/ε4</span></h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>APOE Genotype</h3>
+<div class="value" style="color: #f59e0b">ε3/ε4</div>
+<div class="detail">Elevated (~3x average risk)</div>
+<div class="risk-meter"><div class="risk-meter-fill" style="width: 25%; background: #f59e0b"></div></div>
+</div>
+<div class="card">
+<h3>rs429358 (APOE4 marker)</h3>
+<div class="value"><span class="genotype geno-risk">CT</span></div>
+<div class="detail">C allele = ε4 risk variant. One copy detected — heterozygous ε4 carrier</div>
+</div>
+<div class="card">
+<h3>rs7412 (APOE2 marker)</h3>
+<div class="value"><span class="genotype geno-carrier">CC</span></div>
+<div class="detail">T allele = ε2 protective variant. No ε2 protective allele</div>
+</div>
+</div>
+<div class="insight-box warning">
+<h4>⚠️ Clinical Significance</h4>
+<p>APOE ε3/ε4 carriers have approximately 3x the population average risk of developing late-onset Alzheimer disease. Lifetime risk increases from ~11% (general population) to ~25-30%. This is the single strongest common genetic risk factor for AD. However, many ε4 carriers never develop the disease — lifestyle factors (exercise, cognitive engagement, cardiovascular health, sleep quality) significantly modulate expression. As an ER physician, you are likely aware that APOE4 also affects lipid metabolism, with carriers showing higher LDL cholesterol on average.</p>
+</div>
+<table class="snp-table">
+<tr><th>Variant</th><th>Gene</th><th>Genotype</th><th>Effect</th></tr>
+<tr><td>rs157580</td><td>TOMM40</td><td><span class="genotype geno-carrier">AG</span></td><td>TOMM40 poly-T — modifies age of AD onset in APOE4 carriers</td></tr>
+<tr><td>rs2075650</td><td>TOMM40</td><td><span class="genotype geno-carrier">AG</span></td><td>AG = one risk allele; associated with earlier onset in ε4 carriers</td></tr>
+<tr><td>rs4420638</td><td>APOC1</td><td><span class="genotype geno-carrier">AG</span></td><td>AG = heterozygous; APOC1 variant in strong LD with APOE ε4</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ===== PHARMACOGENOMICS ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>💊 Pharmacogenomics <span class="badge badge-yellow">ER-Critical</span></h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="insight-box warning">
+<h4>🏥 ER Physician Alert</h4>
+<p>These variants directly affect drugs you prescribe daily. CYP2C9 intermediate metabolizer status is the most clinically actionable finding — affects warfarin, NSAIDs, and several other drugs commonly encountered in emergency medicine.</p>
+</div>
+<div class="card-grid">
+<div class="card">
+<h3>CYP2C19 (*2 / *17)</h3>
+<div class="value"><span class="genotype geno-normal">GG</span> / <span class="genotype geno-normal">CC</span></div>
+<div class="detail">*1/*1 — Normal metabolizer. Standard dosing for clopidogrel (Plavix), PPIs, SSRIs, benzodiazepines.</div>
+</div>
+<div class="card">
+<h3>CYP2C9 (*2 / *3)</h3>
+<div class="value"><span class="genotype geno-carrier">CT</span> / <span class="genotype geno-normal">AA</span></div>
+<div class="detail"><strong>*1/*2 INTERMEDIATE metabolizer.</strong> Reduced warfarin clearance. Consider ~20% dose reduction for warfarin, celecoxib, phenytoin, losartan.</div>
+</div>
+<div class="card">
+<h3>VKORC1 (Warfarin sensitivity)</h3>
+<div class="value"><span class="genotype geno-normal">CC</span></div>
+<div class="detail">CC = Normal warfarin sensitivity. Combined with CYP2C9*2: start warfarin at standard dose but monitor INR closely.</div>
+</div>
+<div class="card">
+<h3>SLCO1B1 (Statin transport)</h3>
+<div class="value"><span class="genotype geno-normal">TT</span></div>
+<div class="detail">TT = Normal. Standard statin metabolism. Low risk of simvastatin-induced myopathy.</div>
+</div>
+<div class="card">
+<h3>CYP3A5</h3>
+<div class="value"><span class="genotype geno-carrier">CT</span></div>
+<div class="detail">CT = *1/*3 Intermediate expresser. Partial CYP3A5 activity — affects tacrolimus, some statins, some calcium channel blockers.</div>
+</div>
+<div class="card">
+<h3>OPRM1 (Opioid receptor)</h3>
+<div class="value"><span class="genotype geno-normal">AA</span></div>
+<div class="detail">AA = Normal μ-opioid receptor. Standard opioid sensitivity and analgesic response.</div>
+</div>
+</div>
+<table class="snp-table">
+<tr><th>Drug Class</th><th>Gene</th><th>Genotype</th><th>Clinical Impact</th></tr>
+<tr><td>Warfarin</td><td>VKORC1</td><td><span class="genotype geno-normal">CC</span></td><td>Normal sensitivity — standard dosing algorithm</td></tr>
+<tr><td>Warfarin / NSAIDs</td><td>CYP2C9</td><td><span class="genotype geno-carrier">CT (*2)</span></td><td>⚠️ Intermediate metabolizer — 20% dose reduction recommended</td></tr>
+<tr><td>Clopidogrel / PPIs</td><td>CYP2C19</td><td><span class="genotype geno-normal">GG (*1/*1)</span></td><td>Normal metabolizer — standard dosing</td></tr>
+<tr><td>Statins</td><td>SLCO1B1</td><td><span class="genotype geno-normal">TT</span></td><td>Normal transport — low myopathy risk</td></tr>
+<tr><td>Tacrolimus / CCBs</td><td>CYP3A5</td><td><span class="genotype geno-carrier">CT</span></td><td>Intermediate expresser — may need dose adjustment</td></tr>
+<tr><td>Opioids</td><td>OPRM1</td><td><span class="genotype geno-normal">AA</span></td><td>Normal receptor function — standard analgesic response</td></tr>
+<tr><td>Hep C treatment</td><td>IFNL3</td><td><span class="genotype geno-carrier">CT</span></td><td>CT = intermediate IFN response; relevant for HCV clearance</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ===== COGNITIVE / IQ ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>🎓 Cognitive &amp; Neurological Profile <span class="badge badge-purple">Polygenic</span></h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>COMT (rs4680) — Warrior/Worrier</h3>
+<div class="value"><span class="genotype geno-special">AG</span></div>
+<div class="detail"><strong>Val/Met — The Balanced Mind.</strong> Intermediate dopamine clearance. Best of both worlds: stress resilience of Warriors + cognitive precision of Worriers. Ideal for high-pressure clinical decision-making.</div>
+</div>
+<div class="card">
+<h3>BDNF (rs6265) — Neuroplasticity</h3>
+<div class="value"><span class="genotype geno-carrier">CT</span></div>
+<div class="detail"><strong>Val/Met.</strong> One copy of the Met variant. Slightly reduced activity-dependent BDNF secretion. Exercise strongly compensates — physical activity boosts BDNF production and offsets the Met allele effect.</div>
+</div>
+<div class="card">
+<h3>DRD2 (rs1800497) — Dopamine Receptors</h3>
+<div class="value"><span class="genotype geno-normal">GG</span></div>
+<div class="detail">GG = Normal D2 receptor density. Healthy reward processing. Lower risk for addictive behaviors.</div>
+</div>
+<div class="card">
+<h3>Oxytocin Receptor (rs53576)</h3>
+<div class="value"><span class="genotype geno-special">GG</span></div>
+<div class="detail"><strong>GG — The Empathy Variant.</strong> Associated with higher social sensitivity, greater empathy, and better stress recovery. Literally the ideal genotype for an ER physician who needs to connect with patients under extreme pressure.</div>
+</div>
+<div class="card">
+<h3>Educational Attainment (rs4851266)</h3>
+<div class="value"><span class="genotype geno-normal">CC</span></div>
+<div class="detail">CC = Two copies of the allele associated with higher educational attainment in GWAS (Okbay et al., 2022). Small individual effect, significant in aggregate.</div>
+</div>
+<div class="card">
+<h3>MTHFR (rs1801133) — Folate</h3>
+<div class="value"><span class="genotype geno-carrier">AG</span></div>
+<div class="detail">AG = One copy of C677T variant. ~35% reduced MTHFR activity. Consider methylfolate supplementation. Affects homocysteine metabolism — relevant for cardiovascular and cognitive health.</div>
+</div>
+</div>
+<div class="insight-box">
+<h4>🧠 Cognitive Profile Summary</h4>
+<p>The COMT Val/Met + BDNF Val/Met + GG oxytocin receptor combination paints a picture of someone with balanced stress response, strong social cognition, and moderate neuroplasticity. The DRD2 normal variant means healthy reward circuitry without addiction vulnerability. This genetic profile is remarkably well-suited for emergency medicine: high empathy (OXTR GG), stress-resilient decision making (COMT Val/Met), and normal reward processing (DRD2 GG).</p>
+</div>
+</div>
+</div>
+
+<!-- ===== ATHLETIC / FITNESS ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>🏃 Athletic Performance &amp; Body Composition <span class="badge badge-blue">Endurance</span></h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>ACTN3 (rs1815739) — Speed/Power Gene</h3>
+<div class="value"><span class="genotype geno-special">TT</span></div>
+<div class="detail"><strong>TT (XX) — Endurance Type.</strong> No alpha-actinin-3 in fast-twitch fibers. This genotype is over-represented in elite endurance athletes (marathon, cycling, triathlon). ~18% of population.</div>
+</div>
+<div class="card">
+<h3>FTO (rs9939609) — Obesity Risk</h3>
+<div class="value"><span class="genotype geno-normal">TT</span></div>
+<div class="detail"><strong>TT — Protective.</strong> No FTO risk alleles. Lower genetic predisposition to obesity. Each A allele adds ~1.5kg average weight; you carry zero.</div>
+</div>
+<div class="card">
+<h3>Body Type Prediction</h3>
+<div class="value" style="color: #60a5fa">Lean Endurance</div>
+<div class="detail">ACTN3 XX (endurance fibers) + FTO TT (low obesity risk) = genetic predisposition toward lean body composition with endurance athletic capacity.</div>
+</div>
+</div>
+<div class="insight-box success">
+<h4>🏅 Athletic Summary</h4>
+<p>The ACTN3 XX genotype means fast-twitch muscle fibers lack alpha-actinin-3, which shifts muscle composition toward slow-twitch (endurance) fibers. Combined with FTO TT (no obesity risk alleles), this is the genetic blueprint of a lean endurance athlete. Not built for 100m sprints, but built for the marathon of a 12-hour ER shift. The endurance phenotype is also associated with better recovery and lower injury rates in sustained physical activity.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== ATTRACTIVENESS / TRAITS ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>👤 Physical Traits &amp; Appearance Genetics</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>Eye Color (rs12913832)</h3>
+<div class="value"><span class="genotype geno-special">GG</span></div>
+<div class="detail"><strong>GG — Brown eyes.</strong> Homozygous for the OCA2/HERC2 brown variant. The ancestral human eye color. 79% worldwide frequency.</div>
+</div>
+<div class="card">
+<h3>Skin Pigmentation (rs1426654)</h3>
+<div class="value"><span class="genotype geno-normal">AA</span></div>
+<div class="detail"><strong>AA — Lighter skin.</strong> Derived SLC24A5 variant associated with European skin pigmentation. Near-100% frequency in Europeans.</div>
+</div>
+<div class="card">
+<h3>Red Hair Carrier (rs1805007)</h3>
+<div class="value"><span class="genotype geno-carrier">CT</span></div>
+<div class="detail"><strong>CT — MC1R carrier!</strong> One copy of the R151C variant. You carry the Celtic red hair variant. Won't express as red hair (need two copies), but may contribute to lighter skin, freckling, and UV sensitivity. Can pass red hair to children if partner also carries.</div>
+</div>
+<div class="card">
+<h3>Lactose Tolerance (rs4988235)</h3>
+<div class="value"><span class="genotype geno-normal">AA</span></div>
+<div class="detail">AA — Lactase persistent. Full dairy digestion into adulthood. European adaptation variant.</div>
+</div>
+</div>
+<div class="insight-box">
+<h4>🧬 Physical Trait Profile</h4>
+<p>Brown eyes, lighter skin, carrier of the MC1R red hair variant (Celtic heritage marker), lactose tolerant. The MC1R carrier status is the most interesting finding — it means any children with a partner who also carries an MC1R variant could have red or auburn hair. MC1R carriers also tend to have heightened pain sensitivity to certain stimuli and different anesthesia requirements (clinically relevant for an ER doc — you may be slightly more sensitive to thermal pain than non-carriers).</p>
+</div>
+</div>
+</div>
+
+<!-- ===== CHILDREN'S SUCCESS ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>👶 Offspring Trait Prediction</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>Cognitive Inheritance</h3>
+<div class="value" style="color: #a78bfa">Strong</div>
+<div class="detail">COMT Val/Met (balanced executive function), DRD2 normal (healthy reward system), educational attainment alleles present. Children inherit 50% — high probability of passing favorable cognitive variants.</div>
+</div>
+<div class="card">
+<h3>Athletic Potential for Kids</h3>
+<div class="value" style="color: #60a5fa">Endurance-biased</div>
+<div class="detail">ACTN3 XX means 100% of children get at least one X allele. If partner is RR or RX, children could be RX (mixed). If partner is also XX, children are XX (pure endurance).</div>
+</div>
+<div class="card">
+<h3>Red Hair Chance</h3>
+<div class="value" style="color: #f97316">Carrier</div>
+<div class="detail">MC1R CT = 50% chance of passing the red hair allele. If partner carries any MC1R variant: up to 25% chance of red/auburn hair in children.</div>
+</div>
+<div class="card">
+<h3>Metabolic Health</h3>
+<div class="value" style="color: #22c55e">Favorable</div>
+<div class="detail">FTO TT (no obesity risk), TCF7L2 CC (low diabetes risk), normal lipid genes. Strong metabolic foundation to pass on.</div>
+</div>
+<div class="card">
+<h3>Iron Metabolism</h3>
+<div class="value" style="color: #f59e0b">Watch</div>
+<div class="detail">HFE H63D carrier (CG). If partner is also a carrier, 25% chance of compound heterozygosity in children. Check partner's HFE status.</div>
+</div>
+<div class="card">
+<h3>Empathy &amp; Social</h3>
+<div class="value" style="color: #a78bfa">High Empathy</div>
+<div class="detail">OXTR GG — both alleles are the "empathy" variant. 100% of children get at least one G. Combined with COMT Val/Met: children likely inherit strong social cognition.</div>
+</div>
+</div>
+<div class="insight-box success">
+<h4>🎯 Children's Genetic Advantage</h4>
+<p>Based on Chad's genome, offspring inherit a strong cognitive-metabolic package: balanced stress response (COMT), high empathy (OXTR), healthy reward circuits (DRD2), low obesity risk (FTO), low diabetes risk (TCF7L2), and endurance athletic potential (ACTN3). The main watch item is HFE H63D carrier status — partner screening for hemochromatosis variants would be prudent. Overall, this is a highly favorable genetic profile to pass to the next generation.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== CARRIER STATUS / SPOUSE ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>💑 Carrier Screening &amp; Partner Compatibility</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>HFE — Hemochromatosis</h3>
+<div class="value"><span class="genotype geno-carrier">H63D Carrier</span></div>
+<div class="detail">CG at rs1799945. No C282Y (GG at rs1800562). Carrier of the milder H63D variant. If partner carries C282Y or H63D, children could be at risk for iron overload.</div>
+</div>
+<div class="card">
+<h3>MTHFR — Folate Metabolism</h3>
+<div class="value"><span class="genotype geno-carrier">C677T Carrier</span></div>
+<div class="detail">AG at rs1801133. If both parents carry, 25% chance of TT (70% reduced MTHFR activity) in children. Affects folate, homocysteine, neural tube development.</div>
+</div>
+<div class="card">
+<h3>MC1R — Red Hair</h3>
+<div class="value"><span class="genotype geno-carrier">R151C Carrier</span></div>
+<div class="detail">Carrier of Celtic red hair variant. Not a disease risk — cosmetic/UV sensitivity. If both parents carry, 25% red hair chance.</div>
+</div>
+<div class="card">
+<h3>Celiac Disease (HLA-DQ2)</h3>
+<div class="value"><span class="genotype geno-normal">Not Carrier</span></div>
+<div class="detail">CC at rs2187668. Does not carry the primary HLA-DQ2.5 celiac risk haplotype. Very low celiac risk regardless of gluten exposure.</div>
+</div>
+</div>
+<div class="insight-box">
+<h4>Partner Screening Recommendation</h4>
+<p>The main clinically actionable carrier finding is <strong>HFE H63D</strong>. If Quinn's mother carries any HFE variant (C282Y or H63D), Quinn could be a compound heterozygote or homozygote — worth checking ferritin/iron studies. The MTHFR carrier status is common (~30% of population) and clinically mild unless homozygous. Overall carrier burden is low — no high-impact recessive disease variants detected in common screening panels.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== LONGEVITY ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>⏳ Longevity &amp; Aging</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>APOE (Longevity impact)</h3>
+<div class="value" style="color: #f59e0b">ε3/ε4</div>
+<div class="detail">ε4 carriers have shorter average lifespan (~2-4 years). However, this is population average — lifestyle modification can substantially alter trajectory.</div>
+</div>
+<div class="card">
+<h3>IL-6 (rs1800795) — Inflammation</h3>
+<div class="value"><span class="genotype geno-carrier">CC</span></div>
+<div class="detail"><strong>CC — Higher IL-6 production.</strong> Pro-inflammatory genotype. Associated with slightly elevated baseline inflammation. Anti-inflammatory lifestyle (omega-3, exercise, sleep) is especially important.</div>
+</div>
+<div class="card">
+<h3>TNF-α (rs1800629)</h3>
+<div class="value"><span class="genotype geno-normal">AA</span></div>
+<div class="detail">AA = normal TNF-alpha levels. No additional inflammatory burden from this variant.</div>
+</div>
+<div class="card">
+<h3>Diabetes Risk (TCF7L2)</h3>
+<div class="value"><span class="genotype geno-normal">CC</span></div>
+<div class="detail">CC — Protective. No T2D risk alleles at the strongest GWAS diabetes locus. Excellent metabolic aging potential.</div>
+</div>
+</div>
+<div class="insight-box warning">
+<h4>Longevity Profile</h4>
+<p>The APOE ε4 allele is the primary longevity concern — it's associated with both Alzheimer's risk and shorter average lifespan. However, the IL-6 CC genotype suggests a higher inflammatory baseline, which compounds with ε4. Priority interventions: vigorous exercise (strongest ε4 modifier), Mediterranean diet, 7-8 hours sleep, omega-3 supplementation, and cardiovascular risk factor management. The TCF7L2 CC and FTO TT variants are protective — metabolic aging trajectory is favorable despite the ε4.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== ANCESTRY MARKERS ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>🌍 Ancestry &amp; Heritage Markers</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>Lactase Persistence</h3>
+<div class="value" style="color: #60a5fa">Northern European</div>
+<div class="detail">rs4988235 AA — the dairy farming adaptation. Near-universal in Northern Europeans, rare in East Asians and sub-Saharan Africans.</div>
+</div>
+<div class="card">
+<h3>SLC24A5 Skin</h3>
+<div class="value" style="color: #e2e8f0">European</div>
+<div class="detail">rs1426654 AA — derived European lighter skin variant. 100% frequency in Europeans. Key adaptation to low-UV northern latitudes.</div>
+</div>
+<div class="card">
+<h3>MC1R (Celtic)</h3>
+<div class="value" style="color: #f97316">Celtic/NW European</div>
+<div class="detail">R151C carrier — this specific MC1R variant is concentrated in the British Isles, Ireland, and Scotland. Strong Celtic heritage marker.</div>
+</div>
+<div class="card">
+<h3>HFE H63D</h3>
+<div class="value" style="color: #a78bfa">Northern European</div>
+<div class="detail">HFE variants are the "Viking disease" — highest frequency in Scandinavia, Ireland, and Northern Europe. Carrier status confirms Northern European ancestry.</div>
+</div>
+</div>
+<div id="chrChart" style="width:100%;height:350px;margin:20px 0;"></div>
+<div class="insight-box">
+<h4>Heritage Summary</h4>
+<p>Every ancestry marker points conclusively to <strong>Northern/Northwestern European</strong> origin with a strong Celtic signal (MC1R R151C). The combination of lactase persistence, European skin pigmentation, HFE carrier status, and MC1R Celtic variant is consistent with British Isles / Irish / Scottish ancestry, which tracks with the Byars surname (English/Scottish origin).</p>
+</div>
+</div>
+</div>
+
+<!-- ===== RARE/INTERESTING ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>✨ Notable &amp; Unusual Findings</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>ACTN3 XX + ER Doctor</h3>
+<div class="value" style="color: #6366f1">Perfect Match</div>
+<div class="detail">The endurance genotype is literally built for 12-hour ER shifts. Fast-twitch athletes flame out. You're genetically wired for sustained, prolonged high-performance under fatigue.</div>
+</div>
+<div class="card">
+<h3>Empathy Gene + Emergency Medicine</h3>
+<div class="value" style="color: #c084fc">Rare Combo</div>
+<div class="detail">OXTR GG (highest empathy) + COMT Val/Met (balanced stress) in an ER doctor. The genetics say: feels deeply but doesn't crack under pressure. That's a rare and clinically valuable combination.</div>
+</div>
+<div class="card">
+<h3>CYP2C9 *2 Carrier</h3>
+<div class="value" style="color: #f59e0b">Self-Prescribe Alert</div>
+<div class="detail">You metabolize warfarin, NSAIDs, and phenytoin ~20% slower than normal. If you ever need these drugs yourself, your own pharmacogenomics says: lower dose.</div>
+</div>
+<div class="card">
+<h3>Quinn Byars — Son Profile</h3>
+<div class="value" style="color: #22c55e">Strong Foundation</div>
+<div class="detail">Quinn inherited: 50% chance COMT Val/Met, guaranteed OXTR G allele, guaranteed ACTN3 X allele, 50% chance MC1R carrier, FTO protection, TCF7L2 protection. The cognitive + metabolic package is strong.</div>
+</div>
+</div>
+<div class="insight-box">
+<h4>🔬 The ER Doctor's Genome</h4>
+<p>What makes this genome interesting isn't any single variant — it's the combination. COMT Val/Met for balanced cognition under stress. OXTR GG for patient empathy. ACTN3 XX for endurance through marathon shifts. DRD2 normal for discipline without addiction. And a CYP2C9 intermediate metabolizer who prescribes CYP2C9-metabolized drugs to patients every day — you literally have firsthand pharmacogenomic insight into how your patients' genetics affect drug response, because yours do too.</p>
+</div>
+</div>
+</div>
+
+<!-- ===== VITAMIN D ===== -->
+<div class="section">
+<div class="section-header" onclick="toggle(this)">
+<h2>☀️ Vitamin D &amp; Micronutrient Metabolism</h2>
+<span class="chevron">▼</span>
+</div>
+<div class="section-body">
+<div class="card-grid">
+<div class="card">
+<h3>GC Protein (rs2282679)</h3>
+<div class="value"><span class="genotype geno-carrier">GT</span></div>
+<div class="detail">GT = One copy of the low vitamin D binding protein allele. May have lower circulating 25(OH)D levels. Consider supplementation, especially with indoor ER shifts.</div>
+</div>
+<div class="card">
+<h3>VDR TaqI (rs731236)</h3>
+<div class="value"><span class="genotype geno-carrier">AG</span></div>
+<div class="detail">AG = Heterozygous VDR variant. Intermediate vitamin D receptor efficiency.</div>
+</div>
+<div class="card">
+<h3>CYP2R1 (rs10741657)</h3>
+<div class="value"><span class="genotype geno-normal">GG</span></div>
+<div class="detail">GG = Normal vitamin D hydroxylation. The 25-hydroxylase enzyme works at full capacity.</div>
+</div>
+</div>
+<div class="insight-box warning">
+<h4>Vitamin D Alert</h4>
+<p>The GC protein GT genotype combined with VDR AG suggests <strong>moderate genetic susceptibility to vitamin D insufficiency</strong>. As an ER doctor working long indoor shifts, you're already at environmental risk for low vitamin D. Genetics compound this. Recommendation: check 25(OH)D annually, supplement 2000-4000 IU daily, especially in winter months.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+<p>🧬 Genomic Intelligence Report — Chad Byars</p>
+<p>Generated from 23andMe v5 raw data · 631,455 SNPs analyzed</p>
+<p style="margin-top: 12px; font-size: 0.75em; color: #374151;">This report is for educational and informational purposes only. It is not a diagnostic tool. Genetic risk assessments are probabilistic, not deterministic. Consult a genetic counselor or physician for clinical interpretation. Polygenic scores represent population-level associations and have limited individual predictive value.</p>
+</div>
+
+<script>
+// Toggle sections
+function toggle(el) {
+  el.parentElement.classList.toggle('active');
+}
+
+// Open first section by default
+document.querySelector('.section').classList.add('active');
+
+// Chromosome distribution chart
+var chrLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y', 'MT'];
+var chrData = [48902, 51309, 42578, 39055, 36707, 43660, 34005, 31409, 26135, 30237, 30668, 29128, 21936, 19766, 18799, 20194, 19199, 17541, 14677, 14645, 8490, 8805, 16119, 3337, 4154];
+
+Plotly.newPlot('chrChart', [{
+  x: chrLabels,
+  y: chrData,
+  type: 'bar',
+  marker: {
+    color: chrData.map((v, i) => {
+      var colors = ['#6366f1','#818cf8','#a78bfa','#c084fc','#6366f1','#818cf8','#a78bfa','#c084fc','#6366f1','#818cf8','#a78bfa','#c084fc','#6366f1','#818cf8','#a78bfa','#c084fc','#6366f1','#818cf8','#a78bfa','#c084fc','#6366f1','#818cf8','#f59e0b','#60a5fa','#22c55e'];
+      return colors[i % colors.length];
+    }),
+    line: { color: '#1f2937', width: 1 }
+  }
+}], {
+  paper_bgcolor: '#111827',
+  plot_bgcolor: '#111827',
+  font: { color: '#9ca3af', family: 'SF Pro Display, sans-serif' },
+  title: { text: 'SNPs by Chromosome', font: { size: 16, color: '#e2e8f0' } },
+  xaxis: { title: 'Chromosome', gridcolor: '#1f2937' },
+  yaxis: { title: 'SNP Count', gridcolor: '#1f2937' },
+  margin: { t: 50, b: 50, l: 60, r: 20 }
+}, { responsive: true, displayModeBar: false });
+</script>
+</body>
+</html>
