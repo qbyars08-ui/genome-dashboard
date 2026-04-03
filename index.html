@@ -73,8 +73,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
 .fb.lipid{background:rgba(196,168,108,.12);color:#c4a86c;border-color:rgba(196,168,108,.3)}
 
 /* ─── Doctor Summary Modal ─── */
-#doc-modal,#pred-modal,#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
-#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show,#behcet-modal.show,#byars-family-modal.show,#icbd-modal.show,#clinical-modal.show{display:flex}
+#doc-modal,#pred-modal,#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal,#journal-modal,#why-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show,#behcet-modal.show,#byars-family-modal.show,#icbd-modal.show,#clinical-modal.show,#journal-modal.show,#why-modal.show{display:flex}
 .icbd-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:9px;margin-bottom:8px}
 .icbd-label{flex:1;font-size:.88rem;color:#e8d5c4;font-family:'EB Garamond',serif}
 .icbd-pts{font-size:.78rem;color:rgba(196,154,108,.5);margin:0 12px;min-width:50px;text-align:center}
@@ -171,6 +171,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   <button class="tbtn" onclick="document.getElementById('byars-family-modal').classList.add('show')">&#128209; Family Dashboard</button>
   <button class="tbtn" onclick="document.getElementById('icbd-modal').classList.add('show')">&#128203; ICBD Scorer</button>
   <button class="tbtn" onclick="document.getElementById('clinical-modal').classList.add('show')">&#128137; Clinical Tools</button>
+  <button class="tbtn" onclick="document.getElementById('journal-modal').classList.add('show')">&#128221; Quinn's Journal</button>
+  <button class="tbtn" onclick="document.getElementById('why-modal').classList.add('show')">&#129300; Why Quinn?</button>
 </div>
 
 <!-- Doctor Summary Modal -->
@@ -846,6 +848,182 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   </div>
 </div>
 
+<!-- Quinn's Journal — Symptom Tracker + Lab Tracker + Drug Checker -->
+<div id="journal-modal">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:92vh">
+    <button class="mclose" onclick="document.getElementById('journal-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128221; Quinn Byars &mdash; Clinical Journal</h2>
+    <div class="msub">Symptom Tracker &nbsp;&middot;&nbsp; Lab Results &nbsp;&middot;&nbsp; Medication Check &nbsp;&middot;&nbsp; Flare Timeline</div>
+
+    <!-- Symptom Entry -->
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:8px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Daily Symptom Log</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Log symptoms daily. Behçet's is cyclical — patterns will emerge over 2-4 weeks. Data saved in browser localStorage.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div><label style="font-size:.65rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:4px">Date</label><input type="date" id="j-date" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:6px 10px;border-radius:7px;font-size:.8rem"></div>
+      <div><label style="font-size:.65rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:4px">Overall Severity (1-10)</label><input type="number" id="j-severity" min="1" max="10" placeholder="1-10" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:6px 10px;border-radius:7px;font-size:.8rem"></div>
+    </div>
+
+    <div style="font-size:.65rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Symptoms Present Today (toggle all that apply)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px" id="j-symptoms">
+      <button class="fb cancer j-sym" data-sym="Oral ulcers" onclick="this.classList.toggle('on')" style="opacity:.7">Oral Ulcers</button>
+      <button class="fb cancer j-sym" data-sym="Genital ulcers" onclick="this.classList.toggle('on')" style="opacity:.7">Genital Ulcers</button>
+      <button class="fb cardio j-sym" data-sym="Eye pain/redness" onclick="this.classList.toggle('on')" style="opacity:.7">Eye Pain/Redness</button>
+      <button class="fb cardio j-sym" data-sym="Blurred vision" onclick="this.classList.toggle('on')" style="opacity:.7">Blurred Vision</button>
+      <button class="fb psych j-sym" data-sym="Skin lesions" onclick="this.classList.toggle('on')" style="opacity:.7">Skin Lesions</button>
+      <button class="fb psych j-sym" data-sym="Acne-like rash" onclick="this.classList.toggle('on')" style="opacity:.7">Acne-like Rash</button>
+      <button class="fb immune j-sym" data-sym="Joint pain" onclick="this.classList.toggle('on')" style="opacity:.7">Joint Pain</button>
+      <button class="fb immune j-sym" data-sym="Joint swelling" onclick="this.classList.toggle('on')" style="opacity:.7">Joint Swelling</button>
+      <button class="fb pharma j-sym" data-sym="Fatigue" onclick="this.classList.toggle('on')" style="opacity:.7">Fatigue</button>
+      <button class="fb pharma j-sym" data-sym="Headache" onclick="this.classList.toggle('on')" style="opacity:.7">Headache</button>
+      <button class="fb nutri j-sym" data-sym="GI symptoms" onclick="this.classList.toggle('on')" style="opacity:.7">GI Symptoms</button>
+      <button class="fb nutri j-sym" data-sym="Abdominal pain" onclick="this.classList.toggle('on')" style="opacity:.7">Abdominal Pain</button>
+      <button class="fb longevity j-sym" data-sym="Leg swelling/pain" onclick="this.classList.toggle('on')" style="opacity:.7">Leg Swelling</button>
+      <button class="fb longevity j-sym" data-sym="Chest pain" onclick="this.classList.toggle('on')" style="opacity:.7">Chest Pain</button>
+      <button class="fb athletic j-sym" data-sym="Fever" onclick="this.classList.toggle('on')" style="opacity:.7">Fever</button>
+      <button class="fb athletic j-sym" data-sym="Brain fog" onclick="this.classList.toggle('on')" style="opacity:.7">Brain Fog</button>
+      <button class="fb traits j-sym" data-sym="Erythema nodosum" onclick="this.classList.toggle('on')" style="opacity:.7">Erythema Nodosum</button>
+      <button class="fb traits j-sym" data-sym="Pathergy reaction" onclick="this.classList.toggle('on')" style="opacity:.7">Pathergy</button>
+    </div>
+
+    <div style="margin-bottom:12px"><label style="font-size:.65rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:4px">Notes (triggers, diet, stress, sleep hours, medications taken)</label><textarea id="j-notes" rows="3" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:8px 10px;border-radius:7px;font-size:.8rem;resize:vertical;font-family:inherit" placeholder="What happened today? What did you eat? Stress level? Hours of sleep? Any medication changes?"></textarea></div>
+
+    <button onclick="saveJournalEntry()" style="background:rgba(165,28,48,.3);border:1px solid rgba(165,28,48,.5);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;font-weight:600">Save Entry</button>
+    <span id="j-saved" style="margin-left:12px;font-size:.75rem;color:#6db87d;display:none">Saved</span>
+
+    <!-- Journal History -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Journal History</div>
+    <div id="j-history" style="font-size:.78rem;color:rgba(196,154,108,.5)">No entries yet. Start logging daily to identify patterns.</div>
+
+    <!-- Lab Results Tracker -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Lab Result Tracker</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Enter lab results as they come in. Auto-flags abnormal values in context of Quinn's genetics.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Lab Date</label><input type="date" id="lab-date" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem"></div>
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Test Name</label><select id="lab-test" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem"><option>ESR</option><option>hs-CRP</option><option>IL-6</option><option>IL-18</option><option>Homocysteine</option><option>MMA</option><option>Serum B12</option><option>Vitamin D (25-OH)</option><option>Ferritin</option><option>WBC</option><option>Neutrophils</option><option>Lymphocytes</option><option>LDL</option><option>HDL</option><option>Triglycerides</option><option>ApoB</option><option>Lp(a)</option><option>TSH</option><option>HbA1c</option><option>Other</option></select></div>
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Value</label><input type="text" id="lab-value" placeholder="e.g. 12.5" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem"></div>
+    </div>
+    <button onclick="saveLabResult()" style="background:rgba(196,154,108,.15);border:1px solid rgba(196,154,108,.3);color:#C49A6C;padding:6px 16px;border-radius:7px;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif">Save Lab Result</button>
+    <div id="lab-history" style="margin-top:12px;font-size:.75rem;color:rgba(196,154,108,.5)">No lab results entered yet.</div>
+
+    <!-- Current Medications -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Medication Interaction Checker</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Enter any medication Quinn is currently taking. Auto-checks against CYP2C9 *1/*2 and other pharmacogenomic variants.</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" id="med-name" placeholder="Medication name" style="flex:1;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:6px 10px;border-radius:7px;font-size:.8rem">
+      <button onclick="checkMedInteraction()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:6px 14px;border-radius:7px;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif;white-space:nowrap">Check</button>
+    </div>
+    <div id="med-result" style="font-size:.78rem;color:rgba(196,154,108,.5)"></div>
+
+    <!-- 15 Questions for the Rheumatologist -->
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">15 Questions for the Rheumatologist</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Bring this list to the first specialist visit. Print it.</div>
+
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>1.</b> Given HLA-B*51 homozygosity (OR ~10.96&times;), what is your clinical assessment of Behçet's probability even if the ICBD score is currently subthreshold?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>2.</b> Should we pursue ERAP1 genotyping? The epistatic B*51/ERAP1 interaction is the strongest gene-gene interaction in BD and could define the molecular mechanism.</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>3.</b> Is a pathergy test indicated given the genetic profile? Pathergy positivity is more common in B*51+ patients from Silk Road populations.</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>4.</b> Should we screen for subclinical posterior uveitis with OCT and fluorescein angiography, even without overt eye symptoms?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>5.</b> The father carries IL-6 CC (pro-inflammatory), CTLA4 AG, and STAT4 GT. Would confirming these in Quinn change your treatment strategy? Specifically re: tocilizumab (IL-6), tofacitinib (STAT4/JAK), or abatacept (CTLA4)?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>6.</b> If Quinn inherited CYP2C9 *1/*2 from his father, what NSAID and immunosuppressant dosing adjustments are needed?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>7.</b> Is apremilast (FDA-approved for BD oral ulcers) appropriate as initial therapy? Or given B*51 homozygosity, should we start more aggressively?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>8.</b> Given the father's FUT2 non-secretor status and the emerging gut-immune axis data in BD (Ye et al., Microbiome 2018), is gut microbiome sequencing diagnostically useful?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>9.</b> Should vascular imaging (CT angiography or MR angiography) be performed baseline given B*51 homozygosity and the father's compound MTHFR + elevated homocysteine?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>10.</b> Is there a role for the ongoing SGX945 (dusquetide) Phase 2 trial or the filgotinib (JAK inhibitor) Phase 2 trial?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>11.</b> The father has APOE &epsilon;3/&epsilon;4 and his grandfather has advanced dementia. If Quinn carries &epsilon;4, how does that interact with potential neuro-Behçet's risk and treatment choices (e.g., immunosuppressant CNS effects)?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>12.</b> Quinn's brother (21) has a 75% chance of carrying B*51. Should we HLA-type him now and screen for subclinical BD?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>13.</b> What baseline labs do you want beyond ESR/CRP? We can check IL-6, IL-18, homocysteine, MMA, B12, full HLA typing, and ERAP1 in one draw.</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>14.</b> How do you interpret B*51 homozygosity in a Northern European family? Does the likely Anatolian farmer origin of the allele affect your clinical approach or prognosis?</div></div>
+    <div class="checklist-item"><input type="checkbox"><div class="checklist-label"><b>15.</b> What is the expected disease course for a young male with B*51/B*51? What are the highest-risk complications we should monitor for, and on what timeline?</div></div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Journal + Questions</button>
+  </div>
+</div>
+
+<!-- Why Quinn, Not Chad? — Differential Modifier Analysis -->
+<div id="why-modal">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:92vh">
+    <button class="mclose" onclick="document.getElementById('why-modal').classList.remove('show')">&#x2715;</button>
+    <h2 style="color:#A51C30">&#129300; Why Quinn and Not Chad?</h2>
+    <div class="msub">The Central Question &mdash; Both Carry B*51, Only One Is Symptomatic</div>
+
+    <div class="interaction-card" style="border-color:rgba(165,28,48,.4);margin-bottom:16px">
+      <div class="interaction-title" style="font-size:1.05rem;color:#d4838f">The Paradox</div>
+      <div class="interaction-body" style="font-size:.88rem">Chad carries at least one HLA-B*51 allele. He is an ER physician in his 40s with no Behçet's symptoms. Quinn is B*51 <b>homozygous</b> and is experiencing a health crisis. Why?<br><br>This is not unusual — HLA-B*51 is necessary but not sufficient for Behçet's disease. Only ~5-10% of B*51 carriers ever develop BD. The answer lies in the <b>modifier gene constellation</b>, <b>gene dosage</b>, <b>environmental triggers</b>, and <b>maternal genetic contribution</b>.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:16px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Hypothesis 1: Gene Dosage Effect</div>
+
+    <div class="action-card urgent" style="border-left-width:4px">
+      <div class="action-title">B*51 Homozygous vs. Heterozygous &mdash; The Dose Makes the Disease</div>
+      <div class="action-body">Chad is B*51 heterozygous (one copy). Quinn is B*51/B*51 homozygous (two copies). Takeuchi et al. (PNAS 2014) demonstrated a <b>gene-dose effect</b>: homozygotes carry OR ~10.96&times; vs ~5.78&times; for heterozygotes. Quinn presents <b>nearly double</b> the HLA-mediated antigen presentation of aberrant peptides compared to Chad. This alone may be the primary explanation. Two copies means twice the B*51 molecules on every antigen-presenting cell in Quinn's body, each one capable of triggering the autoinflammatory cascade.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Hypothesis 2: Brigitte's Modifier Genes Compound the Load</div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-title">The Maternal Contribution We Can't See Yet</div>
+      <div class="action-body">Chad contributes one B*51 allele plus his modifier genes (IL-6 CC, CTLA4 AG, STAT4 GT, TYK2 AC, FUT2 AA, etc.) — each with 50% transmission probability. <b>Brigitte contributes the other B*51 plus HER modifier genes.</b> If Brigitte independently carries pro-inflammatory variants (her own IL-6, IL-10, STAT4, ERAP1 alleles), Quinn could have inherited a <b>double dose of modifiers from both parents</b> while Chad only carries his single set.<br><br>This is the critical unknown. When Brigitte's 23andMe data arrives, we can determine: did Quinn inherit pro-inflammatory modifiers from BOTH sides? That would explain why he crossed the disease threshold while Chad, with only one set of modifiers, did not.<br><br><b>Specific scenario:</b> If Brigitte also carries IL-6 CC, Quinn could be IL-6 CC/CC homozygous — maximum inflammatory baseline. If she carries ERAP1 risk variants, the epistatic B*51/ERAP1 interaction could be fully loaded in Quinn but absent in Chad (if Chad doesn't carry ERAP1 risk alleles).</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Hypothesis 3: ERAP1 Epistasis</div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-title">The Missing Piece &mdash; ERAP1 May Be the Trigger Chad Lacks</div>
+      <div class="action-body">ERAP1 trims peptides to the correct length for HLA class I loading. The B*51/ERAP1 epistatic interaction is one of the strongest gene-gene interactions in all of autoimmunity (parallel to B*27/ERAP1 in ankylosing spondylitis). If Quinn inherited ERAP1 risk alleles (from either parent) but Chad does NOT carry them, this would precisely explain the discordance: Chad's B*51 molecules present normal-length peptides (no disease), while Quinn's B*51 molecules present ERAP1-trimmed aberrant peptides (triggering autoimmunity).<br><br><b>This is the single most important gene to test in both Chad and Quinn.</b> If Chad lacks ERAP1 risk alleles and Quinn carries them (from Brigitte), the mechanism is identified.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Hypothesis 4: Environmental Trigger Differential</div>
+
+    <div class="action-card warning" style="border-left-width:4px">
+      <div class="action-title">Age, Microbiome, Stress, and Infection History</div>
+      <div class="action-body">Behçet's typically manifests in the 20s-30s. Chad may have passed through the highest-risk age window without sufficient environmental triggering. Potential triggers that Quinn may have encountered but Chad may not have (or may have encountered at a less vulnerable age):<br><br>
+      &bull; <b>Streptococcal or HSV infection</b> &mdash; molecular mimicry between microbial peptides and B*51-presented self-peptides is a leading BD trigger hypothesis<br>
+      &bull; <b>Gut microbiome state</b> &mdash; if Quinn inherited FUT2 non-secretor + had different antibiotic/dietary exposures, his gut dysbiosis may differ from Chad's<br>
+      &bull; <b>Psychological stress</b> &mdash; chronic stress upregulates Th17 responses, the exact immune axis B*51 drives in BD<br>
+      &bull; <b>Dietary factors</b> &mdash; high-sugar, low-fiber Western diet reduces butyrate-producing bacteria, which are already depleted in BD<br>
+      &bull; <b>Sleep disruption</b> &mdash; chronic sleep debt impairs regulatory T-cell function, weakening the immune brakes that keep B*51 in check</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Hypothesis 5: Epigenetic Differences</div>
+
+    <div class="action-card" style="border-left-width:3px;border-left-color:#a090c0">
+      <div class="action-title">Same DNA, Different Expression</div>
+      <div class="action-body">Even if Quinn and Chad carried identical modifiers (they don't — Quinn has two B*51 copies), epigenetic modifications (DNA methylation, histone acetylation) can silence or amplify gene expression without changing the sequence. Environmental exposures, diet, stress, and even in utero conditions modify the epigenome. Quinn's B*51 locus may be more actively transcribed than Chad's due to epigenetic differences accumulated over their different lifetimes. MTHFR compound heterozygous status (if inherited) directly affects methylation capacity — the very machinery that controls epigenetic gene regulation.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.1rem">The Verdict: Most Likely Explanation</div>
+
+    <div class="action-card urgent" style="border-left-width:5px;border-left-color:#A51C30">
+      <div class="action-title">Gene Dosage + Maternal Modifiers + Possible ERAP1</div>
+      <div class="action-body">The most parsimonious explanation is a <b>three-hit model</b>:<br><br>
+      <b>Hit 1: B*51 gene dosage.</b> Quinn has TWO copies where Chad has one. This alone nearly doubles the OR (10.96&times; vs 5.78&times;).<br><br>
+      <b>Hit 2: Maternal modifier gene contribution.</b> Brigitte's genome (arriving soon) likely carries additional pro-inflammatory variants that compound Chad's already-present modifiers. Quinn may have inherited inflammatory alleles from BOTH parents while Chad only carries his own set.<br><br>
+      <b>Hit 3: ERAP1 and/or environmental trigger.</b> ERAP1 risk alleles from Brigitte (if present) would complete the molecular mechanism. An environmental trigger (infection, stress, microbiome shift) then ignites the loaded gun.<br><br>
+      <b>Next steps to test this:</b><br>
+      1. Upload Brigitte's 23andMe &rarr; identify her IL-6, IL-10, STAT4, CTLA4, ERAP1, FUT2<br>
+      2. ERAP1 genotyping in both Chad and Quinn &rarr; if Chad lacks ERAP1 risk alleles, the mechanism is defined<br>
+      3. Quinn's full genotype &rarr; confirm which modifiers he actually inherited vs. which he didn't<br>
+      4. Gut microbiome sequencing in Quinn &rarr; test the dysbiosis hypothesis directly</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">What About the Brother?</div>
+
+    <div class="action-card" style="border-left-width:3px;border-left-color:#7abcc5">
+      <div class="action-title">The 21-Year-Old Control Subject</div>
+      <div class="action-body">The brother is a natural experiment. Three outcomes are possible:<br><br>
+      <b>Scenario A:</b> Brother is B*51/B*51 homozygous + no symptoms &rarr; environmental trigger is the key differentiator. Look at what Quinn experienced that the brother didn't.<br><br>
+      <b>Scenario B:</b> Brother is B*51 heterozygous + no symptoms &rarr; gene dosage hypothesis confirmed. The difference between one and two copies is the disease threshold.<br><br>
+      <b>Scenario C:</b> Brother is B*51 heterozygous + HAS subtle symptoms &rarr; both dosage and modifier genes matter. Screen the brother carefully for oral ulcers, skin lesions, and subclinical eye inflammation.<br><br>
+      <b>Scenario D:</b> Brother has no B*51 &rarr; he received non-B*51 alleles from both parents (25% probability). He is genetically cleared of BD risk at this locus.<br><br>
+      His data will powerfully discriminate between the hypotheses above.</div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Analysis</button>
+  </div>
+</div>
+
 <!-- ICBD Interactive Scorer -->
 <div id="icbd-modal">
   <div class="modal-box" style="width:min(620px,95vw)">
@@ -1101,9 +1279,146 @@ function updateICBD(){
 }
 
 // Make all modals closeable by clicking backdrop
-document.querySelectorAll('#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal').forEach(m=>{
+document.querySelectorAll('#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal,#icbd-modal,#clinical-modal,#journal-modal,#why-modal').forEach(m=>{
   m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});
 });
+
+// ── JOURNAL SYSTEM (localStorage) ─────────────────────────────────────────────
+const JOURNAL_KEY='byars_journal';
+const LAB_KEY='byars_labs';
+
+function getJournal(){try{return JSON.parse(localStorage.getItem(JOURNAL_KEY))||[];}catch(e){return[];}}
+function getLabs(){try{return JSON.parse(localStorage.getItem(LAB_KEY))||[];}catch(e){return[];}}
+
+function saveJournalEntry(){
+  const date=document.getElementById('j-date').value||new Date().toISOString().split('T')[0];
+  const severity=document.getElementById('j-severity').value||'';
+  const symptoms=[...document.querySelectorAll('.j-sym.on')].map(b=>b.dataset.sym);
+  const notes=document.getElementById('j-notes').value||'';
+  if(!symptoms.length&&!notes){alert('Add symptoms or notes before saving.');return;}
+  const journal=getJournal();
+  journal.unshift({date,severity,symptoms,notes,ts:Date.now()});
+  localStorage.setItem(JOURNAL_KEY,JSON.stringify(journal));
+  document.getElementById('j-saved').style.display='inline';
+  setTimeout(()=>document.getElementById('j-saved').style.display='none',2000);
+  document.querySelectorAll('.j-sym.on').forEach(b=>b.classList.remove('on'));
+  document.getElementById('j-notes').value='';
+  document.getElementById('j-severity').value='';
+  renderJournal();
+}
+
+function renderJournal(){
+  const journal=getJournal();
+  const el=document.getElementById('j-history');
+  if(!journal.length){el.innerHTML='No entries yet. Start logging daily to identify patterns.';return;}
+  const icbdSyms=['Oral ulcers','Genital ulcers','Eye pain/redness','Blurred vision','Skin lesions','Erythema nodosum'];
+  el.innerHTML=journal.slice(0,30).map(e=>{
+    const hasIcbd=e.symptoms.some(s=>icbdSyms.includes(s));
+    return `<div style="background:rgba(30,22,18,.5);border:1px solid ${hasIcbd?'rgba(165,28,48,.3)':'rgba(196,154,108,.1)'};border-radius:8px;padding:10px 12px;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-family:'EB Garamond',serif;font-weight:700;color:#e8d5c4">${e.date}</span>
+        ${e.severity?`<span style="background:rgba(165,28,48,${e.severity/15});color:#d4838f;padding:2px 8px;border-radius:99px;font-size:.65rem;font-weight:700">Severity: ${e.severity}/10</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:${e.notes?'6px':'0'}">
+        ${e.symptoms.map(s=>`<span style="background:${icbdSyms.includes(s)?'rgba(165,28,48,.15)':'rgba(196,154,108,.1)'};color:${icbdSyms.includes(s)?'#d4838f':'#C49A6C'};padding:2px 7px;border-radius:5px;font-size:.65rem">${s}</span>`).join('')}
+      </div>
+      ${e.notes?`<div style="font-size:.75rem;color:rgba(196,154,108,.5);font-style:italic;margin-top:2px">${e.notes}</div>`:''}
+    </div>`;
+  }).join('');
+  // Pattern detection
+  if(journal.length>=3){
+    const allSyms=journal.flatMap(e=>e.symptoms);
+    const freq={};allSyms.forEach(s=>{freq[s]=(freq[s]||0)+1;});
+    const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+    const avgSev=journal.filter(e=>e.severity).reduce((sum,e)=>sum+parseInt(e.severity),0)/(journal.filter(e=>e.severity).length||1);
+    el.innerHTML=`<div style="background:rgba(165,28,48,.08);border:1px solid rgba(165,28,48,.2);border-radius:9px;padding:12px;margin-bottom:12px">
+      <div style="font-size:.7rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Pattern Detection (${journal.length} entries)</div>
+      <div style="font-size:.8rem;color:#d4a0a8">Most frequent: <b>${sorted.slice(0,3).map(([s,c])=>s+' ('+c+'×)').join(', ')}</b></div>
+      <div style="font-size:.8rem;color:#d4a0a8">Avg severity: <b>${avgSev.toFixed(1)}/10</b></div>
+    </div>`+el.innerHTML;
+  }
+}
+
+function saveLabResult(){
+  const date=document.getElementById('lab-date').value||new Date().toISOString().split('T')[0];
+  const test=document.getElementById('lab-test').value;
+  const value=document.getElementById('lab-value').value;
+  if(!value){alert('Enter a value.');return;}
+  const labs=getLabs();
+  labs.unshift({date,test,value,ts:Date.now()});
+  localStorage.setItem(LAB_KEY,JSON.stringify(labs));
+  document.getElementById('lab-value').value='';
+  renderLabs();
+}
+
+const LAB_RANGES={
+  'ESR':{unit:'mm/hr',high:20,flag:'Elevated ESR = active inflammation. In BD, correlates with flare severity.'},
+  'hs-CRP':{unit:'mg/L',high:3,flag:'Elevated CRP = systemic inflammation. Target <1 mg/L for CV protection (9p21 CAD risk).'},
+  'IL-6':{unit:'pg/mL',high:7,flag:'If Chad\'s IL-6 CC inherited: baseline will run higher. Anti-IL-6 (tocilizumab) is a precision target.'},
+  'Homocysteine':{unit:'μmol/L',high:10,flag:'MTHFR compound heterozygous if inherited → elevated. Target <10. Methylfolate + methylcobalamin.'},
+  'MMA':{unit:'nmol/L',high:370,flag:'Methylmalonic acid — TRUE functional B12 marker. FUT2 non-secretor: serum B12 may look normal while MMA is elevated.'},
+  'Serum B12':{unit:'pg/mL',low:400,flag:'FUT2 non-secretor caution: serum B12 may be falsely normal. Check MMA for true cellular status.'},
+  'Vitamin D (25-OH)':{unit:'ng/mL',low:50,flag:'IL-6 CC genotype needs higher target (>50 ng/mL). Supplement D3+K2+Mg.'},
+  'Ferritin':{unit:'ng/mL',high:300,flag:'HFE H63D carrier — monitor annually. Elevated ferritin can also indicate inflammation.'},
+  'LDL':{unit:'mg/dL',high:70,flag:'Triple 9p21 + father\'s CAD → aggressive target <70 mg/dL. PCSK9 inhibitor candidate if elevated.'},
+  'TSH':{unit:'mIU/L',high:4.5,low:0.4,flag:'CTLA4 AG → autoimmune thyroid risk. Monitor annually.'}
+};
+
+function renderLabs(){
+  const labs=getLabs();
+  const el=document.getElementById('lab-history');
+  if(!labs.length){el.innerHTML='No lab results entered yet.';return;}
+  el.innerHTML=labs.slice(0,30).map(l=>{
+    const ref=LAB_RANGES[l.test];
+    const val=parseFloat(l.value);
+    let flagged=false,flagMsg='';
+    if(ref){
+      if(ref.high&&val>ref.high){flagged=true;flagMsg=ref.flag;}
+      if(ref.low&&val<ref.low){flagged=true;flagMsg=ref.flag;}
+    }
+    return `<div style="background:rgba(30,22,18,.5);border:1px solid ${flagged?'rgba(165,28,48,.3)':'rgba(196,154,108,.1)'};border-radius:8px;padding:8px 12px;margin-bottom:5px;display:flex;align-items:flex-start;gap:10px">
+      <div style="min-width:70px;font-size:.7rem;color:rgba(196,154,108,.5)">${l.date}</div>
+      <div style="flex:1"><span style="font-weight:700;color:#e8d5c4">${l.test}</span> <span style="color:${flagged?'#d4838f':'#6db87d'};font-weight:700">${l.value}</span>${ref?' <span style="font-size:.65rem;color:rgba(196,154,108,.35)">'+ref.unit+'</span>':''}
+      ${flagged?'<div style="font-size:.7rem;color:#d4a0a8;margin-top:3px">⚠ '+flagMsg+'</div>':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// Medication interaction checker
+const CYP2C9_DRUGS=['ibuprofen','advil','motrin','naproxen','aleve','celecoxib','celebrex','diclofenac','voltaren','phenytoin','dilantin','glipizide','losartan','fluvastatin','warfarin','coumadin'];
+const CYP3A4_DRUGS=['colchicine','apremilast','otezla','tofacitinib','xeljanz','baricitinib','olumiant','sirolimus','rapamycin','tacrolimus','prograf','cyclosporine','methotrexate'];
+const SAFE_DRUGS=['acetaminophen','tylenol','infliximab','remicade','adalimumab','humira','tocilizumab','actemra','methylfolate','methylcobalamin','vitamin d','magnesium','fish oil','omega-3','probiotic'];
+
+function checkMedInteraction(){
+  const name=document.getElementById('med-name').value.toLowerCase().trim();
+  if(!name){return;}
+  const el=document.getElementById('med-result');
+  if(CYP2C9_DRUGS.some(d=>name.includes(d))){
+    el.innerHTML=`<div style="background:rgba(165,28,48,.1);border:1px solid rgba(165,28,48,.3);border-radius:8px;padding:10px 12px;margin-top:4px">
+      <div style="color:#d4838f;font-weight:700;font-size:.85rem">⚠ CYP2C9 INTERACTION — ${name.toUpperCase()}</div>
+      <div style="color:#b0a090;font-size:.78rem;margin-top:4px">If Quinn inherited CYP2C9 *1/*2 from Chad: this drug will accumulate at higher plasma levels (~20-30% higher AUC). Use lowest effective dose for shortest duration. Risk: GI hemorrhage, nephrotoxicity. Consider acetaminophen as alternative if appropriate.</div></div>`;
+  } else if(CYP3A4_DRUGS.some(d=>name.includes(d))){
+    el.innerHTML=`<div style="background:rgba(196,154,108,.08);border:1px solid rgba(196,154,108,.2);border-radius:8px;padding:10px 12px;margin-top:4px">
+      <div style="color:#C49A6C;font-weight:700;font-size:.85rem">✓ CYP3A4 pathway — ${name.toUpperCase()}</div>
+      <div style="color:#b0a090;font-size:.78rem;margin-top:4px">This drug is primarily metabolized by CYP3A4, NOT CYP2C9. Chad's *1/*2 variant does not affect this medication. Standard dosing expected. Watch for CYP3A4 drug-drug interactions (grapefruit, azole antifungals, macrolide antibiotics).</div></div>`;
+  } else if(SAFE_DRUGS.some(d=>name.includes(d))){
+    el.innerHTML=`<div style="background:rgba(78,140,100,.08);border:1px solid rgba(78,140,100,.2);border-radius:8px;padding:10px 12px;margin-top:4px">
+      <div style="color:#6db87d;font-weight:700;font-size:.85rem">✓ No known pharmacogenomic interaction — ${name.toUpperCase()}</div>
+      <div style="color:#b0a090;font-size:.78rem;margin-top:4px">This medication/supplement is not significantly affected by CYP2C9 *1/*2 or other known variants in Chad's pharmacogenomic profile. Standard dosing expected.</div></div>`;
+  } else {
+    el.innerHTML=`<div style="background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.15);border-radius:8px;padding:10px 12px;margin-top:4px">
+      <div style="color:#C49A6C;font-weight:700;font-size:.85rem">ℹ ${name.toUpperCase()} — Not in database</div>
+      <div style="color:#b0a090;font-size:.78rem;margin-top:4px">This medication is not in the current pharmacogenomic interaction database. Check the drug's prescribing information for CYP2C9, CYP3A4, or CYP2D6 metabolism pathways. If it's a CYP2C9 substrate, caution applies per Chad's *1/*2 status. Discuss with pharmacist.</div></div>`;
+  }
+}
+
+// Set today's date as default
+document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('lab-date').value=new Date().toISOString().split('T')[0];
+
+// Render existing data on load
+renderJournal();
+renderLabs();
 </script>
 
 <script>
