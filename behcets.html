@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quinn Byars — Behçet's Disease Intelligence System</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+a{color:#d4838f;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.container{max-width:860px;margin:0 auto;padding:24px 20px 60px}
+
+header{padding:20px 0 32px;border-bottom:1px solid rgba(165,28,48,.25);margin-bottom:32px}
+header h1{font-family:'EB Garamond',Georgia,serif;font-size:1.8rem;font-weight:700;color:#A51C30;margin-bottom:4px}
+header .sub{font-size:.68rem;color:rgba(196,154,108,.55);letter-spacing:.14em;text-transform:uppercase}
+.back-link{font-size:.75rem;color:rgba(196,154,108,.5);margin-bottom:12px;display:block}
+
+.section{margin-bottom:40px}
+.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.35rem;font-weight:700;color:#C49A6C;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(196,154,108,.15)}
+.section-subtitle{font-size:.7rem;color:rgba(196,154,108,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+
+.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.card.urgent{border-left:4px solid #A51C30}
+.card.discovery{border-left:4px solid #C49A6C}
+.card.info{border-left:4px solid rgba(196,154,108,.3)}
+.card.good{border-left:4px solid #6db87d}
+.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.05rem;font-weight:700;color:#f0e6dc;margin-bottom:6px}
+.card-body{font-size:.84rem;color:#b0a090;line-height:1.75}
+.card-body b{color:#e8d5c4}
+.card-body .cite{color:rgba(196,154,108,.45);font-size:.72rem;font-style:italic}
+
+.gene-pathway{display:grid;grid-template-columns:1fr;gap:2px;margin:12px 0}
+.pathway-step{display:flex;align-items:stretch;gap:0}
+.pathway-arrow{width:40px;display:flex;align-items:center;justify-content:center;color:rgba(165,28,48,.4);font-size:1.2rem;flex-shrink:0}
+.pathway-box{flex:1;background:rgba(18,12,10,.8);border:1px solid rgba(165,28,48,.2);border-radius:8px;padding:10px 14px}
+.pathway-box.active{border-color:#A51C30;background:rgba(165,28,48,.08)}
+.pathway-gene{font-size:.65rem;color:#A51C30;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:2px}
+.pathway-desc{font-size:.78rem;color:#c4b4a4;line-height:1.5}
+
+.trial-card{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.trial-phase{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.trial-phase.p1{background:rgba(196,154,108,.1);color:#C49A6C}
+.trial-phase.p2{background:rgba(165,28,48,.15);color:#d4838f}
+.trial-phase.p3{background:rgba(78,140,100,.15);color:#6db87d}
+.trial-phase.approved{background:rgba(78,140,100,.2);color:#6db87d;border:1px solid rgba(78,140,100,.3)}
+.trial-title{font-family:'EB Garamond',Georgia,serif;font-size:.95rem;font-weight:700;color:#e8d5c4;margin-bottom:4px}
+.trial-body{font-size:.78rem;color:#b0a090;line-height:1.6}
+.trial-tag{display:inline-flex;padding:1px 6px;border-radius:4px;font-size:.6rem;margin-right:4px;margin-top:4px}
+.trial-tag.genetic{background:rgba(165,28,48,.12);color:#d4838f}
+.trial-tag.location{background:rgba(196,154,108,.1);color:#C49A6C}
+
+.lifestyle-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.lifestyle-grid{grid-template-columns:1fr}}
+.lifestyle-card{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 16px}
+.lifestyle-category{font-size:.62rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:4px}
+.lifestyle-title{font-family:'EB Garamond',Georgia,serif;font-size:.95rem;font-weight:700;color:#f0e6dc;margin-bottom:4px}
+.lifestyle-body{font-size:.78rem;color:#b0a090;line-height:1.6}
+.lifestyle-evidence{font-size:.65rem;color:rgba(196,154,108,.35);margin-top:4px;font-style:italic}
+
+.stat-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:120px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:8px;padding:10px 12px}
+.stat-label{font-size:.6rem;color:rgba(196,154,108,.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;font-weight:700;color:#f0e6dc}
+
+.timeline{position:relative;padding-left:24px;border-left:2px solid rgba(165,28,48,.2)}
+.timeline-event{position:relative;margin-bottom:20px;padding-left:16px}
+.timeline-event::before{content:'';position:absolute;left:-30px;top:6px;width:12px;height:12px;border-radius:50%;background:#A51C30;border:2px solid #0f0a08}
+.timeline-event.future::before{background:rgba(196,154,108,.3);border-color:rgba(196,154,108,.2)}
+.timeline-date{font-size:.7rem;color:#C49A6C;font-weight:600;margin-bottom:2px}
+.timeline-text{font-size:.82rem;color:#b0a090;line-height:1.6}
+
+.print-btn{background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif}
+@media print{body{background:white;color:black}.card,.trial-card,.lifestyle-card,.pathway-box,.stat-box{border:1px solid #ccc;background:white}.card-title,.section-title,.trial-title,.lifestyle-title,.stat-value{color:#1a1a1a}.card-body,.trial-body,.lifestyle-body,.pathway-desc,.timeline-text{color:#333}header h1{color:#A51C30}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<a class="back-link" href="index.html">&larr; Back to Chad Byars Genome Brain Map</a>
+
+<header>
+  <h1>Quinn Byars — Behçet's Disease Intelligence System</h1>
+  <div class="sub">HLA-B*51/B*51 Homozygous &nbsp;&middot;&nbsp; Complete Pathogenesis &nbsp;&middot;&nbsp; Clinical Trials &nbsp;&middot;&nbsp; Lifestyle Protocol &nbsp;&middot;&nbsp; Living Document</div>
+</header>
+
+<!-- STATUS DASHBOARD -->
+<div class="section">
+  <div class="section-title">Current Status</div>
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">HLA Status</div><div class="stat-value">B*51/B*51 Homozygous</div></div>
+    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">Genetic Risk</div><div class="stat-value">OR ~10.96×</div></div>
+    <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">Paternal Modifiers</div><div class="stat-value">8 identified</div></div>
+    <div class="stat-box" style="border-left:3px solid rgba(196,154,108,.3)"><div class="stat-label">Maternal Modifiers</div><div class="stat-value">Pending (23andMe)</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-label">ERAP1 Status</div><div class="stat-value" style="color:#C49A6C">Not Yet Tested</div></div>
+    <div class="stat-box"><div class="stat-label">ICBD Score</div><div class="stat-value" style="color:#C49A6C">Awaiting Input</div></div>
+    <div class="stat-box"><div class="stat-label">Brother B*51</div><div class="stat-value" style="color:#C49A6C">Not Yet Typed</div></div>
+    <div class="stat-box"><div class="stat-label">Last Journal Entry</div><div class="stat-value" style="color:#C49A6C" id="last-entry">None</div></div>
+  </div>
+</div>
+
+<!-- MOLECULAR PATHOGENESIS -->
+<div class="section">
+  <div class="section-title">Molecular Pathogenesis — How B*51 Causes Disease</div>
+  <div class="section-subtitle">From gene to molecule to immune cell to tissue damage — the complete cascade</div>
+
+  <div class="card urgent">
+    <div class="card-title">Step 1: Aberrant Peptide Presentation</div>
+    <div class="card-body">HLA-B*51 sits on the surface of every nucleated cell in Quinn's body. Its job is to present short peptide fragments (8-10 amino acids) to CD8+ cytotoxic T cells for immune surveillance. B*51 has a unique peptide-binding groove — specifically, a large hydrophobic B pocket that preferentially binds peptides with isoleucine or leucine at position 2 (P2) and hydrophobic residues at position 9 (P9).<br><br><b>The problem:</b> B*51 presents certain self-peptides that closely resemble microbial peptides (molecular mimicry). When the immune system encounters a triggering infection (HSV, Streptococcus, or gut microbe peptides), CD8+ T cells primed against the microbial peptide cross-react with B*51-presented self-peptides on vascular endothelial cells, mucosal epithelium, and retinal tissue — the exact tissues Behçet's attacks.<br><br><b>Quinn has TWO copies.</b> Every cell surface has double the B*51 density, presenting double the aberrant peptides, creating double the cross-reactive T cell activation signal. <span class="cite">Takeuchi PNAS 2014; Giza & Yazici, Curr Opin Rheumatol 2022</span></div>
+  </div>
+
+  <div class="card urgent">
+    <div class="card-title">Step 2: ERAP1 Epistasis — The Peptide Trimming Problem</div>
+    <div class="card-body">Before peptides load onto B*51, they are trimmed to the correct length by <b>ERAP1</b> (endoplasmic reticulum aminopeptidase 1) in the ER. ERAP1 risk alleles trim peptides too aggressively or not enough — generating peptides of abnormal length that B*51 presents, but that the immune system has never learned to tolerate.<br><br>The <b>B*51/ERAP1 epistatic interaction</b> is one of the strongest gene-gene interactions in autoimmunity (parallel to B*27/ERAP1 in ankylosing spondylitis). Key ERAP1 risk SNPs: <b>rs27044</b> (Gln730Glu), <b>rs2287987</b> (Met349Val), <b>rs10050860</b> (Asp575Asn), <b>rs17482078</b> (Arg725Gln), <b>rs2549782</b> (His56Arg). These variants alter the enzyme's trimming specificity and activity.<br><br><b>This is the #1 gene to test in both Chad and Quinn.</b> If Chad LACKS ERAP1 risk alleles but Quinn inherited them from Brigitte, the entire mechanism clicks into place. <span class="cite">Sousa et al., Arthritis Rheumatol 2015; Kirino et al., Nat Genet 2013</span></div>
+  </div>
+
+  <div class="card discovery">
+    <div class="card-title">Step 3: Th1/Th17 Immune Axis Activation</div>
+    <div class="card-body">B*51-driven aberrant peptide presentation activates two pathological immune axes simultaneously:<br><br><b>Th1 axis:</b> IL-12 → STAT4 → IFN-γ → macrophage activation → tissue damage. Chad carries <b>STAT4 GT</b> — if Quinn inherited the T allele, his Th1 response is amplified at the STAT4 signaling node.<br><br><b>Th17 axis:</b> IL-23 → IL-23R → RORγt → IL-17A/F → neutrophil recruitment → vascular inflammation. This is the axis that drives the characteristic neutrophilic infiltrates in BD mucocutaneous and vascular lesions. Chad's <b>TYK2 AC</b> variant feeds into this via JAK/STAT signaling downstream of IL-23R.<br><br>The Th17 axis is the primary target of emerging BD therapies: JAK inhibitors (tofacitinib, baricitinib) block JAK1/JAK3 downstream of IL-23R. Secukinumab blocks IL-17A directly — but paradoxical BD onset has been reported, suggesting IL-17 blockade may be too downstream. <span class="cite">Emmi et al., J Autoimmun 2023; Yazici et al., Nat Rev Dis Primers 2021</span></div>
+  </div>
+
+  <div class="card discovery">
+    <div class="card-title">Step 4: Immune Checkpoint Failure</div>
+    <div class="card-body">Normally, regulatory T cells (Tregs) and immune checkpoints (CTLA-4, PD-1) prevent autoreactive T cells from causing damage. In BD, this brake system fails:<br><br><b>CTLA-4</b> (Chad carries AG): CTLA-4 competes with CD28 for B7 ligands on antigen-presenting cells, sending inhibitory signals. AG variant reduces CTLA-4 efficiency → T cells are less effectively suppressed. If Quinn inherited this, his autoreactive T cells have weaker brakes.<br><br><b>IL-10</b> (Chad carries CT): IL-10 is the master anti-inflammatory cytokine produced by Tregs. CT = intermediate production. IL-10 variants are independently associated with BD in GWAS (Mizuki, Nat Genet 2010). Lower IL-10 = less suppression of the B*51-driven inflammatory cascade.<br><br><b>Combined effect:</b> B*51 activates autoreactive T cells (accelerator) while CTLA-4 AG + IL-10 CT weaken the brakes. In Quinn, with B*51 homozygosity doubling the accelerator signal, even mildly weakened brakes may be insufficient. <span class="cite">Mizuki et al., Nat Genet 2010; Remmers et al., Nat Genet 2010</span></div>
+  </div>
+
+  <div class="card urgent">
+    <div class="card-title">Step 5: Vascular Endothelial Damage — The Final Common Pathway</div>
+    <div class="card-body">The Th1/Th17 storm converges on <b>vascular endothelial cells</b> — the cells lining blood vessels throughout the body. This is why Behçet's is classified as a vasculitis:<br><br>1. <b>Neutrophils</b> recruited by IL-17 infiltrate vessel walls, releasing reactive oxygen species and proteases<br>2. <b>CD8+ T cells</b> primed by B*51 directly attack endothelial cells presenting cross-reactive peptides<br>3. <b>IL-6</b> (Chad carries CC = highest production genotype) amplifies endothelial inflammation and drives CRP elevation. If Quinn inherited IL-6 CC, his vascular inflammation runs hotter at baseline<br>4. <b>MTHFR compound heterozygous</b> (if inherited) elevates homocysteine, which independently damages endothelial cells — compounding the vasculitis<br><br>The result: oral ulcers (mucosal vasculitis), genital ulcers (mucosal vasculitis), uveitis (retinal vasculitis), skin lesions (dermal vasculitis), CNS disease (cerebral vasculitis), and venous/arterial thrombosis (large vessel vasculitis). Every Behçet's symptom traces back to this vascular endothelial attack. <span class="cite">Yazici et al., Nat Rev Dis Primers 2021</span></div>
+  </div>
+
+  <!-- Visual Pathway -->
+  <div style="margin-top:20px;font-size:.75rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">The Complete Cascade</div>
+  <div class="gene-pathway">
+    <div class="pathway-step"><div class="pathway-box active"><div class="pathway-gene">HLA-B*51/B*51 (HOMOZYGOUS)</div><div class="pathway-desc">Double-dose aberrant peptide presentation on all nucleated cells</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box active"><div class="pathway-gene">ERAP1 (STATUS UNKNOWN — TEST THIS)</div><div class="pathway-desc">Trims peptides for B*51 loading. Risk alleles → aberrant-length peptides → autoimmune trigger</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box"><div class="pathway-gene">CD8+ T Cell Cross-Reactivity</div><div class="pathway-desc">Microbial peptide → T cell priming → cross-reaction with B*51-presented self-peptides</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box"><div class="pathway-gene">STAT4 GT + TYK2 AC → Th1/Th17 Amplification</div><div class="pathway-desc">IL-12/STAT4/IFN-γ (Th1) + IL-23/TYK2/IL-17 (Th17) dual activation. JAK inhibitors target here.</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box"><div class="pathway-gene">CTLA4 AG + IL-10 CT → Checkpoint Failure</div><div class="pathway-desc">Weakened immune brakes. Tregs cannot suppress the B*51-driven cascade. Abatacept targets CTLA4.</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box"><div class="pathway-gene">IL-6 CC → Inflammatory Amplification</div><div class="pathway-desc">Pro-inflammatory baseline amplifies endothelial damage. Tocilizumab (anti-IL-6R) targets here.</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box"><div class="pathway-gene">FUT2 AA Non-Secretor → Gut Dysbiosis</div><div class="pathway-desc">Altered microbiome → reduced butyrate → impaired Treg differentiation → further immune dysregulation</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box active"><div class="pathway-gene">VASCULAR ENDOTHELIAL DAMAGE</div><div class="pathway-desc">Neutrophil infiltration + CD8+ attack + IL-6 inflammation + MTHFR/homocysteine → vasculitis in every affected organ</div></div></div>
+    <div class="pathway-step"><div class="pathway-arrow">&darr;</div></div>
+    <div class="pathway-step"><div class="pathway-box" style="border-color:rgba(165,28,48,.4)"><div class="pathway-gene" style="color:#d4838f">CLINICAL MANIFESTATIONS</div><div class="pathway-desc">Oral ulcers &middot; Genital ulcers &middot; Uveitis &middot; Skin lesions &middot; Vascular thrombosis &middot; Neuro-Behçet's &middot; GI involvement</div></div></div>
+  </div>
+</div>
+
+<!-- CLINICAL TRIALS -->
+<div class="section">
+  <div class="section-title">Clinical Trial Tracker</div>
+  <div class="section-subtitle">Updating as research agents return data &mdash; check back</div>
+
+  <div class="trial-card">
+    <div class="trial-phase approved">FDA Approved</div>
+    <div class="trial-title">Apremilast (Otezla) — PDE4 Inhibitor</div>
+    <div class="trial-body">The ONLY FDA-approved oral therapy for BD oral ulcers. RELIEF trial (NEJM 2019): 42.7-point VAS pain reduction vs 18.7 placebo, sustained through 68 weeks. Mechanism: PDE4 inhibition reduces TNF-α, IL-23, and IFN-γ while increasing IL-10. NOT a CYP2C9 substrate — safe with Chad's pharmacogenomic profile.</div>
+    <div class="trial-tag genetic">Not CYP2C9-dependent</div>
+    <div class="trial-tag good" style="background:rgba(78,140,100,.1);color:#6db87d">Available now</div>
+  </div>
+
+  <div class="trial-card">
+    <div class="trial-phase p2">Phase 2</div>
+    <div class="trial-title">SGX945 (Dusquetide) — Innate Defense Regulator</div>
+    <div class="trial-body">Soligenix. Novel innate defense regulator peptide for BD oral ulcers. Currently enrolling. Modulates innate immune response without broad immunosuppression.</div>
+    <div class="trial-tag location">US multicenter</div>
+  </div>
+
+  <div class="trial-card">
+    <div class="trial-phase p2">Phase 2</div>
+    <div class="trial-title">Filgotinib — JAK1 Selective Inhibitor</div>
+    <div class="trial-body">Selective JAK1 inhibitor. Acts downstream of STAT4 and TYK2 — directly targeting the Th1/Th17 pathway. If Quinn inherited STAT4 GT and TYK2 AC, this drug targets his specific genetic pathway.</div>
+    <div class="trial-tag genetic">Targets STAT4/TYK2 pathway</div>
+  </div>
+
+  <div class="trial-card">
+    <div class="trial-phase p2">Phase 2 (Off-label)</div>
+    <div class="trial-title">Tofacitinib (Xeljanz) — Pan-JAK Inhibitor</div>
+    <div class="trial-body">Chinese pilot studies: successful remission in BD vascular involvement. Failed to achieve remission in intestinal BD. Pan-JAK inhibition covers JAK1/JAK3, broader than filgotinib. CYP3A4 metabolized — no CYP2C9 concern.</div>
+    <div class="trial-tag genetic">Targets STAT4/TYK2 pathway</div>
+    <div class="trial-tag location">Limited US data</div>
+  </div>
+
+  <div id="trial-updates" style="font-size:.78rem;color:rgba(196,154,108,.4);margin-top:12px;font-style:italic">Additional trials loading from research agent...</div>
+</div>
+
+<!-- LIFESTYLE PROTOCOL -->
+<div class="section">
+  <div class="section-title">Evidence-Based Lifestyle Protocol</div>
+  <div class="section-subtitle">Every modifiable variable optimized for B*51 homozygous Behçet's</div>
+
+  <div class="lifestyle-grid">
+    <div class="lifestyle-card" style="border-left:3px solid #6db87d">
+      <div class="lifestyle-category">Diet</div>
+      <div class="lifestyle-title">Mediterranean + Anti-Inflammatory</div>
+      <div class="lifestyle-body">Mediterranean diet reduces inflammatory markers (CRP, IL-6) and is being studied specifically in BD (MAMBA trial). High in omega-3 (fish 3×/week), polyphenols (olive oil, berries), fiber (butyrate production). Also eliminates 9p21 CAD risk — dual benefit for Quinn.<br><br><b>Specific focus:</b> Butyrate-producing foods (resistant starch, oats, legumes, cooled potatoes) to compensate for FUT2-driven depletion of butyrate-producing gut bacteria.</div>
+      <div class="lifestyle-evidence">MAMBA trial (ongoing) — Mediterranean diet + butyrate for BD</div>
+    </div>
+
+    <div class="lifestyle-card" style="border-left:3px solid #6db87d">
+      <div class="lifestyle-category">Supplements</div>
+      <div class="lifestyle-title">Genetically-Targeted Stack</div>
+      <div class="lifestyle-body"><b>Methylcobalamin</b> 2000mcg sublingual (FUT2 non-secretor B12 risk)<br><b>L-Methylfolate</b> 800mcg (MTHFR compound)<br><b>Vitamin D3</b> 4000 IU + K2 100mcg (IL-6 CC needs >50 ng/mL)<br><b>Omega-3 EPA+DHA</b> 2g/day (anti-inflammatory, FADS intermediate)<br><b>Magnesium glycinate</b> 400mg (D3 cofactor, sleep support)<br><b>Bifidobacterium longum BB536</b> (FUT2 microbiome restoration)</div>
+      <div class="lifestyle-evidence">Each supplement targets a specific genetic variant — not generic</div>
+    </div>
+
+    <div class="lifestyle-card" style="border-left:3px solid #C49A6C">
+      <div class="lifestyle-category">Exercise</div>
+      <div class="lifestyle-title">Endurance-Based (ACTN3 XX Optimized)</div>
+      <div class="lifestyle-body">If Quinn inherited ACTN3 XX: endurance exercise is genetically optimal. Zone 2 aerobic base (3-4×/week, 30-60 min) + HIIT 1-2×/week activates FOXO3 pathway.<br><br><b>BD consideration:</b> Exercise generally improves BD outcomes via anti-inflammatory cytokine release. Avoid during active flares with eye or vascular involvement. Joint symptoms may limit impact exercise — swimming and cycling are lower-impact options.</div>
+      <div class="lifestyle-evidence">ACTN3 XX + PPARGC1A CT = strong endurance response</div>
+    </div>
+
+    <div class="lifestyle-card" style="border-left:3px solid #C49A6C">
+      <div class="lifestyle-category">Sleep</div>
+      <div class="lifestyle-title">7-9 Hours — Non-Negotiable</div>
+      <div class="lifestyle-body">Sleep deprivation upregulates Th17 responses — the exact immune axis driving BD. Chronic sleep debt impairs Treg function (the brakes that are already weakened by CTLA4 AG).<br><br><b>MTNR1B CG:</b> If inherited, melatonin suppresses insulin during late eating. Stop food by 7pm. This variant also suggests mild evening chronotype — design sleep schedule accordingly.</div>
+      <div class="lifestyle-evidence">Th17/Treg balance is directly modulated by sleep quality</div>
+    </div>
+
+    <div class="lifestyle-card" style="border-left:3px solid #d4838f">
+      <div class="lifestyle-category">Avoid</div>
+      <div class="lifestyle-title">Known BD Triggers</div>
+      <div class="lifestyle-body"><b>Alcohol:</b> Amplifies PITX2 AFib risk AND may trigger BD flares. Minimize or eliminate.<br><b>Smoking/vaping:</b> Paradoxically, smoking is inversely associated with BD oral ulcers — but this is NOT a recommendation. Smoking worsens vascular BD and all other health outcomes.<br><b>High-sugar/processed foods:</b> Reduce butyrate-producing bacteria, worsen gut dysbiosis.<br><b>Excessive sun:</b> MC1R triple carrier — SPF 50+ always. Sun stress may trigger immune flares.<br><b>Dental trauma:</b> May trigger oral ulcers in BD — soft toothbrush, careful dental work.</div>
+    </div>
+
+    <div class="lifestyle-card" style="border-left:3px solid #a090c0">
+      <div class="lifestyle-category">Mental Health</div>
+      <div class="lifestyle-title">Structured Psychological Support</div>
+      <div class="lifestyle-body">If Quinn inherited OXTR GG: he experiences emotions with unusual intensity. Chronic illness + high empathy = elevated risk for anxiety and depression. CBT (cognitive behavioral therapy) has the strongest evidence for chronic autoimmune conditions.<br><br><b>Stress directly triggers BD flares</b> via HPA axis → cortisol → Th17 upregulation. Stress management is not optional — it is a medical intervention for BD.</div>
+      <div class="lifestyle-evidence">COMT Val/Met provides balanced stress coping — leverage this</div>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTIGATION TIMELINE -->
+<div class="section">
+  <div class="section-title">Investigation Timeline</div>
+  <div class="section-subtitle">What's been done, what's happening, what's next</div>
+
+  <div class="timeline">
+    <div class="timeline-event">
+      <div class="timeline-date">Completed</div>
+      <div class="timeline-text"><b>Chad Byars WGS analyzed</b> — 170+ variants mapped, 8 Behçet's modifier genes identified, family history integrated, ancestry traced to Anatolian farmer B*51 origin</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">Completed</div>
+      <div class="timeline-text"><b>Quinn HLA-B*51 confirmed homozygous</b> — OR ~10.96×, both parents confirmed obligate carriers, gene-dose effect documented</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">This Week</div>
+      <div class="timeline-text"><b>Call Ochsner — Dr. Eve Scopelitis</b> for initial BD evaluation. Print referral letter from Clinical Tools. Bring 15 Questions list.</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">This Week</div>
+      <div class="timeline-text"><b>Upload Brigitte's 23andMe</b> — confirm maternal B*51, identify her modifier genes, build complete inheritance map for Quinn</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">This Week</div>
+      <div class="timeline-text"><b>Begin daily journal entries</b> — log every symptom, severity, diet, sleep, stress. Pattern detection activates after 3+ entries.</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">Next 1-2 Weeks</div>
+      <div class="timeline-text"><b>Lab draw: ESR, CRP, IL-6, IL-18, homocysteine, MMA, B12, ferritin, lipids, TSH</b> — enter results in lab tracker for genetic auto-flagging</div>
+    </div>
+    <div class="timeline-event">
+      <div class="timeline-date">Next 1-2 Weeks</div>
+      <div class="timeline-text"><b>Ophthalmology referral</b> — slit-lamp + fundoscopy. Rule out subclinical uveitis even if no eye symptoms. BD uveitis can be silent initially.</div>
+    </div>
+    <div class="timeline-event future">
+      <div class="timeline-date">Next 2-4 Weeks</div>
+      <div class="timeline-text"><b>Brother HLA typing</b> — 75% chance of carrying ≥1 B*51 allele. Clinical screening for subclinical BD.</div>
+    </div>
+    <div class="timeline-event future">
+      <div class="timeline-date">Next 2-4 Weeks</div>
+      <div class="timeline-text"><b>ERAP1 genotyping</b> — for both Chad and Quinn if available through rheumatology or genetics lab. The #1 missing piece.</div>
+    </div>
+    <div class="timeline-event future">
+      <div class="timeline-date">Next 2-4 Weeks</div>
+      <div class="timeline-text"><b>NYU Langone telehealth consult</b> — Dr. Yusuf Yazici. Send referral letter + genetic profile in advance.</div>
+    </div>
+    <div class="timeline-event future">
+      <div class="timeline-date">Ongoing</div>
+      <div class="timeline-text"><b>Quinn's own brain map</b> — when full genotype data available, build Quinn's personal 170+ variant analysis</div>
+    </div>
+    <div class="timeline-event future">
+      <div class="timeline-date">Goal</div>
+      <div class="timeline-text"><b>Complete Byars Family HLA Map</b> — Chad + Brigitte + Quinn + Brother. The most comprehensive family genomic database for Behçet's disease outside of a research institution.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT & RESOURCES -->
+<div class="section">
+  <div class="section-title">Emergency Contacts & Resources</div>
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">ABDA Hotline</div><div class="stat-value" style="font-size:.95rem">(800) 723-4238</div></div>
+    <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">NYU Langone BD Center</div><div class="stat-value" style="font-size:.95rem">Dr. Yusuf Yazici</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">Local (NOLA)</div><div class="stat-value" style="font-size:.95rem">Dr. Scopelitis, Ochsner</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-label">Mayo Jacksonville</div><div class="stat-value" style="font-size:.85rem">Dr. Kenneth Calamia</div></div>
+    <div class="stat-box"><div class="stat-label">Cleveland Clinic Telehealth</div><div class="stat-value" style="font-size:.85rem">(216) 444-2606</div></div>
+    <div class="stat-box"><div class="stat-label">ClinicalTrials.gov</div><div class="stat-value" style="font-size:.85rem">Search "Behçet's"</div></div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:40px 0 20px">
+  <button class="print-btn" onclick="window.print()" style="margin-right:8px">&#128247; Print Complete Report</button>
+  <a href="index.html" class="print-btn" style="display:inline-block;text-decoration:none">&larr; Back to Brain Map</a>
+</div>
+
+<div style="text-align:center;font-size:.65rem;color:rgba(196,154,108,.25);margin-top:20px;padding-top:16px;border-top:1px solid rgba(196,154,108,.08)">
+  Byars Family Genomic Intelligence System &nbsp;&middot;&nbsp; Built for Quinn Byars by Chad Byars, M.D. &nbsp;&middot;&nbsp; April 2026<br>
+  This is a research and decision-support tool, not a diagnostic instrument. All clinical decisions should be made with qualified physicians.<br>
+  Data sources: CPIC, GWAS Catalog, ClinicalTrials.gov, PubMed, Genome Biology, Nature Genetics, PNAS, NEJM, AJHG
+</div>
+
+</div>
+
+<script>
+// Check for journal entries from main dashboard
+try{
+  const j=JSON.parse(localStorage.getItem('byars_journal')||'[]');
+  if(j.length){
+    document.getElementById('last-entry').textContent=j[0].date;
+    document.getElementById('last-entry').style.color='#6db87d';
+  }
+}catch(e){}
+</script>
+</body>
+</html>
