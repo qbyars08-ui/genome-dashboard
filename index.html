@@ -429,81 +429,152 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   </div>
 </div>
 
-<!-- Ancestry Geography Modal -->
+<!-- Ancestry Geography Modal — Full Deep Ancestry Page -->
 <div id="anc-modal" style="position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)">
-  <div class="modal-box">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:90vh">
     <button class="mclose" onclick="document.getElementById('anc-modal').classList.remove('show')">&#x2715;</button>
-    <h2>&#127758; Ancestry Geography</h2>
-    <div class="msub">Where Chad's Genome Points on the Map</div>
+    <h2>&#127758; Chad Byars &mdash; Deep Ancestry Analysis</h2>
+    <div class="msub">Beyond "European" &mdash; The Ancient Peoples in Your DNA</div>
 
-    <svg viewBox="0 0 700 420" style="width:100%;margin-bottom:20px;border-radius:12px;background:rgba(30,22,18,.5)">
-      <!-- Simplified Europe map outline -->
-      <path d="M280,120 L310,100 L340,95 L360,100 L380,90 L400,95 L420,88 L440,95 L450,110 L445,130 L450,150 L440,170 L430,190 L415,200 L400,195 L385,205 L370,200 L360,210 L345,200 L330,210 L315,205 L305,195 L290,200 L275,190 L270,175 L275,155 L270,140 L280,120Z" fill="rgba(196,154,108,.1)" stroke="rgba(196,154,108,.25)" stroke-width="1"/>
+    <!-- Map -->
+    <svg viewBox="0 0 780 440" style="width:100%;margin-bottom:20px;border-radius:12px;background:rgba(30,22,18,.5)">
+      <!-- Africa -->
+      <path d="M340,240 L360,220 L400,210 L420,230 L430,270 L420,320 L400,360 L370,380 L350,360 L340,320 L330,280Z" fill="rgba(196,154,108,.06)" stroke="rgba(196,154,108,.15)" stroke-width="1"/>
+      <!-- Middle East / Anatolia -->
+      <path d="M420,180 L460,170 L490,180 L480,200 L450,210 L420,200Z" fill="rgba(196,154,108,.08)" stroke="rgba(196,154,108,.18)" stroke-width="1"/>
+      <!-- Europe continent -->
+      <path d="M250,120 L290,100 L320,95 L350,100 L380,90 L400,95 L420,88 L440,95 L450,110 L445,130 L450,150 L440,170 L430,185 L415,195 L400,190 L370,195 L350,200 L320,200 L300,195 L280,190 L265,175 L260,155 L255,140Z" fill="rgba(196,154,108,.08)" stroke="rgba(196,154,108,.2)" stroke-width="1"/>
       <!-- British Isles -->
-      <path d="M260,100 L270,90 L280,92 L285,105 L280,118 L270,120 L260,115 L255,108Z" fill="rgba(165,28,48,.15)" stroke="rgba(165,28,48,.5)" stroke-width="1.5"/>
+      <path d="M240,100 L255,88 L268,90 L275,105 L270,120 L258,122 L248,118 L240,110Z" fill="rgba(165,28,48,.18)" stroke="rgba(165,28,48,.5)" stroke-width="1.5"/>
       <!-- Ireland -->
-      <path d="M245,100 L255,95 L258,105 L255,115 L248,115 L242,108Z" fill="rgba(165,28,48,.25)" stroke="rgba(165,28,48,.6)" stroke-width="2"/>
+      <path d="M225,100 L238,94 L242,106 L238,116 L230,116 L224,108Z" fill="rgba(165,28,48,.28)" stroke="rgba(165,28,48,.65)" stroke-width="2"/>
+      <!-- Pontic-Caspian Steppe -->
+      <path d="M440,110 L490,95 L540,100 L550,120 L530,135 L490,130 L450,125Z" fill="rgba(120,100,160,.08)" stroke="rgba(120,100,160,.2)" stroke-width="1"/>
       <!-- Scandinavia -->
-      <path d="M340,50 L350,40 L360,45 L370,35 L375,50 L370,70 L360,80 L350,85 L340,75 L335,60Z" fill="rgba(196,154,108,.1)" stroke="rgba(196,154,108,.2)" stroke-width="1"/>
+      <path d="M330,50 L345,38 L358,42 L365,32 L372,48 L365,72 L352,82 L340,78 L332,62Z" fill="rgba(196,154,108,.08)" stroke="rgba(196,154,108,.18)" stroke-width="1"/>
+
+      <!-- Migration arrows (ancient) -->
+      <path d="M380,280 C380,240 400,220 420,200" fill="none" stroke="rgba(196,154,108,.2)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowhead)"/>
+      <path d="M450,190 C430,170 380,140 320,120" fill="none" stroke="rgba(120,100,160,.2)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <path d="M500,115 C460,110 400,100 340,95" fill="none" stroke="rgba(120,100,160,.2)" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+      <defs><marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="rgba(196,154,108,.3)"/></marker></defs>
 
       <!-- Markers -->
-      <circle cx="250" cy="108" r="8" fill="#A51C30" opacity=".8"><animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/></circle>
-      <text x="250" y="135" text-anchor="middle" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Ireland</text>
-      <text x="250" y="147" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">MC1R R151C Celtic variant</text>
+      <circle cx="232" cy="108" r="9" fill="#A51C30" opacity=".85"><animate attributeName="r" values="9;13;9" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="258" cy="106" r="7" fill="#A51C30" opacity=".65"><animate attributeName="r" values="7;10;7" dur="2.3s" repeatCount="indefinite"/></circle>
+      <circle cx="348" cy="60" r="5" fill="#C49A6C" opacity=".5"><animate attributeName="r" values="5;7;5" dur="2.7s" repeatCount="indefinite"/></circle>
+      <circle cx="450" cy="185" r="5" fill="#C49A6C" opacity=".4"><animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="500" cy="115" r="5" fill="#a090c0" opacity=".4"><animate attributeName="r" values="5;7;5" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="370" cy="290" r="5" fill="rgba(196,154,108,.3)" opacity=".3"><animate attributeName="r" values="5;7;5" dur="3.2s" repeatCount="indefinite"/></circle>
 
-      <circle cx="275" cy="108" r="6" fill="#A51C30" opacity=".6"><animate attributeName="r" values="6;9;6" dur="2.3s" repeatCount="indefinite"/></circle>
-      <text x="300" y="130" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Britain</text>
-      <text x="300" y="142" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">HFE H63D, lactase persistence</text>
+      <!-- Labels -->
+      <text x="232" y="135" text-anchor="middle" fill="#A51C30" font-size="11" font-family="EB Garamond,serif" font-weight="700">Ireland</text>
+      <text x="280" y="135" fill="#A51C30" font-size="10" font-family="EB Garamond,serif" font-weight="700">Britain</text>
+      <text x="383" y="55" fill="#C49A6C" font-size="9" font-family="EB Garamond,serif" font-weight="600">Scandinavia</text>
+      <text x="450" y="168" fill="#C49A6C" font-size="9" font-family="EB Garamond,serif" font-weight="600">Anatolia</text>
+      <text x="510" y="108" fill="#a090c0" font-size="9" font-family="EB Garamond,serif" font-weight="600">Yamnaya Steppe</text>
+      <text x="370" y="310" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="9" font-family="EB Garamond,serif" font-weight="600">East Africa</text>
+      <text x="370" y="324" text-anchor="middle" fill="rgba(196,154,108,.25)" font-size="7" font-family="Inter,sans-serif">~70,000 years ago</text>
 
-      <circle cx="355" cy="70" r="5" fill="#C49A6C" opacity=".5"><animate attributeName="r" values="5;7;5" dur="2.7s" repeatCount="indefinite"/></circle>
-      <text x="390" y="65" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Scandinavia</text>
-      <text x="390" y="77" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">SLC24A5 AA, lactase rs4988235</text>
-
-      <circle cx="340" cy="105" r="4" fill="#C49A6C" opacity=".4"/>
-      <text x="340" y="165" text-anchor="middle" fill="#C49A6C" font-size="10" font-family="EB Garamond,Georgia,serif" font-weight="700">Northern Europe</text>
-      <text x="340" y="177" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="7.5" font-family="Inter,sans-serif">ABCC11 CT wet earwax, European skin</text>
-
-      <!-- Legend box -->
-      <rect x="480" y="40" width="200" height="160" rx="8" fill="rgba(18,12,10,.8)" stroke="rgba(196,154,108,.2)"/>
-      <text x="500" y="62" fill="#C49A6C" font-size="9" font-family="Inter,sans-serif" font-weight="700" letter-spacing=".08em">GENETIC ANCESTRY MARKERS</text>
-      <text x="500" y="82" fill="#d4838f" font-size="8" font-family="Inter,sans-serif">&#9679; MC1R R151C &mdash; Celtic/Irish</text>
-      <text x="500" y="98" fill="#d4838f" font-size="8" font-family="Inter,sans-serif">&#9679; MC1R triple carrier &mdash; Celtic</text>
-      <text x="500" y="114" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; HFE H63D &mdash; N. European</text>
-      <text x="500" y="130" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; Lactase AA &mdash; N. European</text>
-      <text x="500" y="146" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; SLC24A5 AA &mdash; European skin</text>
-      <text x="500" y="162" fill="#8ab0d4" font-size="8" font-family="Inter,sans-serif">&#9679; Blue eyes (AA) &mdash; N. European</text>
-      <text x="500" y="178" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; ABCC11 CT &mdash; Wet earwax</text>
+      <!-- Legend -->
+      <rect x="570" y="30" width="195" height="200" rx="8" fill="rgba(18,12,10,.85)" stroke="rgba(196,154,108,.2)"/>
+      <text x="588" y="50" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif" font-weight="700" letter-spacing=".08em">GENETIC MARKERS</text>
+      <text x="588" y="70" fill="#d4838f" font-size="7.5" font-family="Inter,sans-serif">&#9679; MC1R R151C &mdash; Celtic/Irish</text>
+      <text x="588" y="85" fill="#d4838f" font-size="7.5" font-family="Inter,sans-serif">&#9679; MC1R triple &mdash; Celtic</text>
+      <text x="588" y="100" fill="#8ab0d4" font-size="7.5" font-family="Inter,sans-serif">&#9679; Blue eyes AA &mdash; Baltic origin</text>
+      <text x="588" y="115" fill="#C49A6C" font-size="7.5" font-family="Inter,sans-serif">&#9679; HFE H63D &mdash; N. European</text>
+      <text x="588" y="130" fill="#C49A6C" font-size="7.5" font-family="Inter,sans-serif">&#9679; Lactase AA &mdash; Pastoral</text>
+      <text x="588" y="145" fill="#C49A6C" font-size="7.5" font-family="Inter,sans-serif">&#9679; SLC24A5 AA &mdash; Skin</text>
+      <text x="588" y="160" fill="#C49A6C" font-size="7.5" font-family="Inter,sans-serif">&#9679; ABCC11 CT &mdash; Wet earwax</text>
+      <text x="588" y="180" fill="rgba(196,154,108,.35)" font-size="7" font-family="Inter,sans-serif" letter-spacing=".06em">ANCIENT POPULATIONS</text>
+      <text x="588" y="195" fill="#a090c0" font-size="7.5" font-family="Inter,sans-serif">&#9679; Yamnaya Steppe DNA</text>
+      <text x="588" y="210" fill="#C49A6C" font-size="7.5" font-family="Inter,sans-serif">&#9679; Anatolian Farmer DNA</text>
+      <text x="588" y="225" fill="rgba(196,154,108,.4)" font-size="7.5" font-family="Inter,sans-serif">&#9679; Neanderthal ~2%</text>
     </svg>
 
-    <div style="font-size:.78rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Ancestry Interpretation</div>
+    <!-- The Non-European Story -->
+    <div style="font-size:.85rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;font-family:'EB Garamond',serif;font-size:1.1rem">The Non-European DNA in Chad's Genome</div>
+
+    <div class="interaction-card" style="border-color:rgba(165,28,48,.3)">
+      <div class="interaction-title" style="color:#d4838f;font-size:1rem">&#129516; Neanderthal Heritage &mdash; ~2% of Your Genome</div>
+      <div class="interaction-body">Every person of non-African descent carries approximately 1.5&ndash;2.5% Neanderthal DNA &mdash; the legacy of interbreeding between modern humans and Neanderthals roughly 50,000&ndash;65,000 years ago in the Middle East and Europe. This is not a small number: ~2% of a 3-billion-base-pair genome means approximately <b>60 million base pairs</b> of Neanderthal sequence living in Chad's cells right now.<br><br>Neanderthal DNA contributes to immune function (HLA variants), skin and hair keratin production, pain sensitivity, and potentially even sleep chronotype. Some of Chad's immune variants &mdash; particularly HLA region diversity &mdash; may trace back to Neanderthal introgression that provided resistance to ancient European pathogens. The MC1R red hair variants, while not directly Neanderthal-derived, are part of the same evolutionary story of adaptation to low-UV Northern European environments that both Neanderthals and modern humans independently evolved.</div>
+    </div>
+
+    <div class="interaction-card" style="border-color:rgba(120,100,160,.3)">
+      <div class="interaction-title" style="color:#a090c0;font-size:1rem">&#127756; Yamnaya Steppe Pastoralists &mdash; ~50% of European Ancestry</div>
+      <div class="interaction-body">Roughly 5,000 years ago, nomadic herders from the Pontic-Caspian Steppe (modern Ukraine/Russia) swept westward into Europe in one of the largest genetic replacement events in human history. These <b>Yamnaya</b> people brought Indo-European languages (the ancestor of English, Irish Gaelic, and most European languages), horse domestication, wheeled vehicles, and the <b>lactase persistence allele</b>.<br><br>Chad's <b>lactase persistence</b> (rs4988235 AA) is a direct genetic signature of Yamnaya ancestry. The ability to digest milk into adulthood was a massive survival advantage for pastoral peoples and spread rapidly. His blue eyes may also trace partially to Yamnaya populations, though the blue-eye mutation (OCA2/HERC2) originated even earlier among Mesolithic hunter-gatherers around the Baltic ~10,000 years ago.<br><br>The Yamnaya were not "European" in the modern sense &mdash; they were Central Asian steppe nomads who mixed with indigenous European hunter-gatherers and Anatolian farmers to create the modern European gene pool. Roughly <b>half of Chad's genome</b> traces to these non-European steppe origins.</div>
+    </div>
+
+    <div class="interaction-card" style="border-color:rgba(196,154,108,.3)">
+      <div class="interaction-title" style="color:#C49A6C;font-size:1rem">&#127806; Anatolian Farmers &mdash; ~30% of European Ancestry</div>
+      <div class="interaction-body">Beginning around 9,000 years ago, farming peoples from <b>Anatolia</b> (modern Turkey) and the Fertile Crescent migrated into Europe, bringing agriculture, pottery, and settled village life. These people were genetically distinct from both the indigenous European hunter-gatherers and the later Yamnaya steppe peoples.<br><br>Anatolian farmer DNA likely contributes roughly <b>25&ndash;35%</b> of Chad's genome. These Near Eastern / Middle Eastern ancestors brought genes related to grain metabolism, certain immune adaptations from living in dense agricultural settlements, and SLC24A5 &mdash; the skin lightening variant that Chad carries (rs1426654 AA). This mutation actually originated in the Near East and spread into Europe with the farmers, meaning Chad's "European skin color" gene is actually of <b>Middle Eastern origin</b>.<br><br>The MTHFR variants Chad carries may also trace to this agricultural wave &mdash; folate metabolism changes were under strong selection in populations transitioning from diverse hunter-gatherer diets to grain-heavy agricultural diets.</div>
+    </div>
+
+    <div class="interaction-card" style="border-color:rgba(80,140,150,.3)">
+      <div class="interaction-title" style="color:#7abcc5;font-size:1rem">&#127754; Western Hunter-Gatherers &mdash; ~20% of European Ancestry</div>
+      <div class="interaction-body">Before the farmers arrived from the Middle East and the Yamnaya rode in from the steppe, Europe was home to <b>Mesolithic hunter-gatherers</b> &mdash; dark-skinned, blue-eyed peoples who had lived there for over 30,000 years since the last Ice Age.<br><br>These ancient Europeans are the source of the <b>blue eye mutation</b>. A single individual near the Baltic Sea around 10,000 years ago carried the first OCA2/HERC2 rs12913832 AA mutation that Chad carries today. That person had dark skin and blue eyes &mdash; a combination that seems strange today but was the original European phenotype. When Chad looks in the mirror and sees blue eyes, he is seeing a 10,000-year-old hunter-gatherer mutation from the forests of Mesolithic Europe.<br><br>Western Hunter-Gatherer DNA also likely contributes to immune system diversity and potentially to the MC1R variants &mdash; as these populations adapted to the low-UV environment of Ice Age Europe over tens of thousands of years.</div>
+    </div>
+
+    <div class="interaction-card" style="border-color:rgba(196,154,108,.2)">
+      <div class="interaction-title" style="color:#C49A6C;font-size:1rem">&#127757; Out of Africa &mdash; Every Human's Origin</div>
+      <div class="interaction-body">Every base pair in Chad's genome ultimately traces to <b>East Africa</b>, roughly 70,000&ndash;100,000 years ago. A small population of anatomically modern humans &mdash; perhaps as few as 1,000&ndash;10,000 individuals &mdash; left Africa and eventually populated the entire non-African world. Every non-African human alive today descends from this founding population.<br><br>The genetic diversity within Africa is <b>greater</b> than the genetic diversity between all non-African populations combined. In the grand sweep of human genetic history, the differences between "European," "Asian," and other continental populations represent very recent, very small variations on the African genome. Chad's genome is fundamentally an African genome with ~70,000 years of accumulated adaptations to Northern European environments &mdash; lighter skin, blue eyes, lactose tolerance, red-hair-associated MC1R variants &mdash; layered on top of the original human blueprint.</div>
+    </div>
+
+    <div style="font-size:.85rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 14px;font-family:'EB Garamond',serif;font-size:1rem">Chad's Ancient Ancestry Breakdown (Estimated)</div>
+
+    <div style="margin-bottom:16px">
+      <div style="display:flex;border-radius:10px;overflow:hidden;height:32px;margin-bottom:8px">
+        <div style="width:50%;background:#a090c0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#0f0a08">Yamnaya Steppe ~50%</div>
+        <div style="width:30%;background:#C49A6C;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#0f0a08">Anatolian Farmer ~30%</div>
+        <div style="width:20%;background:#7abcc5;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#0f0a08">Hunter-Gatherer ~20%</div>
+      </div>
+      <div style="display:flex;border-radius:10px;overflow:hidden;height:18px">
+        <div style="width:98%;background:rgba(196,154,108,.15);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#C49A6C">Homo sapiens ~98%</div>
+        <div style="width:2%;background:rgba(165,28,48,.4);display:flex;align-items:center;justify-content:center;font-size:.5rem;color:#d4838f" title="Neanderthal">N</div>
+      </div>
+      <div style="font-size:.62rem;color:rgba(196,154,108,.4);margin-top:4px;text-align:right">~2% Neanderthal introgression &middot; ~60 million base pairs</div>
+    </div>
 
     <div class="pred-grid">
       <div class="pred-card">
-        <div class="pred-label">Primary Origin</div>
-        <div class="pred-value">Northwestern European</div>
-        <div class="pred-basis">All ancestry markers consistently point to the British Isles, Ireland, and broader Northern Europe</div>
+        <div class="pred-label">Your Skin Color Gene</div>
+        <div class="pred-value">Middle Eastern Origin</div>
+        <div class="pred-basis">SLC24A5 AA came from Anatolian farmers ~9,000 years ago, not from original Europeans (who were dark-skinned)</div>
       </div>
       <div class="pred-card">
-        <div class="pred-label">Strongest Signal</div>
-        <div class="pred-value">Celtic / Irish</div>
-        <div class="pred-basis">Triple MC1R carrier — R151C is specifically called the "Celtic variant" in genetics literature. Strongest Irish/Scottish association</div>
+        <div class="pred-label">Your Blue Eyes</div>
+        <div class="pred-value">Mesolithic Hunter-Gatherer</div>
+        <div class="pred-basis">OCA2 AA mutation arose near the Baltic ~10,000 years ago in a dark-skinned, blue-eyed hunter-gatherer population</div>
       </div>
       <div class="pred-card">
-        <div class="pred-label">Northern European</div>
-        <div class="pred-value">Confirmed</div>
-        <div class="pred-basis">Lactase persistence (AA) evolved ~7,500 years ago in Northern Europe. Blue eyes (OCA2 AA) originated in same population near the Baltic</div>
+        <div class="pred-label">Your Milk Tolerance</div>
+        <div class="pred-value">Central Asian Steppe</div>
+        <div class="pred-basis">Lactase persistence spread with Yamnaya pastoralists from the Pontic-Caspian steppe ~5,000 years ago</div>
       </div>
       <div class="pred-card">
-        <div class="pred-label">Iron Metabolism</div>
-        <div class="pred-value">HFE H63D Carrier</div>
-        <div class="pred-basis">H63D variant is most common in populations of Northern European descent — another Celtic/Northern European marker</div>
+        <div class="pred-label">Your Immune Genes</div>
+        <div class="pred-value">Partially Neanderthal</div>
+        <div class="pred-basis">HLA region diversity in Europeans includes substantial Neanderthal introgression that provided pathogen resistance</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Celtic MC1R Variants</div>
+        <div class="pred-value">Ice Age European Adaptation</div>
+        <div class="pred-basis">MC1R variants evolved under low-UV selection pressure in Northern Europe over tens of thousands of years</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">The Byars Surname</div>
+        <div class="pred-value">Old English / Anglo-Saxon</div>
+        <div class="pred-basis">Traces to Anglo-Saxon settlement of Britain (~5th-6th century CE), consistent with Northwestern European genetic signal</div>
       </div>
     </div>
 
-    <div class="interaction-card" style="margin-top:16px">
-      <div class="interaction-title">The Celtic Genome Story</div>
-      <div class="interaction-body">Chad's genome tells a remarkably consistent ancestral story. The triple MC1R carrier status (including the R151C "Celtic variant"), combined with HFE H63D (highest prevalence in Ireland/Britain), blue eyes (Baltic/Northern European origin ~6,000-10,000 years ago), lactase persistence (Northern European pastoral adaptation ~7,500 years ago), European skin pigmentation (SLC24A5), and wet earwax (ABCC11 — European type) all converge on a Northwestern European/Celtic origin with strong Irish and British components. This is consistent with the Byars family surname etymology, which traces to Old English/Anglo-Saxon origins.</div>
+    <div class="interaction-card" style="margin-top:16px;border-color:rgba(165,28,48,.3)">
+      <div class="interaction-title" style="font-size:1rem">The Bottom Line</div>
+      <div class="interaction-body">"European" ancestry is not one thing. Chad's genome is a layered palimpsest of at least four ancient populations: East African founding population (~70,000 years ago), Neanderthal admixture (~50,000 years ago), Mesolithic hunter-gatherers (who gave him blue eyes), Anatolian farmers (who gave him light skin), and Yamnaya steppe pastoralists (who gave him lactose tolerance and Indo-European language). The Celtic/Irish markers are the most recent layer &mdash; a regional specialization within the broader Northwestern European population over the last ~3,000-5,000 years. Chad's genome is a record of every great human migration, from Africa to the Steppe to the Atlantic coast of Ireland.</div>
     </div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Ancestry Report</button>
   </div>
 </div>
 
