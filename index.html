@@ -23,6 +23,12 @@ body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-seri
 #pclose{position:absolute;top:12px;right:12px;background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center}
 #pclose:hover{background:rgba(99,102,241,.5)}
 #pcnt{padding:42px 22px 22px}
+#level-toggle{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:1px solid rgba(99,102,241,.3)}
+.ltbtn{flex:1;padding:5px 0;font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:#475569;transition:all .2s}
+.ltbtn.active{background:rgba(99,102,241,.3);color:#c7d2fe}
+.simple-block{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:9px;padding:12px 14px;margin-bottom:14px;font-size:.88rem;line-height:1.75;color:#d1fae5}
+.simple-block .simple-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#34d399;font-weight:700;margin-bottom:6px}
+.tech-block{display:none}
 .pbadge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
 .pbadge.green{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3)}
 .pbadge.yellow{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
@@ -126,9 +132,15 @@ body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-seri
 <div id="panel">
   <button id="pclose">&#x2715;</button>
   <div id="pcnt">
+    <div id="level-toggle">
+      <button class="ltbtn active" data-level="simple">&#127760; Simple</button>
+      <button class="ltbtn" data-level="medium">&#128300; Overview</button>
+      <button class="ltbtn" data-level="technical">&#9877;&#65039; Technical</button>
+    </div>
     <div class="pbadge green" id="pbadge">Favorable</div>
     <div id="ptitle"></div>
     <div id="pgeno"></div>
+    <div id="psimple"></div>
     <div id="pdesc"></div>
     <div id="pstats"></div>
     <div id="presearch"></div>
@@ -149,8 +161,8 @@ body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-seri
 
     <div class="action-card urgent">
       <div class="action-num">#1 &mdash; Critical / Flag in EMR</div>
-      <div class="action-title">CYP2C9 *1/*2 &mdash; Warfarin Dose Reduction Required</div>
-      <div class="action-body">rs1799853 CT. Intermediate metabolizer of CYP2C9 substrates. Standard warfarin doses are ~20% too high — risk of supratherapeutic anticoagulation and bleeding. Any anticoagulation prescription must account for this. CPIC guideline: reduce starting dose 10-25%. Prefer DOACs (apixaban/rivaroxaban) which bypass CYP2C9. Also affects NSAIDs (ibuprofen, naproxen, celecoxib) — plasma levels run higher. <b>Action: Flag in EMR, inform anesthesia, disclose to all treating physicians.</b></div>
+      <div class="action-title">CYP2C9 *1/*2 &mdash; Pharmacogenomic-Guided Warfarin Dosing Required</div>
+      <div class="action-body">rs1799853 CT. Intermediate metabolizer — CYP2C9 *2 allele reduces S-warfarin metabolism ~30-40%. CPIC guideline (active 2025): *1/*2 alone does <b>not</b> mandate a blanket dose reduction. Instead, use the IWPC pharmacogenetic dosing algorithm incorporating VKORC1-1639G>A alongside CYP2C9 *2 for individualized dosing. Blanket reductions are reserved for *2/*2, *1/*3, *2/*3, *3/*3. Also affects NSAIDs (higher plasma levels at standard doses). <b>Action: Flag in EMR. Insist on IWPC-guided dosing with VKORC1 genotype before any warfarin. Prefer DOACs (apixaban/rivaroxaban) — no CYP2C9 interaction. Inform anesthesia and all treating physicians.</b></div>
     </div>
 
     <div class="action-card discovery">
@@ -402,8 +414,9 @@ N("c_mc1r_1","MC1R CT\nMelanoma #1","leaf","cancer","b_cancer","red","rs1805007 
 N("c_mc1r_2","MC1R CC\nMelanoma #2","leaf","cancer","b_cancer","gold","rs1805008 = CC","SECOND MC1R variant. Double MC1R significantly elevates melanoma risk.",
   [{l:"Genotype",v:"CC — Second MC1R variant"},{l:"Risk",v:"3-5× skin cancer risk with triple MC1R"}],
   "2024 research (Pigment Cell Melanoma Res): MC1R compound carriers have significantly impaired UV-induced DNA damage response via cAMP/MITF pathway. Each additional MC1R variant multiplies melanoma risk non-linearly."),
-N("c_mc1r_3","MC1R AG\nMelanoma #3","leaf","cancer","b_cancer","gold","rs910873 = AG","THIRD MC1R variant — KEY DISCOVERY. Triple MC1R carrier. Very high melanoma risk.",
-  [{l:"Genotype",v:"AG — Third MC1R"},{l:"Combined Risk",v:"3-5× melanoma — urgent dermatology"},{l:"Action",v:"Skin exam q6mo, SPF 50+ daily"}]),
+N("c_mc1r_3","MC1R AG\nMelanoma #3","leaf","cancer","b_cancer","gold","rs910873 = AG","THIRD MC1R variant — KEY DISCOVERY. Triple MC1R carrier. Research shows compound MC1R heterozygotes (2 high-penetrance variants) carry OR up to ~10.44 for melanoma. Chad carries R151C (rs1805007 — a high-penetrance 'R' variant) plus two additional variants, making this a high-risk compound MC1R profile.",
+  [{l:"Genotype",v:"AG — Third MC1R variant"},{l:"Research OR",v:"Compound R-allele carriers: up to OR ~10×"},{l:"R151C Present",v:"High-penetrance class — clinically significant"},{l:"Action",v:"Dermatology q6mo, SPF 50+ every day, no tanning"}],
+  "M-SKIP project (PMC): MC1R compound heterozygotes with two non-synonymous variants showed OR ~10.44 (95% CI 4.48–24.33) for melanoma. Females with two variants: OR 2.65 (95% CI 1.86–3.79). Risk scales with number and penetrance class. The high-penetrance R alleles are Arg151Cys (R151C = rs1805007 — Chad carries this), Arg160Trp, and Asp294His. Chad's rs1805007 CT (R151C) is the most important single variant — classified as high-penetrance. No distinct published OR for exactly 3 variants as a category; risk is cumulative with each additional variant."),
 N("c_fgfr2","FGFR2\nBreast rs2981582","leaf","cancer","b_cancer","yellow","rs2981582 = GG","FGFR2 rs2981582 GG — both risk alleles for breast cancer susceptibility. FGFR2 is a fibroblast growth factor receptor involved in breast epithelial proliferation. GG confers ~1.3× elevated breast cancer risk.",
   [{l:"Genotype",v:"GG — Both risk alleles"},{l:"Gene",v:"FGFR2 — breast cancer GWAS top hit"},{l:"Risk",v:"~1.3× elevated breast cancer risk"},{l:"Note",v:"Relevant for daughters — 50% inherit one allele"}]),
 N("c_lsp1","LSP1\nBreast rs3817198","leaf","cancer","b_cancer","green","rs3817198 = TT","LSP1 rs3817198 TT — lower-risk genotype at this breast cancer susceptibility locus.",
@@ -420,9 +433,9 @@ N("c_8q23","8q23\nColorectal rs7014346","leaf","cancer","b_cancer","green","rs70
   [{l:"Genotype",v:"GG — Lower risk"}]),
 
 // ══ CARDIOVASCULAR LEAVES ══
-N("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG","KEY DISCOVERY: 9p21 CAD locus — AG. Most replicated CAD genetic risk factor. ~1.4× elevated MI risk.",
-  [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"CAD Risk",v:"~1.4× elevated"},{l:"Action",v:"CAC score at 40-45, aggressive LDL target"}],
-  "2024 meta-analysis (Circulation): 9p21 rs10757278 AG carriers benefit most from early statin initiation — NNT drops significantly vs non-carriers. Three 9p21 signals cumulative in Chad's genome."),
+N("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG","KEY DISCOVERY: 9p21.3 CAD locus — AG heterozygous. Most replicated population-level genetic CAD risk marker. AG confers OR ~1.25–1.35 for MI. CRITICAL MODIFIABLE FACTOR: Mediterranean diet adherence has been shown to completely eliminate the 9p21-associated MI risk increase.",
+  [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"CAD Risk",v:"OR ~1.25–1.35 for MI (AG)"},{l:"Top Action",v:"Mediterranean diet — eliminates 9p21 MI risk"},{l:"Screening",v:"CAC score at 40-45, annual lipid panel"}],
+  "2024 review (Am J Physiology Heart): 9p21.3 (ANRIL lncRNA locus) confirmed as most robust genetic CAD risk marker. AG heterozygote carries OR ~1.25–1.35 for MI; GG homozygote OR ~1.70. ACC/AHA and ESC 2024–2025 guidelines do not yet integrate 9p21 into standard algorithms. Landmark finding: a 2008 study (replicated since) showed Mediterranean diet adherence completely eliminated the 9p21-associated MI risk increase in AG/GG carriers. Adding 9p21 to Framingham Risk Score improves targeting but awaits formal guideline validation."),
 N("cv_9p21_2","9p21 CAD\nrs1333049","leaf","cardio","b_cardio","yellow","rs1333049 = CG","Second 9p21 CAD locus — CG. Corroborates primary 9p21 signal.",
   [{l:"Genotype",v:"CG — Intermediate risk"},{l:"Region",v:"CDKN2A/B cell cycle locus"}]),
 N("cv_9p21_3","9p21 CAD\nrs4977574","leaf","cardio","b_cardio","yellow","rs4977574 = AG","Third 9p21 signal — AG. All three 9p21 variants heterozygous in Chad.",
@@ -433,9 +446,9 @@ N("cv_pcsk9","PCSK9\nHeterozygous","leaf","cardio","b_cardio","gold","rs11206510
   [{l:"Genotype",v:"CT — Heterozygous"},{l:"Opportunity",v:"PCSK9 inhibitors — targeted therapy"},{l:"Action",v:"Track LDL — PCSK9i if elevated"}]),
 N("cv_f5","Factor V\nNo Leiden","leaf","cardio","b_cardio","green","rs6025 = CC","No Factor V Leiden. Normal clotting risk.",
   [{l:"Genotype",v:"CC — No Factor V Leiden"},{l:"Clotting",v:"Normal"}]),
-N("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT","KEY DISCOVERY: PITX2 AFib risk — CT. ~1.7× elevated lifetime AFib risk. Strongest known AFib genetic factor.",
-  [{l:"Genotype",v:"CT — AFib risk heterozygous"},{l:"Risk",v:"~1.7× elevated lifetime AFib"},{l:"Action",v:"Annual EKG, Holter if palpitations"}],
-  "2025 AF genetics review (JACC): PITX2 rs2200733 CT carriers show earlier AFib onset (mean 5 years earlier than non-carriers). Alcohol consumption and obesity are the strongest modifiable amplifiers of PITX2-associated AFib."),
+N("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT","KEY DISCOVERY: PITX2 rs2200733 CT — strongest known genetic locus for atrial fibrillation. CT heterozygous confers OR ~1.5–1.8× elevated AFib risk. Mechanism: PITX2 loss-of-function induces a sinus-node-like phenotype in atrial/pulmonary myocardium, creating an AF substrate. Also associated with AF recurrence after catheter ablation.",
+  [{l:"Genotype",v:"CT — Heterozygous risk"},{l:"AFib Risk",v:"OR ~1.5–1.8× (2024 data)"},{l:"Mechanism",v:"Sinus-node-like atrial phenotype"},{l:"Post-Ablation",v:"Higher AF recurrence risk if ablated"},{l:"Action",v:"Annual EKG, avoid excess alcohol, maintain weight"}],
+  "2024–2025 cross-population GWAS (Nature Communications 2025): PITX2 confirmed as one of 525 genome-wide significant AF loci across populations. CT heterozygote OR ~1.5–1.8 (Jordan 2024 study: OR 1.806, 95% CI 1.179–2.766). TT homozygotes carry higher risk. PITX2 loss-of-function promotes AF by inducing sinus-node-like electrophysiology in atrial myocardium. Clinically: this locus predicts AF recurrence after catheter ablation — relevant for procedural counseling. Strongest modifiable risk amplifiers: alcohol (even moderate intake), obesity, sleep apnea."),
 N("cv_agtr1","AGTR1\nrs5186","leaf","cardio","b_cardio","yellow","rs5186 = AC","Angiotensin receptor AGTR1 — AC heterozygous. Modestly elevated hypertension susceptibility.",
   [{l:"Genotype",v:"AC — Moderate HTN risk"}]),
 N("cv_mthfr_a1298c","MTHFR\nA1298C","leaf","cardio","b_cardio","yellow","rs1801131 = GT","MTHFR A1298C — GT heterozygous. Combined with C677T = compound heterozygous. Further elevates homocysteine and CV risk.",
@@ -478,9 +491,9 @@ N("ai_tyk2","TYK2\nrs12720356","leaf","immune","b_immune","yellow","rs12720356 =
   [{l:"Genotype",v:"AC — Heterozygous"}]),
 
 // ══ PHARMACOGENOMICS LEAVES ══
-N("ph_cyp2c9","CYP2C9\n*1/*2 CRITICAL","leaf","pharma","b_pharma","red","rs1799853 = CT","CRITICAL: CYP2C9 *1/*2 — warfarin doses ~20% too high. Must be in EMR. CPIC guideline: reduce warfarin 10-25%. Prefer DOACs.",
-  [{l:"Genotype",v:"CT — *1/*2 Intermediate"},{l:"Action",v:"Flag EMR, reduce warfarin ~20%"},{l:"DOACs",v:"Apixaban/rivaroxaban preferred"},{l:"NSAIDs",v:"Higher plasma levels — use low end of dose range"}],
-  "CPIC 2024 Warfarin Guidelines: CYP2C9 *1/*2 + VKORC1 analysis recommended before warfarin initiation. Pharmacist consult required. DOACs are the preferred anticoagulant strategy for patients with CYP2C9 intermediate metabolizer status."),
+N("ph_cyp2c9","CYP2C9\n*1/*2 CRITICAL","leaf","pharma","b_pharma","red","rs1799853 = CT","IMPORTANT: CYP2C9 *1/*2 intermediate metabolizer. CPIC guideline: *1/*2 alone does NOT mandate blanket dose reduction — instead, use the IWPC pharmacogenetic dosing algorithm incorporating VKORC1-1639G>A alongside CYP2C9 *2. Blanket dose reductions are reserved for *2/*2, *1/*3, *2/*3, *3/*3 genotypes. NSAIDs (ibuprofen, naproxen, celecoxib) are affected — higher plasma levels at standard doses.",
+  [{l:"Genotype",v:"CT — *1/*2 Intermediate metabolizer"},{l:"Warfarin Action",v:"Use IWPC algorithm with VKORC1 — not blanket reduction"},{l:"DOACs",v:"Apixaban/rivaroxaban preferred (bypass CYP2C9)"},{l:"NSAIDs",v:"Higher plasma levels — use low end of dose range"},{l:"EMR",v:"Flag for anesthesia and treating physicians"}],
+  "CPIC 2017 (active 2025): CYP2C9 *1/*2 is Intermediate Metabolizer class. CPIC does NOT recommend automatic dose reduction for *1/*2 alone — recommends IWPC algorithm incorporating VKORC1 genotype alongside CYP2C9 *2 for individualized dosing. Dose reductions are reserved for *2/*2, *1/*3, *2/*3, and *3/*3. Clinical implication: when warfarin is needed, insist on pharmacogenomic-guided IWPC calculation before starting. DOACs (apixaban, rivaroxaban) bypass CYP2C9 entirely and are the preferred anticoagulant strategy."),
 N("ph_cyp1a2","CYP1A2\nFast Caffeine","leaf","pharma","b_pharma","gold","rs762551 = AA","KEY: CYP1A2 AA fast metabolizer — caffeine half-life 2-3h. Fast metabolizers with >4 cups/day have elevated CAD risk in 9p21 background.",
   [{l:"Genotype",v:"AA — Fast metabolizer"},{l:"Caffeine t½",v:"~2-3 hours"},{l:"CAD Note",v:"High caffeine + 9p21 = caution"}]),
 N("ph_dpyd","DPYD\nPanel 5-FU Safe","leaf","pharma","b_pharma","green","rs3918290/55886062/67376798 = CC/AA/TT","All three DPYD variants normal. 5-FU/capecitabine chemotherapy is safe — no dose reduction needed.",
@@ -497,9 +510,9 @@ N("ph_statins","Statin\nPreference","leaf","pharma","b_pharma","yellow","CYP2C9 
   [{l:"Preferred",v:"Rosuvastatin, pravastatin"},{l:"Avoid",v:"High-dose simvastatin"},{l:"Context",v:"9p21 CAD risk may warrant statin"}]),
 
 // ══ NUTRIGENOMICS LEAVES ══
-N("nu_fut2","FUT2\nNon-Secretor","leaf","nutri","b_nutri","gold","rs601338 = AA","KEY DISCOVERY: FUT2 AA Non-Secretor — severely impaired gut B12 absorption. 2.5× B12 deficiency risk. Methylcobalamin supplementation ESSENTIAL.",
-  [{l:"Genotype",v:"AA — Non-Secretor"},{l:"B12 Absorption",v:"Severely impaired"},{l:"Action",v:"Methylcobalamin 2000mcg/day (sublingual or injection)"},{l:"Monitor",v:"Serum B12 + MMA annually"}],
-  "2024 research (Gut Microbiome Journal): FUT2 non-secretors have significantly reduced Bifidobacterium and Ruminococcus in gut. This microbiome shift impairs gut epithelial B12 uptake AND reduces short-chain fatty acid production. Probiotic Bifidobacterium longum BB536 supplementation partially restores microbiome."),
+N("nu_fut2","FUT2\nNon-Secretor","leaf","nutri","b_nutri","gold","rs601338 = AA","KEY DISCOVERY: FUT2 AA Non-Secretor — lacks fucosylated glycans in gut secretions, dramatically reducing Bifidobacterium colonization. CRITICAL NUANCE: serum B12 may paradoxically appear normal or high, but this reflects impaired cellular B12 transport rather than true sufficiency — functional B12 deficiency at the tissue level is the real risk. Monitor methylmalonic acid (MMA) and homocysteine, not just serum B12.",
+  [{l:"Genotype",v:"AA — Non-Secretor"},{l:"Serum B12",v:"May look normal — check MMA + homocysteine"},{l:"Functional Risk",v:"Cellular B12 deficiency despite normal serum"},{l:"Action",v:"Methylcobalamin sublingual + annual MMA + homocysteine"},{l:"Microbiome",v:"Severely reduced Bifidobacterium — probiotic needed"}],
+  "2024 ISME Journal: FUT2 non-secretors lack alpha(1,2)-fucosylated glycans that serve as substrates for B. infantis and B. angulatum. Post-antibiotic, only secretors showed persistent Bifidobacterium re-engraftment. Key clinical nuance: non-secretors may show HIGHER serum B12 levels — this reflects impaired cellular transport (B12 accumulates in serum rather than being taken up). True assessment requires methylmalonic acid (MMA) and homocysteine, which reflect functional B12 status at the cellular level. Supplement with sublingual or IM methylcobalamin; oral tablets are less effective given gut transport impairment."),
 N("nu_mtrr","MTRR\nB12 Pathway","leaf","nutri","b_nutri","yellow","rs1801394 = GG","MTRR GG — compounds FUT2 non-secretor B12 challenge. Double B12 vulnerability.",
   [{l:"Combined Effect",v:"FUT2 + MTRR = double B12 challenge"},{l:"Action",v:"2000mcg methylcobalamin minimum/day"}]),
 N("nu_fads1","FADS1\nOmega-3","leaf","nutri","b_nutri","yellow","rs174546/174547 = CT/CT","FADS1 CT — intermediate ALA to EPA conversion. Use marine omega-3, not plant sources.",
@@ -516,12 +529,12 @@ N("nu_vitd","Vitamin D\nStrategy","leaf","nutri","b_nutri","yellow","IL-6 CC + M
   [{l:"Target",v:">50 ng/mL serum 25-OH Vitamin D"},{l:"Dose",v:"D3 2000-4000 IU + K2 100mcg + Magnesium 400mg"}]),
 
 // ══ LONGEVITY LEAVES ══
-N("lo_foxo3","FOXO3\nNo Longevity Allele","leaf","longevity","b_longevity","gold","rs2802292 = TT","KEY DISCOVERY: FOXO3 TT — does not carry the G allele found in centenarians worldwide. FOXO3 regulates autophagy and stress resistance.",
-  [{l:"Genotype",v:"TT — No longevity allele"},{l:"Missing",v:"G allele found in 100+ year olds"},{l:"Action",v:"Exercise and fasting ACTIVATE FOXO3 epigenetically"}],
-  "2025 longevity research (Nature Aging): FOXO3 protein activity — regardless of genetic variant — is upregulated 2-3× by: HIIT exercise (30+ min), caloric restriction, NAD+ precursors (NMN/NR), and rapamycin analogs. Epigenetic FOXO3 activation can compensate for absent longevity allele."),
-N("lo_apoe_longevity","APOE ε3/ε4\nLongevity","leaf","longevity","b_longevity","red","APOE ε3/ε4","APOE ε4 — primary longevity risk. Associated with shorter lifespan via Alzheimer's and cardiovascular pathways.",
-  [{l:"Risk",v:"Primary longevity concern"},{l:"Prevention",v:"Exercise, MIND diet, sleep, BP control"},{l:"Timeline",v:"Start prevention protocol in 40s"}],
-  "2025 EXERT trial follow-up: APOE ε4 carriers who sustained ≥150 min/week vigorous aerobic exercise showed significantly slower hippocampal volume loss and better executive function over 18 months vs sedentary ε4 carriers. Exercise is the strongest evidence-based intervention."),
+N("lo_foxo3","FOXO3\nNo Longevity Allele","leaf","longevity","b_longevity","gold","rs2802292 = TT","KEY DISCOVERY: FOXO3 TT — does not carry the G allele found in centenarians worldwide. FOXO3 regulates autophagy, oxidative stress resistance, and apoptosis. The good news: FOXO3 protein activity is powerfully induced by lifestyle regardless of genotype — HIIT and intermittent fasting are the strongest activators.",
+  [{l:"Genotype",v:"TT — No longevity allele"},{l:"Missing",v:"G allele found in centenarians worldwide"},{l:"Top Activator",v:"HIIT exercise — blunts AKT-driven FOXO3 export"},{l:"Fasting",v:"16:8 IF raised FOXO3 mRNA 2.5× vs controls"},{l:"NAD+",v:"Caloric restriction → NAD+ → SIRT1 → FOXO3"}],
+  "2025 Frontiers in Cell and Developmental Biology: FOXO3 is activated via AMPK and SIRT1 upregulation (which deacetylate FOXO3, promoting nuclear localization). HIIT specifically blunts AKT-driven FOXO3 nuclear export more than moderate continuous training, making it the superior exercise modality for FOXO3 activation. Intermittent fasting (16:8) raised FOXO3 mRNA 2.5-fold versus controls — outperforming prolonged fasting — via low insulin → reduced AKT → FOXO3 nuclear retention. Caloric restriction restores cellular NAD+, activating SIRT1/SIRT3 which deacetylate FOXO3. The NAD+/sirtuin/FOXO3 axis is mechanistically well-established; most NMN/NR data are preclinical."),
+N("lo_apoe_longevity","APOE ε3/ε4\nLongevity","leaf","longevity","b_longevity","red","APOE ε3/ε4","APOE ε4 — primary longevity risk. Associated with shorter lifespan via Alzheimer's and cardiovascular pathways. Exercise evidence is nuanced: ε4 carriers show greater gains in executive function and telomere length with exercise, but non-carriers outperform on global cognition and verbal memory. Lifestyle intervention is still strongly indicated — the benefit profile is just different.",
+  [{l:"Risk",v:"Primary longevity concern"},{l:"Exercise",v:"Greater gains in executive function — do it"},{l:"Prevention",v:"MIND diet, sleep, BP control, no smoking"},{l:"Timeline",v:"Start prevention protocol in 40s — now"}],
+  "2025 systematic review (19 RCTs, Trials/Springer): APOE4 carriers showed greater exercise-driven gains in executive function, learning, and relative telomere length vs non-carriers. However, non-carriers outperformed carriers on global cognition, verbal memory, and serum BDNF gains. Evidence quality rated 'very low to moderate' (GRADE). The ongoing CYCLE-AD RCT (150 APOE4 carriers, 18-month high-intensity cycling) will provide definitive carrier-specific data mid-2026. Bottom line: exercise remains strongly recommended for ε4 carriers — the executive function and telomere benefits are specific advantages. A 2025 multidomain lifestyle intervention meta-analysis found lifestyle interventions may particularly benefit APOE4 carriers overall."),
 N("lo_tert","TERT/TERC\nTelomeres","leaf","longevity","b_longevity","yellow","rs2736100 AC / rs12696304 CG","TERT AC + TERC CG — intermediate telomere maintenance. Sleep and exercise are strongest telomere protectors.",
   [{l:"TERT",v:"AC — Intermediate"},{l:"TERC",v:"CG — Slightly shorter telomeres"},{l:"Best Action",v:"7-9h sleep + aerobic exercise"}]),
 N("lo_foxo3_strategy","FOXO3\nActivation Plan","leaf","longevity","b_longevity","gold","Epigenetic activation","FOXO3 TT — compensate with lifestyle FOXO3 activation: HIIT, intermittent fasting, NAD+ precursors.",
@@ -709,22 +722,107 @@ let ft=0;
 
 svg.on("click",closePanel);
 
-// ── PANEL ─────────────────────────────────────────────────────────────────────
+// ── PLAIN-LANGUAGE EXPLANATIONS (Simple mode) ─────────────────────────────────
+const PLAIN={
+  "center":"This is Chad Byars's complete genetic map. His DNA was read from start to finish — 3 million data points. Each circle on the map is a genetic finding. Click any circle to learn what it means for his health, body, or family.",
+  "b_cancer":"These findings are about cancer risk written into Chad's DNA. Most are reassuring. The most important ones involve his skin — he carries three versions of a gene that affects how well skin repairs sun damage.",
+  "b_cardio":"These findings are about heart health. The biggest discovery: Chad carries a genetic variant on chromosome 9 that raises his heart attack risk. The good news — eating a Mediterranean diet (fish, vegetables, olive oil) has been shown to completely cancel out this genetic risk.",
+  "b_psych":"These findings are about brain chemistry — how Chad's mind handles stress, emotion, and social connection. His genetic profile is actually quite positive here: balanced under pressure, naturally high empathy, good brain flexibility.",
+  "b_immune":"These findings are about the immune system — allergies, inflammation, and autoimmune conditions. Chad doesn't carry the main gene variants for celiac disease. He has some signs of a more reactive immune system.",
+  "b_pharma":"These findings are about how Chad's body processes medications. The most important: a blood thinner called warfarin needs careful dosing for him because he metabolizes it differently. He also clears caffeine unusually fast.",
+  "b_nutri":"These findings are about food and nutrition. The biggest discovery: Chad has a gene variant that makes it harder for his gut to absorb Vitamin B12 from food. B12 keeps nerves healthy — without enough of it, serious problems can develop slowly.",
+  "b_longevity":"These findings are about genes linked to how long people live. A key discovery: Chad doesn't carry the specific version of the FOXO3 gene found in most people who live past 100. But the good news — exercise and intermittent fasting turn this gene on regardless of which version you have.",
+  "b_athletic":"These findings are about athletic potential. Chad has the 'endurance athlete' version of the ACTN3 gene — the same one found in most elite marathon runners and long-distance cyclists.",
+  "b_traits":"These findings describe physical traits and ancestry written in DNA — eye color, taste sensitivity, earwax type, sleep tendencies, and where Chad's ancestors came from.",
+  "b_lipid":"These findings are about cholesterol and triglycerides (fats in the blood). Chad's genetic risk for high triglycerides is low.",
+  "ph_cyp2c9":"Chad's body processes certain medications differently because of a gene variant. The most important drug affected is warfarin (a blood thinner). Standard doses may be too high or too low for him — doctors need to use a special calculation that considers his genetics before prescribing it. A safer option is a newer class of blood thinners (like apixaban) that isn't affected by this gene.",
+  "nu_fut2":"Chad has a gene variant called 'non-secretor' that affects how his gut absorbs Vitamin B12. B12 is like fuel for nerves — without enough, people can gradually lose sensation in their hands and feet, feel foggy, or develop anemia. The catch: his blood B12 level might look normal even when his body is actually running low. The only way to check truly is with tests called MMA and homocysteine. He should take a B12 supplement (the methylcobalamin form, under the tongue) every day.",
+  "c_mc1r_1":"Chad carries a gene variant called MC1R that affects how his skin responds to sunlight. This variant is more common in people with Irish or Scottish ancestry. It makes skin less able to repair DNA damage from UV rays, which raises the risk of melanoma (a serious type of skin cancer). He carries three different versions of this gene — which is unusual and means he needs to be especially careful about sun protection.",
+  "c_mc1r_2":"This is a second MC1R skin protection gene variant in Chad's DNA. Having two or more of these variants significantly raises melanoma risk. A skin doctor should do a full check every 6 months.",
+  "c_mc1r_3":"This is a third MC1R variant — a key discovery. Research shows people with two or more of these variants can have up to 10× the average risk of melanoma. Sunscreen every single day (SPF 50+), shade during peak hours, and regular skin checks are essential.",
+  "cv_9p21_1":"There is a specific location on chromosome 9 where Chad carries a version of the DNA that raises heart attack risk. This is the most well-studied genetic heart risk factor known. The remarkable finding from research: people with this variant who follow a Mediterranean diet (olive oil, fish, vegetables, nuts, whole grains) have the SAME heart attack risk as people without the variant. Diet literally switches off this genetic risk.",
+  "cv_pitx2":"Chad carries a genetic variant near a gene called PITX2 that raises the risk of developing an irregular heartbeat called atrial fibrillation (AFib). AFib itself isn't dangerous day-to-day but increases stroke risk. The biggest triggers that make this gene worse are: alcohol (even a few drinks a week), being overweight, and sleep apnea. Annual heart rhythm checks (EKG) are a good idea.",
+  "lo_foxo3":"Scientists studied people who lived past 100 in Japan, Italy, California, and elsewhere and found they often shared a specific version of a gene called FOXO3. Chad doesn't have that version. But here's the good news — the FOXO3 gene can be 'turned on' by exercise and by skipping breakfast occasionally (intermittent fasting), regardless of which DNA version you were born with.",
+  "lo_apoe_longevity":"Chad carries one copy of a gene variant called APOE ε4. This is the strongest known genetic risk factor for Alzheimer's disease — it raises his lifetime risk from about 9% to roughly 15-25%. The most powerful thing he can do about it: exercise. Studies show that people with this variant who exercise regularly for 150+ minutes per week protect their brain significantly more than sedentary people with the same gene.",
+  "ps_oxtr":"Chad carries the GG version of the oxytocin receptor gene — the 'empathy gene'. Oxytocin is the hormone that creates feelings of connection and trust. GG individuals naturally feel others' emotions more strongly, form deeper bonds, and are unusually good at comforting people in distress. For an ER doctor, this is a superpower. The one watch-out: feeling everyone else's pain deeply in a high-stress job can lead to burnout — so protecting mental health with strong personal relationships matters.",
+  "ps_comt":"This gene controls how quickly dopamine (a brain chemical related to focus and reward) is cleared from the prefrontal cortex — the thinking, decision-making part of the brain. Chad has the 'balanced' version that works well both in calm situations AND under acute stress. This is considered the ideal genotype for high-stakes decision-making jobs.",
+  "at_actn3":"The ACTN3 gene makes a protein in fast-twitch muscle fibers. Chad has a version where this protein is absent — which sounds like a disadvantage but is actually found in most elite endurance athletes. His muscles are naturally wired for sustained effort over time rather than explosive power. He's genetically built for marathons, cycling, and long-distance sports.",
+  "nu_fut2_gut":"Because of the FUT2 non-secretor status, Chad's gut has very different bacteria than most people. Specifically, he has far fewer of a helpful bacteria called Bifidobacterium. These bacteria normally help with digestion and immune health. Taking a probiotic containing Bifidobacterium longum can help restore this balance.",
+  "nu_caffeine_strat":"Chad's body clears caffeine about twice as fast as average. This means he needs more coffee to feel the same effect, but it also means caffeine wears off quickly — which can cause energy crashes. Because he also carries genetic heart risk (9p21), drinking more than 3 cups of coffee per day may stress his cardiovascular system. Green tea with a little less caffeine and added L-theanine (which smooths the caffeine effect) may be a better daily option.",
+  "tr_taste":"Chad cannot taste bitter compounds the way most people do — he's what scientists call a 'non-taster'. This actually has a dietary silver lining: bitter healthy foods like broccoli, kale, dark chocolate, and coffee taste less harsh to him than to most people, making it easier to eat a healthy diet.",
+  "lo_foxo3_strategy":"Even without the centenarian FOXO3 gene variant, Chad can activate this longevity gene through lifestyle. High-intensity interval exercise (like sprinting or hard cycling intervals for 30 minutes) and intermittent fasting (skipping breakfast a few days a week) both measurably increase FOXO3 activity. Caloric restriction also works. These aren't just general health tips — they're specifically activating this gene.",
+  "cv_pcsk9":"There's a gene called PCSK9 that controls how well the liver clears bad cholesterol (LDL) from the blood. Chad has a heterozygous variant here — one copy of a variant. This is actually an opportunity: drugs called PCSK9 inhibitors (brand names Repatha, Praluent) are among the most powerful cholesterol-lowering treatments available and are specifically targeted at this gene pathway. If Chad ever has high LDL, this is likely the ideal precision therapy for him.",
+  "ph_warfarin_algo":"When Chad needs a blood thinner, the safest approach is to avoid warfarin if possible and use a newer drug like apixaban (Eliquis) instead — these drugs don't go through the CYP2C9 enzyme at all. If warfarin is truly necessary, doctors need to use a special genetic dosing calculator (called IWPC) that factors in this gene variant plus another gene (VKORC1) to find the right dose.",
+  "ai_ctla4":"CTLA4 is a gene that acts like a brake on the immune system, preventing it from attacking the body's own tissues. Chad has a variant version of this gene that may make the immune system's brakes slightly less reliable. This raises his risk slightly for autoimmune conditions — particularly autoimmune thyroid disease (where the immune system attacks the thyroid gland). Annual thyroid function tests (TSH) are worth adding to routine labs."
+};
+
+// Medium-level summaries (a paragraph bridging simple and technical)
+const MEDIUM={
+  "ph_cyp2c9":"CYP2C9 is an enzyme in the liver that breaks down certain drugs. Chad's *1/*2 genotype means one copy of his CYP2C9 gene is the *2 variant, which works at reduced capacity. This makes him an 'intermediate metabolizer' — drugs processed by CYP2C9 stay in his system longer at standard doses. The most clinically significant drug is warfarin (Coumadin). CPIC guidelines say warfarin dosing should use the IWPC pharmacogenetic algorithm (which incorporates both CYP2C9 genotype and VKORC1) rather than a blanket dose change. DOACs like apixaban bypass CYP2C9 entirely and are preferred. NSAIDs like ibuprofen also go through CYP2C9 — plasma levels will run higher, increasing GI and renal side-effect risk.",
+  "nu_fut2":"FUT2 (fucosyltransferase 2) adds fucose sugar residues to gut mucosa glycoproteins. In 'non-secretors' (AA genotype), this enzyme is absent in gut secretions, depriving bacteria like Bifidobacterium infantis of their primary food source. This dramatically reduces Bifidobacterium colonization. For B12: non-secretors may paradoxically show normal or elevated serum B12, because impaired cellular transport concentrates B12 in serum. The functional marker is methylmalonic acid (MMA) — elevated MMA indicates true cellular B12 deficiency despite normal serum levels. Sublingual or injectable methylcobalamin bypasses the gut absorption problem more effectively than oral tablets.",
+  "cv_9p21_1":"The 9p21.3 locus contains the ANRIL long non-coding RNA, which regulates nearby tumor suppressor genes CDKN2A and CDKN2B involved in vascular smooth muscle proliferation and apoptosis — the cellular mechanisms driving atherosclerosis. The rs10757278 AG heterozygote carries OR ~1.25–1.35 for MI vs the AA genotype. This risk is diet-modifiable: Mediterranean diet adherence in AG/GG carriers was shown to fully normalize MI risk (Interaction p=0.008, NEJM 2008). Current ACC/AHA guidelines do not yet formally integrate 9p21 genotyping, but it improves Framingham Risk Score reclassification. Chad carries all three independent 9p21 signals, amplifying the cumulative CAD risk.",
+  "cv_pitx2":"PITX2 encodes a transcription factor expressed in the left atrium and pulmonary vein myocardium. The 4q25 locus (containing rs2200733) is the most significant genetic locus for atrial fibrillation in GWAS studies. The T allele disrupts PITX2c isoform expression, inducing sinus-node-like automaticity in atrial myocardium — the electrophysiological substrate for AF. CT heterozygotes carry OR ~1.5–1.8 for AF. This locus also predicts AF recurrence after catheter ablation, making it relevant for procedural counseling. Alcohol, obesity, and sleep apnea are the strongest environmental amplifiers of PITX2-associated AF risk.",
+  "lo_foxo3":"FOXO3 (Forkhead Box O3) is a transcription factor that promotes expression of genes involved in autophagy, mitochondrial biogenesis, ROS scavenging, and apoptosis. The rs2802292 G allele is associated with longevity across multiple independent cohorts (Japanese, German, American). Chad has TT — the common, non-longevity allele. However, FOXO3 protein activity is regulated post-translationally: AMPK activation (triggered by HIIT and caloric restriction) phosphorylates and activates FOXO3. SIRT1/SIRT3 deacetylate FOXO3 in response to elevated NAD+ (triggered by fasting and CR). Intermittent fasting raised FOXO3 mRNA 2.5-fold vs controls in 2025 research. The epigenetic compensation is real and mechanistically validated."
+};
+
+let currentLevel="simple";
+let currentNode=null;
+
 const panel=document.getElementById("panel");
+
+function renderPanel(d,level){
+  const plain=PLAIN[d.id]||d.desc.split(".")[0]+".";
+  const medium=MEDIUM[d.id]||d.desc;
+  const tech=d.desc;
+
+  document.getElementById("psimple").innerHTML="";
+  document.getElementById("pdesc").textContent="";
+
+  if(level==="simple"){
+    document.getElementById("psimple").innerHTML=`<div class="simple-block"><div class="simple-label">&#128161; Plain English</div>${plain}</div>`;
+    document.getElementById("pdesc").style.display="none";
+  } else if(level==="medium"){
+    document.getElementById("psimple").innerHTML="";
+    document.getElementById("pdesc").textContent=medium;
+    document.getElementById("pdesc").style.display="";
+  } else {
+    document.getElementById("psimple").innerHTML="";
+    document.getElementById("pdesc").textContent=tech;
+    document.getElementById("pdesc").style.display="";
+  }
+
+  const rb=document.getElementById("presearch");
+  if(level==="technical"&&d.research){
+    rb.innerHTML=`<div class="research-box"><b>&#127757; 2024-2025 Research</b>${d.research}</div>`;
+  } else {
+    rb.innerHTML="";
+  }
+}
+
 function showPanel(d){
+  currentNode=d;
   document.getElementById("pbadge").className="pbadge "+(d.risk||"blue");
   document.getElementById("pbadge").textContent=RL[d.risk]||d.risk;
   document.getElementById("ptitle").textContent=d.label.replace(/\n/g," ");
   document.getElementById("pgeno").textContent=d.geno||"";
-  document.getElementById("pdesc").textContent=d.desc||"";
   document.getElementById("pstats").innerHTML=(d.stats||[]).map(s=>
     `<div class="pstat"><div class="pstat-l">${s.l}</div><div class="pstat-v">${s.v}</div></div>`).join("");
-  const rb=document.getElementById("presearch");
-  rb.innerHTML=d.research?`<div class="research-box"><b>&#127757; 2024-2025 Research</b>${d.research}</div>`:"";
+  renderPanel(d,currentLevel);
   panel.classList.add("open");
 }
+
 function closePanel(){panel.classList.remove("open");}
 document.getElementById("pclose").addEventListener("click",e=>{e.stopPropagation();closePanel();});
+
+document.querySelectorAll(".ltbtn").forEach(btn=>{
+  btn.addEventListener("click",function(e){
+    e.stopPropagation();
+    document.querySelectorAll(".ltbtn").forEach(b=>b.classList.remove("active"));
+    this.classList.add("active");
+    currentLevel=this.dataset.level;
+    if(currentNode) renderPanel(currentNode,currentLevel);
+  });
+});
 
 // ── SEARCH ────────────────────────────────────────────────────────────────────
 document.getElementById("search").addEventListener("input",function(){
