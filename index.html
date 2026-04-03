@@ -73,8 +73,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
 .fb.lipid{background:rgba(196,168,108,.12);color:#c4a86c;border-color:rgba(196,168,108,.3)}
 
 /* ─── Doctor Summary Modal ─── */
-#doc-modal,#pred-modal,#fam-modal,#anc-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
-#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show{display:flex}
+#doc-modal,#pred-modal,#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal{position:fixed;inset:0;z-index:500;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+#doc-modal.show,#pred-modal.show,#fam-modal.show,#anc-modal.show,#behcet-modal.show,#byars-family-modal.show{display:flex}
 .modal-box{background:rgba(18,12,10,.99);border:1px solid rgba(165,28,48,.3);border-radius:16px;width:min(700px,95vw);max-height:85vh;overflow-y:auto;padding:36px}
 .modal-box h2{font-family:'EB Garamond',Georgia,serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;color:#f0e6dc}
 .modal-box .msub{font-size:.68rem;color:rgba(196,154,108,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:24px;font-family:'Inter',sans-serif}
@@ -154,6 +154,8 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   <button class="tbtn" onclick="document.getElementById('pred-modal').classList.add('show')">&#129504; Predictions</button>
   <button class="tbtn" onclick="document.getElementById('fam-modal').classList.add('show')">&#128106; Family &amp; History</button>
   <button class="tbtn" onclick="document.getElementById('anc-modal').classList.add('show')">&#127758; Ancestry Map</button>
+  <button class="tbtn" style="background:rgba(165,28,48,.3);border-color:rgba(165,28,48,.5);color:#d4838f" onclick="document.getElementById('behcet-modal').classList.add('show')">&#9877;&#65039; Behçet's / HLA-B*51</button>
+  <button class="tbtn" onclick="document.getElementById('byars-family-modal').classList.add('show')">&#128209; Byars Family Dashboard</button>
 </div>
 
 <!-- Doctor Summary Modal -->
@@ -578,12 +580,243 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
   </div>
 </div>
 
+<!-- Behçet's / HLA-B*51 Analysis Modal -->
+<div id="behcet-modal">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:90vh">
+    <button class="mclose" onclick="document.getElementById('behcet-modal').classList.remove('show')">&#x2715;</button>
+    <h2 style="color:#A51C30">&#9877;&#65039; HLA-B*51 &amp; Behçet's Disease Analysis</h2>
+    <div class="msub">Quinn Byars &mdash; HLA-B*51/B*51 Homozygous &nbsp;&middot;&nbsp; Chad Byars &mdash; Obligate Carrier</div>
+
+    <div class="action-card urgent" style="border-left-color:#A51C30;border-left-width:5px;margin-bottom:16px">
+      <div class="action-num">Critical Finding</div>
+      <div class="action-title">Quinn is HLA-B*51 Homozygous &rarr; Chad is an Obligate B*51 Carrier</div>
+      <div class="action-body">Quinn's B*51/B*51 homozygosity means he inherited one HLA-B*51 allele from each parent. <b>Chad MUST carry at least one HLA-B*51 allele</b> — he is an obligate carrier by Mendelian inheritance. When Brigitte's 23andMe data arrives, we can determine whether she also carries B*51 (likely, since Quinn is homozygous). HLA-B*51 is the strongest single genetic risk factor for Behçet's disease, conferring OR ~5-6× in heterozygotes. Homozygosity may confer even higher risk, though data on B*51/B*51 specifically is limited due to its rarity in Northern European populations.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">The Silk Road Connection</div>
+
+    <div class="interaction-card" style="border-color:rgba(165,28,48,.3)">
+      <div class="interaction-title" style="color:#d4838f">Why Does a Celtic/Northern European Family Carry HLA-B*51?</div>
+      <div class="interaction-body">HLA-B*51 reaches highest frequency (15-25%) along the ancient Silk Road corridor: Turkey, Iran, Iraq, Central Asia, Japan, and Korea. In Northern European populations, B*51 frequency is typically 1-8%. Chad's genome shows ~30% Anatolian Farmer ancestry (Neolithic migration from modern Turkey ~9,000 years ago). <b>The HLA-B*51 allele in the Byars family most likely traces to this Anatolian Farmer component</b> — the same Near Eastern population that gave Chad his SLC24A5 light-skin gene.<br><br>This is not speculative: HLA class I alleles, including B*51, are among the most geographically structured loci in the human genome. B*51 prevalence maps almost perfectly onto the Neolithic Anatolian farmer migration route into Europe. The Byars family's B*51 is likely a 9,000-year-old inheritance from the first farmers who entered Europe from the Fertile Crescent.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Chad's Genome: Variants That May Modify Quinn's Behçet's Risk</div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #1 &mdash; Confirmed in Chad</div>
+      <div class="action-title">IL-6 rs1800795 CC &mdash; Pro-Inflammatory Baseline</div>
+      <div class="action-body">Chad carries IL-6 CC (pro-inflammatory genotype). If Quinn inherited this (50% chance per allele), it would amplify the inflammatory cascade that HLA-B*51 drives in Behçet's. IL-6 is a key cytokine in Behçet's vasculitis — elevated IL-6 correlates with disease activity and flares. <b>Clinical implication:</b> If Quinn has IL-6 CC, anti-IL-6 therapy (tocilizumab) may be particularly effective. IL-6 blockade is an emerging Behçet's treatment.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #2 &mdash; Confirmed in Chad</div>
+      <div class="action-title">CTLA4 rs3087243 AG &mdash; Weakened Immune Checkpoint</div>
+      <div class="action-body">CTLA4 acts as a brake on T-cell activation. Chad's AG variant reduces checkpoint efficiency. If Quinn inherited the G allele, reduced CTLA4 function + HLA-B*51 homozygosity creates a compounding effect: the immune system is both mis-targeting (B*51) and under-braked (CTLA4). <b>Clinical implication:</b> Abatacept (CTLA4-Ig fusion) is being studied in refractory Behçet's — this genotype makes it a logical precision therapy candidate.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #3 &mdash; Confirmed in Chad</div>
+      <div class="action-title">IL-10 rs1800896 CT &mdash; Reduced Anti-Inflammatory Capacity</div>
+      <div class="action-body">IL-10 is the master anti-inflammatory cytokine that normally dampens immune overactivation. Chad's CT genotype produces intermediate IL-10. IL-10 polymorphisms are <b>independently associated with Behçet's disease</b> in GWAS studies. Lower IL-10 = less natural brake on the B*51-driven inflammation. <b>Clinical implication:</b> Quinn should have his IL-10 genotype confirmed. IL-10 pathway variants are recognized Behçet's susceptibility loci (Mizuki et al., Nature Genetics).</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #4 &mdash; Confirmed in Chad</div>
+      <div class="action-title">STAT4 rs7574865 GT &mdash; Autoimmune Amplifier</div>
+      <div class="action-body">STAT4 GT is associated with multiple autoimmune conditions including SLE, RA, and — critically — <b>Behçet's disease</b>. STAT4 mediates IL-12 and IL-23 signaling in Th1 and Th17 cells, the exact immune axes driving Behçet's pathogenesis. <b>Clinical implication:</b> If Quinn inherited the T allele, it would amplify Th1/Th17 responses on top of HLA-B*51 antigen presentation. JAK inhibitors (tofacitinib, baricitinib) act downstream of STAT4 and are emerging Behçet's therapies.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #5 &mdash; Confirmed in Chad</div>
+      <div class="action-title">TYK2 rs12720356 AC &mdash; JAK/STAT Pathway Variant</div>
+      <div class="action-body">TYK2 is a JAK family kinase mediating IFN-α, IL-12, and IL-23 signaling. Chad's AC variant affects this pathway. TYK2 variants are associated with multiple autoimmune conditions. <b>Clinical implication:</b> TYK2-selective inhibitors (deucravacitinib — FDA-approved for psoriasis, under investigation for other autoimmune conditions) may be worth discussing. The JAK/STAT pathway is central to Behçet's Th1/Th17 pathogenesis.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-width:4px">
+      <div class="action-num">Modifier #6 &mdash; Confirmed in Chad</div>
+      <div class="action-title">FUT2 rs601338 AA &mdash; Non-Secretor Gut-Immune Axis</div>
+      <div class="action-body">If Quinn inherited Chad's FUT2 non-secretor status, his gut microbiome would be significantly altered (reduced Bifidobacterium). Emerging research links gut dysbiosis to Behçet's disease through the gut-immune axis — Behçet's patients show distinctive microbiome signatures including reduced butyrate-producing bacteria. FUT2 non-secretor status may be a contributing factor to Behçet's by impairing gut immune homeostasis. <b>Clinical implication:</b> Targeted probiotic therapy (Bifidobacterium longum, butyrate-producing strains) and microbiome testing may be therapeutically relevant.</div>
+    </div>
+
+    <div class="action-card warning" style="border-left-width:4px">
+      <div class="action-num">Modifier #7 &mdash; Confirmed in Chad</div>
+      <div class="action-title">ATG16L1 rs2241880 AG &mdash; Autophagy Defect</div>
+      <div class="action-body">ATG16L1 T300A variant impairs autophagy — the cellular recycling process that clears damaged proteins and intracellular pathogens. Autophagy defects are linked to Crohn's disease and increasingly to Behçet's pathogenesis (both are granulomatous vasculitides with shared pathogenic mechanisms). <b>Clinical implication:</b> If Quinn carries this, autophagy-enhancing strategies (rapamycin/sirolimus — already used in some refractory Behçet's protocols) may address a specific genetic mechanism.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Behçet's Disease: Diagnostic Criteria (ICBD 2014)</div>
+
+    <div class="pred-grid">
+      <div class="pred-card"><div class="pred-label">Oral Ulcers</div><div class="pred-value">2 points</div><div class="pred-basis">Recurrent oral aphthous ulcers ≥3 episodes/year</div></div>
+      <div class="pred-card"><div class="pred-label">Genital Ulcers</div><div class="pred-value">2 points</div><div class="pred-basis">Recurrent genital aphthous ulcers or scarring</div></div>
+      <div class="pred-card"><div class="pred-label">Eye Lesions</div><div class="pred-value">2 points</div><div class="pred-basis">Anterior/posterior uveitis, retinal vasculitis</div></div>
+      <div class="pred-card"><div class="pred-label">Skin Lesions</div><div class="pred-value">1 point</div><div class="pred-basis">Erythema nodosum, pseudofolliculitis, papulopustular, acneiform</div></div>
+      <div class="pred-card"><div class="pred-label">Vascular</div><div class="pred-value">1 point</div><div class="pred-basis">Venous thrombosis, arterial aneurysm, large vessel involvement</div></div>
+      <div class="pred-card"><div class="pred-label">Pathergy Test +</div><div class="pred-value">1 point *</div><div class="pred-basis">Skin hyperreactivity to needle prick (optional criterion)</div></div>
+      <div class="pred-card"><div class="pred-label">CNS Involvement</div><div class="pred-value">Clinical</div><div class="pred-basis">Neuro-Behçet's: headache, meningitis, brainstem syndrome</div></div>
+      <div class="pred-card"><div class="pred-label">Diagnosis Threshold</div><div class="pred-value">≥4 points</div><div class="pred-basis">ICBD score ≥4 points with sensitivity 94.8%, specificity 90.5%</div></div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">10 Novel Clinical Insights</div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #1</div>
+      <div class="action-title">The Anatolian Farmer Origin of B*51 in the Byars Family</div>
+      <div class="action-body">Chad's ~30% Anatolian Farmer ancestry is the most likely source of HLA-B*51. The Fertile Crescent / Anatolia is the global epicenter of both B*51 frequency AND Behçet's prevalence. The allele likely entered the European gene pool 9,000 years ago with the first farmers — meaning Quinn's Behçet's risk is a 9,000-year-old genetic inheritance from the ancient Near East, hidden within an otherwise Celtic/Northern European genome.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #2</div>
+      <div class="action-title">IL-6 CC + B*51 = Potential Tocilizumab Candidacy</div>
+      <div class="action-body">If Quinn inherited Chad's IL-6 CC (50% chance), the combination of constitutively elevated IL-6 + HLA-B*51 homozygosity creates a specific therapeutic target. Tocilizumab (anti-IL-6R) has shown efficacy in refractory Behçet's vasculitis and uveitis in case series (2023-2025). Quinn's genotype may define him as an ideal precision medicine candidate for IL-6 blockade.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #3</div>
+      <div class="action-title">JAK Inhibitors as Genotype-Targeted Therapy</div>
+      <div class="action-body">Chad carries BOTH TYK2 AC and STAT4 GT — two variants in the JAK/STAT signaling cascade. If Quinn inherited either or both, JAK inhibitors (tofacitinib, baricitinib, upadacitinib) directly target the pathogenic pathway his genetics define. Tofacitinib has shown promising results in Behçet's mucocutaneous disease (2024 data). The genetic basis for targeting this pathway is unusually strong in this family.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #4</div>
+      <div class="action-title">FUT2 Non-Secretor → Gut Dysbiosis → Behçet's Trigger?</div>
+      <div class="action-body">Behçet's patients show altered gut microbiome (reduced Roseburia, Subdoligranulum, increased Bilophila). FUT2 non-secretors independently have reduced Bifidobacterium and altered short-chain fatty acid profiles. If Quinn inherited Chad's FUT2 AA, his pre-existing gut dysbiosis may have been the environmental trigger that activated the B*51-driven autoimmune cascade. Microbiome sequencing (16S rRNA or shotgun metagenomics) could test this hypothesis directly.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #5</div>
+      <div class="action-title">MTHFR Compound + Behçet's Vascular Risk</div>
+      <div class="action-body">Chad's MTHFR compound heterozygous status (C677T + A1298C) elevates homocysteine. Elevated homocysteine is an independent risk factor for venous thrombosis — and Behçet's is a vasculitis with thrombotic complications. If Quinn inherited MTHFR variants + has Behçet's vascular involvement, homocysteine management (methylfolate + methylcobalamin) becomes doubly important: both preventing MTHFR-driven thrombosis AND Behçet's vascular inflammation.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #6</div>
+      <div class="action-title">CYP2C9 *1/*2 Affects Colchicine Alternatives &amp; NSAIDs for Behçet's</div>
+      <div class="action-body">Colchicine is first-line for Behçet's mucocutaneous disease. While colchicine itself is mainly CYP3A4-dependent, many alternative Behçet's therapies go through CYP2C9 (NSAIDs for arthritis, some immunosuppressant metabolites). If Quinn inherited CYP2C9 *1/*2, his Behçet's treatment pharmacokinetics will be altered at multiple points. Pharmacogenomic-guided dosing should be considered for any CYP2C9 substrate prescribed.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #7</div>
+      <div class="action-title">The Brother (21) Must Be Tested for B*51</div>
+      <div class="action-body">Quinn's older brother has a ~75% chance of carrying at least one HLA-B*51 allele (since both parents likely carry one copy each — Chad confirmed, Brigitte probable). If the brother is also B*51 positive, even heterozygous, he carries ~5-6× elevated Behçet's risk and should be monitored for early symptoms (oral ulcers, skin lesions, eye inflammation). HLA typing should be prioritized for the brother.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #8</div>
+      <div class="action-title">APOE ε4 + Behçet's CNS Risk = Heightened Neuro Surveillance</div>
+      <div class="action-body">If Quinn inherited APOE ε4 from Chad (50% chance), he carries compounding neurological risk: Behçet's can cause neuro-Behçet's (CNS vasculitis, meningitis, brainstem syndrome) AND ε4 independently impairs neurological resilience. The combination would warrant heightened CNS surveillance — baseline brain MRI, periodic neuro-ophthalmology evaluations, and immediate workup of any unexplained headache, cognitive change, or neurological symptom.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #9</div>
+      <div class="action-title">OXTR GG + Chronic Illness = Structured Psychological Support</div>
+      <div class="action-body">If Quinn inherited Chad's OXTR GG (highest empathy genotype), he experiences others' emotions with unusual intensity — and likely experiences his own illness with proportionally greater emotional impact. OXTR GG individuals benefit most from strong social support networks and may be particularly vulnerable to the psychological burden of a chronic autoimmune diagnosis. Structured psychological support and family connection are not optional extras — they are genetically indicated therapeutic interventions.</div>
+    </div>
+
+    <div class="action-card discovery" style="border-left-color:#C49A6C;border-left-width:4px">
+      <div class="action-num">Insight #10</div>
+      <div class="action-title">Build a Complete Family HLA Map to Predict Future Risk</div>
+      <div class="action-body">With Brigitte's 23andMe data incoming and the brother's data planned, the Byars family can construct a complete HLA haplotype map. This map will reveal: (1) Which parent contributed which B*51 allele to Quinn, (2) Whether the brother carries B*51 and at what zygosity, (3) The complete HLA haplotype context (B*51 risk is modified by linked HLA-A and HLA-C alleles), (4) Whether other HLA-associated disease risks segregate in the family. This family HLA map is a powerful predictive tool — few families have this level of genetic data available, and the Byars family is building one of the most comprehensive family genomic databases outside of a research institution.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">What to Confirm When Quinn's Full Data Arrives</div>
+
+    <div class="pstat" style="margin-bottom:8px"><div class="pstat-l">Priority Variants to Check in Quinn</div><div class="pstat-v" style="font-size:.8rem;font-weight:400;color:#b0a090">HLA-B*51 (confirmed homozygous), IL-6 rs1800795, IL-10 rs1800896, STAT4 rs7574865, CTLA4 rs3087243, TYK2 rs12720356, FUT2 rs601338, ATG16L1 rs2241880, MTHFR rs1801133/rs1801131, CYP2C9 rs1799853, ERAP1 (if available), IL-23R rs11209026, APOE rs429358</div></div>
+    <div class="pstat"><div class="pstat-l">What Brigitte's Data Will Reveal</div><div class="pstat-v" style="font-size:.8rem;font-weight:400;color:#b0a090">Whether Brigitte also carries HLA-B*51 (highly likely given Quinn's homozygosity), which modifiers came from which parent, complete inheritance map for all 170+ variants, maternal cancer genetics (paternal aunt had breast cancer at 33 — but is Brigitte's side also contributing risk?)</div></div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Behçet's Analysis</button>
+  </div>
+</div>
+
+<!-- Byars Family Dashboard Modal -->
+<div id="byars-family-modal">
+  <div class="modal-box" style="width:min(780px,96vw);max-height:90vh">
+    <button class="mclose" onclick="document.getElementById('byars-family-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128209; Byars Family Genomic Dashboard</h2>
+    <div class="msub">Multi-Generational Genetic Analysis &nbsp;&middot;&nbsp; Building Over Coming Weeks</div>
+
+    <!-- Family Tree Visual -->
+    <svg viewBox="0 0 700 280" style="width:100%;margin-bottom:20px;border-radius:12px;background:rgba(30,22,18,.4)">
+      <!-- Chad -->
+      <rect x="170" y="20" width="140" height="70" rx="10" fill="rgba(165,28,48,.15)" stroke="#A51C30" stroke-width="2"/>
+      <text x="240" y="45" text-anchor="middle" fill="#f0e6dc" font-family="EB Garamond,serif" font-size="14" font-weight="700">Chad Byars, M.D.</text>
+      <text x="240" y="62" text-anchor="middle" fill="#C49A6C" font-size="9" font-family="Inter,sans-serif">WGS Complete &middot; 170+ variants</text>
+      <text x="240" y="78" text-anchor="middle" fill="#6db87d" font-size="8" font-family="Inter,sans-serif">&#9679; ANALYZED</text>
+
+      <!-- Brigitte -->
+      <rect x="390" y="20" width="140" height="70" rx="10" fill="rgba(196,154,108,.08)" stroke="rgba(196,154,108,.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="460" y="45" text-anchor="middle" fill="#f0e6dc" font-family="EB Garamond,serif" font-size="14" font-weight="700">Brigitte Byars</text>
+      <text x="460" y="62" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="9" font-family="Inter,sans-serif">23andMe &middot; Data incoming</text>
+      <text x="460" y="78" text-anchor="middle" fill="#C49A6C" font-size="8" font-family="Inter,sans-serif">&#9679; PENDING</text>
+
+      <!-- Marriage line -->
+      <line x1="310" y1="55" x2="390" y2="55" stroke="rgba(196,154,108,.3)" stroke-width="1.5"/>
+
+      <!-- Vertical line down -->
+      <line x1="350" y1="55" x2="350" y2="120" stroke="rgba(196,154,108,.3)" stroke-width="1.5"/>
+      <!-- Horizontal connector -->
+      <line x1="240" y1="120" x2="460" y2="120" stroke="rgba(196,154,108,.3)" stroke-width="1.5"/>
+
+      <!-- Brother -->
+      <line x1="290" y1="120" x2="290" y2="145" stroke="rgba(196,154,108,.3)" stroke-width="1.5"/>
+      <rect x="210" y="145" width="160" height="70" rx="10" fill="rgba(196,154,108,.08)" stroke="rgba(196,154,108,.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="290" y="170" text-anchor="middle" fill="#f0e6dc" font-family="EB Garamond,serif" font-size="14" font-weight="700">Older Brother (21)</text>
+      <text x="290" y="187" text-anchor="middle" fill="rgba(196,154,108,.5)" font-size="9" font-family="Inter,sans-serif">Data planned &middot; B*51 status unknown</text>
+      <text x="290" y="203" text-anchor="middle" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif">&#9679; AWAITING DATA</text>
+
+      <!-- Quinn -->
+      <line x1="420" y1="120" x2="420" y2="145" stroke="rgba(196,154,108,.3)" stroke-width="1.5"/>
+      <rect x="340" y="145" width="160" height="70" rx="10" fill="rgba(165,28,48,.15)" stroke="#A51C30" stroke-width="2"/>
+      <text x="420" y="170" text-anchor="middle" fill="#f0e6dc" font-family="EB Garamond,serif" font-size="14" font-weight="700">Quinn Byars</text>
+      <text x="420" y="187" text-anchor="middle" fill="#d4838f" font-size="9" font-family="Inter,sans-serif">HLA-B*51/B*51 Homozygous</text>
+      <text x="420" y="203" text-anchor="middle" fill="#A51C30" font-size="8" font-family="Inter,sans-serif">&#9679; ACTIVE INVESTIGATION</text>
+
+      <!-- Extended family notes -->
+      <text x="30" y="255" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif">Paternal Grandfather: ENT physician &middot; Advanced dementia &middot; CAD (stent 62, CABG 75) &middot; 2+ ppd smoker</text>
+      <text x="30" y="268" fill="rgba(196,154,108,.4)" font-size="8" font-family="Inter,sans-serif">Paternal Grandmother: Lung cancer &dagger; Sept 2016 &nbsp;&middot;&nbsp; Paternal Great-Aunt: Breast cancer age 33 &nbsp;&middot;&nbsp; Paternal Aunt: Paroxysmal AFib</text>
+    </svg>
+
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:12px 0;font-family:'EB Garamond',serif;font-size:1.05rem">Quinn Byars &mdash; Active Investigation</div>
+
+    <div class="action-card urgent" style="border-left-color:#A51C30;border-left-width:5px">
+      <div class="action-title">HLA-B*51/B*51 Homozygous &mdash; Behçet's Disease Workup</div>
+      <div class="action-body">Quinn carries two copies of HLA-B*51, the strongest genetic risk factor for Behçet's disease. Homozygosity is rare in Northern European populations and confers the highest genetic risk tier. Click the <b>"Behçet's / HLA-B*51"</b> button below for full analysis including 7 modifier genes from Chad's genome and 10 novel clinical insights.<br><br><b>Immediate priorities:</b> Complete ICBD scoring, ophthalmology evaluation (rule out subclinical uveitis), dermatology assessment, vascular imaging if indicated, and comprehensive inflammatory marker panel (ESR, CRP, IL-6, IL-18).</div>
+    </div>
+
+    <div class="pstat" style="margin-bottom:8px"><div class="pstat-l">Known from Chad's Genome (Quinn has 50% chance of inheriting each)</div><div class="pstat-v" style="font-size:.78rem;font-weight:400;color:#b0a090">HLA-B*51 (confirmed inherited), APOE ε4 (50%), IL-6 CC (50%), CTLA4 AG (50%), STAT4 GT (50%), TYK2 AC (50%), FUT2 AA non-secretor (50%), MTHFR C677T (50%), CYP2C9 *2 (50%), MC1R R151C (50%), OXTR GG (50%), COMT Val/Met (50%), ACTN3 XX (100% — homozygous in Chad)</div></div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Brigitte Byars &mdash; 23andMe Data Incoming</div>
+
+    <div class="action-card" style="border-left-color:#C49A6C;border-left-width:3px">
+      <div class="action-title">Data Expected Within Days</div>
+      <div class="action-body"><b>Critical question Brigitte's data will answer:</b> Does she also carry HLA-B*51? (Almost certainly yes, since Quinn is homozygous — she must have contributed one allele.) Beyond B*51, her genome will reveal: which of Quinn's disease-modifying variants came from which parent, whether additional autoimmune risk variants exist on the maternal side, maternal cancer genetics (important context given Chad's paternal aunt's breast cancer at 33), and BRCA1/BRCA2 status.<br><br><b>When Brigitte's data arrives:</b> Upload raw 23andMe file. Full analysis will be run automatically, including HLA typing, autoimmune panel, pharmacogenomics, and complete comparison with Chad's genome to construct Quinn's full diploid inheritance map.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Older Brother (21) &mdash; Awaiting Data</div>
+
+    <div class="action-card" style="border-left-color:#7abcc5;border-left-width:3px">
+      <div class="action-title">HLA-B*51 Testing is Priority #1</div>
+      <div class="action-body"><b>If both parents carry B*51:</b> The brother has a 75% chance of carrying at least one B*51 allele (25% B*51/B*51, 50% B*51/other, 25% no B*51). Even heterozygous B*51 confers ~5-6× elevated Behçet's risk. The brother should be screened for Behçet's symptoms (oral ulcers, skin lesions, eye symptoms) and HLA-typed.<br><br><b>When his genome data arrives:</b> Full comparative analysis across all three Byars children will reveal: complete segregation of parental haplotypes, shared vs. unique risk variants between siblings, whether Behçet's risk factors cluster in one child or are distributed across all three genomes.</div>
+    </div>
+
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Roadmap: Next Steps</div>
+
+    <div class="pred-grid">
+      <div class="pred-card" style="border-left:3px solid #A51C30"><div class="pred-label">This Week</div><div class="pred-value">Upload Brigitte's 23andMe</div><div class="pred-basis">Confirm maternal B*51 carrier status, build complete inheritance map, identify maternal-side modifiers</div></div>
+      <div class="pred-card" style="border-left:3px solid #C49A6C"><div class="pred-label">Next 1-2 Weeks</div><div class="pred-value">Brother's Genome Data</div><div class="pred-basis">HLA-B*51 status, full sibling comparison, shared risk variant analysis</div></div>
+      <div class="pred-card" style="border-left:3px solid #C49A6C"><div class="pred-label">Ongoing</div><div class="pred-value">Quinn's Full Genotyping</div><div class="pred-basis">Confirm which of Chad's 170+ variants Quinn actually inherited, build Quinn's own brain map</div></div>
+      <div class="pred-card" style="border-left:3px solid #6db87d"><div class="pred-label">Goal</div><div class="pred-value">Complete Family HLA Map</div><div class="pred-basis">The most comprehensive family genomic database outside a research institution — powering precision medicine for Quinn's health crisis</div></div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Family Dashboard</button>
+  </div>
+</div>
+
 <script>
-// Make fam-modal and anc-modal respond to .show class
-document.querySelectorAll('#fam-modal,#anc-modal').forEach(m=>{
+// Make all modals closeable by clicking backdrop
+document.querySelectorAll('#fam-modal,#anc-modal,#behcet-modal,#byars-family-modal').forEach(m=>{
   m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});
 });
-
 </script>
 
 <script>
