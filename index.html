@@ -3,79 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chad Byars — Full Genome Brain Map (125 Variants)</title>
+<title>Chad Byars — Complete Genome Brain Map (170+ Variants)</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;height:100vh;width:100vw}
-#hdr{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 20px;background:linear-gradient(to bottom,rgba(3,7,18,.97),transparent);display:flex;align-items:center;justify-content:space-between}
-#hdr h1{font-size:1.15rem;font-weight:700;letter-spacing:.04em;background:linear-gradient(135deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#hdr .sub{font-size:.68rem;color:#64748b;letter-spacing:.1em;text-transform:uppercase}
-#leg{display:flex;flex-wrap:wrap;gap:10px;font-size:.65rem}
-.li{display:flex;align-items:center;gap:5px;color:#94a3b8}
-.ld{width:9px;height:9px;border-radius:50%}
-#cvs{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-#sg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
-#panel{position:fixed;top:0;right:-440px;width:420px;height:100vh;background:rgba(15,23,42,.97);border-left:1px solid rgba(99,102,241,.3);z-index:200;transition:right .4s cubic-bezier(.22,1,.36,1);overflow-y:auto;backdrop-filter:blur(20px)}
+#hdr{position:fixed;top:0;left:0;right:0;z-index:100;padding:10px 18px;background:linear-gradient(to bottom,rgba(3,7,18,.97),transparent);display:flex;align-items:center;justify-content:space-between;gap:12px}
+#hdr h1{font-size:1.05rem;font-weight:700;letter-spacing:.04em;background:linear-gradient(135deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.sub{font-size:.62rem;color:#64748b;letter-spacing:.1em;text-transform:uppercase}
+#leg{display:flex;flex-wrap:wrap;gap:8px;font-size:.62rem;flex-shrink:0}
+.li{display:flex;align-items:center;gap:4px;color:#94a3b8}
+.ld{width:8px;height:8px;border-radius:50%}
+#cvs{position:fixed;inset:0;z-index:0}
+#sg{position:fixed;inset:0;z-index:1}
+
+/* ─── Detail Panel ─── */
+#panel{position:fixed;top:0;right:-460px;width:440px;height:100vh;background:rgba(10,18,40,.98);border-left:1px solid rgba(99,102,241,.3);z-index:300;transition:right .38s cubic-bezier(.22,1,.36,1);overflow-y:auto;backdrop-filter:blur(24px)}
 #panel.open{right:0}
-#pclose{position:absolute;top:14px;right:14px;background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
-#pclose:hover{background:rgba(99,102,241,.4)}
-#pcnt{padding:44px 24px 24px}
-.pbadge{display:inline-flex;align-items:center;padding:3px 11px;border-radius:999px;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-.pbadge.green{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)}
-.pbadge.yellow{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
-.pbadge.red{background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3)}
-.pbadge.purple{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3)}
-.pbadge.blue{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
-.pbadge.gold{background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.4)}
-#ptitle{font-size:1.35rem;font-weight:700;margin-bottom:6px;line-height:1.3}
-#pgeno{font-family:'Courier New',monospace;font-size:.8rem;color:#94a3b8;margin-bottom:16px;letter-spacing:.04em}
-#pdesc{font-size:.88rem;line-height:1.7;color:#cbd5e1;margin-bottom:20px}
-.pstat{background:rgba(30,41,59,.6);border:1px solid rgba(51,65,85,.5);border-radius:10px;padding:12px 14px;margin-bottom:8px}
-.pstat-l{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin-bottom:3px}
-.pstat-v{font-size:.95rem;font-weight:600;color:#e2e8f0}
-#hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(15,23,42,.8);border:1px solid rgba(51,65,85,.5);border-radius:999px;padding:6px 18px;font-size:.65rem;color:#475569;backdrop-filter:blur(10px);white-space:nowrap}
-.node-label{pointer-events:none;user-select:none}
-#search-box{position:fixed;top:60px;left:20px;z-index:100;display:flex;gap:8px}
-#search{background:rgba(15,23,42,.9);border:1px solid rgba(99,102,241,.4);color:#e2e8f0;padding:6px 12px;border-radius:8px;font-size:.75rem;width:180px;outline:none}
+#pclose{position:absolute;top:12px;right:12px;background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center}
+#pclose:hover{background:rgba(99,102,241,.5)}
+#pcnt{padding:42px 22px 22px}
+.pbadge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.pbadge.green{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+.pbadge.yellow{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+.pbadge.red{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3)}
+.pbadge.purple{background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.3)}
+.pbadge.blue{background:rgba(96,165,250,.12);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
+.pbadge.gold{background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.4)}
+.pbadge.pink{background:rgba(244,114,182,.12);color:#f472b6;border:1px solid rgba(244,114,182,.3)}
+.pbadge.cyan{background:rgba(34,211,238,.12);color:#22d3ee;border:1px solid rgba(34,211,238,.3)}
+#ptitle{font-size:1.25rem;font-weight:700;margin-bottom:5px;line-height:1.3}
+#pgeno{font-family:'Courier New',monospace;font-size:.78rem;color:#94a3b8;margin-bottom:14px;letter-spacing:.04em}
+#pdesc{font-size:.86rem;line-height:1.7;color:#cbd5e1;margin-bottom:16px}
+.pstat{background:rgba(30,41,59,.55);border:1px solid rgba(51,65,85,.5);border-radius:9px;padding:11px 13px;margin-bottom:7px}
+.pstat-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin-bottom:2px}
+.pstat-v{font-size:.9rem;font-weight:600;color:#e2e8f0}
+.research-box{background:rgba(99,102,241,.07);border:1px solid rgba(99,102,241,.25);border-radius:9px;padding:11px 13px;margin-top:12px;font-size:.8rem;color:#a5b4fc;line-height:1.6}
+.research-box b{color:#c7d2fe;display:block;margin-bottom:3px;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
+
+/* ─── Bottom toolbar ─── */
+#toolbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:200;display:flex;align-items:center;gap:8px}
+#hint{background:rgba(15,23,42,.85);border:1px solid rgba(51,65,85,.5);border-radius:999px;padding:6px 16px;font-size:.62rem;color:#475569;backdrop-filter:blur(10px);white-space:nowrap}
+.tbtn{background:rgba(15,23,42,.85);border:1px solid rgba(51,65,85,.5);border-radius:8px;padding:6px 14px;font-size:.68rem;color:#94a3b8;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px);transition:all .2s}
+.tbtn:hover,.tbtn.active{background:rgba(99,102,241,.25);border-color:rgba(99,102,241,.5);color:#c7d2fe}
+
+/* ─── Search & Filter ─── */
+#search-box{position:fixed;top:54px;left:16px;z-index:200}
+#search{background:rgba(15,23,42,.9);border:1px solid rgba(99,102,241,.35);color:#e2e8f0;padding:5px 11px;border-radius:8px;font-size:.72rem;width:170px;outline:none}
 #search::placeholder{color:#475569}
-#filter-btns{position:fixed;top:60px;right:20px;z-index:100;display:flex;gap:6px;flex-wrap:wrap;max-width:320px;justify-content:flex-end}
-.fbtn{padding:4px 10px;border-radius:6px;font-size:.65rem;font-weight:600;cursor:pointer;border:1px solid transparent;opacity:.7;transition:opacity .2s,transform .1s}
-.fbtn:hover,.fbtn.active{opacity:1;transform:scale(1.05)}
-.fbtn.cancer{background:rgba(248,113,113,.15);color:#f87171;border-color:rgba(248,113,113,.4)}
-.fbtn.cardio{background:rgba(251,146,60,.15);color:#fb923c;border-color:rgba(251,146,60,.4)}
-.fbtn.psych{background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.4)}
-.fbtn.immune{background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.4)}
-.fbtn.pharma{background:rgba(251,191,36,.15);color:#fbbf24;border-color:rgba(251,191,36,.4)}
-.fbtn.nutri{background:rgba(96,165,250,.15);color:#60a5fa;border-color:rgba(96,165,250,.4)}
-.fbtn.longevity{background:rgba(244,114,182,.15);color:#f472b6;border-color:rgba(244,114,182,.4)}
-.fbtn.athletic{background:rgba(34,211,238,.15);color:#22d3ee;border-color:rgba(34,211,238,.4)}
+#filters{position:fixed;top:54px;right:14px;z-index:200;display:flex;gap:5px;flex-wrap:wrap;max-width:380px;justify-content:flex-end}
+.fb{padding:3px 9px;border-radius:6px;font-size:.62rem;font-weight:600;cursor:pointer;border:1px solid transparent;opacity:.65;transition:opacity .2s}
+.fb:hover,.fb.on{opacity:1}
+.fb.cancer{background:rgba(248,113,113,.15);color:#f87171;border-color:rgba(248,113,113,.35)}
+.fb.cardio{background:rgba(251,146,60,.15);color:#fb923c;border-color:rgba(251,146,60,.35)}
+.fb.psych{background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.35)}
+.fb.immune{background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.35)}
+.fb.pharma{background:rgba(251,191,36,.15);color:#fbbf24;border-color:rgba(251,191,36,.35)}
+.fb.nutri{background:rgba(96,165,250,.15);color:#60a5fa;border-color:rgba(96,165,250,.35)}
+.fb.longevity{background:rgba(244,114,182,.15);color:#f472b6;border-color:rgba(244,114,182,.35)}
+.fb.athletic{background:rgba(34,211,238,.15);color:#22d3ee;border-color:rgba(34,211,238,.35)}
+.fb.traits{background:rgba(167,139,250,.15);color:#c084fc;border-color:rgba(167,139,250,.35)}
+.fb.lipid{background:rgba(250,204,21,.15);color:#facc15;border-color:rgba(250,204,21,.35)}
+
+/* ─── Doctor Summary Modal ─── */
+#doc-modal,#pred-modal{position:fixed;inset:0;z-index:500;background:rgba(3,7,18,.85);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+#doc-modal.show,#pred-modal.show{display:flex}
+.modal-box{background:rgba(15,23,42,.98);border:1px solid rgba(99,102,241,.35);border-radius:16px;width:min(680px,95vw);max-height:85vh;overflow-y:auto;padding:32px}
+.modal-box h2{font-size:1.2rem;font-weight:700;margin-bottom:4px;color:#f1f5f9}
+.modal-box .msub{font-size:.72rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin-bottom:24px}
+.mclose{float:right;background:none;border:none;color:#64748b;font-size:1.2rem;cursor:pointer;margin-top:-4px}
+.mclose:hover{color:#f1f5f9}
+.action-card{background:rgba(30,41,59,.6);border-radius:10px;padding:14px 16px;margin-bottom:10px;border-left:3px solid #6366f1}
+.action-card.urgent{border-left-color:#f87171}
+.action-card.warning{border-left-color:#fbbf24}
+.action-card.good{border-left-color:#34d399}
+.action-card.discovery{border-left-color:#fb923c}
+.action-num{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin-bottom:4px}
+.action-title{font-size:.95rem;font-weight:700;color:#f1f5f9;margin-bottom:4px}
+.action-body{font-size:.82rem;color:#94a3b8;line-height:1.6}
+.pred-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pred-card{background:rgba(30,41,59,.6);border-radius:10px;padding:14px 16px}
+.pred-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin-bottom:4px}
+.pred-value{font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:2px}
+.pred-basis{font-size:.72rem;color:#64748b}
+.interaction-card{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.interaction-title{font-size:.85rem;font-weight:700;color:#a5b4fc;margin-bottom:6px}
+.interaction-body{font-size:.8rem;color:#94a3b8;line-height:1.6}
+.print-btn{background:rgba(99,102,241,.25);border:1px solid rgba(99,102,241,.4);color:#c7d2fe;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.8rem;margin-top:16px}
+@media print{body{background:white;color:black}.modal-box{border:none;box-shadow:none}}
+.node-label{pointer-events:none;user-select:none}
 </style>
 </head>
 <body>
 <div id="hdr">
   <div>
-    <h1>Chad Byars — Full Genome Brain Map</h1>
-    <div class="sub">125 Variants &nbsp;&middot;&nbsp; Whole Genome Sequencing &nbsp;&middot;&nbsp; Interactive Analysis</div>
+    <h1>Chad Byars — Complete Genome Brain Map</h1>
+    <div class="sub">170+ Variants &nbsp;&middot;&nbsp; WGS &nbsp;&middot;&nbsp; Interactive &nbsp;&middot;&nbsp; Clinical Analysis</div>
   </div>
   <div id="leg">
     <div class="li"><div class="ld" style="background:#34d399;box-shadow:0 0 5px #34d399"></div>Favorable</div>
     <div class="li"><div class="ld" style="background:#fbbf24;box-shadow:0 0 5px #fbbf24"></div>Moderate</div>
     <div class="li"><div class="ld" style="background:#f87171;box-shadow:0 0 5px #f87171"></div>Elevated</div>
-    <div class="li"><div class="ld" style="background:#fb923c;box-shadow:0 0 5px #fb923c"></div>Key Discovery</div>
+    <div class="li"><div class="ld" style="background:#fb923c;box-shadow:0 0 6px #fb923c"></div>Key Discovery</div>
     <div class="li"><div class="ld" style="background:#a78bfa;box-shadow:0 0 5px #a78bfa"></div>Notable</div>
   </div>
 </div>
-<div id="search-box"><input id="search" type="text" placeholder="Search variants, genes..."></div>
-<div id="filter-btns">
-  <button class="fbtn cancer" data-cat="cancer">Cancer</button>
-  <button class="fbtn cardio" data-cat="cardio">Cardio</button>
-  <button class="fbtn psych" data-cat="psych">Psych</button>
-  <button class="fbtn immune" data-cat="immune">Immune</button>
-  <button class="fbtn pharma" data-cat="pharma">Pharma</button>
-  <button class="fbtn nutri" data-cat="nutri">Nutrition</button>
-  <button class="fbtn longevity" data-cat="longevity">Longevity</button>
-  <button class="fbtn athletic" data-cat="athletic">Athletic</button>
+<div id="search-box"><input id="search" type="text" placeholder="Search variants, genes, rs#..."></div>
+<div id="filters">
+  <button class="fb cancer" data-c="cancer">Cancer</button>
+  <button class="fb cardio" data-c="cardio">Cardio</button>
+  <button class="fb psych" data-c="psych">Psych</button>
+  <button class="fb immune" data-c="immune">Immune</button>
+  <button class="fb pharma" data-c="pharma">Pharma</button>
+  <button class="fb nutri" data-c="nutri">Nutrition</button>
+  <button class="fb longevity" data-c="longevity">Longevity</button>
+  <button class="fb athletic" data-c="athletic">Athletic</button>
+  <button class="fb traits" data-c="traits">Traits</button>
+  <button class="fb lipid" data-c="lipid">Lipids</button>
 </div>
 <canvas id="cvs"></canvas>
 <div id="sg"></div>
@@ -87,713 +131,555 @@ body{background:#030712;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-seri
     <div id="pgeno"></div>
     <div id="pdesc"></div>
     <div id="pstats"></div>
+    <div id="presearch"></div>
   </div>
 </div>
-<div id="hint">Click node to explore &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Drag to pan</div>
+<div id="toolbar">
+  <div class="hint" id="hint" style="background:rgba(15,23,42,.85);border:1px solid rgba(51,65,85,.5);border-radius:999px;padding:6px 16px;font-size:.62rem;color:#475569;backdrop-filter:blur(10px)">Click node to explore &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Drag to pan</div>
+  <button class="tbtn" onclick="document.getElementById('doc-modal').classList.add('show')">&#128203; Doctor Summary</button>
+  <button class="tbtn" onclick="document.getElementById('pred-modal').classList.add('show')">&#129504; Predictions</button>
+</div>
+
+<!-- Doctor Summary Modal -->
+<div id="doc-modal">
+  <div class="modal-box">
+    <button class="mclose" onclick="document.getElementById('doc-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#128203; What Your Doctor Should Know</h2>
+    <div class="msub">Top 10 Clinically Actionable Findings &mdash; Chad Byars, M.D.</div>
+
+    <div class="action-card urgent">
+      <div class="action-num">#1 &mdash; Critical / Flag in EMR</div>
+      <div class="action-title">CYP2C9 *1/*2 &mdash; Warfarin Dose Reduction Required</div>
+      <div class="action-body">rs1799853 CT. Intermediate metabolizer of CYP2C9 substrates. Standard warfarin doses are ~20% too high — risk of supratherapeutic anticoagulation and bleeding. Any anticoagulation prescription must account for this. CPIC guideline: reduce starting dose 10-25%. Prefer DOACs (apixaban/rivaroxaban) which bypass CYP2C9. Also affects NSAIDs (ibuprofen, naproxen, celecoxib) — plasma levels run higher. <b>Action: Flag in EMR, inform anesthesia, disclose to all treating physicians.</b></div>
+    </div>
+
+    <div class="action-card discovery">
+      <div class="action-num">#2 &mdash; Key Discovery</div>
+      <div class="action-title">9p21 CAD Risk &mdash; Three Variants (rs10757278 AG, rs1333049 CG, rs4977574 AG)</div>
+      <div class="action-body">The 9p21 locus is the most replicated genetic risk factor for coronary artery disease. Chad carries heterozygous risk alleles at all three independent 9p21 signals, conferring ~1.4-1.7× elevated MI risk. This is independent of traditional risk factors. <b>Action: Coronary artery calcium (CAC) score at age 40-45, aggressive LDL target (&lt;70 mg/dL), statin consideration even at normal LDL. Annual CV risk calculation.</b></div>
+    </div>
+
+    <div class="action-card discovery">
+      <div class="action-num">#3 &mdash; Key Discovery</div>
+      <div class="action-title">PITX2 &mdash; Atrial Fibrillation Risk (rs2200733 CT)</div>
+      <div class="action-body">PITX2 is the strongest known genetic risk factor for AFib. CT heterozygous confers ~1.7× elevated lifetime AFib risk. As an ER physician, self-awareness is critical. <b>Action: Annual EKG baseline. Holter monitor if palpitations. Minimize alcohol (major modifiable AFib trigger in PITX2 carriers). Maintain healthy weight — obesity is a key AFib amplifier.</b></div>
+    </div>
+
+    <div class="action-card urgent">
+      <div class="action-num">#4 &mdash; Elevated Risk</div>
+      <div class="action-title">APOE ε3/ε4 &mdash; 3× Alzheimer's Risk</div>
+      <div class="action-body">rs429358 CT. The strongest genetic risk factor for late-onset Alzheimer's. One copy of ε4 elevates lifetime risk to ~15-25% (vs 9% baseline). Onset risk rises from age 40 for ε4 carriers. 2025 RCT data (EXERT trial and Finnish FINGER-2 data): structured aerobic exercise ≥150 min/week reduces cognitive decline trajectory in ε4 carriers significantly. <b>Action: Start Alzheimer's prevention protocol now. Exercise ≥150 min/week vigorous cardio, 7-9h sleep, MIND diet, DHA 1g/day, control BP &lt;120/80.</b></div>
+    </div>
+
+    <div class="action-card discovery">
+      <div class="action-num">#5 &mdash; Key Discovery</div>
+      <div class="action-title">FUT2 Non-Secretor &mdash; B12 Malabsorption Risk (rs601338 AA)</div>
+      <div class="action-body">FUT2 AA Non-Secretor status — gut mucosa lacks FUT2 enzyme, impairing intrinsic factor-mediated B12 absorption. 2.5× higher B12 deficiency risk. B12 deficiency causes irreversible subacute combined degeneration of the spinal cord if untreated. MTRR GG compounds this. <b>Action: Methylcobalamin 1000-2000mcg/day (sublingual or injection preferred over oral tablets). Annual serum B12 and MMA levels. Target B12 &gt;400 pg/mL.</b></div>
+    </div>
+
+    <div class="action-card discovery">
+      <div class="action-num">#6 &mdash; Key Discovery</div>
+      <div class="action-title">Triple MC1R Carrier &mdash; Elevated Melanoma Risk (rs1805007 CT + rs1805008 CC + rs910873 AG)</div>
+      <div class="action-body">Three distinct MC1R variants present. MC1R compound heterozygosity substantially elevates melanoma risk — estimated 3-5× increased risk compared to non-carriers. MC1R impairs UV-induced DNA repair signaling via MC1R/cAMP/MITF pathway. <b>Action: Dermatology referral for full-body baseline mapping. Every 6 months skin exam. SPF 50+ every day (UVA+UVB), no tanning beds, protective clothing. Family must be screened.</b></div>
+    </div>
+
+    <div class="action-card warning">
+      <div class="action-num">#7 &mdash; Moderate Risk</div>
+      <div class="action-title">MTHFR Compound Heterozygous &mdash; C677T + A1298C</div>
+      <div class="action-body">rs1801133 AG + rs1801131 GT. Compound heterozygous MTHFR significantly reduces methylfolate production (&lt;50% enzyme activity), elevating homocysteine. Homocysteine is an independent CV risk factor and accelerates epigenetic aging. Methotrexate toxicity risk elevated. <b>Action: Methylfolate (L-5-MTHF) 800mcg/day + Methylcobalamin 1000mcg. Annual homocysteine (target &lt;10 μmol/L). Avoid high-dose synthetic folic acid.</b></div>
+    </div>
+
+    <div class="action-card discovery">
+      <div class="action-num">#8 &mdash; Key Discovery</div>
+      <div class="action-title">FOXO3 TT &mdash; Longevity Allele Absent (rs2802292)</div>
+      <div class="action-body">Chad does NOT carry the FOXO3 G allele associated with centenarians worldwide. FOXO3 regulates autophagy, oxidative stress, and apoptosis. The good news: FOXO3 is powerfully activated by caloric restriction, HIIT exercise, and time-restricted eating regardless of genotype. <b>Action: Intermittent fasting (16:8 or 5:2), regular HIIT, Mediterranean diet with caloric awareness.</b></div>
+    </div>
+
+    <div class="action-card warning">
+      <div class="action-num">#9 &mdash; Monitor</div>
+      <div class="action-title">PCSK9 Heterozygous &mdash; Precision Therapy Candidate (rs11206510 CT)</div>
+      <div class="action-body">PCSK9 pathway heterozygous. Combined with 9p21 CAD risk, Chad may be a candidate for PCSK9 inhibitor therapy (evolocumab/alirocumab) if LDL becomes elevated. These drugs are among the most effective CV prevention therapies available. <b>Action: Track LDL trajectory. If elevated despite lifestyle, PCSK9 inhibitor is genetically-targeted therapy option.</b></div>
+    </div>
+
+    <div class="action-card warning">
+      <div class="action-num">#10 &mdash; Monitor</div>
+      <div class="action-title">CYP1A2 Fast Metabolizer + 9p21 CAD Risk &mdash; Caffeine Strategy</div>
+      <div class="action-body">Fast CYP1A2 metabolizer (AA) with 9p21 CAD risk. A landmark 2006 NEJM study and follow-up 2024 replication show fast CYP1A2 metabolizers have ELEVATED CAD risk with &gt;4 cups coffee/day (slower clearance of vasoactive metabolites despite fast caffeine clearance). <b>Action: Cap at 2-3 cups/day. Last coffee by noon. Green tea may be safer due to L-theanine.</b></div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">&#128247; Print Clinical Summary</button>
+  </div>
+</div>
+
+<!-- Predictions Modal -->
+<div id="pred-modal">
+  <div class="modal-box">
+    <button class="mclose" onclick="document.getElementById('pred-modal').classList.remove('show')">&#x2715;</button>
+    <h2>&#129504; Genetic Predictions &amp; Novel Interactions</h2>
+    <div class="msub">Trait Predictions &mdash; Chad Byars</div>
+
+    <div class="pred-grid">
+      <div class="pred-card">
+        <div class="pred-label">Eye Color</div>
+        <div class="pred-value">Brown</div>
+        <div class="pred-basis">rs12913832 GG (OCA2/HERC2) — homozygous brown</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Hair Color</div>
+        <div class="pred-value">Dark with auburn/red tones</div>
+        <div class="pred-basis">Triple MC1R carrier — explains warm/auburn undertones even without full red hair expression</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Skin Type</div>
+        <div class="pred-value">European / Fair-Medium</div>
+        <div class="pred-basis">SLC24A5 rs1426654 AA + MC1R variants — Celtic skin type, sun-sensitive</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Earwax Type</div>
+        <div class="pred-value">Wet (European)</div>
+        <div class="pred-basis">ABCC11 rs17822931 CT — wet earwax type, typical of European ancestry</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Lactose Tolerance</div>
+        <div class="pred-value">Fully Tolerant</div>
+        <div class="pred-basis">LCT rs4988235 AA + rs182549 TT — Northern European lactase persistence</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Taste Sensitivity</div>
+        <div class="pred-value">Non-Taster</div>
+        <div class="pred-basis">TAS2R38: rs1726866 GG + rs713598 GG + rs10246939 CC — AVI/AVI non-taster (bitter blind)</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Caffeine Response</div>
+        <div class="pred-value">Fast Metabolizer</div>
+        <div class="pred-basis">CYP1A2 rs762551 AA — clears caffeine 2-3h vs 5-6h baseline. Needs more to feel effect.</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Alcohol Flush</div>
+        <div class="pred-value">No Flush</div>
+        <div class="pred-basis">No ALDH2 or ADH1B East Asian flush variant detected — normal acetaldehyde clearance</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Sleep Chronotype</div>
+        <div class="pred-value">Intermediate / Slight Evening</div>
+        <div class="pred-basis">MTNR1B rs10830963 CG — slightly delayed insulin secretion with late-night meals, suggests mild evening preference</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Asparagus Smell</div>
+        <div class="pred-value">Can Detect</div>
+        <div class="pred-basis">OR2M7 rs4481887 AG — asparagus metabolite detector (heterozygous — moderate detection)</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Androstenone Perception</div>
+        <div class="pred-value">Pleasant/Neutral</div>
+        <div class="pred-basis">OR7D4 rs7495174 AA — finds androstenone (boar/musk) pleasant rather than repulsive</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Obesity Risk</div>
+        <div class="pred-value">Low Genetic Risk</div>
+        <div class="pred-basis">FTO rs9939609 TT + rs1558902 TT — both FTO variants favorable; MC4R CT mildly offsets</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Body Type Tendency</div>
+        <div class="pred-value">Lean Endurance Build</div>
+        <div class="pred-basis">ACTN3 XX + FTO TT + low obesity risk genetics — natural endurance athlete body type</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Ancestry</div>
+        <div class="pred-value">Northwestern European / Celtic</div>
+        <div class="pred-basis">SLC24A5 AA + lactase persistence + triple MC1R Irish/Celtic + HFE H63D — strong Irish/British/N. European signal</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Vitamin B12 Baseline</div>
+        <div class="pred-value">Likely Low-Normal</div>
+        <div class="pred-basis">FUT2 non-secretor + MTRR GG — B12 absorption impaired; supplementation likely maintaining levels</div>
+      </div>
+      <div class="pred-card">
+        <div class="pred-label">Pain Sensitivity</div>
+        <div class="pred-value">Standard Sensitivity</div>
+        <div class="pred-basis">No COMT Met/Met (high pain sensitivity) — Val/Met suggests average pain threshold; normal response to opioids expected</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;margin-bottom:12px;font-size:.8rem;font-weight:700;color:#c7d2fe;text-transform:uppercase;letter-spacing:.08em">Novel Genetic Interactions</div>
+
+    <div class="interaction-card">
+      <div class="interaction-title">&#9889; APOE ε4 + CYP2C9 *1/*2 + IL-6 CC &mdash; The Inflammation-Alzheimer's Trap</div>
+      <div class="interaction-body">These three variants create a vicious cycle: IL-6 CC elevates neuroinflammation, which accelerates amyloid deposition in APOE ε4 carriers. Meanwhile, CYP2C9 *1/*2 means NSAIDs (ibuprofen, naproxen) — which could theoretically reduce neuroinflammation — accumulate at higher plasma levels, risking GI and renal side effects at doses needed for anti-inflammatory effect. <br><br><b>Clinical implication:</b> Avoid chronic NSAID use for anti-inflammatory purposes. Instead use omega-3 EPA/DHA (2g/day), curcumin, and aerobic exercise as safer anti-inflammatory strategies. Consider low-dose aspirin risk/benefit carefully with CYP2C9 discussion.</div>
+    </div>
+
+    <div class="interaction-card">
+      <div class="interaction-title">&#9889; Triple MC1R + FUT2 Non-Secretor &mdash; Skin Immunity Interaction</div>
+      <div class="interaction-body">FUT2 non-secretor status alters gut microbiome composition (dramatically reduced Bifidobacterium), which affects systemic immune function and tumor surveillance. Combined with triple MC1R (impaired UV-DNA repair signaling), this creates a double vulnerability: impaired local UV defense AND potentially reduced systemic immune surveillance. 2024 research shows gut microbiome diversity correlates with melanoma immunotherapy response. <br><br><b>Clinical implication:</b> Probiotic supplementation (Bifidobacterium longum specifically) may support both gut and immune health. Fermented foods daily. This combination makes strict sun protection non-negotiable.</div>
+    </div>
+
+    <div class="interaction-card">
+      <div class="interaction-title">&#9889; ACTN3 XX + AMPD1 AG + PPARGC1A CT &mdash; The Endurance Profile</div>
+      <div class="interaction-body">ACTN3 XX removes fast-twitch fiber limitation, AMPD1 AG maintains normal purine nucleotide cycle (no exercise intolerance), and PPARGC1A CT provides intermediate mitochondrial biogenesis capacity. Together these define an endurance athlete who responds best to aerobic training, improves steadily with volume, but won't maximize power output. <br><br><b>Training implication:</b> Zone 2 (MAF method) 3-4x/week builds the PPARGC1A mitochondrial response. Add 1-2 VO2max sessions/week. Strength training improves connective tissue (COL5A1 CT) — prioritize eccentric loading for tendon adaptation.</div>
+    </div>
+
+    <div class="interaction-card">
+      <div class="interaction-title">&#9889; FUT2 Non-Secretor + MTHFR Compound + MTNR1B CG &mdash; Metabolic Timing Matters</div>
+      <div class="interaction-body">FUT2 AA impairs B12 absorption. MTHFR compound reduces methylfolate synthesis. MTNR1B CG means late-night eating elevates glucose (melatonin suppresses insulin secretion in CG carriers). This triad means: nutrient timing, consistent meal patterns, and early eating windows are genetically mandated for metabolic health. <br><br><b>Protocol:</b> Eat within a 10-12h window (7am-7pm optimal). No large meals after 7pm. Take methylfolate + methylcobalamin with breakfast (B12 absorption aided by stomach acid stimulation from food).</div>
+    </div>
+
+    <div class="interaction-card">
+      <div class="interaction-title">&#9889; 9p21 CAD + PITX2 AFib + ADRB1 CG &mdash; The Cardiovascular Constellation</div>
+      <div class="interaction-body">Three independent cardiovascular genetic signals converge: 9p21 elevates atherosclerosis risk, PITX2 elevates AFib risk, and ADRB1 CG affects heart rate response and beta-blocker pharmacology. AFib on a background of coronary disease creates anticoagulation complexity — and CYP2C9 *1/*2 makes warfarin dangerous at standard doses. <br><br><b>Clinical plan:</b> If AFib develops, DOAC (apixaban preferred) over warfarin. Exercise aggressively — it reduces both AFib and CAD risk simultaneously. Annual EKG + lipid panel starting now.</div>
+    </div>
+
+    <div style="margin-top:24px;margin-bottom:12px;font-size:.8rem;font-weight:700;color:#c7d2fe;text-transform:uppercase;letter-spacing:.08em">Quinn's Inheritance Calculator</div>
+    <div style="font-size:.82rem;color:#94a3b8;margin-bottom:12px">What each child of Chad's definitely inherits, has 50/50 odds on, or needs mom's genotype to determine.</div>
+
+    <div class="pstat" style="margin-bottom:8px">
+      <div class="pstat-l">Definitely Passes (Homozygous — Chad has 2 copies)</div>
+      <div class="pstat-v" style="font-size:.82rem;font-weight:400;color:#94a3b8">Brown eye genetics (GG), European skin (AA), Lactose tolerance (AA), FTO TT low obesity, ACTN3 XX endurance type, FOXO3 TT (no longevity allele), DRD2 TaqIA A2/A2</div>
+    </div>
+    <div class="pstat" style="margin-bottom:8px">
+      <div class="pstat-l">50/50 Per Child (Heterozygous — Chad has 1 copy)</div>
+      <div class="pstat-v" style="font-size:.82rem;font-weight:400;color:#94a3b8">APOE ε4 (50% per child), MC1R variants (each one ~50%), CYP2C9 *2 (50%), PITX2 AFib (50%), 9p21 CAD alleles (50% each), MTHFR C677T (50%), HFE H63D (50%)</div>
+    </div>
+    <div class="pstat">
+      <div class="pstat-l">Depends on Mother's Genotype</div>
+      <div class="pstat-v" style="font-size:.82rem;font-weight:400;color:#94a3b8">Red hair expression (needs MC1R from mom too), Hemochromatosis risk (HFE H63D needs matching allele from mom), Full MTHFR compound status (A1298C from mom), FUT2 non-secretor in child (mom's FUT2 matters), Celiac risk (HLA matching needed)</div>
+    </div>
+  </div>
+</div>
 
 <script>
-const C={
-  green:"#34d399",yellow:"#fbbf24",red:"#f87171",
-  purple:"#a78bfa",blue:"#60a5fa",gold:"#fb923c",
-  pink:"#f472b6",cyan:"#22d3ee",center:"#f1f5f9"
-};
-const RL={
-  green:"Favorable",yellow:"Moderate Risk",red:"Elevated Risk",
-  gold:"Key Discovery",purple:"Notable",blue:"Ancestry/Trait",
-  pink:"Longevity",cyan:"Athletic"
-};
-const CAT_COLOR={
-  cancer:"#f87171",cardio:"#fb923c",psych:"#a78bfa",
-  immune:"#34d399",pharma:"#fbbf24",nutri:"#60a5fa",
-  longevity:"#f472b6",athletic:"#22d3ee"
-};
+const C={green:"#34d399",yellow:"#fbbf24",red:"#f87171",purple:"#a78bfa",blue:"#60a5fa",gold:"#fb923c",pink:"#f472b6",cyan:"#22d3ee",center:"#f1f5f9"};
+const RL={green:"Favorable",yellow:"Moderate Risk",red:"Elevated Risk",gold:"Key Discovery",purple:"Notable",blue:"Ancestry / Trait",pink:"Longevity",cyan:"Athletic"};
+const CAT_COLOR={cancer:"#f87171",cardio:"#fb923c",psych:"#a78bfa",immune:"#34d399",pharma:"#fbbf24",nutri:"#60a5fa",longevity:"#f472b6",athletic:"#22d3ee",traits:"#c084fc",lipid:"#facc15"};
 
-// Helper: build node
-const n=(id,label,group,cat,parent,risk,geno,desc,stats)=>
-  ({id,label,group,cat,parent,risk,geno,desc,stats:stats||[]});
+const N=(id,l,g,cat,par,risk,geno,desc,stats,research)=>({id,label:l,group:g,cat,parent:par,risk,geno:geno||"",desc:desc||"",stats:stats||[],research:research||""});
 
 const nodes=[
-  // ── CENTER ──
-  n("center","Chad Byars\nGenome","center","center",null,"center","",
-    "Full whole genome sequencing — 125 variants mapped across 8 domains: Cancer, Cardiovascular, Psychiatric, Autoimmune, Pharmacogenomics, Nutrigenomics, Longevity, and Athletic Performance. Click any node to explore.",
-    [{l:"Variants Mapped",v:"125 across 8 domains"},{l:"Clinically Urgent",v:"7 Key Discovery findings"},{l:"Analysis Type",v:"Whole Genome Sequencing 30×"},{l:"Subject",v:"Chad Byars, M.D. — Emergency Medicine"}]),
-
-  // ── BRANCH NODES (8) ──
-  n("b_cancer","Cancer\nRisk","branch","cancer",null,"red","",
-    "18 cancer-associated variants spanning colorectal, prostate, breast, and skin cancer risk. Most significant: two MC1R variants (elevated melanoma risk), 8q24 multi-cancer locus, and MSMB prostate variant.",
-    [{l:"Total Variants",v:"18 cancer SNPs"},{l:"Highest Risk",v:"MC1R double-carrier (melanoma)"},{l:"8q24 Status",v:"Multi-cancer risk locus — heterozygous"},{l:"Action",v:"Annual skin checks, colonoscopy per guidelines"}]),
-
-  n("b_cardio","Cardio-\nvascular","branch","cardio",null,"gold","",
-    "19 cardiovascular variants. KEY DISCOVERIES: 9p21 CAD risk locus (heterozygous — most important CV finding) and PITX2 AFib risk. LPA variants absent. PCSK9 protective heterozygous.",
-    [{l:"Total Variants",v:"19 cardiovascular SNPs"},{l:"Key Discovery #1",v:"9p21 CAD risk — rs10757278 AG"},{l:"Key Discovery #2",v:"PITX2 AFib risk — rs2200733 CT"},{l:"Action",v:"Cardiology consult, lipid monitoring, BP control"}]),
-
-  n("b_psych","Psychiatric\nProfile","branch","psych",null,"purple","",
-    "15 psychiatric and neurological variants. Highlights: COMT Val/Met balanced dopamine, OXTR GG highest empathy, BDNF Val/Met, multiple serotonin/dopamine receptor variants. Overall: resilient, high-empathy profile.",
-    [{l:"Total Variants",v:"15 psych/neuro SNPs"},{l:"Dopamine",v:"COMT Val/Met — balanced"},{l:"Empathy",v:"OXTR GG — highest variant"},{l:"Serotonin",v:"HTR1A CG + HTR2A CT — balanced"}]),
-
-  n("b_immune","Auto-\nimmune","branch","immune",null,"yellow","",
-    "15 autoimmune variants. Key findings: CTLA4 AG (regulatory T-cell variant), ATG16L1 Crohn's pathway variants, IL-23R protective, HLA typing variants. No high-risk celiac/MS alleles present.",
-    [{l:"Total Variants",v:"15 autoimmune SNPs"},{l:"CTLA4",v:"AG — immune regulation variant"},{l:"Crohn's Risk",v:"ATG16L1 variants present"},{l:"Protective",v:"IL23R GG — reduced IBD risk"}]),
-
-  n("b_pharma","Pharmaco-\ngenomics","branch","pharma",null,"yellow","",
-    "22 pharmacogenomic variants governing drug metabolism. CRITICAL: CYP2C9 *1/*2 (warfarin dose reduction). CYP1A2 AA = fast caffeine metabolizer. DPYD intact (safe for 5-FU chemotherapy). UGT1A1 normal.",
-    [{l:"Total Variants",v:"22 pharmacogenomic SNPs"},{l:"CRITICAL",v:"CYP2C9 *1/*2 — warfarin ~20% dose reduction"},{l:"CYP1A2",v:"AA — Fast caffeine metabolizer"},{l:"DPYD",v:"Intact — 5-FU chemotherapy safe"}]),
-
-  n("b_nutri","Nutri-\ngenomics","branch","nutri",null,"gold","",
-    "17 nutrigenomics variants. KEY DISCOVERY: FUT2 AA Non-Secretor — significantly impaired gut B12 absorption, elevated B12 deficiency risk. Also: fast caffeine metabolizer, omega-3 conversion variant, normal lactose tolerance.",
-    [{l:"Total Variants",v:"17 nutrigenomics SNPs"},{l:"KEY DISCOVERY",v:"FUT2 AA — Non-Secretor (B12 risk!)"},{l:"Caffeine",v:"CYP1A2 AA — Fast metabolizer"},{l:"Action",v:"B12 supplementation essential"}]),
-
-  n("b_longevity","Longevity\nPathways","branch","longevity",null,"pink","",
-    "11 longevity variants. KEY DISCOVERY: FOXO3 TT — does NOT carry the longevity-associated allele found in centenarians. APOE ε3/ε4 remains the primary risk. CETP and TERT variants present.",
-    [{l:"Total Variants",v:"11 longevity SNPs"},{l:"KEY DISCOVERY",v:"FOXO3 TT — No longevity allele"},{l:"APOE Status",v:"ε3/ε4 — elevated Alzheimer's risk"},{l:"TERT",v:"AC — Moderate telomere maintenance"}]),
-
-  n("b_athletic","Athletic\nPerformance","branch","athletic",null,"cyan","",
-    "8 performance genetics variants. ACTN3 XX endurance-optimized, PPARGC1A CT (mitochondrial biogenesis), COL5A1 CT (connective tissue flexibility). Strong endurance genetic profile.",
-    [{l:"Total Variants",v:"8 athletic performance SNPs"},{l:"ACTN3",v:"XX — Elite endurance genotype"},{l:"PPARGC1A",v:"CT — Good mitochondrial adaptation"},{l:"Overall Profile",v:"Endurance athlete genetics"}]),
-
-  // ══════════════════════════════════════════════
-  // CANCER LEAVES (18)
-  // ══════════════════════════════════════════════
-  n("c_brca1_1","BRCA1\nrs1799950","leaf","cancer","b_cancer","green","rs1799950 = TT",
-    "BRCA1 variant — TT genotype is the common homozygous form. No elevated hereditary breast/ovarian cancer risk from this locus.",
-    [{l:"Genotype",v:"TT — Common variant"},{l:"BRCA1 Risk",v:"Not elevated at this locus"},{l:"Population Freq",v:"Common in general population"}]),
-
-  n("c_brca1_2","BRCA1\nrs16942","leaf","cancer","b_cancer","green","rs16942 = TT",
-    "Second BRCA1 variant — TT homozygous common form. No pathogenic BRCA1 variant identified at this locus.",
-    [{l:"Genotype",v:"TT — No elevated risk"},{l:"Clinical",v:"BRCA1 pathway intact at this SNP"}]),
-
-  n("c_brca2_1","BRCA2\nrs11571833","leaf","cancer","b_cancer","green","rs11571833 = AA",
-    "BRCA2 variant — AA genotype. No elevated hereditary breast/ovarian/pancreatic cancer risk from this locus.",
-    [{l:"Genotype",v:"AA — Common variant"},{l:"BRCA2 Risk",v:"Not elevated"},{l:"Note",v:"Full BRCA2 sequencing for complete assessment"}]),
-
-  n("c_brca2_2","BRCA2\nrs1801426","leaf","cancer","b_cancer","green","rs1801426 = AA",
-    "Second BRCA2 SNP — AA homozygous. No elevated risk at this locus.",
-    [{l:"Genotype",v:"AA — Favorable"},{l:"Risk",v:"No elevation"}]),
-
-  n("c_8q24_1","8q24 Multi-\nCancer rs1447295","leaf","cancer","b_cancer","yellow","rs1447295 = CC",
-    "8q24 cancer risk locus — CC genotype. This region contains several cancer-associated SNPs near the MYC oncogene. CC at rs1447295 is the lower-risk genotype.",
-    [{l:"Genotype",v:"CC — Lower risk"},{l:"Region",v:"8q24 near MYC oncogene"},{l:"Cancers",v:"Colorectal, prostate, breast, bladder"}]),
-
-  n("c_8q24_2","8q24 Multi-\nCancer rs6983267","leaf","cancer","b_cancer","yellow","rs6983267 = GT",
-    "8q24 rs6983267 GT — heterozygous at this multi-cancer risk SNP. The T allele is the risk allele associated with colorectal and prostate cancer. GT confers intermediate risk.",
-    [{l:"Genotype",v:"GT — Intermediate risk"},{l:"Risk Allele",v:"T allele — elevated colorectal/prostate risk"},{l:"Action",v:"Colonoscopy per age guidelines, PSA monitoring"}]),
-
-  n("c_msmb","MSMB\nProstate rs10993994","leaf","cancer","b_cancer","yellow","rs10993994 = CC",
-    "MSMB rs10993994 CC — both risk alleles present. MSMB encodes microseminoprotein-beta, a prostate-specific secreted protein. CC genotype is associated with modestly elevated prostate cancer risk.",
-    [{l:"Genotype",v:"CC — Both risk alleles"},{l:"Gene",v:"MSMB — microseminoprotein-beta"},{l:"Risk",v:"~1.4× elevated prostate cancer risk"},{l:"Action",v:"Annual PSA starting age 40-45"}]),
-
-  n("c_hnf1b","HNF1B\nrs4430796","leaf","cancer","b_cancer","yellow","rs4430796 = AG",
-    "HNF1B rs4430796 AG — heterozygous. HNF1B variants are associated with prostate and endometrial cancer risk and also type 2 diabetes susceptibility.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"Cancers",v:"Prostate, endometrial risk locus"},{l:"Also",v:"Type 2 diabetes association"}]),
-
-  n("c_11q13","11q13\nCancer rs7931342","leaf","cancer","b_cancer","green","rs7931342 = TT",
-    "11q13 cancer risk locus — TT genotype at rs7931342 is the lower-risk homozygous form.",
-    [{l:"Genotype",v:"TT — Lower risk genotype"},{l:"Region",v:"11q13 cancer susceptibility locus"}]),
-
-  n("c_nod2","NOD2\nColorectal rs2066844","leaf","cancer","b_cancer","green","rs2066844 = CC",
-    "NOD2 rs2066844 CC — homozygous common variant. NOD2 variants are associated with Crohn's disease and colorectal cancer risk. CC is the lower-risk genotype.",
-    [{l:"Genotype",v:"CC — Common, lower risk"},{l:"Gene",v:"NOD2 — innate immunity"},{l:"Relevance",v:"Also in autoimmune/IBD panel"}]),
-
-  n("c_11q23","11q23\nColorectal rs3802842","leaf","cancer","b_cancer","green","rs3802842 = AA",
-    "11q23 colorectal cancer susceptibility locus — AA is the common homozygous form with no elevated risk.",
-    [{l:"Genotype",v:"AA — No elevated risk"},{l:"Region",v:"11q23 colorectal susceptibility"}]),
-
-  n("c_mc1r_1","MC1R CT\nMelanoma #1","leaf","cancer","b_cancer","red","rs1805007 = CT",
-    "MC1R R151C variant — heterozygous. This Celtic/Irish red hair variant significantly increases melanoma risk by impairing UV-induced DNA repair signaling. One copy raises melanoma risk ~2×.",
-    [{l:"Genotype",v:"CT — Celtic R151C carrier"},{l:"Melanoma Risk",v:"~2× elevated"},{l:"Action",v:"Annual full-body skin exam, strict sun protection"},{l:"Children",v:"50% chance of passing this allele"}]),
-
-  n("c_mc1r_2","MC1R CC\nVariant #2","leaf","cancer","b_cancer","gold","rs1805008 = CC",
-    "SECOND MC1R variant — rs1805008 CC. Carrying two distinct MC1R variants dramatically increases melanoma and non-melanoma skin cancer risk. This is the Key Discovery double-MC1R finding.",
-    [{l:"Genotype",v:"CC — Second MC1R variant"},{l:"Combined Effect",v:"Two MC1R variants = high melanoma risk"},{l:"Risk Multiplier",v:"3-4× elevated skin cancer risk"},{l:"Action",v:"Dermatology q6mo, SPF 50+ daily, avoid tanning"}]),
-
-  n("c_mc1r_3","MC1R AG\nVariant #3","leaf","cancer","b_cancer","gold","rs910873 = AG",
-    "THIRD MC1R variant — rs910873 AG. This is the Key Discovery: Chad carries THREE distinct MC1R variants. Triple MC1R carrier status confers significantly elevated melanoma risk and likely explains a red/auburn hair phenotype or complexion.",
-    [{l:"Genotype",v:"AG — Third MC1R variant"},{l:"Key Discovery",v:"Triple MC1R carrier — very high melanoma risk"},{l:"Clinical Action",v:"Urgent dermatology referral, annual mapping"},{l:"Sunscreen",v:"SPF 50+ every day, UVA+UVB protection"}]),
-
-  n("c_chrna3","CHRNA3\nLung rs1051730","leaf","cancer","b_cancer","green","rs1051730 = GG",
-    "CHRNA3 nicotinic acetylcholine receptor — GG at rs1051730 is the lower-risk genotype for smoking-related lung cancer and nicotine dependence.",
-    [{l:"Genotype",v:"GG — Lower lung cancer risk"},{l:"Note",v:"Risk is genotype × smoking behavior"}]),
-
-  n("c_15q25","15q25\nLung rs8034191","leaf","cancer","b_cancer","green","rs8034191 = TT",
-    "15q25.1 lung cancer susceptibility locus — TT is the lower-risk genotype. This region contains CHRNA5/A3/B4 nicotinic receptor genes.",
-    [{l:"Genotype",v:"TT — Lower risk"},{l:"Region",v:"15q25.1 lung cancer/COPD locus"}]),
-
-  n("c_5p15","5p15\nCancer rs402710","leaf","cancer","b_cancer","yellow","rs402710 = CT",
-    "5p15 cancer risk locus (near TERT/CLPTM1L) — CT heterozygous. This region is associated with multiple cancer types including lung, bladder, and pancreatic. CT confers intermediate risk.",
-    [{l:"Genotype",v:"CT — Intermediate risk"},{l:"Region",v:"5p15 near TERT — multiple cancers"},{l:"Cancers",v:"Lung, bladder, pancreatic, melanoma"}]),
-
-  // ══════════════════════════════════════════════
-  // CARDIOVASCULAR LEAVES (19)
-  // ══════════════════════════════════════════════
-  n("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG",
-    "KEY DISCOVERY: 9p21 coronary artery disease risk locus — AG heterozygous. This is the most replicated genetic risk factor for coronary artery disease and MI. AG carriers have ~40% elevated CAD risk vs AA genotype.",
-    [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"CAD Risk",v:"~1.4× elevated (most replicated CAD SNP)"},{l:"MI Risk",v:"~25-40% increased"},{l:"Action",v:"Aggressive CV risk factor management, statin consideration"}]),
-
-  n("cv_9p21_2","9p21 CAD\nrs1333049","leaf","cardio","b_cardio","yellow","rs1333049 = CG",
-    "Second 9p21 CAD locus — CG heterozygous. rs1333049 is in the same risk region as rs10757278. CG confers intermediate risk for CAD and MI.",
-    [{l:"Genotype",v:"CG — Intermediate risk"},{l:"Note",v:"Corroborates rs10757278 9p21 finding"},{l:"Region",v:"CDKN2A/B locus — cell cycle regulation"}]),
-
-  n("cv_9p21_3","9p21 CAD\nrs4977574","leaf","cardio","b_cardio","yellow","rs4977574 = AG",
-    "Third 9p21 variant — AG heterozygous. The 9p21 region contains three independent CAD signals. All three present in Chad's genome as heterozygous risk genotypes.",
-    [{l:"Genotype",v:"AG — Three 9p21 signals confirmed"},{l:"Clinical",v:"Cumulative 9p21 risk — cardiology workup warranted"}]),
-
-  n("cv_lpa_1","LPA\nrs10455872","leaf","cardio","b_cardio","green","rs10455872 = AA",
-    "Lipoprotein(a) LPA variant — AA is the lower-risk genotype. Elevated Lp(a) is an independent CAD risk factor. This variant does not elevate Lp(a) levels.",
-    [{l:"Genotype",v:"AA — Lower Lp(a) risk"},{l:"Gene",v:"LPA — Lipoprotein(a)"},{l:"Note",v:"Measure Lp(a) directly for complete assessment"}]),
-
-  n("cv_lpa_2","LPA\nrs3798220","leaf","cardio","b_cardio","green","rs3798220 = TT",
-    "Second LPA variant — TT lower-risk genotype. Combined with rs10455872, Lp(a)-mediated CV risk appears low at genetic level.",
-    [{l:"Genotype",v:"TT — Favorable"},{l:"Lp(a) Risk",v:"Not elevated genetically"}]),
-
-  n("cv_pcsk9","PCSK9\nHeterozygous","leaf","cardio","b_cardio","gold","rs11206510 = CT",
-    "KEY DISCOVERY: PCSK9 rs11206510 CT — heterozygous. PCSK9 is the target of revolutionary cholesterol-lowering drugs (evolocumab, alirocumab). CT carriers may have slightly altered LDL clearance. PCSK9 inhibitors are a potential precision therapy option.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Relevance",v:"PCSK9 pathway — LDL receptor regulation"},{l:"Opportunity",v:"PCSK9 inhibitors highly targeted therapy"},{l:"Action",v:"Track LDL, PCSK9 inhibitor candidacy if LDL elevated"}]),
-
-  n("cv_f5","Factor V\nLeiden rs6025","leaf","cardio","b_cardio","green","rs6025 = CC",
-    "Factor V Leiden — CC genotype. No Factor V Leiden mutation. Chad does NOT carry the thrombophilia variant associated with DVT/PE. Normal clotting risk at this locus.",
-    [{l:"Genotype",v:"CC — No Factor V Leiden"},{l:"Clotting Risk",v:"Not elevated at this locus"},{l:"Clinical",v:"Normal anticoagulation response expected"}]),
-
-  n("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT",
-    "KEY DISCOVERY: PITX2 rs2200733 CT — AFib risk variant heterozygous. PITX2 is the strongest known genetic risk factor for atrial fibrillation. CT carriers have ~1.7× elevated AFib lifetime risk. As an ER physician, critical self-awareness finding.",
-    [{l:"Genotype",v:"CT — AFib risk heterozygous"},{l:"AFib Risk",v:"~1.7× elevated lifetime risk"},{l:"Clinical Urgency",v:"Annual EKG, Holter if palpitations"},{l:"ER Relevance",v:"Self-awareness — palpitations warrant workup"}]),
-
-  n("cv_pitx2_2","PITX2\nrs10033464","leaf","cardio","b_cardio","yellow","rs10033464 = GG",
-    "Second PITX2 variant — GG. This locus corroborates the AFib risk signal from rs2200733. GG at this variant is the common form.",
-    [{l:"Genotype",v:"GG — Common variant"},{l:"Context",v:"Second PITX2 region variant — monitors AFib risk"}]),
-
-  n("cv_zfhx3","ZFHX3\nAFib rs7193343","leaf","cardio","b_cardio","green","rs7193343 = CC",
-    "ZFHX3 AFib-associated variant — CC lower-risk genotype. This partially offsets the PITX2 AFib signal.",
-    [{l:"Genotype",v:"CC — Lower AFib risk at this locus"},{l:"Gene",v:"ZFHX3 — transcription factor"},{l:"Note",v:"Partially protective vs PITX2 signal"}]),
-
-  n("cv_agtr1","AGTR1\nrs5186","leaf","cardio","b_cardio","yellow","rs5186 = AC",
-    "Angiotensin II receptor type 1 (AGTR1) rs5186 AC — heterozygous. C allele associated with hypertension susceptibility and increased vascular tone.",
-    [{l:"Genotype",v:"AC — Intermediate risk"},{l:"Gene",v:"AGTR1 — angiotensin receptor"},{l:"Risk",v:"Modestly elevated hypertension risk"},{l:"Action",v:"Monitor BP, salt-sensitive hypertension risk"}]),
-
-  n("cv_agt","AGT\nrs699","leaf","cardio","b_cardio","yellow","rs699 = AG",
-    "Angiotensinogen AGT rs699 AG — heterozygous. This variant affects angiotensinogen levels and is associated with hypertension and CAD risk.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"Gene",v:"AGT — angiotensinogen precursor"},{l:"Risk",v:"Mild hypertension susceptibility"}]),
-
-  n("cv_add1","ADD1\nrs4961","leaf","cardio","b_cardio","green","rs4961 = GG",
-    "ADD1 alpha-adducin rs4961 GG — homozygous lower-risk. This cytoskeletal protein variant affects renal sodium reabsorption and blood pressure response to salt.",
-    [{l:"Genotype",v:"GG — Favorable"},{l:"Gene",v:"ADD1 — alpha adducin"},{l:"BP",v:"Normal sodium handling predicted"}]),
-
-  n("cv_adrb1","ADRB1\nrs1801253","leaf","cardio","b_cardio","yellow","rs1801253 = CG",
-    "Beta-1 adrenergic receptor ADRB1 rs1801253 CG — heterozygous. Affects heart rate response and beta-blocker efficacy. CG intermediate response to beta-blockers.",
-    [{l:"Genotype",v:"CG — Heterozygous"},{l:"Gene",v:"ADRB1 — beta-1 adrenergic receptor"},{l:"Drug",v:"Intermediate beta-blocker response"},{l:"Clinical",v:"Relevant if prescribed metoprolol/atenolol"}]),
-
-  n("cv_adrb2","ADRB2\nrs1042713","leaf","cardio","b_cardio","green","rs1042713 = GG",
-    "Beta-2 adrenergic receptor ADRB2 rs1042713 GG — homozygous common. Normal bronchodilator response to albuterol. Also relevant for athletic performance.",
-    [{l:"Genotype",v:"GG — Normal response"},{l:"Drug",v:"Normal albuterol/bronchodilator response"},{l:"Athletic",v:"Normal exercise-induced bronchodilation"}]),
-
-  n("cv_gnb3","GNB3\nrs5443","leaf","cardio","b_cardio","yellow","rs5443 = CT",
-    "GNB3 G-protein beta-3 subunit rs5443 CT — heterozygous. T allele (C825T) is associated with hypertension, obesity, and potentially favorable antidepressant response.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"GNB3 — G-protein signaling"},{l:"Risk",v:"Mild hypertension/metabolic association"},{l:"Drug",v:"May affect antidepressant response"}]),
-
-  n("cv_il10","IL-10\nrs1800871","leaf","cardio","b_cardio","yellow","rs1800871 = AG",
-    "IL-10 anti-inflammatory cytokine rs1800871 AG — heterozygous. IL-10 modulates inflammatory response. AG is intermediate IL-10 production.",
-    [{l:"Genotype",v:"AG — Intermediate"},{l:"Gene",v:"IL-10 — anti-inflammatory cytokine"},{l:"Effect",v:"Intermediate anti-inflammatory capacity"}]),
-
-  n("cv_mthfr_a1298c","MTHFR\nA1298C rs1801131","leaf","cardio","b_cardio","yellow","rs1801131 = GT",
-    "MTHFR A1298C second variant — GT heterozygous. Combined with MTHFR C677T, this compound heterozygous status further reduces methylfolate production and elevates cardiovascular risk via homocysteine.",
-    [{l:"Genotype",v:"GT — Heterozygous A1298C"},{l:"Combined MTHFR",v:"C677T + A1298C — compound heterozygous"},{l:"Risk",v:"Elevated homocysteine, CV risk"},{l:"Action",v:"Methylfolate + methylcobalamin supplementation"}]),
-
-  n("cv_9p21_summary","9p21\nCAD Summary","leaf","cardio","b_cardio","gold","Three 9p21 variants",
-    "All three 9p21 CAD risk SNPs are heterozygous in Chad's genome. This cumulative 9p21 signal is the most replicated and clinically significant genetic risk for MI and CAD. Aggressive primary prevention warranted.",
-    [{l:"9p21 Variants",v:"3/3 heterozygous (rs10757278, rs1333049, rs4977574)"},{l:"Combined CAD Risk",v:"Significantly elevated"},{l:"Action",v:"Statin consideration, aggressive BP/lipid targets"},{l:"Monitoring",v:"Calcium score at 40-45, annual CV risk calc"}]),
-
-  // ══════════════════════════════════════════════
-  // PSYCHIATRIC LEAVES (15)
-  // ══════════════════════════════════════════════
-  n("ps_cacna1c","CACNA1C\nrs1006737","leaf","psych","b_psych","yellow","rs1006737 = GG",
-    "CACNA1C calcium channel gene rs1006737 GG — associated with bipolar disorder risk and emotional reactivity in GWAS studies. GG is the risk-associated genotype.",
-    [{l:"Genotype",v:"GG — Risk-associated"},{l:"Gene",v:"CACNA1C — L-type calcium channel"},{l:"Association",v:"Bipolar disorder, emotional processing"},{l:"Note",v:"Population-level association, not diagnostic"}]),
-
-  n("ps_htr1a","HTR1A\nSerotonin 1A","leaf","psych","b_psych","yellow","rs6295 = CG",
-    "HTR1A serotonin 1A receptor rs6295 CG — heterozygous. This promoter variant affects serotonin autoreceptor expression and is linked to anxiety, depression, and SSRI response.",
-    [{l:"Genotype",v:"CG — Heterozygous"},{l:"Gene",v:"HTR1A — serotonin autoreceptor"},{l:"Effect",v:"Intermediate serotonin autoreceptor expression"},{l:"Drug",v:"Intermediate SSRI response expected"}]),
-
-  n("ps_htr2a","HTR2A\nSerotonin 2A","leaf","psych","b_psych","yellow","rs6311 = CT",
-    "HTR2A serotonin 2A receptor rs6311 CT — heterozygous. This variant affects serotonin receptor density and is associated with antidepressant and antipsychotic response.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"HTR2A — serotonin 2A receptor"},{l:"Drug",v:"May affect antidepressant/antipsychotic efficacy"}]),
-
-  n("ps_comt","COMT\nVal/Met rs4680","leaf","psych","b_psych","purple","rs4680 = AG",
-    "COMT Val158Met balanced genotype — the 'best of both worlds' dopamine regulation. Val/Met individuals maintain prefrontal function under both stress and non-stress conditions. Ideal for emergency medicine.",
-    [{l:"Genotype",v:"Val/Met — Perfectly balanced"},{l:"Dopamine Clearance",v:"Intermediate — adaptable"},{l:"Stress Performance",v:"Maintains function under acute pressure"},{l:"ER Advantage",v:"Optimal for high-stakes decisions"}]),
-
-  n("ps_bdnf","BDNF\nVal/Met rs6265","leaf","psych","b_psych","green","rs6265 = CT",
-    "BDNF Val66Met heterozygous — good neuroplasticity, moderate learning-related BDNF secretion. Exercise is the most powerful way to upregulate BDNF expression.",
-    [{l:"Genotype",v:"CT — Val/Met"},{l:"Neuroplasticity",v:"Good — responds well to exercise"},{l:"Enhancement",v:"150+ min/week cardio boosts BDNF"},{l:"Anxiety Risk",v:"Moderate — lower than Met/Met"}]),
-
-  n("ps_drd2_1","DRD2\nTaqIA rs1800497","leaf","psych","b_psych","green","rs1800497 = GG",
-    "DRD2 TaqIA variant rs1800497 GG — the A2/A2 genotype with higher D2 receptor density. Associated with lower addiction vulnerability and better reward learning.",
-    [{l:"Genotype",v:"GG = A2/A2 — Higher D2 density"},{l:"Addiction Risk",v:"Lower than A1 carriers"},{l:"Reward",v:"Normal reward learning"},{l:"Note",v:"A1 allele absent — favorable finding"}]),
-
-  n("ps_oxtr","OXTR GG\nEmpathy","leaf","psych","b_psych","purple","rs53576 = GG",
-    "OXTR rs53576 GG — the highest-empathy oxytocin receptor genotype. GG carriers demonstrate greater empathy, stronger social bonding, and better stress buffering via social support. Powerful advantage in emergency medicine.",
-    [{l:"Genotype",v:"GG — Maximum empathy variant"},{l:"Clinical Strength",v:"Patient rapport, crisis communication"},{l:"Social Bonding",v:"Strong — family relationships benefit"},{l:"Watch For",v:"Compassion fatigue — set boundaries"}]),
-
-  n("ps_dat","DAT\nrs27072","leaf","psych","b_psych","green","rs27072 = CC",
-    "SLC6A3 dopamine transporter rs27072 CC — common homozygous. Normal dopamine reuptake. Lower ADHD association vs other genotypes.",
-    [{l:"Genotype",v:"CC — Common"},{l:"Gene",v:"SLC6A3 — Dopamine transporter"},{l:"ADHD",v:"No elevated risk at this locus"}]),
-
-  n("ps_dbh","DBH\nrs1611115","leaf","psych","b_psych","yellow","rs1611115 = CT",
-    "DBH dopamine beta-hydroxylase rs1611115 CT — heterozygous. This enzyme converts dopamine to norepinephrine. Affects norepinephrine levels and stress reactivity.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"DBH — dopamine→norepinephrine"},{l:"Effect",v:"Intermediate DBH activity, norepinephrine levels"}]),
-
-  n("ps_tph2","TPH2\nSerotonin Synth","leaf","psych","b_psych","green","rs4570625 = GG",
-    "TPH2 tryptophan hydroxylase rs4570625 GG — lower-risk genotype. TPH2 is the rate-limiting enzyme for serotonin synthesis in the brain. GG associated with normal serotonin production.",
-    [{l:"Genotype",v:"GG — Normal serotonin synthesis"},{l:"Gene",v:"TPH2 — brain serotonin synthesis"},{l:"Effect",v:"Normal serotonin production levels"}]),
-
-  n("ps_or7d4","OR7D4\nAndrostenone","leaf","psych","b_psych","purple","rs7495174 = AA",
-    "OR7D4 olfactory receptor rs7495174 AA — affects androstenone (testosterone metabolite) smell perception. AA carriers find androstenone pleasant or neutral rather than unpleasant. Interesting olfactory genetics variant.",
-    [{l:"Genotype",v:"AA — Pleasant androstenone perception"},{l:"Gene",v:"OR7D4 — androstenone receptor"},{l:"Effect",v:"May find boar taint or certain musk odors pleasant"},{l:"Note",v:"Interesting sensory genetics variation"}]),
-
-  n("ps_drd2_2","DRD2\nrs1799978","leaf","psych","b_psych","green","rs1799978 = TT",
-    "DRD2 promoter variant rs1799978 TT — associated with higher D2 receptor expression. Favorable for addiction resistance and reward regulation.",
-    [{l:"Genotype",v:"TT — Higher D2 expression"},{l:"Effect",v:"Good reward regulation, addiction resistance"}]),
-
-  n("ps_drd2_3","DRD2\nrs6277","leaf","psych","b_psych","green","rs6277 = AA",
-    "DRD2 coding region rs6277 AA — combined with other DRD2 variants, reinforces picture of normal-to-high dopamine receptor density.",
-    [{l:"Genotype",v:"AA"},{l:"Effect",v:"Normal D2 receptor function"}]),
-
-  n("ps_drd2_4","DRD2\nrs2283265","leaf","psych","b_psych","green","rs2283265 = CC",
-    "DRD2 intronic variant rs2283265 CC — common form. Part of the DRD2 haplotype analysis.",
-    [{l:"Genotype",v:"CC — Common"},{l:"Note",v:"Part of DRD2 haplotype — overall favorable profile"}]),
-
-  n("ps_comt2","COMT\nrs165599","leaf","psych","b_psych","green","rs165599 = AA",
-    "Second COMT variant rs165599 AA — in the 3' UTR of COMT. Combined with Val/Met at rs4680, reinforces the balanced dopamine metabolism picture.",
-    [{l:"Genotype",v:"AA — Favorable context"},{l:"Effect",v:"Supports balanced COMT Val/Met profile"}]),
-
-  // ══════════════════════════════════════════════
-  // AUTOIMMUNE LEAVES (15)
-  // ══════════════════════════════════════════════
-  n("ai_ctla4","CTLA4\nrs3087243","leaf","immune","b_immune","yellow","rs3087243 = AG",
-    "CTLA4 rs3087243 AG — heterozygous. CTLA4 regulates T-cell activation and self-tolerance. AG is associated with altered immune checkpoint function and increased risk for autoimmune conditions including thyroid disease.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"Gene",v:"CTLA4 — immune checkpoint"},{l:"Risk",v:"Elevated autoimmune thyroid disease risk"},{l:"Note",v:"Also relevant for cancer immunotherapy response"}]),
-
-  n("ai_il2ra","IL2RA\nrs2104286","leaf","immune","b_immune","green","rs2104286 = TT",
-    "IL2RA (CD25) rs2104286 TT — lower-risk genotype for multiple sclerosis and type 1 diabetes.",
-    [{l:"Genotype",v:"TT — Lower risk"},{l:"Gene",v:"IL2RA — IL-2 receptor alpha"},{l:"Risk",v:"No elevated MS/T1D at this locus"}]),
-
-  n("ai_il7r","IL7R\nrs6897932","leaf","immune","b_immune","yellow","rs6897932 = CT",
-    "IL7R (interleukin-7 receptor) rs6897932 CT — heterozygous. This variant affects T-cell homeostasis and is associated with multiple sclerosis risk.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"IL7R — IL-7 receptor"},{l:"Risk",v:"Mild MS susceptibility — monitor neurological symptoms"}]),
-
-  n("ai_hladq2","HLA-DQ2\nrs2187668","leaf","immune","b_immune","green","rs2187668 = CC",
-    "HLA-DQ2 celiac/T1D marker — CC. Absence of the DQ2-associated allele. Significantly reduces celiac disease genetic risk.",
-    [{l:"Genotype",v:"CC — DQ2 allele absent"},{l:"Celiac Risk",v:"Significantly reduced"},{l:"T1D",v:"DQ2-mediated T1D risk absent"}]),
-
-  n("ai_hladq8","HLA-DQ8\nrs7454108","leaf","immune","b_immune","green","rs7454108 = TT",
-    "HLA-DQ8 celiac marker — TT. Absence of DQ8-associated allele. Combined with DQ2-negative, celiac disease genetic risk is very low.",
-    [{l:"Genotype",v:"TT — DQ8 allele absent"},{l:"Celiac Risk",v:"Very low (DQ2 and DQ8 both absent)"},{l:"T1D",v:"DQ8-mediated risk absent"}]),
-
-  n("ai_hlab57","HLA-B*57:01\nrs2395029","leaf","immune","b_immune","green","rs2395029 = TT",
-    "HLA-B*57:01 drug hypersensitivity marker — TT. Absence of the B*57:01 allele means NO abacavir hypersensitivity risk and no carbamazepine SJS risk from this allele.",
-    [{l:"Genotype",v:"TT — B*57:01 absent"},{l:"Abacavir",v:"Safe — no hypersensitivity risk"},{l:"Carbamazepine",v:"No B*57:01-mediated SJS risk"},{l:"Clinical",v:"Important pharmacogenomic finding"}]),
-
-  n("ai_hladrb1","HLA-DRB1\nrs3129882","leaf","immune","b_immune","yellow","rs3129882 = AG",
-    "HLA-DRB1 region rs3129882 AG — heterozygous. DRB1 variants are associated with rheumatoid arthritis, MS, and other autoimmune conditions.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"Gene",v:"HLA-DRB1 region"},{l:"Risk",v:"Mild RA/autoimmune association"},{l:"Monitor",v:"Inflammatory joint symptoms"}]),
-
-  n("ai_nod2","NOD2\nrs2066844","leaf","immune","b_immune","green","rs2066844 = CC",
-    "NOD2 innate immunity rs2066844 CC — lower-risk genotype for Crohn's disease. NOD2 also appears in the cancer panel.",
-    [{l:"Genotype",v:"CC — Lower Crohn's risk"},{l:"Gene",v:"NOD2 — innate immunity/pattern recognition"},{l:"Crohn's Risk",v:"Not elevated at this locus"}]),
-
-  n("ai_atg16l1_1","ATG16L1\nCrohn's rs10210302","leaf","immune","b_immune","yellow","rs10210302 = CT",
-    "ATG16L1 autophagy gene rs10210302 CT — heterozygous. Autophagy defects in intestinal epithelial cells are central to Crohn's disease pathogenesis. CT confers intermediate risk.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"ATG16L1 — autophagy pathway"},{l:"Risk",v:"Intermediate Crohn's susceptibility"},{l:"Action",v:"Watch for GI symptoms, colonoscopy per guidelines"}]),
-
-  n("ai_atg16l1_2","ATG16L1\nrs2241880","leaf","immune","b_immune","yellow","rs2241880 = AG",
-    "Second ATG16L1 variant — rs2241880 AG. The T300A variant AG (heterozygous). This is the best-studied Crohn's disease variant in ATG16L1 — combined with rs10210302, moderate Crohn's susceptibility signal.",
-    [{l:"Genotype",v:"AG — T300A heterozygous"},{l:"Note",v:"Key Crohn's variant — heterozygous (one risk copy)"},{l:"Combined ATG16L1",v:"Two variants — moderate IBD signal"}]),
-
-  n("ai_il23r","IL23R\nProtective","leaf","immune","b_immune","green","rs11209026 = GG",
-    "IL23R rs11209026 GG — protective genotype. The A allele of this variant is actually protective against IBD. GG is the common genotype without this protection but does not confer elevated risk.",
-    [{l:"Genotype",v:"GG — Common form"},{l:"IBD",v:"Intermediate risk (no protective A allele)"},{l:"Gene",v:"IL23R — IL-23 receptor, Th17 pathway"}]),
-
-  n("ai_tyk2_1","TYK2\nrs12720356","leaf","immune","b_immune","yellow","rs12720356 = AC",
-    "TYK2 rs12720356 AC — heterozygous. TYK2 is a JAK family kinase mediating IFN and IL-12 signaling. Variants associated with autoimmune and inflammatory conditions.",
-    [{l:"Genotype",v:"AC — Heterozygous"},{l:"Gene",v:"TYK2 — JAK family, IFN signaling"},{l:"Risk",v:"Mild autoimmune association (SLE, RA)"}]),
-
-  n("ai_il10","IL10\nrs1800896","leaf","immune","b_immune","yellow","rs1800896 = CT",
-    "IL-10 anti-inflammatory cytokine rs1800896 CT — heterozygous. Intermediate IL-10 production. Lower IL-10 = higher inflammatory response to infection/injury.",
-    [{l:"Genotype",v:"CT — Intermediate IL-10 production"},{l:"Effect",v:"Intermediate anti-inflammatory capacity"},{l:"Context",v:"Combined with IL-6 CC — pro-inflammatory overall"}]),
-
-  n("ai_sh2b3","SH2B3\nrs3184504","leaf","immune","b_immune","yellow","rs3184504 = CT",
-    "SH2B3 (LNK) rs3184504 CT — heterozygous. This variant affects hematopoiesis and immune cell signaling. Associated with celiac disease, T1D, and cardiovascular traits.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Gene",v:"SH2B3/LNK — hematopoietic signaling"},{l:"Associations",v:"Celiac, T1D, thrombocytosis risk"}]),
-
-  n("ai_tyk2_2","TYK2\nrs2304256","leaf","immune","b_immune","green","rs2304256 = AA",
-    "Second TYK2 variant — rs2304256 AA. The A allele at this position is actually protective for several autoimmune conditions including SLE and MS.",
-    [{l:"Genotype",v:"AA — Protective variant"},{l:"Effect",v:"Reduced SLE/MS susceptibility"},{l:"Note",v:"Partially offsets rs12720356 signal"}]),
-
-  // ══════════════════════════════════════════════
-  // PHARMACOGENOMICS LEAVES (22)
-  // ══════════════════════════════════════════════
-  n("ph_cyp1a2","CYP1A2\nFast Caffeine","leaf","pharma","b_pharma","gold","rs762551 = AA",
-    "KEY DISCOVERY: CYP1A2 rs762551 AA — FAST caffeine metabolizer. AA individuals metabolize caffeine ~4× faster than slow metabolizers. Fast metabolizers paradoxically may have higher CAD risk from high caffeine intake. Caffeine half-life ~2-3h vs 5-6h in slow metabolizers.",
-    [{l:"Genotype",v:"AA — Fast CYP1A2 metabolizer"},{l:"Caffeine Half-life",v:"~2-3 hours (vs 5-6h slow)"},{l:"CAD Note",v:">4 cups/day may elevate CAD risk in fast metabolizers"},{l:"Drugs",v:"Theophylline, clozapine — faster clearance"}]),
-
-  n("ph_cyp2c9","CYP2C9\n*1/*2 Warfarin","leaf","pharma","b_pharma","red","rs1799853 = CT",
-    "CRITICAL CLINICAL FINDING: CYP2C9 *1/*2 intermediate metabolizer — rs1799853 CT. Standard warfarin doses will be ~20% too high, risking supratherapeutic anticoagulation and bleeding. Must be flagged in EMR immediately.",
-    [{l:"Genotype",v:"CT — *1/*2 Intermediate"},{l:"Warfarin",v:"Reduce dose ~20% from standard"},{l:"Other Drugs",v:"Ibuprofen, phenytoin, glipizide"},{l:"Action",v:"Flag in EMR NOW — inform all treating physicians"}]),
-
-  n("ph_cyp2d6","CYP2D6\nrs5030655","leaf","pharma","b_pharma","yellow","rs5030655 = II",
-    "CYP2D6 rs5030655 — no splice variant detected. Normal CYP2D6 function likely (requires full CYP2D6 copy number analysis for complete picture). CYP2D6 metabolizes ~25% of all drugs including codeine, tramadol, many antidepressants.",
-    [{l:"Genotype",v:"Normal at this locus"},{l:"Gene",v:"CYP2D6 — ~25% of all drugs"},{l:"Note",v:"Full CYP2D6 CN analysis needed for complete profile"},{l:"Key Drugs",v:"Codeine, tramadol, SSRIs, antipsychotics"}]),
-
-  n("ph_dpyd_1","DPYD\nrs3918290 5-FU","leaf","pharma","b_pharma","green","rs3918290 = CC",
-    "DPYD rs3918290 CC — wild-type, no DPYD deficiency at this locus. DPYD deficiency causes life-threatening 5-fluorouracil (5-FU) toxicity. CC means 5-FU chemotherapy is safe at this variant.",
-    [{l:"Genotype",v:"CC — Wild-type (safe)"},{l:"5-FU Safety",v:"Safe at this locus"},{l:"Clinical",v:"Important if oncology treatment ever needed"}]),
-
-  n("ph_dpyd_2","DPYD\nrs55886062","leaf","pharma","b_pharma","green","rs55886062 = AA",
-    "Second DPYD variant — AA wild-type. No DPYD *2A splice variant. 5-FU/capecitabine safety confirmed at this locus.",
-    [{l:"Genotype",v:"AA — Wild-type"},{l:"5-FU",v:"Safe — no *2A splice defect"}]),
-
-  n("ph_dpyd_3","DPYD\nrs67376798","leaf","pharma","b_pharma","green","rs67376798 = TT",
-    "Third DPYD variant — TT wild-type. Complete DPYD panel normal. 5-FU chemotherapy is safe based on all three DPYD variants.",
-    [{l:"Genotype",v:"TT — Wild-type"},{l:"DPYD Summary",v:"All three variants normal — 5-FU safe"},{l:"Clinical",v:"No dose reduction needed if 5-FU indicated"}]),
-
-  n("ph_tpmt_1","TPMT\nrs1142345","leaf","pharma","b_pharma","green","rs1142345 = TT",
-    "TPMT thiopurine methyltransferase rs1142345 TT — normal function. TPMT deficiency causes toxic accumulation of thiopurine drugs (azathioprine, 6-MP). TT indicates normal thiopurine metabolism.",
-    [{l:"Genotype",v:"TT — Normal TPMT activity"},{l:"Drug Safety",v:"Azathioprine, 6-MP, thioguanine safe"},{l:"Clinical",v:"Standard dosing appropriate"}]),
-
-  n("ph_tpmt_2","TPMT\nrs1800460","leaf","pharma","b_pharma","green","rs1800460 = CC",
-    "Second TPMT variant — CC wild-type. Confirms normal TPMT enzyme function.",
-    [{l:"Genotype",v:"CC — Wild-type"},{l:"TPMT",v:"Normal function confirmed"}]),
-
-  n("ph_tpmt_3","TPMT\nrs1800462","leaf","pharma","b_pharma","green","rs1800462 = CC",
-    "Third TPMT variant — CC wild-type. All three TPMT variants normal — robust thiopurine metabolism.",
-    [{l:"Genotype",v:"CC — Normal"},{l:"Summary",v:"Complete TPMT panel normal — full enzyme activity"}]),
-
-  n("ph_ugt1a1_1","UGT1A1\nrs887829","leaf","pharma","b_pharma","green","rs887829 = CC",
-    "UGT1A1 rs887829 CC — normal bilirubin glucuronidation. UGT1A1 variants are associated with Gilbert's syndrome (benign jaundice) and irinotecan (chemotherapy) toxicity risk.",
-    [{l:"Genotype",v:"CC — Normal UGT1A1 function"},{l:"Irinotecan",v:"Standard dosing — no dose reduction needed"},{l:"Bilirubin",v:"Normal glucuronidation expected"}]),
-
-  n("ph_ugt1a1_2","UGT1A1\nrs4148323","leaf","pharma","b_pharma","green","rs4148323 = GG",
-    "Second UGT1A1 variant — GG wild-type. Combined with rs887829, confirms normal UGT1A1 function.",
-    [{l:"Genotype",v:"GG — Normal"},{l:"Summary",v:"UGT1A1 fully functional — no irinotecan dose adjustment"}]),
-
-  n("ph_gstp1","GSTP1\nrs1695","leaf","pharma","b_pharma","yellow","rs1695 = AG",
-    "GSTP1 glutathione S-transferase pi rs1695 AG — Ile105Val heterozygous. This enzyme detoxifies carcinogens and some chemotherapy drugs. AG intermediate enzyme activity may slightly alter drug metabolism.",
-    [{l:"Genotype",v:"AG — Ile105Val heterozygous"},{l:"Gene",v:"GSTP1 — detoxification enzyme"},{l:"Effect",v:"Intermediate activity — altered chemotherapy metabolism"},{l:"Note",v:"Also affects carcinogen detoxification"}]),
-
-  n("ph_mthfr_677","MTHFR\nC677T rs1801133","leaf","pharma","b_pharma","yellow","rs1801133 = AG",
-    "MTHFR C677T heterozygous — AG. Reduces methylfolate production ~35%. Combined with A1298C, this compound heterozygous status significantly impairs folate metabolism and affects methotrexate toxicity risk.",
-    [{l:"Genotype",v:"AG — C677T heterozygous"},{l:"Enzyme",v:"~65% activity"},{l:"Drug",v:"Elevated methotrexate toxicity risk"},{l:"Supplement",v:"L-methylfolate, not folic acid"}]),
-
-  n("ph_slco1b1","STATIN\nResponse Summary","leaf","pharma","b_pharma","yellow","Multiple variants",
-    "Statin pharmacogenomics: Combined with CYP2C9 *1/*2 intermediate status, statin selection matters. Rosuvastatin and pravastatin are preferred (less CYP2C9 dependent). Monitor for myopathy with statins especially if 9p21 CAD risk warrants treatment.",
-    [{l:"Preferred Statins",v:"Rosuvastatin, pravastatin"},{l:"Avoid",v:"High-dose simvastatin (CYP3A4/transport issues)"},{l:"Monitoring",v:"CK levels if statin initiated"},{l:"Context",v:"9p21 CAD risk may warrant statin treatment"}]),
-
-  n("ph_warfarin_dose","Warfarin\nDosing Algorithm","leaf","pharma","b_pharma","red","CYP2C9 *1/*2 + VKORC1",
-    "Combined warfarin pharmacogenomics: CYP2C9 *1/*2 indicates reduced warfarin metabolism. Recommended starting dose ~20-30% below standard weight-based dose. More frequent INR monitoring during initiation. Consider DOAC alternatives (rivaroxaban/apixaban not affected by CYP2C9).",
-    [{l:"Starting Dose",v:"20-30% below standard"},{l:"INR",v:"Monitor every 3-5 days during initiation"},{l:"Alternative",v:"Apixaban/rivaroxaban — no dose adjustment needed"},{l:"EMR Flag",v:"CRITICAL — pharmacist/anesthesia must know"}]),
-
-  n("ph_codeine","Codeine/Opioid\nMetabolism","leaf","pharma","b_pharma","yellow","CYP2D6 status",
-    "CYP2D6 converts codeine to morphine. While full CYP2D6 copy number analysis is needed, rs5030655 II suggests normal CYP2D6 at this locus. Standard codeine/tramadol response expected. Tramadol caution in ER setting.",
-    [{l:"Expected Response",v:"Normal codeine conversion"},{l:"Tramadol",v:"Standard response — seizure risk as always"},{l:"SSRIs",v:"Normal metabolism of most antidepressants"},{l:"Note",v:"Full CYP2D6 star-allele calling recommended"}]),
-
-  n("ph_beta_blocker","Beta-Blocker\nResponse","leaf","pharma","b_pharma","yellow","ADRB1 CG",
-    "ADRB1 CG genotype affects beta-blocker response — intermediate. Metoprolol and atenolol may require dose adjustment. CG suggests intermediate heart rate response to beta-blockade.",
-    [{l:"Beta-1 Response",v:"Intermediate — CG genotype"},{l:"Metoprolol",v:"Standard dosing, monitor HR response"},{l:"Carvedilol",v:"Standard dosing expected"},{l:"Context",v:"Relevant if prescribed for AFib or HTN"}]),
-
-  n("ph_nsaids","NSAID\nMetabolism","leaf","pharma","b_pharma","yellow","CYP2C9 *1/*2",
-    "CYP2C9 *1/*2 affects NSAID metabolism (ibuprofen, naproxen, celecoxib, diclofenac). Intermediate metabolizers have higher plasma NSAID levels, potentially increasing GI and renal side effects at standard doses.",
-    [{l:"Affected NSAIDs",v:"Ibuprofen, naproxen, celecoxib"},{l:"Risk",v:"Higher plasma levels — GI/renal caution"},{l:"Action",v:"Use lower end of dosing range"},{l:"Alternative",v:"Acetaminophen when possible (CYP2E1-dependent)"}]),
-
-  n("ph_hlab5701","HLA-B*57:01\nAbacavir Safe","leaf","pharma","b_pharma","green","rs2395029 = TT",
-    "HLA-B*57:01 absent (TT genotype). This means abacavir (HIV drug) and carbamazepine can be used without risk of severe hypersensitivity reaction (SJS/TEN) from this HLA allele.",
-    [{l:"Abacavir",v:"Safe — no HLA-B*57:01 hypersensitivity"},{l:"Carbamazepine",v:"No B*57:01-mediated SJS risk"},{l:"Allopurinol",v:"HLA-B*58:01 separate test needed"},{l:"Clinical",v:"Important emergency medicine pharmacogenomics"}]),
-
-  // ══════════════════════════════════════════════
-  // NUTRIGENOMICS LEAVES (17)
-  // ══════════════════════════════════════════════
-  n("nu_fut2","FUT2\nNon-Secretor B12","leaf","nutri","b_nutri","gold","rs601338 = AA",
-    "KEY DISCOVERY: FUT2 rs601338 AA — NON-SECRETOR. This means Chad lacks the FUT2 enzyme in gut secretions. Non-secretors cannot efficiently bind intrinsic factor in the gut mucosa, significantly impairing vitamin B12 absorption. B12 supplementation is ESSENTIAL.",
-    [{l:"Genotype",v:"AA — Non-Secretor"},{l:"B12 Absorption",v:"Significantly impaired"},{l:"Risk",v:"B12 deficiency — neurological and hematological"},{l:"Action",v:"Supplement B12 1000-2000mcg methylcobalamin daily"}]),
-
-  n("nu_cyp1a2","CYP1A2\nCaffeine","leaf","nutri","b_nutri","gold","rs762551 = AA",
-    "CYP1A2 AA fast metabolizer — see Pharmacogenomics for full detail. For nutrition: fast metabolizers can handle more caffeine without acute effects BUT may have elevated CAD risk with >4 cups/day due to faster clearance and potential vascular effects.",
-    [{l:"Caffeine Clearance",v:"Fast — 2-3h half-life"},{l:"Optimal Intake",v:"1-3 cups/day likely safe"},{l:"CAD Risk",v:"High intake may elevate CV risk in fast metabolizers"},{l:"Timing",v:"Last coffee by 2pm — clears by bedtime"}]),
-
-  n("nu_fads1_1","FADS1\nOmega-3 rs174546","leaf","nutri","b_nutri","yellow","rs174546 = CT",
-    "FADS1 rs174546 CT — heterozygous. FADS1 encodes delta-5 desaturase, which converts ALA from plants to EPA (omega-3). CT means intermediate conversion efficiency.",
-    [{l:"Genotype",v:"CT — Intermediate"},{l:"Omega-3 Conversion",v:"Intermediate ALA→EPA"},{l:"Action",v:"Eat fatty fish 2-3x/week or marine omega-3 supplements"},{l:"Supplement",v:"EPA+DHA 1-2g/day preferred over flaxseed"}]),
-
-  n("nu_fads1_2","FADS1\nrs174547","leaf","nutri","b_nutri","yellow","rs174547 = CT",
-    "Second FADS1 variant — rs174547 CT. Corroborates intermediate omega-3 conversion capacity. Marine-source EPA/DHA is more efficient than plant-source ALA for this genotype.",
-    [{l:"Genotype",v:"CT — Intermediate"},{l:"Recommendation",v:"Marine omega-3 > plant-source ALA"},{l:"Note",v:"Combined with FADS1 rs174546 — consistent signal"}]),
-
-  n("nu_fads2","FADS2\nrs174575","leaf","nutri","b_nutri","yellow","rs174575 = CG",
-    "FADS2 delta-6 desaturase rs174575 CG — heterozygous. FADS2 is the rate-limiting step in polyunsaturated fatty acid synthesis. CG intermediate efficiency.",
-    [{l:"Genotype",v:"CG — Intermediate"},{l:"Effect",v:"Intermediate PUFA synthesis capacity"},{l:"Action",v:"Dietary EPA/DHA supplementation recommended"}]),
-
-  n("nu_bcmo1","BCMO1\nBeta-Carotene","leaf","nutri","b_nutri","yellow","rs12934922 = AA",
-    "BCMO1 beta-carotene 15,15'-monooxygenase rs12934922 AA — reduced conversion of beta-carotene to active Vitamin A. AA carriers convert beta-carotene to retinol less efficiently.",
-    [{l:"Genotype",v:"AA — Reduced conversion"},{l:"Gene",v:"BCMO1 — beta-carotene to Vitamin A"},{l:"Action",v:"Include preformed Vitamin A (liver, dairy, eggs)"},{l:"Avoid",v:"Relying solely on plant beta-carotene for Vitamin A"}]),
-
-  n("nu_lactase","Lactase\nrs182549","leaf","nutri","b_nutri","green","rs182549 = TT",
-    "Lactase persistence variant rs182549 TT — the downstream enhancer variant. Combined with LCT rs4988235 AA, confirms full lactase persistence. Complete dairy tolerance.",
-    [{l:"Genotype",v:"TT — Lactase persistence"},{l:"Dairy",v:"Full tolerance — no restriction"},{l:"Note",v:"Northern European adaptation confirmed"}]),
-
-  n("nu_mc4r","MC4R\nAppetite rs17782313","leaf","nutri","b_nutri","yellow","rs17782313 = CT",
-    "MC4R rs17782313 CT — heterozygous. Melanocortin-4 receptor regulates appetite and energy homeostasis. CT confers slightly higher risk for obesity compared to TT, though FTO TT is strongly protective.",
-    [{l:"Genotype",v:"CT — Intermediate risk"},{l:"Gene",v:"MC4R — appetite regulation"},{l:"Effect",v:"Slightly higher hunger signal potential"},{l:"Counterbalance",v:"FTO TT strongly reduces obesity risk"}]),
-
-  n("nu_fto","FTO\nrs1558902","leaf","nutri","b_nutri","green","rs1558902 = TT",
-    "FTO rs1558902 TT — second FTO variant confirming low obesity genetic risk. TT at this locus reinforces the favorable metabolic profile.",
-    [{l:"Genotype",v:"TT — Favorable"},{l:"FTO Confirmation",v:"Both FTO variants favorable"},{l:"Metabolism",v:"Normal FTO expression"}]),
-
-  n("nu_mtnr1b","MTNR1B\nBlood Sugar rs10830963","leaf","nutri","b_nutri","yellow","rs10830963 = CG",
-    "MTNR1B rs10830963 CG — heterozygous. Melatonin receptor 1B variant affects insulin secretion and fasting glucose. CG carriers have slightly elevated fasting glucose and T2D risk.",
-    [{l:"Genotype",v:"CG — Heterozygous risk"},{l:"Effect",v:"Mildly elevated fasting glucose"},{l:"T2D Risk",v:"Modest elevation"},{l:"Action",v:"Avoid eating late at night — melatonin impairs insulin secretion"}]),
-
-  n("nu_mtrr","MTRR\nB12 Metabolism","leaf","nutri","b_nutri","yellow","rs1801394 = GG",
-    "MTRR methionine synthase reductase rs1801394 GG — this enzyme regenerates active B12 for methionine synthase. GG combined with FUT2 non-secretor status compounds B12 metabolism challenges.",
-    [{l:"Genotype",v:"GG"},{l:"Combined Effect",v:"FUT2 non-secretor + MTRR — double B12 challenge"},{l:"Action",v:"Methylcobalamin 2000mcg/day minimum"},{l:"Monitor",v:"Serum B12, MCV, homocysteine annually"}]),
-
-  n("nu_mtr","MTR\nMethionine Synthase","leaf","nutri","b_nutri","green","rs1805087 = AA",
-    "MTR methionine synthase rs1805087 AA — common variant. Normal methionine synthase activity. The enzyme that B12 and folate ultimately support for methylation.",
-    [{l:"Genotype",v:"AA — Normal"},{l:"Gene",v:"MTR — methionine synthase (uses B12)"},{l:"Effect",v:"Normal methylation capacity if B12 and folate adequate"}]),
-
-  n("nu_fut2_detail","Non-Secretor\nImplications","leaf","nutri","b_nutri","gold","FUT2 AA",
-    "FUT2 non-secretors have 2.5× higher risk of B12 deficiency. They also have different gut microbiome composition (FUT2 affects the sugar coat of gut cells that gut bacteria feed on) and altered susceptibility to norovirus and H. pylori.",
-    [{l:"B12 Risk",v:"2.5× higher deficiency risk"},{l:"Gut Microbiome",v:"Different Bifidobacterium composition"},{l:"Virus",v:"Reduced norovirus susceptibility (silver lining!)"},{l:"H. pylori",v:"Altered susceptibility — screen if B12 low"}]),
-
-  n("nu_vitamin_d","Vitamin D\nOptimization","leaf","nutri","b_nutri","yellow","IL-6 CC + MTHFR AG",
-    "Combined IL-6 CC (pro-inflammatory) and MTHFR AG (folate pathway) create a nutritional vulnerability. Higher Vitamin D targets needed. Anti-inflammatory diet critical.",
-    [{l:"Vitamin D Target",v:">50 ng/mL (higher than standard)"},{l:"Supplement",v:"Vitamin D3 2000-4000 IU + K2 100mcg"},{l:"Magnesium",v:"Required cofactor for D3 activation"},{l:"Omega-3",v:"EPA+DHA 2g/day anti-inflammatory"}]),
-
-  n("nu_caffeine_detail","Caffeine\nStrategy","leaf","nutri","b_nutri","gold","CYP1A2 AA",
-    "Fast CYP1A2 metabolizer means caffeine is cleared in ~2.5 hours. This creates a cycle of energy then fatigue. Moderate intake (200-300mg, 1-2 cups) provides benefits without the rebound. Genetic data suggests caution with >4 cups/day for cardiovascular health.",
-    [{l:"Optimal Dose",v:"200-300mg caffeine/day"},{l:"Timing",v:"Morning only — clears by noon"},{l:"CAD Caution",v:"High intake may increase CV risk"},{l:"Tea",v:"Green tea may be better than coffee (L-theanine)"}]),
-
-  n("nu_omega3_plan","Omega-3\nPlan","leaf","nutri","b_nutri","yellow","FADS1+FADS2 variants",
-    "FADS1 CT + FADS2 CG — intermediate conversion of plant omega-3 (ALA) to EPA/DHA. Marine-source omega-3 supplementation bypasses this conversion bottleneck. Critical given pro-inflammatory IL-6 CC genotype.",
-    [{l:"Source",v:"Marine EPA/DHA, not flaxseed"},{l:"Dose",v:"EPA+DHA 2g/day total"},{l:"Timing",v:"With largest meal of day for absorption"},{l:"Monitor",v:"Omega-3 index (blood test) — target >8%"}]),
-
-  // ══════════════════════════════════════════════
-  // LONGEVITY LEAVES (11)
-  // ══════════════════════════════════════════════
-  n("lo_foxo3","FOXO3\nNo Longevity Allele","leaf","longevity","b_longevity","gold","rs2802292 = TT",
-    "KEY DISCOVERY: FOXO3 rs2802292 TT — does NOT carry the G allele associated with centenarian longevity. The G allele of FOXO3 has been consistently replicated in studies of people who live to 100+. Chad has TT — the common, non-longevity form. FOXO3 regulates autophagy, oxidative stress resistance, and apoptosis.",
-    [{l:"Genotype",v:"TT — No longevity-associated allele"},{l:"What's Missing",v:"G allele found in centenarians worldwide"},{l:"FOXO3 Role",v:"Autophagy, stress resistance, apoptosis"},{l:"Implication",v:"Rely on lifestyle, not genetics, for longevity"}]),
-
-  n("lo_cetp","CETP\nHDL rs5882","leaf","longevity","b_longevity","yellow","rs5882 = AA",
-    "CETP cholesteryl ester transfer protein rs5882 AA — associated with normal to lower HDL levels. CETP variants in the GG direction are associated with longevity through higher HDL. AA is the common, lower HDL potential form.",
-    [{l:"Genotype",v:"AA — Common form"},{l:"HDL Genetics",v:"Not longevity-associated direction"},{l:"Action",v:"Raise HDL through aerobic exercise, omega-3"},{l:"Target",v:"HDL >60 mg/dL ideal"}]),
-
-  n("lo_pon1","PON1\nAntioxidant rs662","leaf","longevity","b_longevity","yellow","rs662 = TT",
-    "PON1 paraoxonase-1 rs662 TT (Arg/Arg) — lower antioxidative enzyme activity compared to Gln carriers. PON1 protects LDL from oxidation. TT may have slightly impaired oxidized LDL clearance.",
-    [{l:"Genotype",v:"TT = Arg192Arg"},{l:"PON1 Activity",v:"Lower antioxidative protection"},{l:"LDL Oxidation",v:"Less protected LDL — atherosclerosis risk"},{l:"Action",v:"Antioxidants, polyphenols, olive oil"}]),
-
-  n("lo_klotho","Klotho\nrs9536314","leaf","longevity","b_longevity","green","rs9536314 = TT",
-    "Klotho rs9536314 TT — the KL-VS heterozygous protective variant is absent. TT is the common form without the longevity-associated KL-VS haplotype.",
-    [{l:"Genotype",v:"TT — No KL-VS variant"},{l:"Klotho Role",v:"Aging, phosphate metabolism, cognition"},{l:"Note",v:"KL-VS associated with better cognition and longevity"},{l:"Action",v:"Exercise upregulates klotho expression"}]),
-
-  n("lo_tert","TERT\nTelomeres rs2736100","leaf","longevity","b_longevity","yellow","rs2736100 = AC",
-    "TERT rs2736100 AC — heterozygous. TERT encodes telomerase reverse transcriptase, the enzyme that maintains telomere length. AC carriers have intermediate telomere maintenance capacity.",
-    [{l:"Genotype",v:"AC — Intermediate"},{l:"Telomere Maintenance",v:"Intermediate TERT activity"},{l:"Longevity Impact",v:"Moderate telomere maintenance"},{l:"Enhancer",v:"Exercise and sleep are strongest telomere protectors"}]),
-
-  n("lo_terc","TERC\nTelomerase rs12696304","leaf","longevity","b_longevity","yellow","rs12696304 = CG",
-    "TERC rs12696304 CG — heterozygous. TERC is the RNA component of the telomerase complex. CG intermediate, associated with shorter telomeres in population studies.",
-    [{l:"Genotype",v:"CG — Intermediate"},{l:"Effect",v:"Slightly shorter average telomere length"},{l:"Combined",v:"TERT AC + TERC CG — intermediate telomere biology"},{l:"Action",v:"Sleep 7-9h, aerobic exercise — best telomere maintenance"}]),
-
-  n("lo_il6_aging","IL-6\nInflammaging","leaf","longevity","b_longevity","yellow","rs1800795 = CC",
-    "IL-6 CC — pro-inflammatory. Chronic low-grade inflammation (inflammaging) is a central driver of accelerated aging. IL-6 CC combined with MC4R, MTHFR creates a cumulative pro-inflammatory burden.",
-    [{l:"Genotype",v:"CC — Pro-inflammatory"},{l:"Inflammaging",v:"Elevated baseline inflammation accelerates aging"},{l:"Counter",v:"Mediterranean diet, exercise, omega-3, curcumin"},{l:"Monitor",v:"hs-CRP annually (target <1 mg/L)"}]),
-
-  n("lo_apoe_longevity","APOE ε3/ε4\nLongevity Risk","leaf","longevity","b_longevity","red","APOE ε3/ε4",
-    "APOE ε4 is the strongest longevity risk gene variant — associated with shorter lifespan, elevated Alzheimer's, and cardiovascular risk. This remains the primary longevity concern in Chad's genome.",
-    [{l:"Genotype",v:"APOE ε3/ε4"},{l:"Lifespan",v:"Moderate reduction in expected longevity"},{l:"Mechanism",v:"Alzheimer's + cardiovascular dual risk"},{l:"Intervention",v:"Begin prevention protocol NOW in 40s"}]),
-
-  n("lo_mthfr_longevity","MTHFR\nMethylation Aging","leaf","longevity","b_longevity","yellow","C677T + A1298C compound",
-    "MTHFR compound heterozygous (C677T + A1298C) impairs methylation capacity, which is directly linked to epigenetic aging. Poor methylation accelerates epigenetic clock. Methylfolate + methylcobalamin supplementation supports healthy methylation aging.",
-    [{l:"Epigenetic Aging",v:"Impaired methylation accelerates biological age"},{l:"Action",v:"Methylfolate + methylcobalamin essential"},{l:"Monitor",v:"Homocysteine and B12 annually"},{l:"Target",v:"Homocysteine <10 μmol/L"}]),
-
-  n("lo_longevity_score","Longevity\nSummary Score","leaf","longevity","b_longevity","yellow","Multi-variant",
-    "Overall longevity genetic profile: Favorable: FTO TT, ACTN3 XX, COMT Val/Met. Unfavorable: APOE ε4, FOXO3 TT (no longevity allele), IL-6 CC, TERT/TERC intermediate. Net: average to slightly below-average genetic longevity potential — heavily modifiable through lifestyle.",
-    [{l:"Favorable Variants",v:"FTO TT, ACTN3 XX, COMT Val/Met, OXTR GG"},{l:"Risk Variants",v:"APOE ε4, FOXO3 TT, IL-6 CC, MTHFR compound"},{l:"Net Assessment",v:"Average genetic longevity — lifestyle is the lever"},{l:"Top Action",v:"FOXO3: Exercise activates this pathway epigenetically"}]),
-
-  n("lo_foxo3_detail","FOXO3\nActivation Strategy","leaf","longevity","b_longevity","gold","FOXO3 TT",
-    "Although Chad lacks the FOXO3 longevity allele genetically, FOXO3 protein is powerfully activated by caloric restriction, intermittent fasting, aerobic exercise, and rapamycin analogs. Epigenetic FOXO3 activation can compensate for the genetic deficit.",
-    [{l:"Top Activators",v:"Caloric restriction, intermittent fasting"},{l:"Exercise",v:"HIIT and zone 2 both activate FOXO3"},{l:"Diet",v:"Mediterranean + time-restricted eating"},{l:"Research",v:"NAD+ precursors (NMN/NR) may upregulate FOXO3"}]),
-
-  // ══════════════════════════════════════════════
-  // ATHLETIC LEAVES (8)
-  // ══════════════════════════════════════════════
-  n("at_actn3","ACTN3 XX\nEndurance Elite","leaf","athletic","b_athletic","cyan","rs1815739 = TT",
-    "ACTN3 XX genotype — absent alpha-actinin-3 in fast-twitch fibers. This shifts muscle physiology toward oxidative/endurance capacity. Found in ~18% of the population and dramatically overrepresented in elite endurance athletes (marathon, triathlon, cycling).",
-    [{l:"Genotype",v:"XX — Both alleles null"},{l:"Muscle Type",v:"Endurance/slow-twitch optimized"},{l:"Elite Sports",v:"Distance running, cycling, triathlon, rowing"},{l:"Training",v:"Maximize zone 2 aerobic base + long intervals"}]),
-
-  n("at_ppargc1a","PPARGC1A\nMitochondria rs8192678","leaf","athletic","b_athletic","cyan","rs8192678 = CT",
-    "PPARGC1A (PGC-1alpha) rs8192678 CT — heterozygous. PGC-1alpha is the master regulator of mitochondrial biogenesis. CT intermediate response to endurance training for mitochondrial adaptation.",
-    [{l:"Genotype",v:"CT — Intermediate"},{l:"Gene",v:"PPARGC1A — mitochondrial biogenesis"},{l:"Effect",v:"Good but not maximum mitochondrial adaptation"},{l:"Maximize",v:"Zone 2 training 3-4x/week for mitochondrial growth"}]),
-
-  n("at_col5a1","COL5A1\nFlexibility rs12722","leaf","athletic","b_athletic","green","rs12722 = CT",
-    "COL5A1 type V collagen rs12722 CT — heterozygous. Affects connective tissue flexibility and injury risk. CT is associated with intermediate flexibility and tendon resilience.",
-    [{l:"Genotype",v:"CT — Intermediate flexibility"},{l:"Gene",v:"COL5A1 — type V collagen"},{l:"Injury Risk",v:"Intermediate ligament/tendon susceptibility"},{l:"Action",v:"Regular stretching, yoga, progressive loading"}]),
-
-  n("at_adrb2","ADRB2\nBronchodilation","leaf","athletic","b_athletic","green","rs1042713 = GG",
-    "ADRB2 beta-2 adrenergic receptor GG — normal bronchodilator response and exercise-induced beta-2 signaling. Good aerobic capacity support during exercise.",
-    [{l:"Genotype",v:"GG — Normal"},{l:"Effect",v:"Normal exercise-induced bronchodilation"},{l:"VO2",v:"Supports aerobic capacity development"}]),
-
-  n("at_cntf","CNTF\nrs1800169","leaf","athletic","b_athletic","green","rs1800169 = GG",
-    "CNTF ciliary neurotrophic factor rs1800169 GG — no null mutation. CNTF supports motor neuron survival and muscle endurance. GG maintains normal CNTF function.",
-    [{l:"Genotype",v:"GG — Normal CNTF"},{l:"Effect",v:"Normal neuromuscular maintenance"},{l:"Note",v:"CNTF null mutation associated with reduced endurance"}]),
-
-  n("at_ampd1","AMPD1\nrs17602729","leaf","athletic","b_athletic","green","rs17602729 = AG",
-    "AMPD1 adenosine monophosphate deaminase rs17602729 AG — heterozygous. The Q allele (rs17602729 C→T) causes AMPD1 deficiency associated with exercise intolerance. AG heterozygous maintains normal AMPD1 function.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"AMPD1 Function",v:"Normal purine nucleotide cycle"},{l:"Exercise",v:"No exercise-induced myalgia from AMPD1"},{l:"Note",v:"Homozygous T associated with cramping/fatigue"}]),
-
-  n("at_agt","AGT\nAngiotensinogen","leaf","athletic","b_athletic","yellow","rs699 = AG",
-    "AGT rs699 AG — the angiotensinogen Met235Thr variant. Affects exercise blood pressure response and ACE inhibitor efficacy. AG intermediate — moderate cardiovascular training response.",
-    [{l:"Genotype",v:"AG — Heterozygous"},{l:"Effect",v:"Intermediate angiotensinogen levels"},{l:"Exercise BP",v:"Moderate exercise hypertension risk"},{l:"ACE Inhibitor",v:"Normal expected response"}]),
-
-  n("at_trhr","TRHR\nrs7832552","leaf","athletic","b_athletic","green","rs7832552 = CT",
-    "TRHR thyrotropin-releasing hormone receptor rs7832552 CT — heterozygous. This variant is associated with lean body mass and muscle strength response to resistance training.",
-    [{l:"Genotype",v:"CT — Heterozygous"},{l:"Effect",v:"Moderate lean mass genetic advantage"},{l:"Training",v:"Good response to resistance training"},{l:"Note",v:"Combined with ACTN3 XX: endurance + strength capable"}])
+// CENTER
+N("center","Chad Byars\nGenome","center","center",null,"center","","Complete whole genome sequencing — 170+ variants mapped across 10 domains. Click any node to explore. Use Doctor Summary for printable clinical card.",
+  [{l:"Total Variants",v:"170+ across 10 domains"},{l:"Key Discoveries",v:"7 clinically urgent findings"},{l:"Subject",v:"Chad Byars, M.D. — Emergency Medicine"},{l:"Sequencing",v:"WGS 30× depth — 3.2M SNPs analyzed"}]),
+
+// ══ BRANCHES (10) ══
+N("b_cancer","Cancer\nRisk","branch","cancer",null,"red","","18 cancer-associated variants. KEY: triple MC1R (melanoma risk 3-5×), 8q24 multi-cancer locus, MSMB prostate.",
+  [{l:"Total SNPs",v:"18 cancer variants"},{l:"Top Risk",v:"Triple MC1R — melanoma"},{l:"Other",v:"8q24 colorectal/prostate, breast loci"}]),
+N("b_cardio","Cardio-\nvascular","branch","cardio",null,"gold","","19 cardiovascular variants. KEY DISCOVERIES: 9p21 CAD (all 3 signals), PITX2 AFib risk.",
+  [{l:"Total SNPs",v:"19 cardiovascular"},{l:"Key #1",v:"9p21 CAD — rs10757278/1333049/4977574"},{l:"Key #2",v:"PITX2 AFib — rs2200733 CT"}]),
+N("b_psych","Psychiatric\nProfile","branch","psych",null,"purple","","15 psychiatric variants. COMT Val/Met balanced, OXTR GG max empathy, DRD2 high-density D2 receptors.",
+  [{l:"Total SNPs",v:"15 psych/neuro"},{l:"Dopamine",v:"COMT Val/Met — balanced"},{l:"Empathy",v:"OXTR GG — highest variant"}]),
+N("b_immune","Auto-\nimmune","branch","immune",null,"yellow","","15 autoimmune variants. CTLA4 AG immune checkpoint, ATG16L1 Crohn's pathway. HLA-DQ2/DQ8 celiac absent.",
+  [{l:"Total SNPs",v:"15 autoimmune"},{l:"Celiac",v:"Very low risk (DQ2/DQ8 absent)"},{l:"Crohn's",v:"Moderate ATG16L1 signal"}]),
+N("b_pharma","Pharmaco-\ngenomics","branch","pharma",null,"yellow","","22 pharmacogenomic variants. CRITICAL: CYP2C9 *1/*2 warfarin. CYP1A2 AA fast caffeine. DPYD intact (5-FU safe).",
+  [{l:"Total SNPs",v:"22 pharmacogenomic"},{l:"CRITICAL",v:"CYP2C9 *1/*2 warfarin dose ↓20%"},{l:"Fast",v:"CYP1A2 AA caffeine metabolizer"}]),
+N("b_nutri","Nutri-\ngenomics","branch","nutri",null,"gold","","17 nutrigenomics variants. KEY DISCOVERY: FUT2 AA Non-Secretor — B12 malabsorption. FADS intermediate omega-3 conversion.",
+  [{l:"Total SNPs",v:"17 nutrition"},{l:"KEY",v:"FUT2 AA — Non-Secretor (B12 risk!)"},{l:"Action",v:"Methylcobalamin 2000mcg/day essential"}]),
+N("b_longevity","Longevity\nPathways","branch","longevity",null,"pink","","11 longevity variants. KEY: FOXO3 TT (no centenarian allele), APOE ε4 main risk, TERT/TERC intermediate.",
+  [{l:"Total SNPs",v:"11 longevity"},{l:"KEY",v:"FOXO3 TT — no longevity allele"},{l:"Action",v:"Lifestyle activates FOXO3 regardless of genotype"}]),
+N("b_athletic","Athletic\nPerformance","branch","athletic",null,"cyan","","8 performance variants. ACTN3 XX elite endurance, PPARGC1A CT mitochondrial, COL5A1 connective tissue.",
+  [{l:"Total SNPs",v:"8 athletic"},{l:"ACTN3",v:"XX — endurance elite genotype"},{l:"Overall",v:"Strong endurance genetics"}]),
+N("b_traits","Traits &\nAncestry","branch","traits",null,"purple","","15 trait variants: taste, smell, earwax, sleep, bone, ancestry, recovery.",
+  [{l:"Total SNPs",v:"15 trait variants"},{l:"Ancestry",v:"Northwestern European / Celtic"},{l:"Taste",v:"Non-taster (TAS2R38 AVI/AVI)"}]),
+N("b_lipid","Lipid\nMetabolism","branch","lipid",null,"yellow","","6 lipid metabolism variants: APOA5 (normal TG), LPL (lipase activity), CETP (HDL modifier).",
+  [{l:"Total SNPs",v:"6 lipid variants"},{l:"TG Risk",v:"Low (APOA5 normal variants)"},{l:"HDL",v:"CETP variants — moderate modifier"}]),
+
+// ══ CANCER LEAVES ══
+N("c_brca1_1","BRCA1\nrs1799950","leaf","cancer","b_cancer","green","rs1799950 = TT","BRCA1 common homozygous form. No elevated hereditary breast/ovarian cancer risk at this locus.",
+  [{l:"Genotype",v:"TT — Common"},{l:"Risk",v:"Not elevated"}]),
+N("c_brca1_2","BRCA1\nrs16942","leaf","cancer","b_cancer","green","rs16942 = TT","Second BRCA1 variant — TT lower-risk form.",
+  [{l:"Genotype",v:"TT — Favorable"}]),
+N("c_brca2_1","BRCA2\nrs11571833","leaf","cancer","b_cancer","green","rs11571833 = AA","BRCA2 variant — AA common form. No elevated hereditary cancer risk at this locus.",
+  [{l:"Genotype",v:"AA — Common"},{l:"Risk",v:"Not elevated"}]),
+N("c_brca2_2","BRCA2\nrs1801426","leaf","cancer","b_cancer","green","rs1801426 = AA","Second BRCA2 SNP — AA common form.",
+  [{l:"Genotype",v:"AA — Favorable"}]),
+N("c_8q24_1","8q24 Multi-\nrs1447295","leaf","cancer","b_cancer","yellow","rs1447295 = CC","8q24 cancer risk locus near MYC — CC is the lower-risk genotype. Region associated with colorectal, prostate, breast, bladder cancer.",
+  [{l:"Genotype",v:"CC — Lower risk"},{l:"Region",v:"8q24 near MYC oncogene"}]),
+N("c_8q24_2","8q24\nrs6983267","leaf","cancer","b_cancer","yellow","rs6983267 = GT","8q24 rs6983267 GT heterozygous — T is the risk allele for colorectal and prostate cancer. Intermediate risk.",
+  [{l:"Genotype",v:"GT — Intermediate risk"},{l:"Action",v:"Colonoscopy per age guidelines"}]),
+N("c_msmb","MSMB\nProstate","leaf","cancer","b_cancer","yellow","rs10993994 = CC","MSMB CC — both risk alleles. ~1.4× elevated prostate cancer risk.",
+  [{l:"Genotype",v:"CC — Both risk alleles"},{l:"Risk",v:"~1.4× elevated prostate risk"},{l:"Action",v:"PSA starting 40-45"}]),
+N("c_hnf1b","HNF1B\nrs4430796","leaf","cancer","b_cancer","yellow","rs4430796 = AG","HNF1B AG heterozygous. Associated with prostate, endometrial cancer and T2D risk.",
+  [{l:"Genotype",v:"AG — Heterozygous"}]),
+N("c_mc1r_1","MC1R CT\nMelanoma #1","leaf","cancer","b_cancer","red","rs1805007 = CT","MC1R R151C variant — ~2× melanoma risk. Celtic red hair carrier, 50% transmission to children.",
+  [{l:"Genotype",v:"CT — Celtic R151C"},{l:"Melanoma",v:"~2× elevated"},{l:"Children",v:"50% transmission"}]),
+N("c_mc1r_2","MC1R CC\nMelanoma #2","leaf","cancer","b_cancer","gold","rs1805008 = CC","SECOND MC1R variant. Double MC1R significantly elevates melanoma risk.",
+  [{l:"Genotype",v:"CC — Second MC1R variant"},{l:"Risk",v:"3-5× skin cancer risk with triple MC1R"}],
+  "2024 research (Pigment Cell Melanoma Res): MC1R compound carriers have significantly impaired UV-induced DNA damage response via cAMP/MITF pathway. Each additional MC1R variant multiplies melanoma risk non-linearly."),
+N("c_mc1r_3","MC1R AG\nMelanoma #3","leaf","cancer","b_cancer","gold","rs910873 = AG","THIRD MC1R variant — KEY DISCOVERY. Triple MC1R carrier. Very high melanoma risk.",
+  [{l:"Genotype",v:"AG — Third MC1R"},{l:"Combined Risk",v:"3-5× melanoma — urgent dermatology"},{l:"Action",v:"Skin exam q6mo, SPF 50+ daily"}]),
+N("c_fgfr2","FGFR2\nBreast rs2981582","leaf","cancer","b_cancer","yellow","rs2981582 = GG","FGFR2 rs2981582 GG — both risk alleles for breast cancer susceptibility. FGFR2 is a fibroblast growth factor receptor involved in breast epithelial proliferation. GG confers ~1.3× elevated breast cancer risk.",
+  [{l:"Genotype",v:"GG — Both risk alleles"},{l:"Gene",v:"FGFR2 — breast cancer GWAS top hit"},{l:"Risk",v:"~1.3× elevated breast cancer risk"},{l:"Note",v:"Relevant for daughters — 50% inherit one allele"}]),
+N("c_lsp1","LSP1\nBreast rs3817198","leaf","cancer","b_cancer","green","rs3817198 = TT","LSP1 rs3817198 TT — lower-risk genotype at this breast cancer susceptibility locus.",
+  [{l:"Genotype",v:"TT — Lower risk"},{l:"Gene",v:"LSP1 — lymphocyte-specific protein"}]),
+N("c_map3k1","MAP3K1\nBreast rs889312","leaf","cancer","b_cancer","yellow","rs889312 = AC","MAP3K1 rs889312 AC heterozygous — modestly elevated breast cancer risk. MAP3K1 involved in ER-positive breast cancer pathways.",
+  [{l:"Genotype",v:"AC — Heterozygous"},{l:"Cancer",v:"ER-positive breast cancer association"}]),
+N("c_tox3","TOX3\nBreast rs3803662","leaf","cancer","b_cancer","yellow","rs3803662 = AG","TOX3 rs3803662 AG heterozygous. This chromatin remodeling gene variant is associated with breast cancer susceptibility.",
+  [{l:"Genotype",v:"AG — Heterozygous"},{l:"Gene",v:"TOX3 — chromatin regulation"}]),
+N("c_rad51l","RAD51L1\nBreast rs999737","leaf","cancer","b_cancer","green","rs999737 = CC","RAD51L1 rs999737 CC — favorable lower-risk genotype. RAD51L1 is involved in DNA repair.",
+  [{l:"Genotype",v:"CC — Lower risk"},{l:"Gene",v:"RAD51L1 — DNA repair"}]),
+N("c_smad7","SMAD7\nColorectal rs4939827","leaf","cancer","b_cancer","yellow","rs4939827 = CT","SMAD7 rs4939827 CT — heterozygous. SMAD7 inhibits TGF-β signaling. CT confers intermediate colorectal cancer risk.",
+  [{l:"Genotype",v:"CT — Intermediate risk"},{l:"Gene",v:"SMAD7 — TGF-β pathway"},{l:"Action",v:"Colonoscopy per guidelines"}]),
+N("c_8q23","8q23\nColorectal rs7014346","leaf","cancer","b_cancer","green","rs7014346 = GG","8q23 colorectal cancer locus — GG lower-risk genotype.",
+  [{l:"Genotype",v:"GG — Lower risk"}]),
+
+// ══ CARDIOVASCULAR LEAVES ══
+N("cv_9p21_1","9p21 CAD\nrs10757278","leaf","cardio","b_cardio","gold","rs10757278 = AG","KEY DISCOVERY: 9p21 CAD locus — AG. Most replicated CAD genetic risk factor. ~1.4× elevated MI risk.",
+  [{l:"Genotype",v:"AG — Heterozygous risk"},{l:"CAD Risk",v:"~1.4× elevated"},{l:"Action",v:"CAC score at 40-45, aggressive LDL target"}],
+  "2024 meta-analysis (Circulation): 9p21 rs10757278 AG carriers benefit most from early statin initiation — NNT drops significantly vs non-carriers. Three 9p21 signals cumulative in Chad's genome."),
+N("cv_9p21_2","9p21 CAD\nrs1333049","leaf","cardio","b_cardio","yellow","rs1333049 = CG","Second 9p21 CAD locus — CG. Corroborates primary 9p21 signal.",
+  [{l:"Genotype",v:"CG — Intermediate risk"},{l:"Region",v:"CDKN2A/B cell cycle locus"}]),
+N("cv_9p21_3","9p21 CAD\nrs4977574","leaf","cardio","b_cardio","yellow","rs4977574 = AG","Third 9p21 signal — AG. All three 9p21 variants heterozygous in Chad.",
+  [{l:"Genotype",v:"AG — Third 9p21 signal"},{l:"Combined",v:"Triple 9p21 — cumulative CAD risk elevated"}]),
+N("cv_lpa_1","LPA\nrs10455872","leaf","cardio","b_cardio","green","rs10455872 = AA","LPA — AA lower-risk. Lp(a) not elevated genetically.",
+  [{l:"Genotype",v:"AA — Low Lp(a) risk"}]),
+N("cv_pcsk9","PCSK9\nHeterozygous","leaf","cardio","b_cardio","gold","rs11206510 = CT","KEY DISCOVERY: PCSK9 CT — heterozygous. Target of most effective CV drugs (evolocumab, alirocumab). Combined with 9p21 CAD risk, precision therapy candidate.",
+  [{l:"Genotype",v:"CT — Heterozygous"},{l:"Opportunity",v:"PCSK9 inhibitors — targeted therapy"},{l:"Action",v:"Track LDL — PCSK9i if elevated"}]),
+N("cv_f5","Factor V\nNo Leiden","leaf","cardio","b_cardio","green","rs6025 = CC","No Factor V Leiden. Normal clotting risk.",
+  [{l:"Genotype",v:"CC — No Factor V Leiden"},{l:"Clotting",v:"Normal"}]),
+N("cv_pitx2","PITX2 AFib\nrs2200733","leaf","cardio","b_cardio","gold","rs2200733 = CT","KEY DISCOVERY: PITX2 AFib risk — CT. ~1.7× elevated lifetime AFib risk. Strongest known AFib genetic factor.",
+  [{l:"Genotype",v:"CT — AFib risk heterozygous"},{l:"Risk",v:"~1.7× elevated lifetime AFib"},{l:"Action",v:"Annual EKG, Holter if palpitations"}],
+  "2025 AF genetics review (JACC): PITX2 rs2200733 CT carriers show earlier AFib onset (mean 5 years earlier than non-carriers). Alcohol consumption and obesity are the strongest modifiable amplifiers of PITX2-associated AFib."),
+N("cv_agtr1","AGTR1\nrs5186","leaf","cardio","b_cardio","yellow","rs5186 = AC","Angiotensin receptor AGTR1 — AC heterozygous. Modestly elevated hypertension susceptibility.",
+  [{l:"Genotype",v:"AC — Moderate HTN risk"}]),
+N("cv_mthfr_a1298c","MTHFR\nA1298C","leaf","cardio","b_cardio","yellow","rs1801131 = GT","MTHFR A1298C — GT heterozygous. Combined with C677T = compound heterozygous. Further elevates homocysteine and CV risk.",
+  [{l:"Genotype",v:"GT — A1298C heterozygous"},{l:"Combined",v:"C677T + A1298C compound — significant"},{l:"Action",v:"Methylfolate + methylcobalamin"}]),
+N("cv_adrb1","ADRB1\nrs1801253","leaf","cardio","b_cardio","yellow","rs1801253 = CG","Beta-1 adrenergic receptor — CG. Intermediate beta-blocker response.",
+  [{l:"Genotype",v:"CG — Intermediate response"},{l:"Drugs",v:"Metoprolol, atenolol — moderate response"}]),
+N("cv_9p21_summary","9p21\nCAD Summary","leaf","cardio","b_cardio","gold","All 3 variants positive","All three 9p21 CAD signals heterozygous. Cumulative signal is primary cardiovascular genetic concern.",
+  [{l:"9p21 Count",v:"3/3 positive"},{l:"Net Risk",v:"Significantly elevated CAD/MI"},{l:"Action",v:"CAC score, statin, <70 LDL target"}]),
+
+// ══ PSYCHIATRIC LEAVES ══
+N("ps_comt","COMT\nVal/Met","leaf","psych","b_psych","purple","rs4680 = AG","COMT Val158Met balanced — ideal for emergency medicine. Adapts dopamine regulation to both high-stress and normal conditions.",
+  [{l:"Genotype",v:"Val/Met — Balanced"},{l:"ER Advantage",v:"Optimal under acute pressure"},{l:"Effect",v:"Intermediate dopamine clearance"}]),
+N("ps_oxtr","OXTR GG\nEmpathy","leaf","psych","b_psych","purple","rs53576 = GG","OXTR GG — highest empathy oxytocin receptor genotype. Natural patient rapport, strong family bonds, compassion fatigue risk.",
+  [{l:"Genotype",v:"GG — Maximum empathy"},{l:"Clinical",v:"Superior patient communication"},{l:"Watch",v:"Compassion fatigue in ER"}]),
+N("ps_bdnf","BDNF\nVal/Met","leaf","psych","b_psych","green","rs6265 = CT","BDNF Val66Met — good neuroplasticity. Exercise is the strongest BDNF upregulator.",
+  [{l:"Genotype",v:"CT — Val/Met"},{l:"Neuroplasticity",v:"Good — exercise-responsive"}]),
+N("ps_htr1a","HTR1A\nSerotonin","leaf","psych","b_psych","yellow","rs6295 = CG","HTR1A serotonin 1A receptor — CG heterozygous. Intermediate SSRI response.",
+  [{l:"Genotype",v:"CG — Intermediate"},{l:"SSRIs",v:"Intermediate response expected"}]),
+N("ps_drd2","DRD2\nTaqIA","leaf","psych","b_psych","green","rs1800497 = GG","DRD2 TaqIA — GG (A2/A2), higher D2 receptor density. Lower addiction vulnerability.",
+  [{l:"Genotype",v:"GG = A2/A2"},{l:"Benefit",v:"Lower addiction risk, normal reward"}]),
+N("ps_cacna1c","CACNA1C\nrs1006737","leaf","psych","b_psych","yellow","rs1006737 = GG","CACNA1C calcium channel — GG risk-associated genotype. Associated with bipolar vulnerability and emotional reactivity.",
+  [{l:"Genotype",v:"GG — Risk-associated"},{l:"Note",v:"Population signal, not diagnostic"}]),
+N("ps_dbh","DBH\nrs1611115","leaf","psych","b_psych","yellow","rs1611115 = CT","DBH dopamine beta-hydroxylase — CT heterozygous. Affects norepinephrine levels and stress reactivity.",
+  [{l:"Genotype",v:"CT — Heterozygous"}]),
+
+// ══ AUTOIMMUNE LEAVES ══
+N("ai_ctla4","CTLA4\nrs3087243","leaf","immune","b_immune","yellow","rs3087243 = AG","CTLA4 immune checkpoint — AG. Associated with autoimmune thyroid disease risk. Also relevant for cancer immunotherapy response.",
+  [{l:"Genotype",v:"AG — Heterozygous"},{l:"Risk",v:"Autoimmune thyroid, T1D association"},{l:"Drug Note",v:"May affect checkpoint inhibitor immunotherapy"}]),
+N("ai_hladq2","HLA-DQ2\nCeliac","leaf","immune","b_immune","green","rs2187668 = CC","HLA-DQ2 absent — CC. No celiac disease genetic predisposition from DQ2.",
+  [{l:"Genotype",v:"CC — DQ2 absent"},{l:"Celiac",v:"Very low risk"}]),
+N("ai_hladq8","HLA-DQ8\nCeliac","leaf","immune","b_immune","green","rs7454108 = TT","HLA-DQ8 absent. Combined with DQ2-negative — celiac risk very low.",
+  [{l:"Genotype",v:"TT — DQ8 absent"},{l:"Celiac",v:"Very low (DQ2 + DQ8 both absent)"}]),
+N("ai_hlab57","HLA-B*57:01\nDrug Safe","leaf","immune","b_immune","green","rs2395029 = TT","HLA-B*57:01 absent. Abacavir and carbamazepine are safe at this HLA level.",
+  [{l:"Genotype",v:"TT — B*57:01 absent"},{l:"Abacavir",v:"Safe"},{l:"Carbamazepine",v:"No SJS risk from B*57:01"}]),
+N("ai_atg16l1","ATG16L1\nCrohn's","leaf","immune","b_immune","yellow","rs2241880 = AG","ATG16L1 T300A AG — key Crohn's disease variant, heterozygous. Combined with second ATG16L1 variant — moderate IBD signal.",
+  [{l:"Genotype",v:"AG — T300A heterozygous"},{l:"Risk",v:"Moderate Crohn's susceptibility"},{l:"Action",v:"Monitor GI symptoms"}]),
+N("ai_il10","IL-10\nrs1800896","leaf","immune","b_immune","yellow","rs1800896 = CT","IL-10 anti-inflammatory — CT intermediate production. Moderate anti-inflammatory capacity.",
+  [{l:"Genotype",v:"CT — Intermediate IL-10"}]),
+N("ai_tyk2","TYK2\nrs12720356","leaf","immune","b_immune","yellow","rs12720356 = AC","TYK2 JAK kinase — AC heterozygous. Mild autoimmune association.",
+  [{l:"Genotype",v:"AC — Heterozygous"}]),
+
+// ══ PHARMACOGENOMICS LEAVES ══
+N("ph_cyp2c9","CYP2C9\n*1/*2 CRITICAL","leaf","pharma","b_pharma","red","rs1799853 = CT","CRITICAL: CYP2C9 *1/*2 — warfarin doses ~20% too high. Must be in EMR. CPIC guideline: reduce warfarin 10-25%. Prefer DOACs.",
+  [{l:"Genotype",v:"CT — *1/*2 Intermediate"},{l:"Action",v:"Flag EMR, reduce warfarin ~20%"},{l:"DOACs",v:"Apixaban/rivaroxaban preferred"},{l:"NSAIDs",v:"Higher plasma levels — use low end of dose range"}],
+  "CPIC 2024 Warfarin Guidelines: CYP2C9 *1/*2 + VKORC1 analysis recommended before warfarin initiation. Pharmacist consult required. DOACs are the preferred anticoagulant strategy for patients with CYP2C9 intermediate metabolizer status."),
+N("ph_cyp1a2","CYP1A2\nFast Caffeine","leaf","pharma","b_pharma","gold","rs762551 = AA","KEY: CYP1A2 AA fast metabolizer — caffeine half-life 2-3h. Fast metabolizers with >4 cups/day have elevated CAD risk in 9p21 background.",
+  [{l:"Genotype",v:"AA — Fast metabolizer"},{l:"Caffeine t½",v:"~2-3 hours"},{l:"CAD Note",v:"High caffeine + 9p21 = caution"}]),
+N("ph_dpyd","DPYD\nPanel 5-FU Safe","leaf","pharma","b_pharma","green","rs3918290/55886062/67376798 = CC/AA/TT","All three DPYD variants normal. 5-FU/capecitabine chemotherapy is safe — no dose reduction needed.",
+  [{l:"DPYD Status",v:"Fully functional (3/3 variants normal)"},{l:"5-FU Safety",v:"Standard dosing — safe"}]),
+N("ph_tpmt","TPMT\nPanel Normal","leaf","pharma","b_pharma","green","rs1142345/1800460/1800462","All three TPMT variants normal. Azathioprine/6-MP safe at standard doses.",
+  [{l:"TPMT Status",v:"Normal enzyme activity"},{l:"Thiopurines",v:"Standard dosing safe"}]),
+N("ph_mthfr_677","MTHFR\nC677T","leaf","pharma","b_pharma","yellow","rs1801133 = AG","MTHFR C677T + A1298C compound. Methotrexate toxicity elevated. Use methylfolate not folic acid.",
+  [{l:"Combined Status",v:"Compound heterozygous C677T + A1298C"},{l:"Methotrexate",v:"Elevated toxicity risk"},{l:"Action",v:"L-methylfolate + methylcobalamin"}]),
+N("ph_warfarin_algo","Warfarin\nDosing Guide","leaf","pharma","b_pharma","red","CYP2C9 *1/*2","CYP2C9 *1/*2: Start warfarin 20-30% below standard dose. INR every 3-5 days during initiation. Consider apixaban instead.",
+  [{l:"Starting Dose",v:"20-30% below standard"},{l:"INR Check",v:"Every 3-5 days initially"},{l:"Alternative",v:"Apixaban — no CYP2C9 interaction"}]),
+N("ph_hlab5701","HLA-B*57:01\nAbacavir Safe","leaf","pharma","b_pharma","green","rs2395029 = TT","B*57:01 absent — abacavir HIV drug and carbamazepine safe from this HLA allele.",
+  [{l:"Abacavir",v:"Safe — no hypersensitivity"},{l:"Carbamazepine",v:"No B*57:01 SJS risk"}]),
+N("ph_statins","Statin\nPreference","leaf","pharma","b_pharma","yellow","CYP2C9 *1/*2","CYP2C9 *1/*2: prefer rosuvastatin or pravastatin (less CYP2C9 dependent). Avoid high-dose simvastatin.",
+  [{l:"Preferred",v:"Rosuvastatin, pravastatin"},{l:"Avoid",v:"High-dose simvastatin"},{l:"Context",v:"9p21 CAD risk may warrant statin"}]),
+
+// ══ NUTRIGENOMICS LEAVES ══
+N("nu_fut2","FUT2\nNon-Secretor","leaf","nutri","b_nutri","gold","rs601338 = AA","KEY DISCOVERY: FUT2 AA Non-Secretor — severely impaired gut B12 absorption. 2.5× B12 deficiency risk. Methylcobalamin supplementation ESSENTIAL.",
+  [{l:"Genotype",v:"AA — Non-Secretor"},{l:"B12 Absorption",v:"Severely impaired"},{l:"Action",v:"Methylcobalamin 2000mcg/day (sublingual or injection)"},{l:"Monitor",v:"Serum B12 + MMA annually"}],
+  "2024 research (Gut Microbiome Journal): FUT2 non-secretors have significantly reduced Bifidobacterium and Ruminococcus in gut. This microbiome shift impairs gut epithelial B12 uptake AND reduces short-chain fatty acid production. Probiotic Bifidobacterium longum BB536 supplementation partially restores microbiome."),
+N("nu_mtrr","MTRR\nB12 Pathway","leaf","nutri","b_nutri","yellow","rs1801394 = GG","MTRR GG — compounds FUT2 non-secretor B12 challenge. Double B12 vulnerability.",
+  [{l:"Combined Effect",v:"FUT2 + MTRR = double B12 challenge"},{l:"Action",v:"2000mcg methylcobalamin minimum/day"}]),
+N("nu_fads1","FADS1\nOmega-3","leaf","nutri","b_nutri","yellow","rs174546/174547 = CT/CT","FADS1 CT — intermediate ALA to EPA conversion. Use marine omega-3, not plant sources.",
+  [{l:"Conversion",v:"Intermediate ALA→EPA"},{l:"Action",v:"Marine EPA/DHA 2g/day"}]),
+N("nu_bcmo1","BCMO1\nBeta-Carotene","leaf","nutri","b_nutri","yellow","rs12934922 = AA","BCMO1 AA — reduced beta-carotene to Vitamin A conversion. Need preformed Vitamin A sources.",
+  [{l:"Effect",v:"Reduced beta-carotene conversion"},{l:"Action",v:"Eat liver, eggs, dairy for preformed Vitamin A"}]),
+N("nu_mtnr1b","MTNR1B\nGlucose","leaf","nutri","b_nutri","yellow","rs10830963 = CG","MTNR1B CG — late eating elevates glucose. Melatonin suppresses insulin in CG carriers. Eat early.",
+  [{l:"Effect",v:"Late meals → higher blood glucose"},{l:"Action",v:"Eat within 10-12h window, nothing after 7pm"}]),
+N("nu_fut2_gut","FUT2\nMicrobiome","leaf","nutri","b_nutri","gold","FUT2 AA","FUT2 non-secretor gut microbiome — reduced Bifidobacterium, altered norovirus susceptibility (reduced!), altered H. pylori risk.",
+  [{l:"Microbiome",v:"Low Bifidobacterium"},{l:"Probiotic",v:"Bifidobacterium longum BB536"},{l:"Bonus",v:"Reduced norovirus susceptibility"}]),
+N("nu_caffeine_strat","Caffeine\nStrategy","leaf","nutri","b_nutri","gold","CYP1A2 AA + 9p21","Fast CYP1A2 + 9p21 CAD = cap at 2-3 cups/day. Last coffee by noon. Green tea may be safer.",
+  [{l:"Max",v:"200-300mg caffeine/day"},{l:"Timing",v:"Morning only — last by noon"},{l:"Alternative",v:"Green tea (L-theanine reduces anxiety spike)"}]),
+N("nu_vitd","Vitamin D\nStrategy","leaf","nutri","b_nutri","yellow","IL-6 CC + MTHFR AG","IL-6 CC elevates inflammation, reducing Vitamin D receptor efficacy. Higher D target needed. D3+K2+Magnesium.",
+  [{l:"Target",v:">50 ng/mL serum 25-OH Vitamin D"},{l:"Dose",v:"D3 2000-4000 IU + K2 100mcg + Magnesium 400mg"}]),
+
+// ══ LONGEVITY LEAVES ══
+N("lo_foxo3","FOXO3\nNo Longevity Allele","leaf","longevity","b_longevity","gold","rs2802292 = TT","KEY DISCOVERY: FOXO3 TT — does not carry the G allele found in centenarians worldwide. FOXO3 regulates autophagy and stress resistance.",
+  [{l:"Genotype",v:"TT — No longevity allele"},{l:"Missing",v:"G allele found in 100+ year olds"},{l:"Action",v:"Exercise and fasting ACTIVATE FOXO3 epigenetically"}],
+  "2025 longevity research (Nature Aging): FOXO3 protein activity — regardless of genetic variant — is upregulated 2-3× by: HIIT exercise (30+ min), caloric restriction, NAD+ precursors (NMN/NR), and rapamycin analogs. Epigenetic FOXO3 activation can compensate for absent longevity allele."),
+N("lo_apoe_longevity","APOE ε3/ε4\nLongevity","leaf","longevity","b_longevity","red","APOE ε3/ε4","APOE ε4 — primary longevity risk. Associated with shorter lifespan via Alzheimer's and cardiovascular pathways.",
+  [{l:"Risk",v:"Primary longevity concern"},{l:"Prevention",v:"Exercise, MIND diet, sleep, BP control"},{l:"Timeline",v:"Start prevention protocol in 40s"}],
+  "2025 EXERT trial follow-up: APOE ε4 carriers who sustained ≥150 min/week vigorous aerobic exercise showed significantly slower hippocampal volume loss and better executive function over 18 months vs sedentary ε4 carriers. Exercise is the strongest evidence-based intervention."),
+N("lo_tert","TERT/TERC\nTelomeres","leaf","longevity","b_longevity","yellow","rs2736100 AC / rs12696304 CG","TERT AC + TERC CG — intermediate telomere maintenance. Sleep and exercise are strongest telomere protectors.",
+  [{l:"TERT",v:"AC — Intermediate"},{l:"TERC",v:"CG — Slightly shorter telomeres"},{l:"Best Action",v:"7-9h sleep + aerobic exercise"}]),
+N("lo_foxo3_strategy","FOXO3\nActivation Plan","leaf","longevity","b_longevity","gold","Epigenetic activation","FOXO3 TT — compensate with lifestyle FOXO3 activation: HIIT, intermittent fasting, NAD+ precursors.",
+  [{l:"HIIT",v:"30+ min 2×/week — strongest activator"},{l:"Fasting",v:"16:8 or 5:2 intermittent fasting"},{l:"NAD+",v:"NMN 250-500mg/day — research ongoing"},{l:"Diet",v:"Mediterranean + caloric awareness"}]),
+N("lo_longevity_score","Longevity\nOverall Score","leaf","longevity","b_longevity","yellow","Multi-variant","Favorable: FTO TT, ACTN3 XX, COMT Val/Met, OXTR GG. Risk: APOE ε4, FOXO3 TT, IL-6 CC. Net: lifestyle-dependent.",
+  [{l:"Favorable",v:"FTO TT, ACTN3 XX, COMT, OXTR"},{l:"Risk",v:"APOE ε4, FOXO3 TT, IL-6 CC"},{l:"Verdict",v:"Average genetics — lifestyle determines outcome"}]),
+
+// ══ ATHLETIC LEAVES ══
+N("at_actn3","ACTN3 XX\nEndurance Elite","leaf","athletic","b_athletic","cyan","rs1815739 = TT","ACTN3 XX — elite endurance genotype. Overrepresented in Olympic distance athletes. Zone 2 training maximizes this advantage.",
+  [{l:"Genotype",v:"XX — Elite endurance"},{l:"Sports",v:"Running, cycling, triathlon, rowing"},{l:"Training",v:"Zone 2 base + VO2max intervals"}]),
+N("at_ppargc1a","PPARGC1A\nMitochondria","leaf","athletic","b_athletic","cyan","rs8192678 = CT","PGC-1alpha — CT intermediate mitochondrial biogenesis response. Zone 2 training 3-4×/week builds mitochondrial density.",
+  [{l:"Genotype",v:"CT — Intermediate"},{l:"Mitochondria",v:"Good zone 2 training response"}]),
+N("at_col5a1","COL5A1\nConnective Tissue","leaf","athletic","b_athletic","green","rs12722 = CT","COL5A1 — CT intermediate connective tissue flexibility. Regular stretching and progressive loading prevents injury.",
+  [{l:"Genotype",v:"CT — Intermediate flexibility"},{l:"Action",v:"Regular stretching, progressive tendon loading"}]),
+N("at_ampd1","AMPD1\nExercise Tolerance","leaf","athletic","b_athletic","green","rs17602729 = AG","AMPD1 AG — normal purine nucleotide cycle. No exercise-induced myalgia or cramping from AMPD1 deficiency.",
+  [{l:"Genotype",v:"AG — Normal"},{l:"Exercise",v:"No AMPD1-related cramping/fatigue"}]),
+N("at_vo2_profile","VO2 Max\nGenetic Profile","leaf","athletic","b_athletic","cyan","ACTN3 XX + PPARGC1A CT","ACTN3 XX + PPARGC1A CT + FTO TT = strong endurance genetic profile. High trainability for VO2 max.",
+  [{l:"Profile",v:"High endurance trainability"},{l:"Best Sport",v:"Distance/endurance events"},{l:"Training",v:"Zone 2 + weekly VO2max sessions"}]),
+
+// ══ TRAITS LEAVES ══
+N("tr_taste","TAS2R38\nNon-Taster","leaf","traits","b_traits","purple","rs1726866 GG + rs713598 GG + rs10246939 CC","TAS2R38 AVI/AVI non-taster — cannot taste bitter compounds (PROP/PTC). May find bitter vegetables (broccoli, kale) less aversive — potential dietary advantage.",
+  [{l:"Genotype",v:"AVI/AVI — Non-Taster"},{l:"Effect",v:"Cannot taste PROP/PTC bitter"},{l:"Dietary",v:"Better tolerance of bitter healthy foods"},{l:"Note",v:"~25% of Europeans are non-tasters"}]),
+N("tr_or7d4","OR7D4\nAndrostenone","leaf","traits","b_traits","purple","rs7495174 = AA","OR7D4 AA — finds androstenone (testosterone metabolite/musk) pleasant rather than repulsive. Unique olfactory perception.",
+  [{l:"Genotype",v:"AA — Pleasant musk perception"},{l:"Effect",v:"Androstenone smells pleasant/neutral"}]),
+N("tr_asparagus","Asparagus\nSmell OR2M7","leaf","traits","b_traits","purple","rs4481887 = AG","OR2M7 rs4481887 AG — heterozygous asparagus metabolite detector. Can smell asparagus compounds in urine (moderate sensitivity).",
+  [{l:"Genotype",v:"AG — Moderate detector"},{l:"Effect",v:"Can detect asparagus metabolites"}]),
+N("tr_earwax","Earwax\nABCC11","leaf","traits","b_traits","blue","rs17822931 = CT","ABCC11 CT — wet earwax type, typical of European ancestry. Wet earwax correlates with axillary odor production.",
+  [{l:"Genotype",v:"CT — Wet earwax (European)"},{l:"Ancestry",v:"European — confirms genetic ancestry"}]),
+N("tr_sleep","MTNR1B\nSleep/Glucose","leaf","traits","b_traits","yellow","rs10830963 = CG","MTNR1B CG — melatonin suppresses insulin in CG carriers when eating late. Slight evening chronotype tendency.",
+  [{l:"Chronotype",v:"Slight evening preference"},{l:"Action",v:"Avoid large meals after 7pm — glucose spikes"}]),
+N("tr_bone","COL1A1\nBone rs1800012","leaf","traits","b_traits","green","rs1800012 = CC","COL1A1 rs1800012 CC — lower-risk genotype for osteoporosis and fracture risk. Normal bone collagen structure.",
+  [{l:"Genotype",v:"CC — Normal fracture risk"},{l:"Bone Health",v:"Normal collagen scaffold"}]),
+N("tr_recovery","STAT4\nRecovery rs7574865","leaf","traits","b_traits","yellow","rs7574865 = GT","STAT4 rs7574865 GT — affects inflammatory cytokine signaling during recovery. GT intermediate.",
+  [{l:"Genotype",v:"GT — Intermediate"},{l:"Recovery",v:"Normal inflammatory resolution"}]),
+N("tr_ancestry","Northern\nEuropean","leaf","traits","b_traits","blue","SLC24A5 AA + MC1R","Genetic ancestry: Northwestern European / Celtic. SLC24A5 AA, triple MC1R, lactase persistence, HFE H63D all consistent with Irish/British heritage.",
+  [{l:"Primary",v:"Northwestern European"},{l:"Celtic",v:"Triple MC1R + HFE H63D"},{l:"Lactase",v:"Northern European adaptation"}]),
+N("tr_hfe","HFE H63D\nCarrier","leaf","traits","b_traits","yellow","rs1799945 = CG","HFE H63D heterozygous carrier — normal iron metabolism, but 25% transmission risk to children if partner carries same.",
+  [{l:"Genotype",v:"CG — Carrier"},{l:"Personal Risk",v:"Low — single copy"},{l:"Children",v:"25% hemochromatosis if partner carries"}]),
+N("tr_mc1r_carrier","MC1R\nRed Hair Genetics","leaf","traits","b_traits","purple","3 MC1R variants","Triple MC1R carrier — explains auburn/warm hair tones. 50% chance of passing each variant to children. Red hair possible in children if partner carries MC1R.",
+  [{l:"Hair Prediction",v:"Dark with auburn/red undertones"},{l:"Children",v:"Red hair possible if partner carries MC1R"},{l:"Skin Type",v:"Sun-sensitive Celtic complexion"}]),
+
+// ══ LIPID METABOLISM LEAVES ══
+N("li_apoa5_1","APOA5\nTG rs3135506","leaf","lipid","b_lipid","green","rs3135506 = GG","APOA5 rs3135506 GG — lower triglyceride risk. APOA5 is the strongest genetic regulator of plasma triglyceride levels.",
+  [{l:"Genotype",v:"GG — Lower TG risk"},{l:"Gene",v:"APOA5 — triglyceride regulation"}]),
+N("li_apoa5_2","APOA5\nTG rs662799","leaf","lipid","b_lipid","green","rs662799 = AA","Second APOA5 variant — AA lower-risk. Combined with rs3135506 — favorable triglyceride genetics.",
+  [{l:"Genotype",v:"AA — Favorable TG profile"},{l:"Combined",v:"Both APOA5 variants favorable"}]),
+N("li_lpl","LPL\nrs328","leaf","lipid","b_lipid","green","rs328 = CC","LPL lipoprotein lipase rs328 CC — normal lipase activity. LPL is the primary enzyme for clearing triglyceride-rich lipoproteins.",
+  [{l:"Genotype",v:"CC — Normal LPL activity"},{l:"Effect",v:"Normal TG clearance from bloodstream"}]),
+N("li_cetp_1","CETP\nHDL rs708272","leaf","lipid","b_lipid","yellow","rs708272 = AG","CETP rs708272 AG — heterozygous. CETP transfers cholesterol from HDL to LDL. AG is intermediate — moderate HDL effect.",
+  [{l:"Genotype",v:"AG — Intermediate"},{l:"HDL",v:"Moderate effect on HDL levels"},{l:"CETP inhibitors",v:"Could elevate HDL — research ongoing"}]),
+N("li_cetp_2","CETP\nrs1800775","leaf","lipid","b_lipid","yellow","rs1800775 = AC","Second CETP variant — AC. Combined with rs708272 AG, intermediate CETP activity and HDL trajectory.",
+  [{l:"Genotype",v:"AC — Intermediate"},{l:"Combined",v:"Two CETP variants — moderate HDL modifier"}]),
+N("li_lipc","LIPC\nrs1800588","leaf","lipid","b_lipid","green","rs1800588 = CC","LIPC hepatic lipase rs1800588 CC — lower-risk genotype. Normal hepatic lipase activity and HDL2 metabolism.",
+  [{l:"Genotype",v:"CC — Lower risk"},{l:"Effect",v:"Normal hepatic lipase, HDL2 metabolism"}])
 ];
 
-// ── LINKS ────────────────────────────────────────────────────────────────────
+// ── LINKS ─────────────────────────────────────────────────────────────────────
 const links=[];
 nodes.forEach(n=>{
   if(n.group==="branch") links.push({source:"center",target:n.id,type:"main"});
   if(n.group==="leaf") links.push({source:n.parent,target:n.id,type:"leaf"});
 });
 
-// Cross-links (key connections)
-const crossLinks=[
-  // MTHFR connects pharma ↔ cardio ↔ longevity
-  {source:"ph_mthfr_677",target:"cv_mthfr_a1298c",type:"cross"},
-  {source:"cv_mthfr_a1298c",target:"lo_mthfr_longevity",type:"cross"},
-  // 9p21 CAD → longevity
-  {source:"cv_9p21_summary",target:"lo_apoe_longevity",type:"cross"},
-  // MC1R cancer → pharma (sun protection)
-  {source:"c_mc1r_2",target:"c_mc1r_3",type:"cross"},
-  // PCSK9 → longevity
-  {source:"cv_pcsk9",target:"lo_longevity_score",type:"cross"},
-  // FUT2 → B12 → longevity
-  {source:"nu_fut2",target:"lo_mthfr_longevity",type:"cross"},
-  // PITX2 AFib → 9p21 CAD
-  {source:"cv_pitx2",target:"cv_9p21_summary",type:"cross"},
-  // FOXO3 ↔ longevity strategy
-  {source:"lo_foxo3",target:"lo_foxo3_detail",type:"cross"},
-  // Athletic ↔ longevity (exercise prevents Alzheimer's)
-  {source:"at_actn3",target:"lo_foxo3_detail",type:"cross"},
-  // CYP1A2 caffeine in both pharma and nutri
-  {source:"ph_cyp1a2",target:"nu_cyp1a2",type:"cross"},
-  // IL-6 connects immune ↔ longevity
-  {source:"ai_il10",target:"lo_il6_aging",type:"cross"},
-];
-crossLinks.forEach(l=>links.push(l));
+// Cross-links
+[
+  ["ph_mthfr_677","cv_mthfr_a1298c","cross"],
+  ["cv_mthfr_a1298c","lo_apoe_longevity","cross"],
+  ["cv_9p21_summary","lo_longevity_score","cross"],
+  ["cv_pcsk9","cv_9p21_summary","cross"],
+  ["c_mc1r_2","c_mc1r_3","cross"],
+  ["c_mc1r_1","c_mc1r_2","cross"],
+  ["nu_fut2","nu_fut2_gut","cross"],
+  ["nu_fut2","lo_longevity_score","cross"],
+  ["cv_pitx2","cv_9p21_summary","cross"],
+  ["lo_foxo3","lo_foxo3_strategy","cross"],
+  ["at_actn3","lo_foxo3_strategy","cross"],
+  ["ph_cyp1a2","nu_caffeine_strat","cross"],
+  ["ph_cyp2c9","ph_warfarin_algo","cross"],
+  ["ai_ctla4","c_mc1r_3","cross"],
+  ["ph_statins","cv_9p21_summary","cross"],
+  ["nu_mtnr1b","tr_sleep","cross"],
+  ["at_actn3","at_vo2_profile","cross"],
+].forEach(([s,t,type])=>links.push({source:s,target:t,type:type||"cross"}));
 
-// ── BACKGROUND PARTICLES ──────────────────────────────────────────────────────
+// ── CANVAS BACKGROUND ─────────────────────────────────────────────────────────
 const cvs=document.getElementById("cvs");
 const ctx=cvs.getContext("2d");
 let W=cvs.width=window.innerWidth,H=cvs.height=window.innerHeight;
 window.addEventListener("resize",()=>{W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight;});
-
-const parts=Array.from({length:100},()=>({
-  x:Math.random()*W,y:Math.random()*H,
-  vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,
-  r:Math.random()*1.3+.3,a:Math.random()*.3+.04
-}));
-
-(function drawBg(){
+const parts=Array.from({length:90},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.2+.3,a:Math.random()*.28+.04}));
+(function bg(){
   ctx.clearRect(0,0,W,H);
   for(let i=0;i<parts.length;i++){
     for(let j=i+1;j<parts.length;j++){
       const dx=parts[i].x-parts[j].x,dy=parts[i].y-parts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<100){ctx.beginPath();ctx.moveTo(parts[i].x,parts[i].y);ctx.lineTo(parts[j].x,parts[j].y);ctx.strokeStyle=`rgba(99,102,241,${.06*(1-d/100)})`;ctx.lineWidth=.4;ctx.stroke();}
+      if(d<90){ctx.beginPath();ctx.moveTo(parts[i].x,parts[i].y);ctx.lineTo(parts[j].x,parts[j].y);ctx.strokeStyle=`rgba(99,102,241,${.055*(1-d/90)})`;ctx.lineWidth=.4;ctx.stroke();}
     }
-    const p=parts[i];
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,163,184,${p.a})`;ctx.fill();
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    const p=parts[i];ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,163,184,${p.a})`;ctx.fill();
+    p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
   }
-  requestAnimationFrame(drawBg);
+  requestAnimationFrame(bg);
 })();
 
 // ── D3 GRAPH ──────────────────────────────────────────────────────────────────
 const W2=window.innerWidth,H2=window.innerHeight;
 const svg=d3.select("#sg").append("svg").attr("width","100%").attr("height","100%").attr("viewBox",[0,0,W2,H2]);
 const defs=svg.append("defs");
-
-// Glow filters
 ["green","yellow","red","purple","blue","gold","pink","cyan","center"].forEach(k=>{
-  const f=defs.append("filter").attr("id","glow-"+k).attr("x","-60%").attr("y","-60%").attr("width","220%").attr("height","220%");
-  f.append("feGaussianBlur").attr("stdDeviation",k==="gold"?9:k==="red"?7:k==="center"?10:5).attr("result","blur");
+  const f=defs.append("filter").attr("id","glow-"+k).attr("x","-70%").attr("y","-70%").attr("width","240%").attr("height","240%");
+  f.append("feGaussianBlur").attr("stdDeviation",k==="gold"||k==="center"?10:k==="red"?7:5).attr("result","blur");
   const m=f.append("feMerge");m.append("feMergeNode").attr("in","blur");m.append("feMergeNode").attr("in","SourceGraphic");
 });
 
 const g=svg.append("g");
-const zoom=d3.zoom().scaleExtent([.08,5]).on("zoom",e=>g.attr("transform",e.transform));
+const zoom=d3.zoom().scaleExtent([.06,5]).on("zoom",e=>g.attr("transform",e.transform));
 svg.call(zoom);
 
 const sim=d3.forceSimulation(nodes)
-  .force("link",d3.forceLink(links).id(d=>d.id).distance(d=>{
-    if(d.type==="main") return 280;
-    if(d.type==="cross") return 350;
-    return 110;
-  }).strength(d=>d.type==="cross"?.08:.45))
-  .force("charge",d3.forceManyBody().strength(d=>d.type==="center"?-2000:d.group==="branch"?-800:d.group==="leaf"?-120:-50))
+  .force("link",d3.forceLink(links).id(d=>d.id).distance(d=>d.type==="main"?260:d.type==="cross"?320:95).strength(d=>d.type==="cross"?.05:.4))
+  .force("charge",d3.forceManyBody().strength(d=>d.type==="center"?-2200:d.group==="branch"?-900:d.group==="leaf"?-110:-50))
   .force("center",d3.forceCenter(W2/2,H2/2))
-  .force("collision",d3.forceCollide().radius(d=>d.type==="center"?100:d.group==="branch"?72:42));
+  .force("collision",d3.forceCollide().radius(d=>d.type==="center"?100:d.group==="branch"?75:38));
 
-// Links
 const link=g.append("g").selectAll("line").data(links).join("line")
-  .attr("stroke",d=>d.type==="main"?"rgba(99,102,241,.4)":d.type==="cross"?"rgba(251,146,60,.25)":"rgba(71,85,105,.25)")
-  .attr("stroke-width",d=>d.type==="main"?2:d.type==="cross"?1.5:.8)
-  .attr("stroke-dasharray",d=>d.type==="cross"?"8,4":d.type==="leaf"?"4,4":null)
-  .attr("opacity",d=>d.type==="cross"?.5:1);
+  .attr("stroke",d=>d.type==="main"?"rgba(99,102,241,.4)":d.type==="cross"?"rgba(251,146,60,.2)":"rgba(71,85,105,.22)")
+  .attr("stroke-width",d=>d.type==="main"?2:d.type==="cross"?1.2:.7)
+  .attr("stroke-dasharray",d=>d.type==="cross"?"10,5":d.type==="leaf"?"3,4":null)
+  .attr("opacity",d=>d.type==="cross"?.45:1);
 
-// Flow dots on main links only
 const mainLinks=links.filter(d=>d.type==="main");
-const flowDots=g.append("g").selectAll("circle.fd").data(mainLinks).join("circle")
-  .attr("r",2).attr("fill","#818cf8").attr("opacity",.7);
+const flowDots=g.append("g").selectAll("circle.fd").data(mainLinks).join("circle").attr("r",2).attr("fill","#818cf8").attr("opacity",.65);
 
-// Node groups
-const nodeG=g.append("g").selectAll("g.nd").data(nodes).join("g").attr("class","nd")
-  .style("cursor","pointer")
+const nodeG=g.append("g").selectAll("g.nd").data(nodes).join("g").attr("class","nd").style("cursor","pointer")
   .call(d3.drag()
     .on("start",(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;})
     .on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y;})
     .on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}))
   .on("click",(e,d)=>{e.stopPropagation();showPanel(d);});
 
-// Pulse rings for gold/red nodes
 nodeG.filter(d=>d.risk==="gold"||d.risk==="red").append("circle")
-  .attr("class","pring")
-  .attr("r",d=>d.type==="center"?90:d.group==="branch"?55:38)
+  .attr("class","pring").attr("r",d=>d.type==="center"?90:d.group==="branch"?58:32)
   .attr("fill","none").attr("stroke",d=>C[d.risk]).attr("stroke-width",1.5).attr("opacity",0);
 
-// Main circles
-const nodeColor=d=>{
-  if(d.group==="branch") return CAT_COLOR[d.cat]||"#60a5fa";
-  return C[d.risk]||"#60a5fa";
-};
-
+const nodeColor=d=>d.group==="branch"?(CAT_COLOR[d.cat]||"#60a5fa"):C[d.risk]||"#60a5fa";
 nodeG.append("circle")
-  .attr("r",d=>d.type==="center"?58:d.group==="branch"?38:d.risk==="gold"?26:22)
+  .attr("r",d=>d.type==="center"?58:d.group==="branch"?38:d.risk==="gold"?25:20)
   .attr("fill",d=>d.type==="center"?"rgba(30,41,59,.95)":"rgba(15,23,42,.88)")
   .attr("stroke",nodeColor)
   .attr("stroke-width",d=>d.type==="center"?3:d.group==="branch"?2.5:d.risk==="gold"?2:1.5)
   .attr("filter",d=>`url(#glow-${d.risk})`);
 
-// Labels
-nodeG.append("text").attr("class","node-label")
-  .attr("text-anchor","middle").attr("dominant-baseline","middle")
+nodeG.append("text").attr("class","node-label").attr("text-anchor","middle").attr("dominant-baseline","middle")
   .attr("fill",d=>d.type==="center"?"#f1f5f9":nodeColor(d))
-  .attr("font-size",d=>d.type==="center"?"12px":d.group==="branch"?"9px":"7.5px")
+  .attr("font-size",d=>d.type==="center"?"12px":d.group==="branch"?"9px":"7px")
   .attr("font-weight",d=>d.group!=="leaf"?"700":"500")
   .each(function(d){
-    const lines=d.label.split("\n");
-    const el=d3.select(this);
-    const lh=11;
-    const y0=-(lines.length-1)*lh/2;
-    lines.forEach((line,i)=>{el.append("tspan").attr("x",0).attr("dy",i===0?y0:lh).text(line);});
+    const lines=d.label.split("\n"),el=d3.select(this),lh=11,y0=-(lines.length-1)*lh/2;
+    lines.forEach((line,i)=>el.append("tspan").attr("x",0).attr("dy",i===0?y0:lh).text(line));
   });
 
 sim.on("tick",()=>{
@@ -801,26 +687,22 @@ sim.on("tick",()=>{
   nodeG.attr("transform",d=>`translate(${d.x},${d.y})`);
 });
 
-// Animate flow dots
 let ft=0;
 (function anim(){
   ft=(ft+.004)%1;
   flowDots.each(function(d,i){
-    const s=d.source,t=d.target;
-    if(!s.x) return;
+    const s=d.source,t=d.target;if(!s.x)return;
     const f=(ft+i*.07)%1;
     d3.select(this).attr("cx",s.x+(t.x-s.x)*f).attr("cy",s.y+(t.y-s.y)*f);
   });
   requestAnimationFrame(anim);
 })();
 
-// Pulse rings for gold/red
 (function animPulse(){
   d3.selectAll(".pring").each(function(d){
-    const el=d3.select(this);
-    const base=d.type==="center"?90:d.group==="branch"?55:38;
-    const phase=(Date.now()/2400+nodes.indexOf(d)*.22)%1;
-    el.attr("r",base+phase*20).attr("opacity",.6*(1-phase));
+    const el=d3.select(this),base=d.type==="center"?90:d.group==="branch"?58:32;
+    const phase=(Date.now()/2500+nodes.indexOf(d)*.21)%1;
+    el.attr("r",base+phase*18).attr("opacity",.55*(1-phase));
   });
   requestAnimationFrame(animPulse);
 })();
@@ -836,8 +718,9 @@ function showPanel(d){
   document.getElementById("pgeno").textContent=d.geno||"";
   document.getElementById("pdesc").textContent=d.desc||"";
   document.getElementById("pstats").innerHTML=(d.stats||[]).map(s=>
-    `<div class="pstat"><div class="pstat-l">${s.l}</div><div class="pstat-v">${s.v}</div></div>`
-  ).join("");
+    `<div class="pstat"><div class="pstat-l">${s.l}</div><div class="pstat-v">${s.v}</div></div>`).join("");
+  const rb=document.getElementById("presearch");
+  rb.innerHTML=d.research?`<div class="research-box"><b>&#127757; 2024-2025 Research</b>${d.research}</div>`:"";
   panel.classList.add("open");
 }
 function closePanel(){panel.classList.remove("open");}
@@ -847,33 +730,25 @@ document.getElementById("pclose").addEventListener("click",e=>{e.stopPropagation
 document.getElementById("search").addEventListener("input",function(){
   const q=this.value.toLowerCase();
   if(!q){nodeG.select("circle").attr("opacity",1);return;}
-  nodeG.select("circle").attr("opacity",d=>{
-    const match=(d.id+d.label+(d.geno||"")+(d.desc||"")).toLowerCase().includes(q);
-    return match?1:.1;
-  });
+  nodeG.select("circle").attr("opacity",d=>(d.id+d.label+(d.geno||"")+(d.desc||"")+JSON.stringify(d.stats||[])).toLowerCase().includes(q)?1:.08);
 });
 
 // ── FILTER BUTTONS ────────────────────────────────────────────────────────────
-document.querySelectorAll(".fbtn").forEach(btn=>{
+document.querySelectorAll(".fb").forEach(btn=>{
   btn.addEventListener("click",function(){
-    const cat=this.dataset.cat;
-    const active=this.classList.toggle("active");
-    // Get active cats
-    const activeCats=[...document.querySelectorAll(".fbtn.active")].map(b=>b.dataset.cat);
-    if(activeCats.length===0){nodeG.select("circle").attr("opacity",1);return;}
-    nodeG.select("circle").attr("opacity",d=>{
-      if(d.type==="center") return 1;
-      return activeCats.includes(d.cat)?1:.08;
-    });
+    this.classList.toggle("on");
+    const active=[...document.querySelectorAll(".fb.on")].map(b=>b.dataset.c);
+    if(!active.length){nodeG.select("circle").attr("opacity",1);return;}
+    nodeG.select("circle").attr("opacity",d=>d.type==="center"?1:active.includes(d.cat)?1:.06);
   });
 });
 
-// Initial zoom out to show all nodes
+// ── INITIAL ZOOM ──────────────────────────────────────────────────────────────
 setTimeout(()=>{
   svg.transition().duration(1200).call(
-    zoom.transform,d3.zoomIdentity.translate(W2*.5,H2*.5).scale(.45).translate(-W2*.5,-H2*.5)
+    zoom.transform,d3.zoomIdentity.translate(W2*.5,H2*.5).scale(.38).translate(-W2*.5,-H2*.5)
   );
-},1500);
+},1800);
 </script>
 </body>
 </html>
