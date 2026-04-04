@@ -3,334 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quinn Byars — Your Fight, Your Data, Your Plan</title>
+<title>Quinn Joseph Byars — Case Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
-.container{max-width:820px;margin:0 auto;padding:24px 20px 80px}
-a{color:#d4838f;text-decoration:none}
-a:hover{text-decoration:underline}
-header{padding:24px 0 36px;border-bottom:1px solid rgba(165,28,48,.3);margin-bottom:36px;text-align:center}
-header h1{font-family:'EB Garamond',Georgia,serif;font-size:2.2rem;font-weight:700;color:#A51C30;margin-bottom:6px}
-header .sub{font-size:.72rem;color:rgba(196,154,108,.5);letter-spacing:.14em;text-transform:uppercase}
-.section{margin-bottom:40px}
-.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.4rem;font-weight:700;color:#C49A6C;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(196,154,108,.15)}
-.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:20px;margin-bottom:14px}
+.container{max-width:840px;margin:0 auto;padding:24px 20px 80px}
+a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
+header{text-align:center;padding:24px 0 28px;border-bottom:1px solid rgba(165,28,48,.3);margin-bottom:28px}
+header h1{font-family:'EB Garamond',Georgia,serif;font-size:2rem;font-weight:700;color:#A51C30;margin-bottom:4px}
+header .sub{font-size:.68rem;color:rgba(196,154,108,.5);letter-spacing:.12em;text-transform:uppercase}
+.section{margin-bottom:36px}
+.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid rgba(196,154,108,.12)}
+.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px 20px;margin-bottom:12px}
 .card.urgent{border-left:4px solid #A51C30}
 .card.hope{border-left:4px solid #6db87d}
 .card.info{border-left:4px solid #C49A6C}
-.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;font-weight:700;color:#f0e6dc;margin-bottom:8px}
-.card-body{font-size:.88rem;color:#b0a090;line-height:1.8}
+.card.phase{border-left:4px solid rgba(196,154,108,.3)}
+.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.05rem;font-weight:700;color:#f0e6dc;margin-bottom:6px}
+.card-body{font-size:.84rem;color:#b0a090;line-height:1.75}
 .card-body b{color:#e8d5c4}
-.quote{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;color:#C49A6C;text-align:center;padding:30px 20px;font-style:italic;line-height:1.6}
-.stat-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.stat-box{flex:1;min-width:140px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 16px}
-.stat-label{font-size:.62rem;color:rgba(196,154,108,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
-.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:1.05rem;font-weight:700;color:#f0e6dc}
-.nav-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;justify-content:center}
-.nav-link{background:rgba(165,28,48,.15);border:1px solid rgba(165,28,48,.3);color:#d4838f;padding:8px 16px;border-radius:8px;font-size:.75rem;font-family:'Inter',sans-serif}
+.stat-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:120px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:8px;padding:12px 14px}
+.stat-label{font-size:.6rem;color:rgba(196,154,108,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:.95rem;font-weight:700;color:#f0e6dc}
+.med-table{width:100%;border-collapse:collapse;font-size:.76rem;color:#c4b4a4}
+.med-table th{text-align:left;padding:6px 8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid rgba(196,154,108,.15)}
+.med-table td{padding:6px 8px;border-bottom:1px solid rgba(196,154,108,.06)}
+.med-table .stopped{opacity:.5;text-decoration:line-through}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:600px){.team-grid{grid-template-columns:1fr}}
+.team-card{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:8px;padding:12px 14px}
+.team-name{font-family:'EB Garamond',Georgia,serif;font-weight:700;color:#e8d5c4;font-size:.9rem}
+.team-role{font-size:.65rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em}
+.team-detail{font-size:.72rem;color:rgba(196,154,108,.4);margin-top:4px}
+.quote{font-family:'EB Garamond',Georgia,serif;font-size:1.2rem;color:rgba(196,154,108,.5);text-align:center;padding:28px 20px;font-style:italic;line-height:1.6}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;justify-content:center}
+.nav-link{background:rgba(165,28,48,.15);border:1px solid rgba(165,28,48,.3);color:#d4838f;padding:8px 14px;border-radius:8px;font-size:.72rem}
 .nav-link:hover{background:rgba(165,28,48,.3);text-decoration:none}
-.print-btn{background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif}
-@media print{body{background:white;color:black}.card{border:1px solid #ccc;background:white}.card-title,.section-title,.stat-value,header h1{color:#1a1a1a}.card-body{color:#333}}
+.print-btn{background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.75rem}
+@media print{body{background:white;color:black}.card{border:1px solid #ccc;background:white}.card-title,.section-title,.stat-value,.team-name,header h1{color:#1a1a1a}.card-body,.team-detail{color:#333}}
 </style>
 </head>
 <body>
 <div class="container">
+<a href="index.html" style="font-size:.72rem;color:rgba(196,154,108,.4)">&larr; Family Hub</a>
 
 <header>
-  <h1>Quinn Byars</h1>
-  <div class="sub">Your Fight &nbsp;&middot;&nbsp; Your Data &nbsp;&middot;&nbsp; Your Plan</div>
+  <h1>Quinn Joseph Byars</h1>
+  <div class="sub">DOB July 22, 2008 &nbsp;&middot;&nbsp; Age 17 &nbsp;&middot;&nbsp; Active Investigation &nbsp;&middot;&nbsp; Portland, Oregon</div>
 </header>
 
-<div class="quote">"The best time to plant a tree was twenty years ago. The second best time is now."</div>
-
-<!-- WHAT WE KNOW -->
+<!-- STATUS SNAPSHOT -->
 <div class="section">
-  <div class="section-title">What We Know</div>
-
+  <div class="section-title">Current Status — April 2026</div>
   <div class="stat-row">
-    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">Confirmed</div><div class="stat-value">HLA-B*51/B*51 Homozygous</div></div>
-    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">Genetic Risk</div><div class="stat-value">OR ~10.96&times; for Behçet's</div></div>
+    <div class="stat-box" style="border-left:3px solid #A51C30"><div class="stat-label">Genetic</div><div class="stat-value">HLA-B*51/B*51 Homozygous</div></div>
+    <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">Also</div><div class="stat-value">UNC13D VUS (MUNC13-4)</div></div>
+    <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">NK Cells</div><div class="stat-value">Abnormal Degranulation (CD107a &darr;)</div></div>
   </div>
   <div class="stat-row">
-    <div class="stat-box"><div class="stat-label">Symptom</div><div class="stat-value">Significant Headache History</div></div>
-    <div class="stat-box"><div class="stat-label">MRI / Eyes</div><div class="stat-value">Negative (so far)</div></div>
+    <div class="stat-box"><div class="stat-label">Working Dx</div><div class="stat-value" style="font-size:.82rem">Incomplete BD / Complex Aphthosis / Post-EBV Autoinflammatory / Neutrophilic Mucosal Disease</div></div>
   </div>
   <div class="stat-row">
-    <div class="stat-box"><div class="stat-label">From Dad (confirmed)</div><div class="stat-value">One B*51 allele</div></div>
-    <div class="stat-box"><div class="stat-label">From Mom</div><div class="stat-value">One B*51 allele (obligate)</div></div>
+    <div class="stat-box"><div class="stat-label">Prednisone</div><div class="stat-value">18mg/day tapering</div></div>
+    <div class="stat-box"><div class="stat-label">Threshold</div><div class="stat-value">~10mg (ulcers recur)</div></div>
+    <div class="stat-box"><div class="stat-label">Next Agent</div><div class="stat-value">Otezla (apremilast)</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-label">Hemolysis</div><div class="stat-value">Resolving (Hgb 12.0, hapto &lt;10)</div></div>
+    <div class="stat-box"><div class="stat-label">Cardiac</div><div class="stat-value">EF 52% (Dec MRI). Stress test pending.</div></div>
+    <div class="stat-box"><div class="stat-label">NIH</div><div class="stat-value">Undiagnosed Diseases Program — referral in progress</div></div>
   </div>
 </div>
 
-<!-- WHAT WE'RE FIGHTING -->
+<!-- THE KEY PATTERN -->
 <div class="section">
-  <div class="section-title">What We're Fighting</div>
+  <div class="section-title" style="color:#A51C30">The Pattern That Matters</div>
+  <div class="card urgent">
+    <div class="card-title">Oral Ulcers and Migraines Alternate in Cycles</div>
+    <div class="card-body">As ulcers resolve, headaches begin. As headaches resolve, ulcers return. This is not random — it suggests a <b>shared immune/neurovascular mechanism or phase shift in the inflammatory cycle</b>. The inflammation doesn't disappear between flares — it migrates. This pattern should be presented to every specialist as a key diagnostic clue.<br><br><b>Steroid threshold:</b> Ulcers consistently recur below ~10mg prednisone. This has happened across multiple taper attempts. Steroid dependence is firmly established. The next step (Otezla/apremilast) must be onboarded WHILE still above 10mg to build therapeutic levels before hitting the threshold.</div>
+  </div>
+</div>
+
+<!-- WHAT HAPPENED — THE 7 PHASES -->
+<div class="section">
+  <div class="section-title">What Happened — The Complete Timeline</div>
+
+  <div class="card phase" style="border-left-color:#A51C30">
+    <div class="card-title">Phase 1 — The Collapse (September 2025)</div>
+    <div class="card-body">EBV monospot positive. What started as pharyngitis became a <b>life-threatening hyperinflammatory syndrome</b> within days. WBC dropped to 0.21. Platelets 15K. Ferritin 7,105. CRP 332. Lactate 11. Heart function crashed — EF 33%, troponin ~700, BNP up to 1,000. Required maximum vasopressor support: norepinephrine + epinephrine + milrinone.<br><br>Treated empirically as HLH: etoposide &times;2, anakinra, high-dose dexamethasone, PCA morphine, NG feeds. Bone marrow biopsy: 10-20% cellularity, no malignancy, no hemophagocytosis. LP negative. ICU 5 days. Total hospitalization ~3 weeks (9/21-10/8/25).<br><br><b>Cincinnati second opinion (Oct 23-24):</b> Dr. Ashish Kumar (BMT) — does NOT meet HLH criteria. Likely post-viral inflammatory response. Dr. Tracy Ting (Rheumatology) — Behçet's less likely with incomplete criteria; monitor off steroids.</div>
+  </div>
+
+  <div class="card phase">
+    <div class="card-title">Phase 2 — GI / Mucosal (October-December 2025)</div>
+    <div class="card-body">Colonoscopy Oct 6: <b>severe pan-colonic ulceration rectum to cecum</b> plus terminal ileal inflammation with scarring. Biopsy NOT consistent with IBD. Weight crashed from 65kg to 51kg. EGD normal.<br><br>Dec 15 repeat colonoscopy (Dr. Rosenwald): near-complete resolution — only diffuse mild left-sided colitis remaining. Terminal ileum normal. Significant improvement on steroids.</div>
+  </div>
+
+  <div class="card phase" style="border-left-color:#6db87d">
+    <div class="card-title">Phase 3 — Recovery (October-November 2025)</div>
+    <div class="card-body">Anakinra stopped 10/22. Prednisone taper completed ~11/16. Full normalization of CBC, cardiac function (EF recovered to 64% by 9/26 echo), inflammatory markers. <b>Ulcer-free through early December.</b> This was the window of hope.</div>
+  </div>
+
+  <div class="card phase" style="border-left-color:#A51C30">
+    <div class="card-title">Phase 4 — Relapse / Chronic Phase (December 2025 - Present)</div>
+    <div class="card-body">Oral ulcers returned first week of December, ~3-4 weeks after completing steroid taper. By Dec 10, pain escalated to oxycodone level. No steroids at this point.<br><br><b>Tunisia (Dec 25 - Jan 5):</b> Severe ulcers throughout, pain 9/10. Oxycodone supply ran out. Managed with tramadol/APAP from Tunisian physician. Topical clobetasol no benefit. Prednisone restarted in early January, escalated to 40mg within 48 hours. Ulcers resolved by end of January on 40mg.<br><br><b>March 2026:</b> During steroid wean at 10mg, ulcers returned again. Prednisone immediately increased back to 40mg. Resolved in 8-9 days. Currently 18mg. Threshold firmly at ~10mg.<br><br>Colchicine initiated but <b>failed within days</b> — severe headaches. Dapsone 125mg/day initiated by Foster (OHSU Derm). Kingsbury (Rheumatology) declined formal BD diagnosis — incomplete criteria.</div>
+  </div>
+
+  <div class="card phase">
+    <div class="card-title">Phase 5 — Neurologic (January-February 2026)</div>
+    <div class="card-body">Within days of last oral ulcer resolving, <b>daily severe migraines</b> began. Escalating — some days bedridden. Rizatriptan partial relief. Fioricet likely contributed to medication overuse headache. ED visit — IV prochlorperazine/diphenhydramine/ketorolac with good response. MRI brain normal. Topiramate reinstituted. Headaches eventually resolved — but replaced by ulcer recurrence, continuing the cycle.</div>
+  </div>
+
+  <div class="card phase" style="border-left-color:#A51C30">
+    <div class="card-title">Phase 6 — Belize Emergency (March 24-26, 2026)</div>
+    <div class="card-body">Spring break. Acute appendicitis 4am March 24. HR 120, febrile, hypotensive. Lap appendectomy by Dr. Manuel Salvador Paguaga at Belize Healthcare Partners. Edematous and purulent appendix, no perforation.<br><br><b>Complications:</b> Dapsone-induced hemolytic anemia — Hgb 12.6 at admission dropping to 8.2 at discharge. LDH 342, haptoglobin undetectable, Coombs negative, burr cells + helmet cells on smear. Methemoglobinemia suspected (SpO2 91%) but level unobtainable. Required pressors again. Brief ICU stay. <b>CRP 133</b> — far out of proportion to appendicitis.<br><br><b>Appendix pathology pending from Belize</b> — neutrophilic infiltration pattern would be diagnostically significant.</div>
+  </div>
+
+  <div class="card phase">
+    <div class="card-title">Phase 7 — Return to Portland (March 29 - Present)</div>
+    <div class="card-body">Hgb recovering: 8.2 → 12.0. Haptoglobin &lt;10 confirmed 4/1 (active hemolysis). Dapsone DISCONTINUED. Left inguinal pain post-appendectomy disrupting sleep. <b>Dysautonomia/POTS-like:</b> BP 65-100 systolic, pulse steady 80s regardless. Persistent orthostasis for months. Consider adrenal insufficiency from chronic steroid use (HPA axis suppression).<br><br>Heme-onc (Lauhan) 4/1: confirmed hemolysis, genetics referral placed. No productive new recommendations. Repeat CBC 4 weeks.</div>
+  </div>
+</div>
+
+<!-- DUAL GENETIC FINDINGS -->
+<div class="section">
+  <div class="section-title">The Two Genetic Findings</div>
 
   <div class="card urgent">
-    <div class="card-title">Behçet's Disease — In Plain English</div>
-    <div class="card-body">Your immune system has two copies of a gene called HLA-B*51 that sits on the surface of every cell in your body. Its job is to show pieces of proteins to your immune system's patrol cells so they can check if anything is wrong. The problem is that B*51 sometimes shows pieces of YOUR OWN proteins that look similar to pieces of bacteria or viruses you've been exposed to. Your immune system can't tell the difference — so it attacks your own body, thinking it's fighting an infection.<br><br>This attack happens primarily in <b>blood vessels</b> — which is why Behçet's can cause ulcers in your mouth (tiny blood vessels in the lining), skin problems, eye inflammation, headaches, joint pain, and in some cases blood clots. The blood vessels in different organs are the common target.<br><br>Having TWO copies of B*51 (instead of one like your dad) means every cell in your body is showing <b>twice as many</b> of these confusing protein pieces. That's why you crossed the threshold into symptoms while your dad, who has only one copy, never did.<br><br><b>The good news:</b> We know what's driving it. We know which genes are involved. We know what makes it better and what makes it worse. And we have a plan.</div>
+    <div class="card-title">1. HLA-B*51/B*51 Homozygous — The Autoimmune Driver</div>
+    <div class="card-body">OR ~10.96&times; for Behçet's disease (Takeuchi PNAS 2014). B*51 causes aberrant peptide presentation → CD8+ T cell cross-reactivity → Th17/Treg imbalance → neutrophilic vascular/mucosal inflammation. This explains the ulcers, the colitis pattern, and potentially the migraine cycles (neurovascular inflammation). Two copies means double the signal intensity on every cell. Dad is a carrier (one copy, never symptomatic).<br><br>Full analysis: <a href="behcets.html">Behçet's Intelligence System</a></div>
   </div>
-</div>
-
-<!-- WHAT'S IN YOUR CORNER -->
-<div class="section">
-  <div class="section-title">What's in Your Corner</div>
-
-  <div class="card hope">
-    <div class="card-title">You Have an ER Doctor for a Father</div>
-    <div class="card-body">Most people with a rare disease spend years being dismissed, misdiagnosed, or told it's stress. You have a father who is a physician, who analyzed his own genome, who built a 3,000-line intelligence system, who deployed 16 research agents, who contacted specialists, who found the molecular mechanism, and who isn't going to stop until this is figured out. That is an advantage almost no patient in the world has.</div>
-  </div>
-
-  <div class="card hope">
-    <div class="card-title">You Have the Genetic Map</div>
-    <div class="card-body">We know your dad's complete genome — 170+ variants across every system. We know which genes you definitely inherited (ACTN3 XX endurance, FTO TT low obesity risk), which ones are 50/50, and which ones we'll confirm when your data arrives. Most Behçet's patients have no idea about their modifier genes. You have a complete map of at least half of them already, and your mom's data is coming to fill in the rest.</div>
-  </div>
-
-  <div class="card hope">
-    <div class="card-title">You're Young — And That's a Weapon</div>
-    <div class="card-body">Early treatment in Behçet's changes outcomes. The field has moved from "manage symptoms" to "achieve remission." Biologic therapies (anti-TNF, JAK inhibitors) that didn't exist 15 years ago can now put BD into sustained remission. The ERAP1 inhibitor GRWD0715 — the first drug to target the EXACT molecular mechanism driving your disease — started dosing in August 2025. You are at the beginning of a revolution in BD treatment, not at the end. The science is moving fast, and you're catching it early.</div>
-  </div>
-
-  <div class="card hope">
-    <div class="card-title">Your Body Has Built-In Advantages</div>
-    <div class="card-body">
-    <b>ACTN3 XX</b> — you inherited this 100% from your dad. Your muscles are genetically wired for endurance exercise, which is the single most powerful intervention for both BD inflammation AND the Alzheimer's risk that runs in your family. Your body is built to do the thing that helps you most.<br><br>
-    <b>FTO TT</b> — low obesity genetic risk. Obesity is one of the strongest amplifiers of both BD and AFib. Your genetics protect you here.<br><br>
-    <b>FUT2 AA (if inherited)</b> — yes, it affects B12 absorption. But it also makes you ~80-90% resistant to norovirus. Silver lining.<br><br>
-    <b>OXTR GG (if inherited)</b> — the highest-empathy genotype. This makes chronic illness emotionally harder — but it also means you form deeper bonds with the people who support you. Your relationships are your medicine.<br><br>
-    <b>COMT Val/Met (if inherited)</b> — balanced dopamine. You perform well under pressure. You process stress better than most people. That matters in a long fight.
-    </div>
-  </div>
-</div>
-
-<!-- WHAT YOU CAN CONTROL -->
-<div class="section">
-  <div class="section-title">What You Can Control — Starting Tonight</div>
-
-  <div class="card info">
-    <div class="card-title">The Daily Non-Negotiables</div>
-    <div class="card-body">
-    <b>1. Sleep 7-9 hours.</b> Not negotiable. Not "I'll try." Your brain clears inflammatory waste products during deep sleep through the glymphatic system. If you inherited APOE ε4, your glymphatic system is already vulnerable. Sleep is medicine.<br><br>
-    <b>2. Move your body every day.</b> Walk, swim, bike — 30 minutes minimum. Your ACTN3 XX muscles are made for this. Exercise reduces BD inflammation, cuts Alzheimer's risk by 45% in ε4 carriers, and improves sleep. It's the closest thing to a miracle drug that exists.<br><br>
-    <b>3. Eat Mediterranean.</b> Fish 3×/week, olive oil, vegetables, berries, nuts, whole grains. This diet literally switches off the 9p21 heart disease risk your grandfather has. The same diet reduces BD inflammation through butyrate production in your gut.<br><br>
-    <b>4. Take your supplements.</b> Methylcobalamin (under your tongue), methylfolate, Vitamin D, omega-3. These aren't random vitamins — each one targets a specific gene variant your dad carries that you may have inherited.<br><br>
-    <b>5. Log your symptoms every night.</b> 2 minutes. Open the journal on the main dashboard. Toggle your symptoms, rate severity, note what you ate and how you slept. After 2 weeks, patterns will emerge that connect your triggers to your flares. This data is power.<br><br>
-    <b>6. Protect your skin.</b> SPF 50+ every day. Your dad carries three MC1R variants. If you inherited even one, your skin is less able to repair sun damage. You grew up in New Orleans with extreme UV. The damage from childhood can't be undone — but you can prevent more.
-    </div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">What to Avoid</div>
-    <div class="card-body">
-    <b>Alcohol:</b> Near-zero is the target. Even moderate drinking amplifies both BD flares and AFib risk (your aunt has AFib, confirming the genetic risk). The interaction is multiplicative — alcohol doesn't add to genetic risk, it multiplies it.<br><br>
-    <b>Smoking/vaping:</b> Absolutely not. Your grandfather smoked 2+ packs/day and needed heart surgery at 62. The 9p21 risk he passed down is in your genes. Don't light the same fuse.<br><br>
-    <b>Late eating:</b> If you inherited MTNR1B CG from your dad, eating after 7pm elevates your blood sugar because melatonin suppresses insulin in your genotype. Eat within a 10-12 hour window.<br><br>
-    <b>NSAIDs without caution:</b> If you inherited CYP2C9 *1/*2, ibuprofen and naproxen build up higher in your blood than in most people. Use the lowest dose for the shortest time. Tylenol is safer for your genotype.<br><br>
-    <b>Nitrous oxide:</b> If you ever need anesthesia or dental work — tell them NO N2O. If you inherited MTHFR compound from your dad, nitrous oxide destroys your B12 and can cause neurological damage. This is on your wallet card. Carry it.
-    </div>
-  </div>
-</div>
-
-<!-- ORAL HEALTH — DIRECTLY ACTIONABLE -->
-<div class="section">
-  <div class="section-title">Mouth Care — This Makes a Real Difference</div>
 
   <div class="card urgent">
-    <div class="card-title">Switch to SLS-Free Toothpaste — Today</div>
-    <div class="card-body">Sodium lauryl sulfate (SLS) is a detergent in most adult toothpastes. A systematic review found SLS-free toothpaste <b>significantly reduced ulcer number, duration, episodes, and pain</b> in recurrent aphthous stomatitis (Alli et al., J Oral Pathol Med 2019). BD patients who switched reported decreased flare frequency after 3 months.<br><br><b>Brands to look for:</b> Sensodyne (some formulations are SLS-free), Biotene, Tom's of Maine SLS-Free, children's toothpaste. Check the ingredients — avoid "sodium lauryl sulfate" or "sodium laureth sulfate."</div>
+    <div class="card-title">2. UNC13D VUS (MUNC13-4) — The Cytotoxic Defect</div>
+    <div class="card-body">Heterozygous c.2782C&gt;T, p.Arg928Cys in exon 29. UNC13D encodes MUNC13-4, a protein <b>essential for NK cell and cytotoxic T lymphocyte degranulation</b> — the mechanism by which immune cells kill virus-infected cells and regulate inflammation. Abnormal NK cell degranulation confirmed (reduced CD107a).<br><br>This may explain <b>why EBV triggered such a catastrophic response</b>. Normal NK cells rapidly kill EBV-infected B cells. If Quinn's NK cells can't degranulate efficiently, EBV-infected cells persist → uncontrolled immune activation → cytokine storm → ferritin 7,105, EF 33%, WBC 0.21.<br><br>Biallelic UNC13D mutations cause FHL3 (familial HLH type 3). A heterozygous VUS may cause a <b>partial degranulation defect</b> — enough to handle normal infections but overwhelmed by EBV's aggressive B-cell infection. Research agent deployed — data incoming.<br><br><b>Key question:</b> Is there a SECOND hit on the other UNC13D allele? Or another gene in the cytotoxic pathway (PRF1, STX11, STXBP2, LYST, RAB27A)? Full HLH gene panel and/or whole exome sequencing should be discussed with genetics.</div>
   </div>
 
   <div class="card info">
-    <div class="card-title">Triple Mouthwash Protocol (BAD/BSR 2024 Guideline)</div>
-    <div class="card-body">The British guideline for BD oral ulcers recommends: <b>betamethasone 500mcg soluble tablet + doxycycline 100mg + 1mL nystatin oral suspension</b> as a combined rinse. Ask your rheumatologist or dentist about this. Additionally:<br><br>
-    &bull; <b>Sucralfate mouthwash</b> (1g/5mL, 4&times; daily) — significantly decreases ulcer frequency, healing time, and pain<br>
-    &bull; <b>Chlorhexidine mouthwash</b> — topical antiseptic, first-line for BD oral care<br>
-    &bull; <b>Triamcinolone acetonide paste</b> — apply early when you feel an ulcer forming, most effective when caught early<br>
-    &bull; <b>Magic mouthwash</b> (diphenhydramine + viscous lidocaine + antacid) — for pain relief, swish 3-4&times; daily</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">Foods That Help vs. Trigger Oral Ulcers</div>
-    <div class="card-body">
-    <b style="color:#6db87d">Help (patient-reported decrease in ulcers):</b> Watermelon, yogurt, cheese, milk, cucumber, apple, cherry, carrot, spinach, parsley<br><br>
-    <b style="color:#d4838f">Trigger (patient-reported increase in ulcers):</b> Walnuts (35%), eggplant (35%), tomatoes (13%), melon, cantaloupe, hot peppers, spices, carbonated drinks, peanuts, figs, kiwi, bananas, salty/acidic/hard-textured foods<br><br>
-    Track these in your daily check-in. Everyone's triggers are different — the data above is population-level. Your personal trigger map will emerge from your journal entries over 2-4 weeks.</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">Dental Visits — Tell Your Dentist</div>
-    <div class="card-body"><b>Dental procedures can trigger BD flares via pathergy</b> — your immune system overreacts to the tissue trauma. A case of neuro-Behçet's relapse after tooth extraction has been reported. Rules:<br><br>
-    &bull; Don't schedule dental work during active flares<br>
-    &bull; Tell your dentist about BD and all medications<br>
-    &bull; Use a <b>soft toothbrush</b> — hard bristles cause micro-trauma<br>
-    &bull; Brush and floss even when it hurts — mouthwash alone doesn't replace mechanical cleaning<br>
-    &bull; <b>No nitrous oxide (N2O)</b> — MTHFR compound risk. Tell the dentist.</div>
+    <div class="card-title">The Unified Hypothesis: Two Genetic Hits, One Trigger</div>
+    <div class="card-body"><b>HLA-B*51/B*51</b> primes the adaptive immune system for autoimmune/autoinflammatory mucosal disease (Behçet's spectrum). <b>UNC13D VUS</b> impairs the cytotoxic pathway that normally contains viral infections and prevents immune overactivation. <b>EBV</b> was the trigger that exploited BOTH vulnerabilities simultaneously — overwhelming the defective NK cell response (UNC13D) while activating the B*51-driven autoimmune cascade through molecular mimicry with EBV peptides.<br><br>The result: Quinn's immune system couldn't kill the virus efficiently (UNC13D) AND started attacking his own tissues (B*51). The ferritin 7,105 reflects the cytokine storm from both pathways firing at once. The chronic mucosal disease that followed is the B*51 component continuing after the acute UNC13D-driven crisis resolved.<br><br><b>This explains why Cincinnati said "not HLH" but Quinn nearly died like HLH.</b> It wasn't classical FHL3 (biallelic). It was a partial degranulation defect + B*51 autoimmunity, both unmasked by EBV. A new phenotype at the intersection of two genetic vulnerabilities.</div>
   </div>
 </div>
 
-<!-- TECH STACK — WEARABLES & MONITORING -->
+<!-- CURRENT MEDICATIONS -->
 <div class="section">
-  <div class="section-title">Your Tech Stack — Wearables That Actually Help</div>
+  <div class="section-title">Current Medications — April 2026</div>
+  <table class="med-table">
+    <thead><tr><th>Medication</th><th>Dose</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><b>Prednisone</b></td><td>18mg/day, tapering</td><td style="color:#d4838f">Active — steroid dependent</td><td>Ulcers recur below ~10mg. Slow taper: 2.5mg steps below 10mg planned. Consider HPA axis (morning cortisol/ACTH stim).</td></tr>
+      <tr><td><b>Fluoxetine</b></td><td>40mg daily</td><td style="color:#6db87d">Active</td><td>Serotonin syndrome risk with tramadol — monitor. Depression active episode.</td></tr>
+      <tr><td><b>Enalapril</b></td><td>2.5mg BID</td><td style="color:#6db87d">Active</td><td>Cardiac/BP management post-myocarditis. EF 52% Dec MRI.</td></tr>
+      <tr><td><b>Topiramate</b></td><td>10mg BID</td><td style="color:#6db87d">Active</td><td>Migraine prophylaxis. Reinstituted by neurology.</td></tr>
+      <tr><td><b>Famotidine</b></td><td>Standard</td><td style="color:#6db87d">Active</td><td>Epigastric pain. Recommended by Lauhan 4/1/26.</td></tr>
+      <tr><td><b>Multivitamin</b></td><td>Daily</td><td style="color:#6db87d">Active</td><td>Ensure folate 400-800mcg and B12. MCV 103.6 (macrocytic).</td></tr>
+      <tr><td><b>NovaFerrum</b></td><td>50mg qOD</td><td style="color:#C49A6C">Reassess</td><td>Iron replete on 2/16/26 panel (sat 57%). May be unnecessary now.</td></tr>
+      <tr class="stopped"><td>Dapsone</td><td>125mg/day</td><td style="color:#d4838f">DISCONTINUED ~3/19/26</td><td>Caused oxidative hemolytic anemia. Hgb 12.6→8.2 in Belize. Hapto &lt;10. Do NOT resume.</td></tr>
+      <tr class="stopped"><td>Colchicine</td><td>—</td><td style="color:#d4838f">DISCONTINUED</td><td>Failed — caused severe headaches.</td></tr>
+      <tr class="stopped"><td>Anakinra</td><td>—</td><td>Stopped 10/22/25</td><td>Used during acute phase. Possible future role if MEFV positive.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-  <div class="card hope">
-    <div class="card-title">HRV Can Predict Flares 4 Weeks Early</div>
-    <div class="card-body">The RA Forecast Study (2025, Scientific Reports) used Apple Watch, Fitbit, and Oura Ring on 53 autoimmune patients and found that heart rate variability (HRV), resting heart rate, and circadian heart rate patterns <b>changed up to 4 weeks before an inflammatory flare</b>. Lower HRV = higher inflammation. This means your watch can warn you before your body does.<br><br>In an IBD study using WHOOP straps, two patients contacted their doctors after noticing metric changes <b>days before symptoms appeared</b> — and caught active inflammation early. This is the future of BD monitoring, and you can start today.</div>
-  </div>
-
-  <div class="stat-row">
-    <div class="stat-box" style="border-left:3px solid #6db87d">
-      <div class="stat-label">Apple Watch</div>
-      <div class="stat-value" style="font-size:.82rem">Sleep HRV tracking, irregular rhythm detection (PITX2 AFib), sleep duration. FDA-cleared AFib screening.</div>
-    </div>
-    <div class="stat-box" style="border-left:3px solid #6db87d">
-      <div class="stat-label">Oura Ring</div>
-      <div class="stat-value" style="font-size:.82rem">Overnight HRV + skin temperature deviation. Symptom Radar (Dec 2024) detects strain 2 days before illness. Best sleep data.</div>
-    </div>
-  </div>
-  <div class="stat-row">
-    <div class="stat-box" style="border-left:3px solid #C49A6C">
-      <div class="stat-label">KardiaMobile 6-Lead</div>
-      <div class="stat-value" style="font-size:.82rem">Record EKG the moment you feel palpitations. 94-97% sensitivity for AFib. Keep it in your pocket. Your aunt has AFib — you need this.</div>
-    </div>
-    <div class="stat-box" style="border-left:3px solid #C49A6C">
-      <div class="stat-label">CGM (Dexcom/Libre)</div>
-      <div class="stat-value" style="font-size:.82rem">If MTNR1B CG inherited: see exactly what late eating does to your glucose in real time. 8.3% higher glucose AUC with late dinner in G-carriers. Prove the gene-diet interaction on your own body.</div>
-    </div>
-  </div>
-  <div class="stat-row">
-    <div class="stat-box" style="border-left:3px solid rgba(196,154,108,.3)">
-      <div class="stat-label">Home BP Cuff</div>
-      <div class="stat-value" style="font-size:.82rem">Omron or Withings. 9p21 CAD risk + PITX2 AFib risk = know your numbers. AHA/ACC recommended for genetic CV risk.</div>
-    </div>
-    <div class="stat-box" style="border-left:3px solid rgba(196,154,108,.3)">
-      <div class="stat-label">This Dashboard</div>
-      <div class="stat-value" style="font-size:.82rem">The symptom journal + daily check-in you already have IS the BD tracking app. No BD-specific app exists anywhere. Your dad built you one.</div>
-    </div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">What to Watch For in Your Data</div>
-    <div class="card-body">
-    <b>HRV dropping for 3+ days:</b> Your body is fighting something. Increase rest, strict diet, extra sleep. A flare may be coming.<br>
-    <b>Resting heart rate rising:</b> Same signal. Inflammation is activating your sympathetic nervous system.<br>
-    <b>Temperature spike (Oura):</b> Overnight skin temp above your personal baseline for 2+ nights = immune activation. Pay attention.<br>
-    <b>Irregular rhythm notification (Apple Watch):</b> Take a KardiaMobile reading immediately. If AFib confirmed, call your cardiologist that day.<br>
-    <b>Glucose spike after 7pm meal (CGM):</b> You've confirmed your MTNR1B genotype in action. Move dinner earlier.</div>
+<!-- CARE TEAM -->
+<div class="section">
+  <div class="section-title">Care Team — Portland, Oregon</div>
+  <div class="team-grid">
+    <div class="team-card" style="border-left:3px solid #6db87d"><div class="team-role">PCP / Coordinator</div><div class="team-name">Kirsten E. Crowley, MD</div><div class="team-detail">Providence Scholls Pediatrics. Family friend, runner. Known Quinn since 6 months old.</div></div>
+    <div class="team-card" style="border-left:3px solid #C49A6C"><div class="team-role">Rheumatology</div><div class="team-name">Daniel Kingsbury, MD</div><div class="team-detail">Randall Children's. 503-413-3930. 37 yrs experience. Medical Director. Declined formal BD dx — incomplete criteria.</div></div>
+    <div class="team-card" style="border-left:3px solid #C49A6C"><div class="team-role">GI</div><div class="team-name">Jeanne Tung, MD</div><div class="team-detail">Legacy Emanuel. Mayo Clinic fellowship. IBD specialist. Intestinal MRI pending.</div></div>
+    <div class="team-card" style="border-left:3px solid #C49A6C"><div class="team-role">Cardiology</div><div class="team-name">Margie "Niki" Tucker, MD</div><div class="team-detail">PCCO / Randall Children's. 503-280-3418. Echo specialist. Cardiac MRI + stress test pending.</div></div>
+    <div class="team-card" style="border-left:3px solid #C49A6C"><div class="team-role">Dermatology</div><div class="team-name">Erin Foster, MD</div><div class="team-detail">OHSU. Managing mucosal disease. Steroid-sparing strategy. Otezla likely next agent.</div></div>
+    <div class="team-card" style="border-left:3px solid #C49A6C"><div class="team-role">Heme-Onc</div><div class="team-name">Colette Lauhan, MD</div><div class="team-detail">Randall Children's. 503-276-9300. Confirmed hemolysis 4/1. Genetics referral placed.</div></div>
+    <div class="team-card"><div class="team-role">Psychology</div><div class="team-name">Joel Lampert, PsyD</div><div class="team-detail">Transitioning to Mangata Wellness locally. MDD active episode (2/5/26).</div></div>
+    <div class="team-card" style="border-left:3px solid #A51C30"><div class="team-role">Dad / ER Medicine</div><div class="team-name">Chad Byars, MD</div><div class="team-detail">Providence Emergency Medicine. Primary contact. Built this system.</div></div>
   </div>
 </div>
 
-<!-- WHAT'S COMING -->
+<!-- OPEN QUESTIONS -->
 <div class="section">
-  <div class="section-title">What's Coming</div>
-
-  <div class="card info">
-    <div class="card-title">This Week</div>
-    <div class="card-body">Your dad is calling Dr. Eve Scopelitis at Ochsner — a Behçet's specialist right here in New Orleans. The referral letter is already written with your full genetic profile. The 15 questions for the rheumatologist are ready. The blood panel order is ready — one draw, 7 tubes, every test your doctors need.</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">Your Mom's 23andMe Data</div>
-    <div class="card-body">When it arrives, we'll know exactly which modifier genes you inherited from each parent. Right now we're working with 50/50 probabilities for everything except B*51 and ACTN3. Your mom's data will turn every probability into a certainty. This is the single most important piece of missing data.</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">ERAP1 and MEFV Testing</div>
-    <div class="card-body">These are the two genes that will define your molecular mechanism. ERAP1 trims proteins for B*51 to show to your immune system — if yours trims them wrong, that's the trigger. MEFV controls your inflammasome — if it's too sensitive, your immune system fires too easily. Testing both will tell us exactly WHY you got sick, not just that you have the risk. And it opens specific drug targets: GRWD0715 for ERAP1, anakinra/canakinumab for MEFV.</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">Your Own Brain Map</div>
-    <div class="card-body">When your full genome data is available, you'll get your own version of your dad's 96-node brain map — not inferred, but built from YOUR actual data. Every variant confirmed. Every modifier gene resolved. Your own personal genetic intelligence system.</div>
-  </div>
-</div>
-
-<!-- WHAT THE DATA SAYS ABOUT YOUR FUTURE -->
-<div class="section">
-  <div class="section-title">What the Data Says About Your Future — Honest</div>
+  <div class="section-title">Open Questions — Actively Pursuing</div>
 
   <div class="card urgent">
-    <div class="card-title">The Hard Truth</div>
-    <div class="card-body">Young males with Behçet's have the most aggressive disease course. This is one of the most replicated findings in the BD literature. Young male onset is associated with more eye inflammation, more blood vessel involvement, more neurological complications, and historically higher mortality than female or older-onset BD. The first 5-10 years after diagnosis are the critical window — this is when most irreversible damage occurs, especially to the eyes and blood vessels.<br><br><b>Average diagnostic delay is 4-7 years.</b> Most patients spend years being told it's stress, or canker sores, or something else. You are ahead of the curve. Your diagnosis is being pursued in real time, with genetic precision, by a physician father. That delay — the years of damage accumulating before treatment starts — is being compressed for you.</div>
+    <div class="card-title">1. CRP 133 from Belize (3/26) — Needs Portland Recheck</div>
+    <div class="card-body">Far out of proportion to appendicitis. No Portland team member has formally addressed this. Recheck urgently to confirm normalization vs ongoing inflammation.</div>
   </div>
-
-  <div class="card hope">
-    <div class="card-title">The Hopeful Truth</div>
-    <div class="card-body"><b>Disease tends to burn out.</b> Multiple long-term studies show BD activity declines significantly after 10-15 years. The Turkish cohort studies found disease activity scores drop substantially over time. This is not a lifelong escalation — it's a storm that passes. The goal is to minimize damage during the storm.<br><br><b>Modern treatment has changed the game.</b> With anti-TNF biologics (infliximab, adalimumab) and newer therapies (JAK inhibitors, apremilast), severe vision loss has dropped from 25-30% to roughly 10-15% in patients with posterior uveitis at experienced centers. Mortality has improved from SMR 4-5× to ~1.5-3×. Pulmonary artery aneurysm, previously almost uniformly fatal, now has better survival. <b>You are catching BD at the best time in history to have it.</b><br><br><b>Remission is real.</b> 50-60% of patients achieve clinical remission on immunosuppressive therapy. 20-40% may eventually achieve sustained drug-free remission, especially as the disease burns out after the first decade. Complete, permanent remission is more common in those who get adequate early treatment.</div>
-  </div>
-
   <div class="card info">
-    <div class="card-title">Mental Health — This Is Medical, Not Optional</div>
-    <div class="card-body">Depression affects 30-50% of BD patients. Anxiety affects 25-40%. Fatigue is one of the most disabling symptoms and can persist even when "objective" disease looks controlled. These aren't character flaws — they're part of the disease biology (IL-6 drives fatigue directly). If you inherited OXTR GG from your dad, you feel everything more intensely, which amplifies both the emotional weight of chronic illness AND the power of strong relationships to buffer it.<br><br><b>Therapy (CBT) is a medical intervention for BD, not a luxury.</b> Your dad's genome suggests you may have inherited COMT Val/Met (balanced stress coping) — use that genetic advantage, but don't try to fight this alone.</div>
+    <div class="card-title">2. Appendix Pathology — Pending from Belize</div>
+    <div class="card-body">Neutrophilic infiltration pattern would support underlying neutrophilic mucosal disease diagnosis. Request from BHP pending.</div>
   </div>
-
   <div class="card info">
-    <div class="card-title">Fertility — Mostly Reassuring</div>
-    <div class="card-body">BD itself doesn't impair male fertility. Most BD medications are safe: colchicine (reassuring data despite theoretical concerns), azathioprine (compatible), anti-TNF (no clear harm). <b>The one exception: cyclophosphamide causes dose-dependent sperm damage. If it's ever discussed, bank sperm FIRST.</b> Methotrexate: stop 3 months before planned conception. This is a future concern, not an immediate one — but good to know now.</div>
+    <div class="card-title">3. Dysautonomia / POTS-Like — No One Owns This</div>
+    <div class="card-body">BP 65-100 systolic for months. Pulse steady 80s regardless. Persistent orthostasis. Consider <b>adrenal insufficiency from chronic steroid use</b> (HPA axis suppression). Morning cortisol or ACTH stimulation test NOT yet performed.</div>
   </div>
+  <div class="card info">
+    <div class="card-title">4. UNC13D VUS — What Does It Mean?</div>
+    <div class="card-body">Research agent deployed. Is this a partial degranulation defect? Is there a second hit? Should Quinn be on an HLH surveillance protocol? Does this change the threshold for future etoposide or emapalumab if he relapses? Full HLH gene panel and/or WES needed.</div>
+  </div>
+  <div class="card info">
+    <div class="card-title">5. Otezla Onboarding Strategy</div>
+    <div class="card-body">Off-label in 17yo (FDA approved 18+). GI side effects (diarrhea) concerning given baseline chronic diarrhea. Must start WHILE pred still &gt;10mg. Slow titration essential. Prior auth may need support from Kingsbury/Lauhan. Research agent deployed — pediatric data incoming.</div>
+  </div>
+  <div class="card info">
+    <div class="card-title">6. ERAP1 + MEFV Testing</div>
+    <div class="card-body">Not yet ordered. ERAP1 epistasis with B*51 may define the autoimmune mechanism. MEFV variants found in 70.6% of neuro-BD patients. Both change treatment strategy (ERAP1 inhibitors, IL-1 blockade). Discuss with genetics referral.</div>
+  </div>
+  <div class="card info">
+    <div class="card-title">7. Cardiac MRI + Stress Test</div>
+    <div class="card-body">Pending with Dr. Tucker. EF 52% on December MRI (borderline low, normal &gt;54%). Slight residual edema, resolving inflammation. Needs clearance.</div>
+  </div>
+  <div class="card info">
+    <div class="card-title">8. Left Inguinal Pain Post-Appendectomy</div>
+    <div class="card-body">Disrupting sleep. Suspected ilioinguinal/genitofemoral nerve irritation vs reactive adenopathy. No formal evaluation arranged.</div>
+  </div>
+</div>
 
+<!-- KEY NEGATIVES -->
+<div class="section">
+  <div class="section-title">Key Negatives — What Quinn Does NOT Have</div>
   <div class="stat-row">
-    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">Disease Burnout</div><div class="stat-value" style="font-size:.82rem">Activity declines after 10-15 years. This storm passes.</div></div>
-    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">Remission</div><div class="stat-value" style="font-size:.82rem">50-60% on therapy. 20-40% drug-free eventually.</div></div>
-    <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">Critical Window</div><div class="stat-value" style="font-size:.82rem">First 5-10 years. Early treatment = less damage.</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No malignancy</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No CNS lesions (MRI normal)</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No uveitis (2 exams)</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No IBD on biopsy</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No HLH criteria met (Cincinnati)</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No SLE/vasculitis features</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">G6PD normal</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No monoclonal populations</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-value" style="font-size:.78rem">No persistent cytopenias outside acute</div></div>
   </div>
 </div>
 
-<!-- THE BIGGER PICTURE -->
+<!-- WHAT'S IN HIS CORNER -->
 <div class="section">
-  <div class="section-title">The Bigger Picture</div>
-
-  <div class="card" style="border-left:4px solid #a090c0">
-    <div class="card-title">You're Building Something Nobody Has</div>
-    <div class="card-body">Your family is constructing one of the most comprehensive family genomic databases for Behçet's disease outside of a research institution. Your dad's genome. Your mom's genome (incoming). Your brother's (planned). Yours. Four genomes, mapped against three generations of family medical history, connected to peer-reviewed research, tracked with daily symptom data, and analyzed by every tool available.<br><br>Most Behçet's patients get a clinical diagnosis and a prescription. You're getting a complete molecular understanding of your disease. When you sit down with Dr. Yazici at NYU Langone — the world's leading BD specialist — you'll walk in with more genetic context than most of his research patients have. That's not normal. That's the advantage your dad built for you.</div>
-  </div>
-
-  <div class="card" style="border-left:4px solid #C49A6C">
-    <div class="card-title">This System Grows With You</div>
-    <div class="card-body">Every night you log symptoms, the pattern detection gets smarter. Every lab result you enter gets flagged against your genetics. Every medication gets checked for interactions. Every new piece of data — your mom's genome, your ERAP1 test, your MEFV result — unlocks new connections. This isn't a one-time report. It's a living system that will evolve over weeks and months, getting more powerful with every input.<br><br>
-    <a href="chad.html">Main Brain Map</a> &nbsp;&middot;&nbsp;
-    <a href="behcets.html">Behçet's Intelligence System</a>
-    </div>
-  </div>
-</div>
-
-<!-- EPIGENETICS — THE REVERSIBILITY -->
-<div class="section">
-  <div class="section-title" style="color:#6db87d">The Best Finding — It's Reversible</div>
-
-  <div class="card hope" style="border-left-width:5px">
-    <div class="card-title">Your DNA Isn't Permanently Changed</div>
-    <div class="card-body">Behçet's disease changes how your genes are expressed through <b>epigenetics</b> — chemical tags (methyl groups) that sit on top of your DNA and turn genes on or off. In active BD, hundreds of these tags are placed in the wrong spots, especially on genes controlling how immune cells move and stick to blood vessels.<br><br><b>But here's the critical finding:</b> A study tracking 12 BD patients before and after treatment found that colchicine treatment caused <b>almost complete reversal</b> of all the abnormal methylation patterns back toward healthy levels. The epigenetic damage went AWAY when the disease was controlled. <span style="color:#6db87d">This is not permanent. Treatment resets it.</span> (Hughes et al., Arthritis & Rheumatology 2014)<br><br>This means the goal isn't just managing symptoms — it's restoring your epigenetic landscape to normal. And the evidence says it can be done.</div>
-  </div>
-
+  <div class="section-title" style="color:#6db87d">What's in Quinn's Corner</div>
   <div class="card hope">
-    <div class="card-title">Your Gut Makes Its Own Medicine — You Just Need More of It</div>
-    <div class="card-body">Butyrate — the short-chain fatty acid made by gut bacteria — is a <b>natural HDAC inhibitor</b>. HDAC inhibitors are a class of drugs used in cancer treatment because they change epigenetic gene expression. Your gut bacteria literally produce an epigenetic medicine. The problem in BD is that the butyrate-producing bacteria (Roseburia) are <b>depleted</b> — so you're running low on your body's own epigenetic regulator.<br><br><b>Exercise (150-270 min/week) increases Roseburia</b> — the exact genus BD depletes. So does the Mediterranean diet and fiber-rich foods. And sodium butyrate supplementation (2g/day, your supplement schedule) directly replaces what your gut isn't making enough of. You're not just "eating healthy" — you're restoring your epigenetic machinery.</div>
-  </div>
-
-  <div class="card info">
-    <div class="card-title">MTHFR Makes This Extra Important for You</div>
-    <div class="card-body">If you inherited MTHFR compound heterozygous from your dad, your body produces less SAM (S-adenosylmethionine) — the universal methyl donor that puts those methylation tags on DNA. <b>MTHFR C677T is independently associated with BD risk (OR 1.97)</b> — it's not just a modifier, it's a risk factor on its own. Less methylation capacity means your body has a harder time maintaining the correct epigenetic patterns, and a harder time REVERSING the aberrant ones during treatment.<br><br>This is why methylfolate supplementation isn't optional — it's feeding the methylation machinery that controls your epigenetic recovery. The supplement protocol your dad designed isn't generic vitamins. It's precision epigenetic support.</div>
+    <div class="card-body"><b>An ER doctor father</b> who built a 4,000-line genomic intelligence system with 20 research agents and 150+ citations. <b>A care team</b> at Randall Children's, Legacy Emanuel, OHSU, and Providence who have kept him alive through 7 phases of disease. <b>An NIH referral</b> to the Undiagnosed Diseases Program. <b>A genetics evaluation</b> in progress. <b>A mother</b> whose 23andMe data is about to complete the inheritance map. <b>A brother</b> who will help discriminate the genetic hypotheses. <b>Epigenetic reversibility</b> — treatment resets the methylation changes. <b>Disease burnout</b> — BD activity declines after 10-15 years. <b>Modern biologics</b> that have cut severe outcomes dramatically. <b>ERAP1 inhibitors</b> targeting his exact mechanism just entered clinical trials (August 2025).<br><br>And most importantly: <b>he's still fighting.</b></div>
   </div>
 </div>
 
 <div class="quote">"You are not your diagnosis. You are the person who figured it out."</div>
 
 <div class="nav-links">
-  <a class="nav-link" href="chad.html">Brain Map &amp; Journal</a>
+  <a class="nav-link" href="index.html">Family Hub</a>
+  <a class="nav-link" href="chad.html">Dad's Brain Map</a>
   <a class="nav-link" href="behcets.html">Behçet's Intelligence</a>
-  <a class="nav-link" href="chad.html" onclick="document.getElementById('journal-modal').classList.add('show')">Daily Check-In</a>
 </div>
 
-<div style="text-align:center;margin-top:30px">
-  <button class="print-btn" onclick="window.print()">Print This Page</button>
-</div>
+<div style="text-align:center;margin-top:24px"><button class="print-btn" onclick="window.print()">Print Quinn's Dashboard</button></div>
 
-<div style="text-align:center;font-size:.62rem;color:rgba(196,154,108,.2);margin-top:24px;padding-top:16px;border-top:1px solid rgba(196,154,108,.08)">
-  Built for Quinn Byars by Chad Byars, M.D. &nbsp;&middot;&nbsp; April 2026<br>
-  Byars Family Genomic Intelligence System
+<div style="text-align:center;font-size:.58rem;color:rgba(196,154,108,.15);margin-top:20px;padding-top:12px;border-top:1px solid rgba(196,154,108,.05)">
+  Byars Family Health Hub &middot; Private &middot; Portland, Oregon &middot; April 2026<br>
+  Clinical data compiled from Randall Children's, Legacy Emanuel, Cincinnati Children's, OHSU, BHP Belize<br>
+  Not a diagnostic tool. All clinical decisions made with Quinn's care team.
 </div>
-
 </div>
 </body>
 </html>
