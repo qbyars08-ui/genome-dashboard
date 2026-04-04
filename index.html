@@ -917,6 +917,54 @@ body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;o
     </div>
     <div id="med-result" style="font-size:.78rem;color:rgba(196,154,108,.5)"></div>
 
+    <!-- Medication Tracker -->
+    <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Medication Tracker</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Track every medication, dose, and side effect. Auto-checks CYP2C9 and grapefruit interactions. Saved in browser.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Medication Name</label><input type="text" id="mt-name" placeholder="e.g. Colchicine" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.78rem"></div>
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Dose</label><input type="text" id="mt-dose" placeholder="e.g. 0.6mg twice daily" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.78rem"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Frequency</label><input type="text" id="mt-freq" placeholder="e.g. BID, daily" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.78rem"></div>
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Start Date</label><input type="date" id="mt-start" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.78rem"></div>
+      <div><label style="font-size:.6rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px">Reason Prescribed</label><input type="text" id="mt-reason" placeholder="e.g. BD oral ulcers" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.2);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.78rem"></div>
+    </div>
+    <button onclick="addMedication()" style="background:rgba(165,28,48,.3);border:1px solid rgba(165,28,48,.5);color:#d4838f;padding:6px 16px;border-radius:7px;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif;font-weight:600">Add Medication</button>
+
+    <div id="mt-list" style="margin-top:12px"></div>
+
+    <!-- Daily Life Check-In -->
+    <div style="font-size:.82rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">Daily Check-In — Answer These Every Night</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">These questions are genetically targeted. Your answers over time reveal patterns that connect symptoms to triggers. Be honest — this is for you.</div>
+
+    <div id="checkin-questions">
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>1. Sleep:</b> How many hours did you sleep last night? Did you wake up during the night? Do you snore or gasp? <i style="color:rgba(196,154,108,.35)">(APOE ε4 glymphatic clearance requires 7-9h. 32.5% of BD patients have sleep apnea.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 6 hours, woke up twice, partner says I snore" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>2. Stress:</b> Rate your stress today 1-10. What caused it? How did you cope? <i style="color:rgba(196,154,108,.35)">(79-82% of BD patients identify stress as a flare trigger. COMT Val/Met affects stress processing.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 7/10 — work deadline, went for a walk" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>3. Diet:</b> What did you eat today? Any known BD trigger foods (eggplant, melon, walnuts, citrus, spicy)? How much water? <i style="color:rgba(196,154,108,.35)">(Mediterranean diet eliminates 9p21 CAD risk. MTNR1B CG: did you eat after 7pm?)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. Salmon for lunch, salad for dinner, no triggers, 8 glasses water, ate at 8pm" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>4. Exercise:</b> What did you do? Duration? Intensity? Any palpitations during or after? <i style="color:rgba(196,154,108,.35)">(ACTN3 XX: endurance optimal. PITX2: cap at 5-6 hrs/week vigorous. Record palpitations with KardiaMobile.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 30 min walk, no palpitations" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>5. Alcohol:</b> Any drinks today? How many? What type? <i style="color:rgba(196,154,108,.35)">(PITX2: multiplicative AFib risk with alcohol. Target &lt;3/week. Even 1 drink/day = 8% increased risk.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 0 drinks / 1 glass red wine" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>6. Caffeine:</b> How many cups of coffee/tea? When was your last one? <i style="color:rgba(196,154,108,.35)">(CYP1A2 AA fast metabolizer: cap 2-3 cups. 9p21 CAD: &gt;4 cups/day = elevated risk. Last by noon.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 2 cups coffee, last at 11am" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>7. Sun Exposure:</b> How long were you outside? Did you wear sunscreen? Hat? <i style="color:rgba(196,154,108,.35)">(Triple MC1R + childhood burns. NOLA UV index 10.8 extreme. SPF 50+ mineral every day.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 20 min, SPF 50 applied, hat" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>8. Supplements:</b> Did you take all supplements today? Any missed? <i style="color:rgba(196,154,108,.35)">(Methylcobalamin, methylfolate, D3+K2, omega-3, butyrate, magnesium, probiotic, 2'-FL)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. All taken, forgot evening magnesium" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>9. Headaches:</b> Any today? Severity? Position-dependent? Vision changes? Pulsatile tinnitus? <i style="color:rgba(196,154,108,.35)">(B*51 homozygous: neuro-BD on differential. Positional = CVST red flag. Log EVERY headache.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. Mild headache 3/10, not positional, no vision changes" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+
+      <div class="checklist-item" style="flex-direction:column;gap:6px"><div class="checklist-label"><b>10. Mood & Energy:</b> Rate 1-10. Anything weighing on you? Did you connect with someone today? <i style="color:rgba(196,154,108,.35)">(OXTR GG: if inherited, strong social bonds buffer stress. Chronic illness + high empathy = compassion fatigue risk.)</i></div><textarea rows="1" class="checkin-a" placeholder="e.g. 6/10 energy, talked to Dad, feeling okay about things" style="width:100%;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.15);color:#e8d5c4;padding:5px 8px;border-radius:6px;font-size:.75rem;resize:vertical;font-family:inherit"></textarea></div>
+    </div>
+
+    <button onclick="saveCheckin()" style="background:rgba(165,28,48,.3);border:1px solid rgba(165,28,48,.5);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;font-weight:600;margin-top:12px">Save Today's Check-In</button>
+    <span id="checkin-saved" style="margin-left:12px;font-size:.75rem;color:#6db87d;display:none">Saved</span>
+
+    <div id="checkin-history" style="margin-top:16px"></div>
+
     <!-- 15 Questions for the Rheumatologist -->
     <div style="font-size:.82rem;font-weight:700;color:#A51C30;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'EB Garamond',serif;font-size:1.05rem">15 Questions for the Rheumatologist</div>
     <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:10px">Bring this list to the first specialist visit. Print it.</div>
@@ -1412,13 +1460,119 @@ function checkMedInteraction(){
   }
 }
 
+// ── MEDICATION TRACKER WITH SIDE EFFECTS ──────────────────────────────────────
+const MED_KEY='byars_meds';
+function getMeds(){try{return JSON.parse(localStorage.getItem(MED_KEY))||[];}catch(e){return[];}}
+
+function addMedication(){
+  const name=document.getElementById('mt-name').value.trim();
+  const dose=document.getElementById('mt-dose').value.trim();
+  const freq=document.getElementById('mt-freq').value.trim();
+  const start=document.getElementById('mt-start').value||new Date().toISOString().split('T')[0];
+  const reason=document.getElementById('mt-reason').value.trim();
+  if(!name){alert('Enter medication name.');return;}
+  const meds=getMeds();
+  meds.unshift({name,dose,freq,start,reason,sideEffects:[],active:true,ts:Date.now()});
+  localStorage.setItem(MED_KEY,JSON.stringify(meds));
+  document.getElementById('mt-name').value='';document.getElementById('mt-dose').value='';
+  document.getElementById('mt-freq').value='';document.getElementById('mt-reason').value='';
+  renderMeds();
+}
+
+function logSideEffect(idx){
+  const effect=prompt('Describe the side effect:');
+  if(!effect) return;
+  const severity=prompt('Severity 1-10:');
+  const meds=getMeds();
+  if(!meds[idx].sideEffects) meds[idx].sideEffects=[];
+  meds[idx].sideEffects.unshift({effect,severity:severity||'?',date:new Date().toISOString().split('T')[0],ts:Date.now()});
+  localStorage.setItem(MED_KEY,JSON.stringify(meds));
+  renderMeds();
+}
+
+function toggleMedActive(idx){
+  const meds=getMeds();
+  meds[idx].active=!meds[idx].active;
+  if(!meds[idx].active) meds[idx].stopped=new Date().toISOString().split('T')[0];
+  localStorage.setItem(MED_KEY,JSON.stringify(meds));
+  renderMeds();
+}
+
+function renderMeds(){
+  const meds=getMeds();
+  const el=document.getElementById('mt-list');
+  if(!meds.length){el.innerHTML='<div style="font-size:.78rem;color:rgba(196,154,108,.4)">No medications tracked yet. Add your first medication above.</div>';return;}
+
+  // Check CYP2C9 interactions
+  const cyp2c9=['ibuprofen','advil','motrin','naproxen','aleve','celecoxib','celebrex','diclofenac','voltaren','phenytoin','glipizide','losartan'];
+  const n2oWarn=['nitrous','n2o'];
+  const grapefruitWarn=['colchicine','tacrolimus','sirolimus','cyclosporine','tofacitinib','baricitinib','apremilast'];
+
+  el.innerHTML=meds.map((m,i)=>{
+    const nameLower=m.name.toLowerCase();
+    const isCyp2c9=cyp2c9.some(d=>nameLower.includes(d));
+    const isGrapefruit=grapefruitWarn.some(d=>nameLower.includes(d));
+    const hasEffects=m.sideEffects&&m.sideEffects.length;
+    const borderColor=!m.active?'rgba(196,154,108,.1)':isCyp2c9?'rgba(165,28,48,.4)':'rgba(78,140,100,.2)';
+
+    return `<div style="background:rgba(30,22,18,.6);border:1px solid ${borderColor};border-left:3px solid ${borderColor};border-radius:10px;padding:14px 16px;margin-bottom:8px;${!m.active?'opacity:.5;':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <span style="font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:${m.active?'#f0e6dc':'#b0a090'}">${m.name}</span>
+          ${m.dose?`<span style="color:#C49A6C;font-size:.78rem;margin-left:8px">${m.dose}</span>`:''}
+          ${m.freq?`<span style="color:rgba(196,154,108,.5);font-size:.72rem;margin-left:6px">${m.freq}</span>`:''}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="logSideEffect(${i})" style="background:rgba(196,154,108,.1);border:1px solid rgba(196,154,108,.2);color:#C49A6C;padding:3px 8px;border-radius:5px;cursor:pointer;font-size:.62rem;font-family:'Inter',sans-serif">+ Side Effect</button>
+          <button onclick="toggleMedActive(${i})" style="background:${m.active?'rgba(165,28,48,.1)':'rgba(78,140,100,.1)'};border:1px solid ${m.active?'rgba(165,28,48,.2)':'rgba(78,140,100,.2)'};color:${m.active?'#d4838f':'#6db87d'};padding:3px 8px;border-radius:5px;cursor:pointer;font-size:.62rem;font-family:'Inter',sans-serif">${m.active?'Stop':'Restart'}</button>
+        </div>
+      </div>
+      <div style="font-size:.7rem;color:rgba(196,154,108,.45)">
+        Started: ${m.start}${m.stopped?' · Stopped: '+m.stopped:''}${m.reason?' · Reason: '+m.reason:''}
+      </div>
+      ${isCyp2c9?`<div style="background:rgba(165,28,48,.1);border:1px solid rgba(165,28,48,.25);border-radius:6px;padding:6px 10px;margin-top:8px;font-size:.72rem;color:#d4838f"><b>⚠ CYP2C9 *1/*2 INTERACTION</b> — If inherited from Chad: higher plasma levels at standard doses. Use lowest effective dose, shortest duration. Monitor for GI/renal side effects. Prefer acetaminophen when possible.</div>`:''}
+      ${isGrapefruit?`<div style="background:rgba(196,154,108,.06);border:1px solid rgba(196,154,108,.15);border-radius:6px;padding:6px 10px;margin-top:8px;font-size:.72rem;color:#C49A6C"><b>🍊 Grapefruit Interaction</b> — CYP3A4 substrate. Avoid grapefruit/Seville oranges. These increase drug levels potentially to dangerous range.</div>`:''}
+      ${hasEffects?`<div style="margin-top:8px"><div style="font-size:.62rem;color:#C49A6C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Side Effects Log</div>${m.sideEffects.map(se=>`<div style="display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(196,154,108,.06)"><span style="font-size:.65rem;color:rgba(196,154,108,.4);min-width:65px">${se.date}</span><span style="font-size:.75rem;color:#e8d5c4">${se.effect}</span><span style="background:rgba(165,28,48,${se.severity/15});color:#d4838f;padding:1px 6px;border-radius:99px;font-size:.6rem;font-weight:700">Sev: ${se.severity}/10</span></div>`).join('')}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ── DAILY CHECK-IN SYSTEM ─────────────────────────────────────────────────────
+const CHECKIN_KEY='byars_checkins';
+function getCheckins(){try{return JSON.parse(localStorage.getItem(CHECKIN_KEY))||[];}catch(e){return[];}}
+
+function saveCheckin(){
+  const answers=[...document.querySelectorAll('.checkin-a')].map(el=>el.value.trim());
+  if(answers.every(a=>!a)){alert('Answer at least one question.');return;}
+  const labels=['Sleep','Stress','Diet','Exercise','Alcohol','Caffeine','Sun','Supplements','Headaches','Mood & Energy'];
+  const checkins=getCheckins();
+  const entry={date:new Date().toISOString().split('T')[0],answers:labels.map((l,i)=>({q:l,a:answers[i]||'—'})),ts:Date.now()};
+  checkins.unshift(entry);
+  localStorage.setItem(CHECKIN_KEY,JSON.stringify(checkins));
+  document.querySelectorAll('.checkin-a').forEach(el=>el.value='');
+  document.getElementById('checkin-saved').style.display='inline';
+  setTimeout(()=>document.getElementById('checkin-saved').style.display='none',2000);
+  renderCheckins();
+}
+
+function renderCheckins(){
+  const checkins=getCheckins();
+  const el=document.getElementById('checkin-history');
+  if(!checkins.length){el.innerHTML='';return;}
+  el.innerHTML=`<div style="font-size:.72rem;font-weight:700;color:#C49A6C;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Check-In History (${checkins.length} entries)</div>`+
+  checkins.slice(0,14).map(c=>`<details style="background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:8px;margin-bottom:5px;padding:0"><summary style="padding:8px 12px;cursor:pointer;font-size:.78rem;color:#e8d5c4;font-weight:600;font-family:'EB Garamond',serif">${c.date}</summary><div style="padding:4px 12px 10px">${c.answers.filter(a=>a.a&&a.a!=='—').map(a=>`<div style="padding:3px 0;border-bottom:1px solid rgba(196,154,108,.06);font-size:.72rem"><span style="color:#C49A6C;font-weight:600;min-width:80px;display:inline-block">${a.q}:</span> <span style="color:#b0a090">${a.a}</span></div>`).join('')}</div></details>`).join('');
+}
+
 // Set today's date as default
 document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
 document.getElementById('lab-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('mt-start').value=new Date().toISOString().split('T')[0];
 
 // Render existing data on load
 renderJournal();
 renderLabs();
+renderMeds();
+renderCheckins();
 </script>
 
 <script>
