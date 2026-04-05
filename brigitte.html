@@ -3,75 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brigitte Byars — Genome Analysis (Incoming)</title>
+<title>Brigitte Byars — Genome Analysis</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:32px 20px 80px}
-a{color:#d4838f;text-decoration:none}
-header{text-align:center;padding:32px 0 28px;border-bottom:1px solid rgba(196,154,108,.15);margin-bottom:32px}
-header h1{font-family:'EB Garamond',Georgia,serif;font-size:2rem;font-weight:700;color:#C49A6C;margin-bottom:6px}
-header .sub{font-size:.7rem;color:rgba(196,154,108,.45);letter-spacing:.12em;text-transform:uppercase}
-.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:20px;margin-bottom:14px}
-.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;font-weight:700;color:#f0e6dc;margin-bottom:8px}
-.card-body{font-size:.88rem;color:#b0a090;line-height:1.8}
+.container{max-width:840px;margin:0 auto;padding:24px 20px 80px}
+a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
+header{text-align:center;padding:24px 0 28px;border-bottom:1px solid rgba(196,154,108,.25);margin-bottom:28px}
+header h1{font-family:'EB Garamond',Georgia,serif;font-size:2rem;font-weight:700;color:#C49A6C;margin-bottom:4px}
+header .sub{font-size:.68rem;color:rgba(196,154,108,.45);letter-spacing:.12em;text-transform:uppercase}
+.section{margin-bottom:36px}
+.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid rgba(196,154,108,.12)}
+.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.card.urgent{border-left:4px solid #A51C30}
+.card.hope{border-left:4px solid #6db87d}
+.card.info{border-left:4px solid #C49A6C}
+.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.05rem;font-weight:700;color:#f0e6dc;margin-bottom:6px}
+.card-body{font-size:.84rem;color:#b0a090;line-height:1.75}
 .card-body b{color:#e8d5c4}
-.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid rgba(196,154,108,.1)}
-.waiting{text-align:center;padding:40px;font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;color:rgba(196,154,108,.5);font-style:italic}
-footer{text-align:center;font-size:.62rem;color:rgba(196,154,108,.2);margin-top:40px;padding-top:16px;border-top:1px solid rgba(196,154,108,.06)}
+.stat-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:140px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:8px;padding:12px 14px}
+.stat-label{font-size:.6rem;color:rgba(196,154,108,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:.95rem;font-weight:700;color:#f0e6dc}
+.print-btn{background:rgba(196,154,108,.15);border:1px solid rgba(196,154,108,.3);color:#C49A6C;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.75rem}
+@media print{body{background:white;color:black}.card{border:1px solid #ccc;background:white}.card-title,.section-title,.stat-value,header h1{color:#1a1a1a}.card-body{color:#333}}
 </style>
 </head>
 <body>
 <div class="container">
-<a href="family.html" style="font-size:.75rem;color:rgba(196,154,108,.5)">&larr; Back to Family Hub</a>
+<a href="index.html" style="font-size:.72rem;color:rgba(196,154,108,.4)">&larr; Family Hub</a>
+
 <header>
   <h1>Brigitte Byars</h1>
-  <div class="sub">Mom &nbsp;&middot;&nbsp; 23andMe Data Incoming</div>
+  <div class="sub">23andMe v5 Full &nbsp;&middot;&nbsp; 614,452 SNPs &nbsp;&middot;&nbsp; Analyzed April 4, 2026</div>
 </header>
 
-<div class="waiting">Waiting for your data, Brigitte. It's coming soon.</div>
+<!-- WHAT BRIGITTE CONTRIBUTED TO QUINN -->
+<div class="section">
+  <div class="section-title" style="color:#A51C30">What You Gave Quinn — The Maternal Contribution</div>
 
-<div class="section-title">What Your Data Will Tell Us</div>
+  <div class="card urgent">
+    <div class="card-title">HLA-B*51 — One Allele From You</div>
+    <div class="card-body">Quinn is B*51/B*51 homozygous. One copy came from Chad, one from you. You are a confirmed <b>obligate B*51 carrier</b>. B*51 is uncommon in Northern European populations (2-8%). Both you and Chad carrying it is statistically unusual and likely traces to Anatolian Farmer ancestry in both lineages — the same migration wave ~7,500 years ago that brought B*51 into Europe from the Near East.</div>
+  </div>
 
-<div class="card" style="border-left:3px solid #A51C30">
-  <div class="card-title">HLA-B*51 Carrier Status — Confirmed Before We Even Look</div>
-  <div class="card-body">Quinn is B*51/B*51 homozygous. He got one copy from Chad (confirmed) and one from you. <b>You are an obligate B*51 carrier.</b> Your 23andMe will confirm the subtype and reveal your complete HLA haplotype — which matters because the surrounding HLA-A and HLA-C alleles modify how B*51 behaves.</div>
-</div>
+  <div class="card urgent">
+    <div class="card-title">FUT2 Non-Secretor — AA From You Too</div>
+    <div class="card-body">You are FUT2 rs601338 AA — non-secretor, same as Chad. <b>Quinn is 100% guaranteed non-secretor.</b> His gut microbiome was different from birth. This is the foundation of his gut-immune vulnerability. Both of you gave him this independently — it's the most impactful bilateral finding in the entire analysis. <b>You should also supplement B12 (sublingual methylcobalamin) and take a probiotic with Bifidobacterium strains.</b></div>
+  </div>
 
-<div class="card" style="border-left:3px solid #C49A6C">
-  <div class="card-title">The Modifier Genes — Which Side Did They Come From?</div>
-  <div class="card-body">Right now we know Chad carries 8 Behçet's modifier genes (IL-6 CC, CTLA4 AG, STAT4 GT, TYK2 AC, FUT2 AA, IL-10 CT, ATG16L1 AG, MTHFR compound). Quinn has a 50% chance of inheriting each one from Chad. But what about YOUR modifiers? If you independently carry any of these same pro-inflammatory variants, Quinn could have inherited a <b>double dose from both parents</b> — which would explain why he crossed the disease threshold while Chad never did.<br><br>Your data will resolve every 50/50 probability into a certainty.</div>
-</div>
+  <div class="card info">
+    <div class="card-title">CYP2C9 *1/*2 — From You Too</div>
+    <div class="card-body">You carry CYP2C9 rs1799853 CT — same as Chad. Quinn has a <b>25% chance of being *2/*2 homozygous</b> (poor metabolizer). <b>For YOU: ibuprofen, naproxen, and celecoxib accumulate at higher plasma levels.</b> Use lowest dose, shortest duration. Prefer acetaminophen.</div>
+  </div>
 
-<div class="card" style="border-left:3px solid #C49A6C">
-  <div class="card-title">ERAP1 — The Key Question</div>
-  <div class="card-body">ERAP1 is the gene that trims proteins for HLA-B*51 to present to the immune system. If you carry ERAP1 risk variants and Chad doesn't, that could be the exact reason Quinn got sick — he inherited B*51 from both of you, but the ERAP1 trigger from you specifically. This would precisely define the molecular mechanism of Quinn's disease.</div>
-</div>
-
-<div class="card" style="border-left:3px solid #C49A6C">
-  <div class="card-title">Your Own Health Profile</div>
-  <div class="card-body">Your 23andMe won't just answer questions about Quinn — it will map YOUR health genetics too. Pharmacogenomics (how you process medications), carrier status, ancestry, cancer risk (important given Chad's paternal aunt's breast cancer at 33 — is there anything on your side too?), cardiovascular, and more. You'll get your own page here, just like Chad and Quinn.</div>
-</div>
-
-<div class="section-title">When Your Data Arrives</div>
-
-<div class="card">
-  <div class="card-title">Here's What Happens</div>
-  <div class="card-body">
-  <b>1.</b> Download the raw data file from 23andMe (Settings → Download Raw Data)<br>
-  <b>2.</b> We'll run the full analysis — every variant that matters<br>
-  <b>3.</b> Your page here gets built out completely — your own genome map<br>
-  <b>4.</b> Quinn's inheritance map gets finalized — every probability becomes a certainty<br>
-  <b>5.</b> The "Why Quinn, Not Chad?" analysis gets its definitive answer<br>
-  <b>6.</b> The family HLA map takes shape — the most powerful piece of the whole system
+  <div class="card info">
+    <div class="card-title">CYP2C19*2 — You Carry This, Chad Doesn't</div>
+    <div class="card-body">rs4244285 AG — you carry one CYP2C19*2 allele. This affects metabolism of PPIs (omeprazole/pantoprazole), clopidogrel (blood thinner), and some antidepressants (escitalopram). <b>If you're prescribed any of these, mention this variant.</b></div>
   </div>
 </div>
 
-<footer>
-  <a href="family.html">Back to Family Hub</a> &nbsp;&middot;&nbsp; <a href="quinn.html">Quinn's Page</a> &nbsp;&middot;&nbsp; <a href="chad.html">Chad's Brain Map</a><br><br>
-  Byars Family Health Hub &middot; Private &middot; Oregon
-</footer>
+<!-- BRIGITTE'S OWN HEALTH PROFILE -->
+<div class="section">
+  <div class="section-title">Your Health Profile — Highlights</div>
+
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">APOE</div><div class="stat-value">ε3/ε3 — No Alzheimer's Risk Gene &#10003;</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">FTO</div><div class="stat-value">TT — Low Obesity Risk &#10003;</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">Factor V</div><div class="stat-value">CC — No Leiden &#10003;</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">MTHFR</div><div class="stat-value">Wild type at BOTH C677T and A1298C &#10003;</div></div>
+    <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">HFE</div><div class="stat-value">CC — No Iron Overload Gene &#10003;</div></div>
+  </div>
+
+  <div class="card hope">
+    <div class="card-title">&#127775; Your Protective Variants</div>
+    <div class="card-body">
+    &bull; <b>APOE ε3/ε3</b> — no Alzheimer's risk allele. Your memory risk is population-average.<br>
+    &bull; <b>No MTHFR variants</b> — your methylation through this pathway is normal<br>
+    &bull; <b>No HFE H63D</b> — no iron overload risk<br>
+    &bull; <b>No MEFV variants</b> — no Familial Mediterranean Fever risk<br>
+    &bull; <b>TNF-alpha GG</b> — LOW TNF producer (opposite of Chad's AA). You are the anti-inflammatory parent.<br>
+    &bull; <b>IL-23R AG</b> — you carry a PROTECTIVE allele for IBD and autoimmune conditions. You may have given Quinn some protection here.<br>
+    &bull; <b>PCSK9 TT</b> — normal cholesterol metabolism<br>
+    &bull; <b>TCF7L2 CC</b> — no type 2 diabetes risk gene<br>
+    &bull; <b>FTO TT</b> — low obesity genetics
+    </div>
+  </div>
+
+  <div class="card info">
+    <div class="card-title">Your Risk Variants — What to Know</div>
+    <div class="card-body">
+    <b style="color:#d4838f">Cardiovascular:</b> You carry all three 9p21 CAD risk variants (same as Chad), PITX2 AFib risk (CT), and ADRB1 CG (intermediate beta-blocker response). Heart health monitoring matters for you too.<br><br>
+    <b style="color:#d4838f">Cancer:</b> TP53 rs1042522 CG (Arg72Pro — P53 variant). Combined with Chad's aunt's breast cancer at 33 — discuss hereditary cancer panel with a genetic counselor. You also carry FGFR2 AG, LSP1 CT, RAD51L1 CT, and 5p12 AG — multiple low-penetrance breast cancer risk loci.<br><br>
+    <b style="color:#d4838f">Drug metabolism:</b> CYP2C9 *1/*2 (NSAID caution), CYP2C19*2 carrier (PPI/clopidogrel), CYP1A2 CC (SLOW caffeine metabolizer — you feel caffeine strongly and it lasts longer).<br><br>
+    <b style="color:#C49A6C">Thyroid:</b> DIO1 AC + DIO2 CT — variants in BOTH thyroid hormone conversion enzymes (T4→T3). If you ever feel fatigued with normal TSH labs, ask for FREE T3 specifically. Your T4→T3 conversion may be reduced.<br><br>
+    <b style="color:#C49A6C">Methylation:</b> No MTHFR variants BUT you have variants in CBS, SHMT1, MTHFD1, PEMT, and BHMT — five OTHER methylation pathway genes. Your methylation is affected through different pathways than Chad's.<br><br>
+    <b style="color:#C49A6C">Blood pressure:</b> DBH rs1611115 TT (lowest norepinephrine production), eNOS variants at 2 loci. If you tend to run low blood pressure, these may be why.<br><br>
+    <b style="color:#C49A6C">Gut:</b> FUT2 non-secretor (B12 absorption, microbiome). ATG16L1 AG (autophagy). HLA-DQ8 CT (one celiac-associated allele — not diagnostic alone but noted). Supplement B12 and take probiotics.<br><br>
+    <b style="color:#C49A6C">Mental health:</b> COMT AA (Met/Met "Worrier" — higher pain sensitivity, higher anxiety, better working memory in calm conditions). FKBP5 CT (enhanced cortisol receptor sensitivity). CRHR1 AA (stress hormone receptor variant — completely different from Chad's GG). You and Chad process stress through DIFFERENT genetic pathways.
+    </div>
+  </div>
+</div>
+
+<!-- BRIGITTE'S ANCESTRY -->
+<div class="section">
+  <div class="section-title">Your Ancestry Signal</div>
+  <div class="card info">
+    <div class="card-body">
+    <b>SLC24A5 AA</b> — European skin pigmentation (same as Chad)<br>
+    <b>SLC45A2 GG</b> — European (same as Chad)<br>
+    <b>OCA2/HERC2 rs12913832 AG</b> — one blue eye allele, one brown. <b>Quinn's blue eyes came from YOUR A allele.</b> Chad is GG (brown).<br>
+    <b>ABCC11 rs17822931 CC</b> — DRY earwax type. This is different from Chad (CT, wet). CC dry earwax is most common in East Asian populations but also found in Central/Alpine European populations. This may indicate a distinct ancestry component — possibly Central European or Alpine.<br>
+    <b>LCT rs4988235 AG</b> — one lactase persistence allele (partial). You have lactose tolerance but carry one ancestral (non-persistent) allele. Chad has AA (full Northern European persistence).<br>
+    <b>MC1R rs910873 AG</b> — you share one MC1R variant with Chad. Your Celtic/Northern European signal is present but less concentrated than Chad's (who has 4 MC1R variants).<br><br>
+    <b>Overall:</b> European with possible Central European / Alpine / Mediterranean components that differ from Chad's strongly Celtic/Northern European signal. Your HLA-B*51 may have entered your lineage through a different ancestral pathway than Chad's — both Anatolian Farmer-derived, but possibly from different migration routes.
+    </div>
+  </div>
+</div>
+
+<!-- BRIGITTE'S SUPPLEMENTS -->
+<div class="section">
+  <div class="section-title">What You Should Be Taking</div>
+  <div class="card info">
+    <div class="card-body">
+    <b>Methylcobalamin</b> 1000-2000mcg sublingual — FUT2 non-secretor, impaired B12 absorption<br>
+    <b>Probiotic</b> with Bifidobacterium longum BB536 + Lactobacillus rhamnosus GG — FUT2 microbiome support<br>
+    <b>Vitamin D3</b> 2000 IU + K2 — GC binding protein variants + CYP27B1 variants at 2 loci = altered vitamin D metabolism<br>
+    <b>Omega-3 EPA+DHA</b> — your FADS1/2 are mostly wild type so you CAN convert plant omega-3, but marine sources are still more efficient for anti-inflammatory benefit<br>
+    <b>Magnesium</b> 400mg — D3 cofactor + general support<br><br>
+    <b>You do NOT need:</b> methylfolate (your MTHFR is normal), iron supplements (no HFE variant), high-dose B6
+    </div>
+  </div>
+</div>
+
+<!-- BRIGITTE FOR DAUGHTERS -->
+<div class="section">
+  <div class="section-title">For Future Daughters</div>
+  <div class="card urgent">
+    <div class="card-title">Hereditary Cancer — Both Parents Contribute Risk</div>
+    <div class="card-body">Chad's paternal aunt had breast cancer at 33. But YOUR genome also carries cancer-relevant variants: TP53 CG (P53 tumor suppressor), FGFR2 AG, LSP1 CT, RAD51L1 CT, 5p12 AG, plus MAP3K1 and TOX3 shared with Chad. <b>The hereditary cancer risk comes from BOTH sides.</b> Any daughter should discuss enhanced screening with a genetic counselor. Multi-gene panel testing (BRCA1/2, PALB2, TP53, CHEK2, ATM) is warranted for the family.</div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:24px">
+  <a href="index.html" style="margin-right:8px" class="print-btn">Family Hub</a>
+  <a href="quinn.html" class="print-btn">Quinn's Page</a>
+  <a href="chad.html" class="print-btn" style="margin-left:8px">Chad's Brain Map</a>
+</div>
+
+<div style="text-align:center;font-size:.58rem;color:rgba(196,154,108,.15);margin-top:20px;padding-top:12px;border-top:1px solid rgba(196,154,108,.05)">
+  Byars Family Health Hub &middot; Private &middot; Portland, Oregon &middot; April 2026<br>
+  614,452 SNPs analyzed from 23andMe v5 Full &middot; Cross-referenced with Chad's genome
+</div>
 </div>
 </body>
 </html>
