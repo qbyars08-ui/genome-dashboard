@@ -3,102 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brother Byars — Genome Analysis (Planned)</title>
+<title>Brother Byars — Predicted Inheritance</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:32px 20px 80px}
-a{color:#d4838f;text-decoration:none}
-header{text-align:center;padding:32px 0 28px;border-bottom:1px solid rgba(196,154,108,.15);margin-bottom:32px}
-header h1{font-family:'EB Garamond',Georgia,serif;font-size:2rem;font-weight:700;color:#C49A6C;margin-bottom:6px}
-header .sub{font-size:.7rem;color:rgba(196,154,108,.45);letter-spacing:.12em;text-transform:uppercase}
-.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:20px;margin-bottom:14px}
-.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;font-weight:700;color:#f0e6dc;margin-bottom:8px}
-.card-body{font-size:.88rem;color:#b0a090;line-height:1.8}
+.container{max-width:840px;margin:0 auto;padding:24px 20px 80px}
+a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
+header{text-align:center;padding:24px 0 28px;border-bottom:1px solid rgba(196,154,108,.25);margin-bottom:28px}
+header h1{font-family:'EB Garamond',Georgia,serif;font-size:2rem;font-weight:700;color:#C49A6C;margin-bottom:4px}
+header .sub{font-size:.68rem;color:rgba(196,154,108,.45);letter-spacing:.12em;text-transform:uppercase}
+.section{margin-bottom:32px}
+.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid rgba(196,154,108,.12)}
+.card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.card.urgent{border-left:4px solid #A51C30}
+.card.info{border-left:4px solid #C49A6C}
+.card.hope{border-left:4px solid #6db87d}
+.card-title{font-family:'EB Garamond',Georgia,serif;font-size:1.05rem;font-weight:700;color:#f0e6dc;margin-bottom:6px}
+.card-body{font-size:.84rem;color:#b0a090;line-height:1.75}
 .card-body b{color:#e8d5c4}
-.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid rgba(196,154,108,.1)}
-.stat-row{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
-.stat-box{flex:1;min-width:140px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 16px}
-.stat-label{font-size:.62rem;color:rgba(196,154,108,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
-.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:1rem;font-weight:700;color:#f0e6dc}
-.waiting{text-align:center;padding:40px;font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;color:rgba(196,154,108,.5);font-style:italic}
-footer{text-align:center;font-size:.62rem;color:rgba(196,154,108,.2);margin-top:40px;padding-top:16px;border-top:1px solid rgba(196,154,108,.06)}
+.stat-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.stat-box{flex:1;min-width:140px;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:8px;padding:12px 14px}
+.stat-label{font-size:.6rem;color:rgba(196,154,108,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.stat-value{font-family:'EB Garamond',Georgia,serif;font-size:.95rem;font-weight:700;color:#f0e6dc}
+.med-table{width:100%;border-collapse:collapse;font-size:.76rem;color:#c4b4a4}
+.med-table th{text-align:left;padding:6px 8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid rgba(196,154,108,.15)}
+.med-table td{padding:6px 8px;border-bottom:1px solid rgba(196,154,108,.06)}
+footer{text-align:center;font-size:.58rem;color:rgba(196,154,108,.15);margin-top:30px;padding-top:12px;border-top:1px solid rgba(196,154,108,.05)}
 </style>
 </head>
 <body>
 <div class="container">
-<a href="family.html" style="font-size:.75rem;color:rgba(196,154,108,.5)">&larr; Back to Family Hub</a>
+<a href="index.html" style="font-size:.72rem;color:rgba(196,154,108,.4)">&larr; Family Hub</a>
+
 <header>
   <h1>Brother Byars</h1>
-  <div class="sub">Age 21 &nbsp;&middot;&nbsp; Testing Planned</div>
+  <div class="sub">Age 21 &nbsp;&middot;&nbsp; Predicted Inheritance From Both Parents' Genomes &nbsp;&middot;&nbsp; Awaiting His Own Data</div>
 </header>
 
-<div class="waiting">Your kit is being ordered. Your data matters more than you know.</div>
+<div class="section">
+  <div class="section-title">What We KNOW — Before His Data Arrives</div>
 
-<div class="section-title">Why Your Genome Matters</div>
-
-<div class="card" style="border-left:3px solid #A51C30">
-  <div class="card-title">HLA-B*51 — The First Question</div>
-  <div class="card-body">Both of your parents carry HLA-B*51 (Chad confirmed, Brigitte obligate). That means you have a <b>75% chance of carrying at least one copy</b>:<br><br>
-  &bull; <b>25% chance: B*51/B*51 homozygous</b> (same as Quinn — highest Behçet's risk tier)<br>
-  &bull; <b>50% chance: B*51/other heterozygous</b> (like your dad — OR ~5.78× Behçet's risk, but your dad has never been symptomatic)<br>
-  &bull; <b>25% chance: no B*51 at all</b> (received the non-B*51 allele from both parents — genetically cleared of B*51-associated BD risk)<br><br>
-  Knowing which scenario applies to you changes everything about your monitoring plan. If you carry B*51, you should be screened for early/subclinical Behçet's symptoms: oral ulcers, skin changes, eye inflammation, joint issues.</div>
+  <div class="card hope">
+    <div class="card-title">Certainties (Both Parents Homozygous Same)</div>
+    <div class="card-body">
+    &bull; <b>FUT2 AA non-secretor</b> — 100% confirmed (both parents AA). Same gut microbiome alteration as Quinn. B12 supplementation needed.<br>
+    &bull; <b>FTO TT</b> — 100% low obesity risk (both parents TT)<br>
+    &bull; <b>FOXO3 TT</b> — 100% no longevity allele (both parents TT)<br>
+    &bull; <b>CYP1A2 AC</b> — 100% intermediate caffeine (Chad AA fast, Brigitte CC slow)<br>
+    &bull; <b>TNF-alpha AG</b> — 100% one high-TNF allele (Chad AA, Brigitte GG)<br>
+    &bull; <b>No Factor V Leiden</b> — 100% (both parents CC)<br>
+    &bull; <b>No MEFV</b> — 100% (both parents wild type)<br>
+    &bull; <b>SLC24A5 AA</b> — European skin pigmentation<br>
+    &bull; <b>At least one OXTR G allele</b> — empathy (Chad GG)<br>
+    &bull; <b>At least one ACTN3 T allele</b> — endurance (Chad TT)
+    </div>
+  </div>
 </div>
 
-<div class="card" style="border-left:3px solid #C49A6C">
-  <div class="card-title">You're a Natural Experiment</div>
-  <div class="card-body">You and Quinn share the same parents but may have inherited different combinations of genes. Your genome compared to Quinn's will powerfully discriminate between the hypotheses about why Quinn got sick:<br><br>
-  <b>If you're B*51 homozygous + no symptoms:</b> Environmental triggers (not just genes) are the key differentiator. What did Quinn experience that you didn't?<br><br>
-  <b>If you're B*51 heterozygous + no symptoms:</b> Gene dosage confirmed — the difference between one and two copies is the disease threshold.<br><br>
-  <b>If you have B*51 + subtle symptoms you haven't connected:</b> Both brothers affected, just at different severity. Screen for mouth ulcers, any skin issues, any eye redness.<br><br>
-  <b>If you have no B*51:</b> You're genetically cleared at this locus. But you still share half of Dad's other 170+ variants.</div>
+<div class="section">
+  <div class="section-title" style="color:#A51C30">The Big Question — HLA-B*51</div>
+
+  <div class="card urgent">
+    <div class="card-title">75% Chance He Carries B*51</div>
+    <div class="card-body">Both parents are B*51 carriers. The math:<br><br>
+    <b>25%: B*51/B*51 homozygous</b> — same as Quinn. OR ~10.96× for Behçet's. Would need the same surveillance and potentially the same interventions.<br><br>
+    <b>50%: B*51/other heterozygous</b> — like both parents. OR ~5.78× Behçet's risk. Neither parent is symptomatic, but with the bilateral modifier gene stack (CTLA4, FUT2, ATG16L1, IL-1β all from both parents), heterozygous B*51 + modifiers is still a meaningful risk.<br><br>
+    <b>25%: No B*51</b> — genetically cleared of B*51-associated Behçet's risk. Still carries FUT2 non-secretor, FOXO3 TT, and all the cardiovascular/modifier variants, but without the autoimmune driver.<br><br>
+    <b>HLA typing is the single most important test for him.</b></div>
+  </div>
 </div>
 
-<div class="section-title">What We Already Know About You</div>
+<div class="section">
+  <div class="section-title">High-Probability Variants (75% Chance — Both Parents Heterozygous)</div>
 
-<div class="stat-row">
-  <div class="stat-box" style="border-left:3px solid #6db87d"><div class="stat-label">Definitely Inherited (Dad homozygous)</div><div class="stat-value" style="font-size:.85rem">ACTN3 XX endurance muscles, FTO TT low obesity, FOXO3 TT</div></div>
-  <div class="stat-box" style="border-left:3px solid #C49A6C"><div class="stat-label">50/50 from Dad</div><div class="stat-value" style="font-size:.85rem">B*51, APOE &epsilon;4, MC1R variants, CYP2C9 *2, MTHFR C677T, all modifiers</div></div>
+  <table class="med-table">
+    <thead><tr><th>Variant</th><th>Both Parents</th><th>Quinn's Probability</th><th>What It Means</th></tr></thead>
+    <tbody>
+      <tr><td><b>B*51</b></td><td>Both carriers</td><td style="color:#d4838f">75% carrier</td><td>Behçet's risk gene</td></tr>
+      <tr><td><b>CYP2C9 *2</b></td><td>Both CT</td><td style="color:#d4838f">75% carrier, 25% *2/*2</td><td>NSAID/drug metabolism</td></tr>
+      <tr><td><b>PITX2 AFib</b></td><td>Both CT</td><td style="color:#d4838f">75% carrier, 25% TT</td><td>Atrial fibrillation risk</td></tr>
+      <tr><td><b>9p21 ×3</b></td><td>Both AG/CG/AG</td><td style="color:#d4838f">75% each locus</td><td>Coronary artery disease</td></tr>
+      <tr><td><b>CTLA4 ×3</b></td><td>Both AG/AG/GT</td><td style="color:#d4838f">75% each locus</td><td>Immune checkpoint weakness</td></tr>
+      <tr><td><b>ATG16L1 ×2</b></td><td>Both AG/CT</td><td style="color:#d4838f">75% each locus</td><td>Autophagy/gut barrier</td></tr>
+      <tr><td><b>IL-1β ×4</b></td><td>Both AG at multiple</td><td style="color:#d4838f">75% each locus</td><td>Inflammasome pathway</td></tr>
+      <tr><td><b>IL-10 ×3</b></td><td>Both CT/AG/GT</td><td style="color:#d4838f">75% each locus</td><td>Anti-inflammatory capacity</td></tr>
+      <tr><td><b>SCN5A</b></td><td>Both CT</td><td style="color:#d4838f">75% carrier</td><td>Cardiac sodium channel</td></tr>
+      <tr><td><b>CRY1+CLOCK+NPAS2</b></td><td>All AG/AG/AG</td><td style="color:#d4838f">75% each</td><td>Circadian clock disruption</td></tr>
+      <tr><td><b>ESR1 bone ×2</b></td><td>Both CT/AG</td><td style="color:#C49A6C">75% each</td><td>Bone mineral density</td></tr>
+      <tr><td><b>MC1R rs910873</b></td><td>Both AG</td><td style="color:#C49A6C">75%</td><td>Melanoma/skin</td></tr>
+      <tr><td><b>SOD2</b></td><td>Both AG</td><td style="color:#C49A6C">75%</td><td>Mitochondrial antioxidant</td></tr>
+      <tr><td><b>AMPD1</b></td><td>Both AG</td><td style="color:#C49A6C">75%</td><td>Exercise tolerance</td></tr>
+      <tr><td><b>FCRL3</b></td><td>Both AG</td><td style="color:#C49A6C">75%</td><td>Autoimmune susceptibility</td></tr>
+    </tbody>
+  </table>
 </div>
 
-<div class="card">
-  <div class="card-title">What to Watch For — Even Before Testing</div>
-  <div class="card-body">While waiting for your genome data, be aware of these symptoms that could indicate early/subclinical Behçet's:<br><br>
-  &bull; <b>Mouth ulcers</b> — more than 3 per year, especially if they scar<br>
-  &bull; <b>Skin problems</b> — acne-like rash, bumps on shins (erythema nodosum), papules<br>
-  &bull; <b>Eye redness or pain</b> — especially if recurrent or with light sensitivity<br>
-  &bull; <b>Joint pain or swelling</b> — especially knees, ankles, wrists<br>
-  &bull; <b>Genital ulcers</b><br>
-  &bull; <b>Headaches</b> — especially positional or with vision changes<br><br>
-  If any of these sound familiar, tell your dad. It doesn't mean you have BD — but with B*51 in the family, it's worth checking.</div>
+<div class="section">
+  <div class="section-title">50/50 From One Parent Only</div>
+  <div class="card info">
+    <div class="card-body">
+    <b>From Chad only (50% each):</b> APOE ε4, ERAP1 rs30187, MC1R R151C + V60L, HFE H63D, STAT4 GT, TYK2 AC, MTHFR C677T + A1298C, CYP3A5 active, HIF1A ×2, PCSK9 CT, 6 telomere variants, MTNR1B CG glucose, AGTR1 AC<br><br>
+    <b>From Brigitte only (50% each):</b> COMT AA (worrier vs balanced), DBH TT (low norepinephrine), eNOS variants, FKBP5 CT (enhanced GR), DIO1+DIO2 (thyroid conversion), CYP2C19*2, TP53 CG, FAAH AC (endocannabinoid), CBS/SHMT1/MTHFD1/PEMT/BHMT methylation, C3 complement, PER2+PER3+ADA circadian, ABCG2 urate, IL-23R protective, SORL1 AD, IL-17A
+    </div>
+  </div>
 </div>
 
-<div class="section-title">Your Health Advantages</div>
-
-<div class="card" style="border-left:3px solid #6db87d">
-  <div class="card-title">You're 21. Knowledge Is Your Superpower.</div>
-  <div class="card-body">Most people don't learn about their genetic risk factors until something goes wrong. You're learning at 21 — decades before the risks from APOE &epsilon;4 (if inherited), 9p21 CAD, or MC1R melanoma would typically manifest. That means every protective action you take NOW — exercise, diet, sun protection, sleep — has maximum impact over the longest time horizon. You have the playbook before the game starts.</div>
+<div class="section">
+  <div class="section-title">What To Watch For — Even Before Testing</div>
+  <div class="card info">
+    <div class="card-body">
+    <b>Behçet's symptoms:</b> Mouth ulcers (more than 3/year, especially if scarring), genital ulcers, acne that's redder/bloodier/lingering, eye redness/light sensitivity, joint pain<br>
+    <b>Heart:</b> Palpitations, racing, skipping beats — use KardiaMobile if available. He carries PITX2 + SCN5A from both parents.<br>
+    <b>Blood pressure:</b> If he runs low like Quinn, it could be DBH + eNOS from Brigitte<br>
+    <b>Gut:</b> He's 100% FUT2 non-secretor. If he has GI issues, the same microbiome vulnerability applies.<br>
+    <b>Skin:</b> MC1R from both sides. Sun protection.<br>
+    <b>Mental health:</b> COMT from Brigitte (50% chance AA worrier). Be aware of anxiety patterns.
+    </div>
+  </div>
 </div>
 
-<div class="section-title">When Your Data Arrives</div>
-
-<div class="card">
-  <div class="card-body">
-  <b>1.</b> HLA-B*51 status — the first thing we check<br>
-  <b>2.</b> Complete modifier gene comparison with Quinn — shared vs. unique risk variants<br>
-  <b>3.</b> APOE status — determines your Alzheimer's prevention needs (your grandfather has advanced dementia)<br>
-  <b>4.</b> MC1R status — melanoma surveillance if carrier (your dad has three variants + childhood sun damage)<br>
-  <b>5.</b> Pharmacogenomics — CYP2C9, CYP1A2, MTHFR — how your body handles medications<br>
-  <b>6.</b> Your own page here gets fully built out — your personal genome map<br>
-  <b>7.</b> The complete Byars Family HLA Map — four genomes, the full picture
+<div class="section">
+  <div class="section-title" style="color:#6db87d">His Role In the Family Investigation</div>
+  <div class="card hope">
+    <div class="card-body">
+    The brother is a <b>natural experiment</b>. Same parents, different genetic dice roll. When his data arrives:<br><br>
+    &bull; If he's B*51 homozygous + no symptoms → environment (not just genes) is the key<br>
+    &bull; If he's B*51 heterozygous + no symptoms → gene DOSAGE is the answer (one copy vs two)<br>
+    &bull; If he's B*51 positive + has subtle symptoms → BOTH brothers affected, just different severity<br>
+    &bull; If he has NO B*51 → genetically cleared at the main driver locus<br><br>
+    His data will also reveal which of the bilateral variants (CTLA4, ATG16L1, CYP2C9, PITX2, circadian genes) he inherited in the same combination as Quinn vs differently. <b>Comparing both brothers' inheritance patterns against both parents will show WHY Quinn got sick and whether his brother is at risk.</b>
+    </div>
   </div>
 </div>
 
 <footer>
-  <a href="family.html">Back to Family Hub</a> &nbsp;&middot;&nbsp; <a href="quinn.html">Quinn's Page</a> &nbsp;&middot;&nbsp; <a href="chad.html">Dad's Brain Map</a><br><br>
-  Byars Family Health Hub &middot; Private &middot; Oregon
+  <a href="index.html">Family Hub</a> &nbsp;&middot;&nbsp; <a href="quinn.html">Quinn</a> &nbsp;&middot;&nbsp; <a href="brigitte.html">Mom</a> &nbsp;&middot;&nbsp; <a href="chad.html">Dad</a><br><br>
+  Byars Family Health Hub &middot; Portland, Oregon &middot; April 2026
 </footer>
 </div>
 </body>
