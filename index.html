@@ -3,145 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Byars Family Health Hub</title>
+<title>Byars Family Health</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:32px 20px 80px}
-a{color:#d4838f;text-decoration:none}
-a:hover{text-decoration:underline}
-header{text-align:center;padding:40px 0 32px}
-header h1{font-family:'EB Garamond',Georgia,serif;font-size:2.4rem;font-weight:700;color:#C49A6C;margin-bottom:6px}
-header .sub{font-size:.72rem;color:rgba(196,154,108,.45);letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
-header p{font-family:'EB Garamond',Georgia,serif;font-size:1.1rem;color:#b0a090;line-height:1.7;max-width:600px;margin:0 auto}
-
-.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:40px 0}
-@media(max-width:600px){.family-grid{grid-template-columns:1fr}}
-
-.person-card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.15);border-radius:16px;padding:28px 24px;text-align:center;transition:all .3s;cursor:pointer;text-decoration:none;display:block}
-.person-card:hover{border-color:rgba(165,28,48,.4);transform:translateY(-2px);text-decoration:none}
-.person-card.active{border-color:#A51C30;border-width:2px}
-.person-card.pending{border-style:dashed;opacity:.7}
-.person-card.pending:hover{opacity:1}
-.person-emoji{font-size:2.5rem;margin-bottom:12px}
-.person-name{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#f0e6dc;margin-bottom:4px}
-.person-role{font-size:.72rem;color:rgba(196,154,108,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
-.person-status{display:inline-flex;padding:3px 12px;border-radius:999px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.person-status.analyzed{background:rgba(78,140,100,.12);color:#6db87d;border:1px solid rgba(78,140,100,.25)}
-.person-status.investigating{background:rgba(165,28,48,.12);color:#d4838f;border:1px solid rgba(165,28,48,.25)}
-.person-status.incoming{background:rgba(196,154,108,.12);color:#C49A6C;border:1px solid rgba(196,154,108,.25)}
-.person-status.planned{background:rgba(196,154,108,.08);color:rgba(196,154,108,.5);border:1px solid rgba(196,154,108,.15)}
-.person-detail{font-size:.78rem;color:#b0a090;margin-top:12px;line-height:1.6}
-
-.tools-section{margin:48px 0 32px}
-.tools-title{font-family:'EB Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#C49A6C;margin-bottom:16px;text-align:center}
-.tools-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:600px){.tools-grid{grid-template-columns:1fr 1fr}}
-.tool-card{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:16px;text-align:center;text-decoration:none;display:block;transition:all .2s}
-.tool-card:hover{border-color:rgba(165,28,48,.3);text-decoration:none}
-.tool-icon{font-size:1.5rem;margin-bottom:6px}
-.tool-name{font-size:.78rem;font-weight:700;color:#e8d5c4;margin-bottom:3px}
-.tool-desc{font-size:.65rem;color:rgba(196,154,108,.45)}
-
-.quote{font-family:'EB Garamond',Georgia,serif;font-size:1.2rem;color:rgba(196,154,108,.6);text-align:center;padding:32px 20px;font-style:italic;line-height:1.6}
-
-.section{margin:40px 0}
-.section-title{font-family:'EB Garamond',Georgia,serif;font-size:1.2rem;font-weight:700;color:#C49A6C;margin-bottom:12px;text-align:center}
-.update-card{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 18px;margin-bottom:8px}
-.update-date{font-size:.65rem;color:rgba(196,154,108,.4);margin-bottom:4px}
-.update-text{font-size:.85rem;color:#b0a090;line-height:1.6}
-
-footer{text-align:center;font-size:.6rem;color:rgba(196,154,108,.2);margin-top:40px;padding-top:20px;border-top:1px solid rgba(196,154,108,.06)}
+a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
+.nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(15,10,8,.97);border-bottom:1px solid rgba(165,28,48,.2);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px)}
+.nav-brand{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:#C49A6C;text-decoration:none}
+.nav-links{display:flex;gap:6px}
+.nav-link{padding:4px 10px;border-radius:6px;font-size:.62rem;font-weight:600;color:#b0a090;text-decoration:none;background:rgba(196,154,108,.08);border:1px solid rgba(196,154,108,.12);transition:all .2s}
+.nav-link:hover,.nav-link.active{background:rgba(165,28,48,.15);border-color:rgba(165,28,48,.3);color:#d4838f;text-decoration:none}
+.container{max-width:800px;margin:0 auto;padding:60px 20px 80px}
+header{text-align:center;padding:32px 0}
+header h1{font-family:'EB Garamond',Georgia,serif;font-size:2.2rem;font-weight:700;color:#C49A6C;margin-bottom:6px}
+header p{font-family:'EB Garamond',Georgia,serif;font-size:1rem;color:rgba(196,154,108,.5);line-height:1.6;max-width:500px;margin:8px auto 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:32px 0}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.person{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.15);border-radius:14px;padding:24px 20px;text-align:center;transition:all .3s;text-decoration:none;display:block}
+.person:hover{border-color:rgba(165,28,48,.4);transform:translateY(-2px);text-decoration:none}
+.person.active{border-color:#A51C30;border-width:2px}
+.person.pending{border-style:dashed;opacity:.7}
+.person.pending:hover{opacity:1}
+.person-emoji{font-size:2.2rem;margin-bottom:10px}
+.person-name{font-family:'EB Garamond',Georgia,serif;font-size:1.2rem;font-weight:700;color:#f0e6dc;margin-bottom:3px}
+.person-role{font-size:.68rem;color:rgba(196,154,108,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.person-status{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.status-green{background:rgba(78,140,100,.12);color:#6db87d;border:1px solid rgba(78,140,100,.25)}
+.status-red{background:rgba(165,28,48,.12);color:#d4838f;border:1px solid rgba(165,28,48,.25)}
+.status-gold{background:rgba(196,154,108,.12);color:#C49A6C;border:1px solid rgba(196,154,108,.25)}
+.person-detail{font-size:.75rem;color:#b0a090;margin-top:10px;line-height:1.5}
+.tools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:32px 0}
+@media(max-width:600px){.tools{grid-template-columns:1fr 1fr}}
+.tool{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px;text-align:center;text-decoration:none;display:block;transition:all .2s}
+.tool:hover{border-color:rgba(165,28,48,.3);text-decoration:none}
+.tool-icon{font-size:1.3rem;margin-bottom:4px}
+.tool-name{font-size:.72rem;font-weight:700;color:#e8d5c4;margin-bottom:2px}
+.tool-desc{font-size:.6rem;color:rgba(196,154,108,.4)}
+.updates{margin:32px 0}
+.update{background:rgba(30,22,18,.4);border:1px solid rgba(196,154,108,.08);border-radius:8px;padding:12px 16px;margin-bottom:6px}
+.update-date{font-size:.6rem;color:rgba(196,154,108,.35);margin-bottom:3px}
+.update-text{font-size:.78rem;color:#b0a090;line-height:1.5}
+footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top:40px;padding-top:16px;border-top:1px solid rgba(196,154,108,.05)}
 </style>
 </head>
 <body>
-<div class="container">
 
-<header>
-  <h1>The Byars Family</h1>
-  <div class="sub">Private Health Hub &nbsp;&middot;&nbsp; Oregon</div>
-  <p>This is our family's health intelligence system. It connects our genetics, our history, and our daily choices into one living resource. It grows with every new piece of data. It belongs to us.</p>
-</header>
-
-<!-- FAMILY MEMBERS -->
-<div class="family-grid">
-  <a class="person-card active" href="chad.html">
-    <div class="person-emoji">&#129468;&#8205;&#9877;&#65039;</div>
-    <div class="person-name">Chad</div>
-    <div class="person-role">Dad &middot; Emergency Medicine</div>
-    <div class="person-status analyzed">Genome Analyzed</div>
-    <div class="person-detail">170+ variants mapped. HLA-B*51 carrier. APOE &epsilon;3/&epsilon;4. Triple MC1R. The genetic map that started everything.</div>
-  </a>
-
-  <a class="person-card active" href="quinn.html">
-    <div class="person-emoji">&#129333;</div>
-    <div class="person-name">Quinn</div>
-    <div class="person-role">Son &middot; Active Investigation</div>
-    <div class="person-status investigating">Health Crisis — Active</div>
-    <div class="person-detail">HLA-B*51/B*51 homozygous. Behçet's workup. Full intelligence system built. Daily journal tracking. We're on it.</div>
-  </a>
-
-  <a class="person-card pending" href="brigitte.html">
-    <div class="person-emoji">&#128105;</div>
-    <div class="person-name">Brigitte</div>
-    <div class="person-role">Mom &middot; 23andMe Incoming</div>
-    <div class="person-status incoming">Data Expected This Week</div>
-    <div class="person-detail">Her genome will reveal which modifier genes Quinn inherited from each parent. The missing half of the puzzle.</div>
-  </a>
-
-  <a class="person-card pending" href="brother.html">
-    <div class="person-emoji">&#128102;</div>
-    <div class="person-name">Brother</div>
-    <div class="person-role">Son &middot; Age 21</div>
-    <div class="person-status planned">Testing Planned</div>
-    <div class="person-detail">75% chance of carrying B*51. HLA typing is priority #1. His data will powerfully discriminate between Quinn's risk hypotheses.</div>
-  </a>
-</div>
-
-<!-- QUICK TOOLS -->
-<div class="tools-section">
-  <div class="tools-title">Quick Access</div>
-  <div class="tools-grid">
-    <a class="tool-card" href="behcets.html"><div class="tool-icon">&#9877;&#65039;</div><div class="tool-name">Behçet's Intelligence</div><div class="tool-desc">Full pathogenesis, trials, lifestyle, specialists</div></a>
-    <a class="tool-card" href="chad.html"><div class="tool-icon">&#129504;</div><div class="tool-name">Chad's Brain Map</div><div class="tool-desc">96-node interactive genome visualization</div></a>
-    <a class="tool-card" href="quinn.html"><div class="tool-icon">&#128170;</div><div class="tool-name">Quinn's Plan</div><div class="tool-desc">Daily non-negotiables, tech stack, prognosis</div></a>
-    <a class="tool-card" href="chad.html" onclick="setTimeout(()=>document.getElementById('journal-modal')?.classList.add('show'),500)"><div class="tool-icon">&#128221;</div><div class="tool-name">Daily Journal</div><div class="tool-desc">Symptoms, check-in, medications, labs</div></a>
-    <a class="tool-card" href="chad.html" onclick="setTimeout(()=>document.getElementById('doc-modal')?.classList.add('show'),500)"><div class="tool-icon">&#128203;</div><div class="tool-name">Doctor Summary</div><div class="tool-desc">Top 10 findings for any physician</div></a>
-    <a class="tool-card" href="chad.html" onclick="setTimeout(()=>document.getElementById('clinical-modal')?.classList.add('show'),500)"><div class="tool-icon">&#128137;</div><div class="tool-name">Clinical Tools</div><div class="tool-desc">Referral letter, lab order, checklist</div></a>
+<div class="nav">
+  <a class="nav-brand" href="index.html">Byars Health</a>
+  <div class="nav-links">
+    <a class="nav-link" href="chad.html">Chad</a>
+    <a class="nav-link" href="brigitte.html">Brigitte</a>
+    <a class="nav-link" href="quinn.html">Quinn</a>
+    <a class="nav-link" href="brother.html">Brother</a>
+    <a class="nav-link" href="behcets.html">Behçet's</a>
   </div>
 </div>
 
-<div class="quote">"Health is not the absence of disease. It's the presence of understanding."</div>
+<div class="container">
 
-<!-- FAMILY TIMELINE -->
-<div class="section">
-  <div class="section-title">What's Happening</div>
-  <div class="update-card"><div class="update-date">This Week</div><div class="update-text">Call Dr. Eve Scopelitis at Ochsner (Behçet's specialist). Referral letter ready. 15 questions for the rheumatologist printed. Blood panel order ready — one draw, 7 tubes.</div></div>
-  <div class="update-card"><div class="update-date">This Week</div><div class="update-text">Brigitte's 23andMe data expected. When it arrives, full analysis runs immediately — B*51 confirmation, modifier genes, complete inheritance map for Quinn.</div></div>
-  <div class="update-card"><div class="update-date">Next 1-2 Weeks</div><div class="update-text">Order 23andMe (or newest available kit) for brother. Priority: HLA-B*51 status. He has a 75% chance of carrying at least one copy.</div></div>
-  <div class="update-card"><div class="update-date">Next 2-4 Weeks</div><div class="update-text">ERAP1 + MEFV genotyping for Quinn. The two genes that will define the molecular mechanism and unlock precision therapy targets.</div></div>
-  <div class="update-card"><div class="update-date">Ongoing</div><div class="update-text">Quinn logs symptoms and check-in daily. The journal's pattern detection improves with every entry. Data is power.</div></div>
-  <div class="update-card"><div class="update-date">Goal</div><div class="update-text">Complete Byars Family HLA Map — four genomes, three generations of history, connected to peer-reviewed research, tracked with daily data. One of the most comprehensive family health databases outside of a research institution.</div></div>
+<header>
+  <h1>Byars Family Health</h1>
+  <p>Our family's health intelligence system. It connects our genetics, our history, and our daily choices. It grows with every new piece of data.</p>
+</header>
+
+<div class="grid">
+  <a class="person active" href="chad.html">
+    <div class="person-emoji">&#129468;&#8205;&#9877;&#65039;</div>
+    <div class="person-name">Chad</div>
+    <div class="person-role">Dad &middot; Emergency Medicine</div>
+    <div class="person-status status-green">Genome Analyzed</div>
+    <div class="person-detail">170+ variants. APOE &epsilon;3/&epsilon;4. MC1R &times;4. B*51 carrier. Brain map + health stack.</div>
+  </a>
+
+  <a class="person active" href="quinn.html">
+    <div class="person-emoji">&#129333;</div>
+    <div class="person-name">Quinn</div>
+    <div class="person-role">Son &middot; Active Investigation</div>
+    <div class="person-status status-red">Health Crisis — Active</div>
+    <div class="person-detail">B*51/B*51. 1,800+ lines. Labs integrated. Full health stack. Daily protocols.</div>
+  </a>
+
+  <a class="person active" href="brigitte.html">
+    <div class="person-emoji">&#128105;</div>
+    <div class="person-name">Brigitte</div>
+    <div class="person-role">Mom &middot; Genome Analyzed</div>
+    <div class="person-status status-green">23andMe Complete</div>
+    <div class="person-detail">614,452 SNPs. Cross-referenced with Chad. Health stack built. Supplements active.</div>
+  </a>
+
+  <a class="person pending" href="brother.html">
+    <div class="person-emoji">&#128102;</div>
+    <div class="person-name">Brother</div>
+    <div class="person-role">Son &middot; Age 21</div>
+    <div class="person-status status-gold">Testing Planned</div>
+    <div class="person-detail">75% B*51 carrier. Predicted inheritance mapped. Kit being ordered.</div>
+  </a>
 </div>
 
-<!-- WHAT THIS IS -->
-<div class="section">
-  <div class="section-title">What This Is</div>
-  <div style="font-family:'EB Garamond',Georgia,serif;font-size:.95rem;color:#b0a090;line-height:1.8;text-align:center;max-width:600px;margin:0 auto">
-    This isn't just a website. It's our family's health operating system. It connects Chad's genome (170+ variants) to Quinn's B*51 homozygosity to the family history (your grandfather's heart disease and dementia, your grandmother's lung cancer, your aunt's AFib, your great-aunt's breast cancer at 33) to the latest peer-reviewed research to daily symptom tracking to treatment decisions.<br><br>
-    Every new piece of data — Brigitte's genome, brother's HLA typing, Quinn's ERAP1 and MEFV results, every lab value, every journal entry — makes the whole system smarter. It grows with us.<br><br>
-    This is private. Only family. Built with love by a father who wouldn't stop until he understood.
+<div class="tools">
+  <a class="tool" href="behcets.html"><div class="tool-icon">&#9877;&#65039;</div><div class="tool-name">Behçet's Intel</div><div class="tool-desc">Pathogenesis, trials, lifestyle</div></a>
+  <a class="tool" href="chad.html"><div class="tool-icon">&#129504;</div><div class="tool-name">Brain Map</div><div class="tool-desc">96-node genome visualization</div></a>
+  <a class="tool" href="quinn.html#rhythm"><div class="tool-icon">&#128200;</div><div class="tool-name">Latest Labs</div><div class="tool-desc">Rhythm Health April 2026</div></a>
+  <a class="tool" href="quinn.html"><div class="tool-icon">&#128170;</div><div class="tool-name">Quinn's Plan</div><div class="tool-desc">Protocols, stack, scripts</div></a>
+  <a class="tool" href="quinn.html"><div class="tool-icon">&#128221;</div><div class="tool-name">Daily Journal</div><div class="tool-desc">Track symptoms daily</div></a>
+  <a class="tool" href="quinn.html"><div class="tool-icon">&#128137;</div><div class="tool-name">Doctor Scripts</div><div class="tool-desc">Copy-paste for 7 providers</div></a>
+</div>
+
+<div class="updates">
+  <div style="font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;color:#C49A6C;margin-bottom:12px;text-align:center">What's Happening</div>
+  <div class="update"><div class="update-date">This Week</div><div class="update-text">Rhythm Health labs integrated — testosterone 211 (LOW, prednisone HPG suppression), LDL 142 + ApoB 103 (atherogenic, 9p21 bilateral). Vitamin D 26.5 (genetic prediction confirmed). CRP 0.5 (excellent). Ferritin 217 (stop iron).</div></div>
+  <div class="update"><div class="update-date">Incoming</div><div class="update-text">Nebula Whole Genome Sequencing — 3 billion base pairs. Will definitively resolve ERAP1, deep intronic UNC13D, full CYP2D6, and every rare variant 23andMe can't see.</div></div>
+  <div class="update"><div class="update-date">Incoming</div><div class="update-text">WHOOP strap — continuous HRV, recovery scoring, strain tracking. IBD research shows flare detection days before symptoms.</div></div>
+  <div class="update"><div class="update-date">Incoming</div><div class="update-text">Cortisol spit test (DUTCH/ZRT) — maps entire daily cortisol curve. Will answer HPA axis suppression question definitively.</div></div>
+  <div class="update"><div class="update-date">Priority</div><div class="update-text">Start Otezla — Quinn is 17 (turns 18 July). Testosterone won't recover until prednisone stops. Bones, hormones, energy all waiting.</div></div>
+  <div class="update"><div class="update-date">Goal</div><div class="update-text">Complete family genome map — 4 genomes, 3 generations, connected to research, tracked with daily data. One family. One system.</div></div>
+</div>
+
+<div style="text-align:center;padding:24px 0">
+  <div style="font-family:'EB Garamond',Georgia,serif;font-size:.95rem;color:rgba(196,154,108,.4);line-height:1.6">
+    70 commits &middot; 5,600+ lines &middot; 900+ SNPs &middot; 23 research agents &middot; 150+ citations<br>
+    Built by Quinn Byars, age 17, Portland, Oregon
   </div>
 </div>
 
 <footer>
-  Byars Family Health Hub &nbsp;&middot;&nbsp; Private &nbsp;&middot;&nbsp; Oregon &nbsp;&middot;&nbsp; April 2026<br>
-  39 commits &middot; 3,600+ lines &middot; 20 research agents &middot; 150+ peer-reviewed citations<br>
+  Byars Family Health &middot; Private &middot; Portland, Oregon &middot; April 2026<br>
   Not a diagnostic tool. All clinical decisions made with your health team.
 </footer>
 
 </div>
 </body>
 </html>
-<!-- built Fri Apr  3 19:25:03 PDT 2026 -->
