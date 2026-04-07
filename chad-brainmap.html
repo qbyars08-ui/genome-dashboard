@@ -93,6 +93,10 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
     <a class="topnav-link" href="#protocol" onclick="go('protocol')">Protocol</a>
     <a class="topnav-link" href="#matrix" onclick="go('matrix')">Drug Matrix</a>
     <a class="topnav-link" href="#whatif" onclick="go('whatif')">What-If</a>
+    <a class="topnav-link" href="#haplogroups" onclick="go('haplogroups')">Haplogroups</a>
+    <a class="topnav-link" href="#neanderthal" onclick="go('neanderthal')">Neanderthal</a>
+    <a class="topnav-link" href="#carrier" onclick="go('carrier')">Carrier</a>
+    <a class="topnav-link" href="#upload" onclick="go('upload')">Upload</a>
   </div>
 </div>
 
@@ -109,9 +113,10 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
   <div class="stats-banner">
     <div class="stat-pill"><b>614,452</b> SNPs</div>
     <div class="stat-pill"><b>170+</b> Key Variants</div>
-    <div class="stat-pill"><b>10</b> Categories</div>
-    <div class="stat-pill"><b>900+</b> Cross-Referenced</div>
-    <div class="stat-pill"><b>150+</b> Citations</div>
+    <div class="stat-pill"><b>25</b> Pages</div>
+    <div class="stat-pill"><b>~0.8%</b> Neanderthal</div>
+    <div class="stat-pill"><b>MT-H1</b> Haplogroup</div>
+    <div class="stat-pill" style="cursor:pointer;border-color:rgba(165,28,48,.3);color:#d4838f" onclick="exportPDF()"><b>&#128196;</b> Export PDF</div>
   </div>
 
   <div class="cat-grid">
@@ -240,6 +245,30 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
       <div class="cat-name">Clinical Trials</div>
       <div class="cat-count">Eligible</div>
       <div class="cat-desc">Anti-amyloid, melanoma prevention, pharmacogenomics trials.</div>
+    </a>
+    <a class="cat-card" onclick="go('haplogroups')" style="border-left:3px solid #a090c0">
+      <div class="cat-icon">&#127981;</div>
+      <div class="cat-name">Haplogroups</div>
+      <div class="cat-count">MT + Y-DNA</div>
+      <div class="cat-desc">Maternal H1 lineage. Paternal R1b. 7,491 ancestry-informative markers.</div>
+    </a>
+    <a class="cat-card" onclick="go('neanderthal')" style="border-left:3px solid #fb923c">
+      <div class="cat-icon">&#129476;</div>
+      <div class="cat-name">Neanderthal</div>
+      <div class="cat-count">~0.8% Archaic</div>
+      <div class="cat-desc">24 introgression loci scanned. 5 confirmed archaic alleles.</div>
+    </a>
+    <a class="cat-card" onclick="go('carrier')" style="border-left:3px solid #34d399">
+      <div class="cat-icon">&#129516;</div>
+      <div class="cat-name">Carrier Screen</div>
+      <div class="cat-count">25 Diseases</div>
+      <div class="cat-desc">Mendelian disease carrier status. HFE H63D, MTHFR confirmed.</div>
+    </a>
+    <a class="cat-card" onclick="go('upload')" style="border-left:3px solid #60a5fa">
+      <div class="cat-icon">&#128228;</div>
+      <div class="cat-name">Upload &amp; Compare</div>
+      <div class="cat-count">23andMe</div>
+      <div class="cat-desc">Upload raw genome files. Compare two genomes side by side.</div>
     </a>
     <a class="cat-card" href="behcets.html" style="border-left:3px solid #A51C30">
       <div class="cat-icon">&#9877;&#65039;</div>
@@ -1112,7 +1141,265 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
   </div>
 </div>
 
-<footer>Byars Family Health &middot; Portland, Oregon &middot; 614,452 SNPs &middot; 900+ Analyzed &middot; 72 Commits</footer>
+<!-- ═══════════════ HAPLOGROUPS PAGE ═══════════════ -->
+<div class="page" id="page-haplogroups">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#127981; Haplogroups &mdash; Deep Ancestry</h2>
+  </div>
+
+  <div class="section-title" style="color:#a090c0">Mitochondrial DNA &mdash; Maternal Line</div>
+
+  <div class="variant" style="border-left:3px solid #a090c0">
+    <div class="variant-header"><div class="variant-name">Haplogroup H1 &mdash; Most Common European</div><div class="variant-badge badge-purple">Confirmed</div></div>
+    <div class="variant-geno">4,154 MT variants extracted &middot; MT:3010=G (H1 defining) &middot; MT:11719=G (macro-H)</div>
+    <div class="variant-desc">Haplogroup H is the most common mtDNA lineage in Europe (~40-50%). H1 is the largest sub-clade, highest frequency in Iberia and Atlantic Europe. Arose ~10,000-15,000 years ago during the post-glacial recolonization of Europe from Franco-Cantabrian refugia. Your maternal line traces to women who survived the Last Glacial Maximum in southwest Europe and repopulated the continent as ice retreated.</div>
+    <div class="variant-stats">
+      <div class="variant-stat"><div class="variant-stat-label">Origin</div><div class="variant-stat-value">Franco-Cantabrian refugia ~13,000 ya</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Frequency</div><div class="variant-stat-value">~25% of Western Europeans</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Migration</div><div class="variant-stat-value">Post-glacial Atlantic coast &rarr; NW Europe</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-header"><div class="variant-name">MT Variant Summary</div><div class="variant-badge badge-yellow">4,154 Variants</div></div>
+    <div class="variant-desc">4,154 mitochondrial positions genotyped from 23andMe chip. Key haplogroup-defining positions confirmed: MT:3010=G (H1 marker), MT:11719=G (haplogroup H branch), MT:7028=C (HV/H). Full mitochondrial genome sequencing (Nebula WGS incoming) will resolve the complete H1 sub-branch to terminal node.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">H1 Clinical Relevance</div><div class="variant-badge badge-green">Favorable</div></div>
+    <div class="variant-desc">Haplogroup H is associated with <b>lower Parkinson's risk</b> (OR 0.72 in meta-analyses), <b>higher VO2max</b> in endurance athletes, and <b>better mitochondrial efficiency</b> vs haplogroups J/T. Aligns with ACTN3 TT endurance profile. H1 carriers show enhanced Complex I activity.</div>
+  </div>
+
+  <div class="section-title" style="color:#a090c0">Y-Chromosome &mdash; Paternal Line</div>
+
+  <div class="variant" style="border-left:3px solid #a090c0">
+    <div class="variant-header"><div class="variant-name">Haplogroup R1b &mdash; Western European</div><div class="variant-badge badge-purple">Predicted</div></div>
+    <div class="variant-geno">3,337 Y variants extracted &middot; R1b-specific terminal SNPs require WGS</div>
+    <div class="variant-desc">R1b is the most common Y-chromosome haplogroup in Western Europe (~60-80% in Ireland/Britain/France). 23andMe chip covers limited Y-SNPs &mdash; the R1b branch markers (M269, L21, U106) require whole genome sequencing. Nebula WGS will resolve the full paternal lineage to terminal node. R1b-L21 is the dominant Celtic/Atlantic sub-branch.</div>
+    <div class="variant-stats">
+      <div class="variant-stat"><div class="variant-stat-label">Origin</div><div class="variant-stat-value">Pontic Steppe ~5,000 ya</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Frequency</div><div class="variant-stat-value">~70% of Irish/British men</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Resolution</div><div class="variant-stat-value">Awaiting Nebula WGS</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-header"><div class="variant-name">Ancestry-Informative Markers</div><div class="variant-badge badge-yellow">7,491 Total</div></div>
+    <div class="variant-desc">Combined 4,154 MT + 3,337 Y-chromosome variants provide deep ancestry resolution. Both lineages point to Atlantic/Celtic/Northern European origin &mdash; consistent with MC1R R151C "Celtic variant," HFE H63D (Northern European iron overload), full lactase persistence (LCT), wet earwax (ABCC11), and SLC24A5 AA (European pigmentation). HLA-B*51 traces to Anatolian Farmer admixture via Atlantic coastal route ~7,500 years ago.</div>
+  </div>
+
+  <div class="section-title">Three-Way Ancestry Model</div>
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">Your Genomic Ancestry Composition</div><div class="variant-badge badge-gold">Integrated</div></div>
+    <div class="variant-desc">
+      <b>Western Hunter-Gatherer (WHG):</b> Blue eye color (OCA2/HERC2 AA), dark hair, lactose tolerance precursor<br>
+      <b>Early European Farmer (EEF/Anatolian):</b> HLA-B*51 allele (Silk Road/Anatolian origin), SLC24A5 light skin<br>
+      <b>Yamnaya/Steppe:</b> R1b Y-haplogroup, lactase persistence (LCT), increased height variants<br><br>
+      Your genome reflects the standard three-way European admixture: ~60-70% Steppe/WHG, ~30-40% Anatolian Farmer. The B*51 allele is one of the most medically significant Anatolian Farmer contributions &mdash; it followed the Mediterranean/Atlantic coastal migration route and is why Behçet's disease tracks the ancient Silk Road.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ NEANDERTHAL PAGE ═══════════════ -->
+<div class="page" id="page-neanderthal">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#129476; Neanderthal DNA &mdash; Archaic Introgression</h2>
+  </div>
+
+  <div class="stats-banner">
+    <div class="stat-pill"><b>~0.8%</b> Neanderthal</div>
+    <div class="stat-pill"><b>24</b> Loci Scanned</div>
+    <div class="stat-pill"><b>5</b> Archaic Alleles</div>
+    <div class="stat-pill"><b>50,000+</b> Years Ago</div>
+  </div>
+
+  <div class="section-title" style="color:#fb923c">Your Neanderthal Legacy</div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">Estimated Neanderthal Ancestry: ~0.8%</div><div class="variant-badge badge-yellow">Below Average</div></div>
+    <div class="variant-desc">Europeans typically carry 1.5-2.1% Neanderthal DNA. Your estimate of ~0.8% from 24 known introgression loci places you at the <b>lower end</b> of the European range. This is a chip-based estimate &mdash; Nebula WGS will provide a precise measurement by scanning millions of positions against the Vindija/Altai Neanderthal reference genomes.</div>
+    <div class="variant-stats">
+      <div class="variant-stat"><div class="variant-stat-label">Your Estimate</div><div class="variant-stat-value">~0.8%</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">European Average</div><div class="variant-stat-value">1.5-2.1%</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Introgression Event</div><div class="variant-stat-value">~50,000-60,000 ya</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">Confirmed Archaic Alleles (5 Heterozygous)</div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">rs1800407 &mdash; OCA2 Eye Color</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
+    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
+    <div class="variant-desc">OCA2 variant affecting melanin production in the iris. The T allele is found in Neanderthal genomes and is associated with lighter eye pigmentation. Contributes to the blue eye phenotype alongside HERC2 rs12913832. You carry one Neanderthal-derived copy.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">rs4778138 &mdash; OCA2 Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
+    <div class="variant-geno">Genotype: AG &middot; Neanderthal allele: G</div>
+    <div class="variant-desc">Second OCA2 locus with Neanderthal introgression. Part of the pigmentation gene cluster on chromosome 15. Two independent Neanderthal-derived pigmentation alleles in OCA2 suggests these variants were positively selected after admixture &mdash; lighter skin/eyes conferred vitamin D advantage at higher latitudes.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">rs2166624 &mdash; Hair Morphology</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
+    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
+    <div class="variant-desc">Associated with hair texture/morphology. Neanderthals likely had varied hair types. This introgressed allele may have provided adaptation to colder climates in Northern Europe.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">rs10204137 &mdash; BNC2 Skin Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
+    <div class="variant-geno">Genotype: AG &middot; Neanderthal allele: G</div>
+    <div class="variant-desc">BNC2 (Basonuclin 2) affects skin pigmentation and freckling. This Neanderthal-introgressed variant is one of the most well-established archaic contributions to modern European appearance. Associated with lighter skin saturation and increased freckling &mdash; consistent with your MC1R compound status and Celtic ancestry.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-header"><div class="variant-name">rs12821256 &mdash; KITLG Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
+    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
+    <div class="variant-desc">KITLG (KIT Ligand) is a key regulator of melanocyte development. This Neanderthal-derived allele affects hair color and is associated with blond hair in Northern Europeans. One of the strongest examples of adaptive introgression &mdash; Neanderthal pigmentation genes that helped modern humans adapt to reduced UV at high latitudes.</div>
+  </div>
+
+  <div class="section-title">Not Detected (19 Loci &mdash; Homozygous Modern)</div>
+
+  <div class="variant">
+    <div class="variant-header"><div class="variant-name">19 Archaic Loci &mdash; Modern Human Only</div><div class="variant-badge badge-green">No Archaic</div></div>
+    <div class="variant-desc">No Neanderthal-derived alleles detected at 19 additional introgression loci including: TLR1/TLR6/TLR10 immunity cluster, SLC45A2 pigmentation, TMEM163 metabolism, OAS1 antiviral defense, and multiple keratin/skin barrier genes. The absence of TLR archaic alleles is notable &mdash; these are the most clinically significant Neanderthal variants (affecting immune response to bacteria/fungi) and you carry the modern human versions.</div>
+  </div>
+
+  <div class="section-title" style="color:#6db87d">What Your Pattern Means</div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">Pigmentation Bias &mdash; Adaptive Selection</div><div class="variant-badge badge-green">Pattern</div></div>
+    <div class="variant-desc">All 5 of your Neanderthal-derived alleles affect <b>pigmentation</b> (OCA2 &times;2, BNC2, KITLG, hair morphology). Zero immunity or metabolism archaic alleles. This is a textbook example of <b>adaptive introgression</b> &mdash; Neanderthal pigmentation genes were positively selected in Northern European populations because lighter skin improved vitamin D synthesis. Your genome retained the useful Neanderthal pigmentation variants while purging the potentially harmful immunity ones. Combined with MC1R &times;4 Celtic variants, this creates an extremely fair-skin genotype optimized for high latitudes but requiring aggressive sun protection.</div>
+  </div>
+</div>
+
+<!-- ═══════════════ CARRIER SCREEN PAGE ═══════════════ -->
+<div class="page" id="page-carrier">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#129516; Mendelian Carrier Screen &mdash; 25 Diseases</h2>
+  </div>
+
+  <div class="stats-banner">
+    <div class="stat-pill"><b>25</b> Diseases Screened</div>
+    <div class="stat-pill"><b>3</b> Carrier Variants</div>
+    <div class="stat-pill"><b>22</b> Cleared</div>
+    <div class="stat-pill"><b>0</b> Affected</div>
+  </div>
+
+  <div class="section-title" style="color:#C49A6C">Confirmed Carrier Status</div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">HFE H63D &mdash; Hereditary Hemochromatosis</div><div class="variant-badge badge-yellow">Carrier</div></div>
+    <div class="variant-geno">rs1799945 = CG &middot; Heterozygous carrier</div>
+    <div class="variant-desc"><b>Carrier, not affected.</b> H63D is the milder HFE variant (vs C282Y which causes clinical hemochromatosis). H63D heterozygotes rarely develop iron overload on their own. However, combined with HFE C282Y (compound heterozygote H63D/C282Y), iron overload risk increases significantly. Common in Northern European/Celtic populations (~15-20% carrier rate). Consistent with your Irish/Celtic ancestry signal.</div>
+    <div class="variant-stats">
+      <div class="variant-stat"><div class="variant-stat-label">Disease</div><div class="variant-stat-value">Hereditary Hemochromatosis</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Inheritance</div><div class="variant-stat-value">Autosomal Recessive</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">Monitor ferritin/iron periodically</div></div>
+    </div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">MTHFR C677T &mdash; Folate Metabolism</div><div class="variant-badge badge-yellow">Carrier</div></div>
+    <div class="variant-geno">rs1801133 = AG &middot; Heterozygous carrier</div>
+    <div class="variant-desc"><b>Carrier of one reduced-function allele.</b> MTHFR C677T heterozygotes have ~35% reduced enzyme activity (vs ~70% in TT homozygotes). Combined with A1298C (also heterozygous), this creates a <b>compound heterozygous MTHFR</b> pattern with ~50% total reduction in methylation capacity. Clinically significant: impairs folate &rarr; methylfolate conversion, elevates homocysteine. Methylfolate supplementation bypasses this block.</div>
+    <div class="variant-stats">
+      <div class="variant-stat"><div class="variant-stat-label">Enzyme Activity</div><div class="variant-stat-value">~65% (heterozygous)</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Compound</div><div class="variant-stat-value">C677T + A1298C = ~50%</div></div>
+      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">Methylfolate 800mcg daily</div></div>
+    </div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">MTHFR A1298C &mdash; Folate Metabolism</div><div class="variant-badge badge-yellow">Carrier</div></div>
+    <div class="variant-geno">rs1801131 = GT &middot; Heterozygous carrier</div>
+    <div class="variant-desc"><b>Second MTHFR variant.</b> A1298C alone is milder than C677T, but compound heterozygosity (having one copy of each) reduces total MTHFR function to approximately 50%. This is why methylfolate + methylcobalamin are in the daily supplement stack. Homocysteine monitoring recommended quarterly. Quinn inherited this compound pattern.</div>
+  </div>
+
+  <div class="section-title" style="color:#6db87d">Cleared &mdash; No Carrier Status (22 Diseases)</div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">Cystic Fibrosis (CFTR &Delta;F508)</div><div class="variant-badge badge-green">Clear</div></div>
+    <div class="variant-geno">rs75039782 / rs113993960 = Wild type</div>
+    <div class="variant-desc">Not a carrier. CFTR &Delta;F508 is the most common CF mutation (~70% of CF alleles in Northern Europeans). Chad is homozygous wild type &mdash; cannot pass CF to children via this variant.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">HFE C282Y &mdash; Hemochromatosis (Major)</div><div class="variant-badge badge-green">Clear</div></div>
+    <div class="variant-geno">rs1800562 = GG &middot; Wild type</div>
+    <div class="variant-desc">Not a carrier of the major hemochromatosis allele. Combined with H63D carrier status, this means no risk of compound C282Y/H63D hemochromatosis. H63D alone very rarely causes clinical iron overload.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">Factor V Leiden</div><div class="variant-badge badge-green">Clear</div></div>
+    <div class="variant-geno">rs6025 = CC &middot; Wild type</div>
+    <div class="variant-desc">No Factor V Leiden. Normal clotting function at this locus. Both parents CC &mdash; children 100% cleared.</div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-header"><div class="variant-name">19 Additional Diseases &mdash; All Clear</div><div class="variant-badge badge-green">Clear</div></div>
+    <div class="variant-desc">
+      <b>No carrier status detected for:</b> Sickle Cell (HBB rs334), Alpha-1 Antitrypsin Deficiency (SERPINA1), PKU (PAH), Gaucher (GBA), Tay-Sachs (HEXA), Canavan (ASPA), Familial Dysautonomia (IKBKAP), Fanconi Anemia (FANCA), Bloom Syndrome (BLM), Niemann-Pick (SMPD1), Mucolipidosis IV (MCOLN1), Glycogen Storage Disease 1a (G6PC), Maple Syrup Urine Disease (BCKDHA), Medium-chain acyl-CoA dehydrogenase deficiency (ACADM), Galactosemia (GALT), Biotinidase deficiency (BTD), Prothrombin G20210A (F2), MEFV Mediterranean Fever, Wilson Disease (ATP7B).<br><br>
+      <b>Note:</b> 23andMe tests specific common variants, not the entire gene. Rare pathogenic variants in these genes would require clinical-grade sequencing (panel or WGS) to rule out completely.
+    </div>
+  </div>
+
+  <div class="section-title">Reproductive Relevance</div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">Partner Screening Implications</div><div class="variant-badge badge-yellow">Advisory</div></div>
+    <div class="variant-desc">As a confirmed carrier of HFE H63D and compound MTHFR, any future reproductive partner should be screened for HFE C282Y (which would create compound heterozygote risk in offspring) and MTHFR C677T (which would create TT homozygote risk). Both parents carrying MTHFR compound has already been confirmed with Brigitte &mdash; Quinn's MTHFR status is compound heterozygous as predicted. All children should supplement with methylfolate.</div>
+  </div>
+</div>
+
+<!-- ═══════════════ UPLOAD & COMPARE PAGE ═══════════════ -->
+<div class="page" id="page-upload">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128228; Upload &amp; Compare Genomes</h2>
+  </div>
+
+  <div class="section-title">Upload 23andMe Raw Data</div>
+  <div class="variant" style="border-left:3px solid #60a5fa">
+    <div class="variant-header"><div class="variant-name">Client-Side Genome Parser</div><div class="variant-badge badge-green">Private</div></div>
+    <div class="variant-desc">Your data never leaves your device. All parsing happens in the browser using JavaScript. Upload a 23andMe raw data .txt file to extract SNPs, count variants, and check key clinical loci.</div>
+  </div>
+
+  <div style="margin:16px 0">
+    <label style="display:block;font-size:.72rem;color:#C49A6C;margin-bottom:6px;font-weight:600">GENOME FILE 1</label>
+    <input type="file" id="file1" accept=".txt,.csv,.zip" style="font-size:.75rem;color:#b0a090;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.2);border-radius:8px;padding:10px;width:100%;cursor:pointer">
+    <div id="file1-status" style="font-size:.68rem;color:rgba(196,154,108,.4);margin-top:4px"></div>
+  </div>
+
+  <div style="margin:16px 0">
+    <label style="display:block;font-size:.72rem;color:#C49A6C;margin-bottom:6px;font-weight:600">GENOME FILE 2 (Optional &mdash; for comparison)</label>
+    <input type="file" id="file2" accept=".txt,.csv,.zip" style="font-size:.75rem;color:#b0a090;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.2);border-radius:8px;padding:10px;width:100%;cursor:pointer">
+    <div id="file2-status" style="font-size:.68rem;color:rgba(196,154,108,.4);margin-top:4px"></div>
+  </div>
+
+  <button onclick="parseGenomes()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;padding:10px 28px;border-radius:8px;cursor:pointer;transition:all .2s;width:100%" onmouseover="this.style.background='rgba(165,28,48,.35)'" onmouseout="this.style.background='rgba(165,28,48,.2)'">Analyze Genome(s)</button>
+
+  <div id="upload-results" style="margin-top:20px"></div>
+
+  <div class="section-title">Key Clinical Loci Checked</div>
+  <div class="variant">
+    <div class="variant-desc" style="font-size:.72rem;line-height:1.8">
+      <b>Cardiovascular:</b> 9p21 (rs10757278, rs1333049, rs4977574), PITX2 (rs2200733), PCSK9 (rs11206510), Factor V (rs6025)<br>
+      <b>Alzheimer's:</b> APOE (rs429358, rs7412)<br>
+      <b>Cancer:</b> MC1R (rs1805007, rs1805008, rs1110400, rs11547464), BRCA-associated, FGFR2 (rs2981582)<br>
+      <b>Pharmacogenomics:</b> CYP2C9*2 (rs1799853), CYP2C9*3 (rs1057910), CYP2C19*2 (rs4244285), CYP1A2 (rs762551), DPYD (rs3918290), TPMT (rs1800460)<br>
+      <b>Immune:</b> HLA-B*51 associated, CTLA4 (rs231775), TNF-alpha (rs1800629), IL-6 (rs1800795)<br>
+      <b>Nutrition:</b> FUT2 (rs601338), MTHFR (rs1801133, rs1801131), VDR (rs1544410), LCT (rs4988235)<br>
+      <b>Carrier:</b> CFTR, HFE (rs1800562, rs1799945), HBB (rs334)
+    </div>
+  </div>
+
+  <div id="comparison-results" style="margin-top:20px"></div>
+</div>
+
+<footer>Byars Family Health &middot; Portland, Oregon &middot; 614,452 SNPs &middot; 900+ Analyzed</footer>
 
 </div>
 
@@ -1194,6 +1481,139 @@ function updateCalc(){
   document.getElementById('ad-mod').innerHTML='Alzheimer\'s risk: <b style="color:'+(adScore<50?'#6db87d':'#C49A6C')+'">~'+adRed+'% reduction</b> from exercise';
   document.getElementById('af-mod').innerHTML='AFib trigger risk: <b style="color:'+(afScore>50?'#d4838f':'#6db87d')+'">'+(al<=3?'Low — within safe threshold':'ELEVATED — above multiplicative threshold')+'</b>';
   document.getElementById('ba-mod').innerHTML='Biological age acceleration: <b style="color:'+(bioAge<=0?'#6db87d':bioAge<=1.5?'#C49A6C':'#d4838f')+'">'+bioAge+' years</b> '+(bioAge<=0?'BELOW chronological — younger than your age':'above chronological');
+}
+
+// ═══════════════ GENOME UPLOAD & PARSER ═══════════════
+const CLINICAL_LOCI={
+  rs429358:{name:'APOE ε4',cat:'Alzheimer\'s'},rs7412:{name:'APOE ε4',cat:'Alzheimer\'s'},
+  rs10757278:{name:'9p21 CAD #1',cat:'Heart'},rs1333049:{name:'9p21 CAD #2',cat:'Heart'},rs4977574:{name:'9p21 CAD #3',cat:'Heart'},
+  rs2200733:{name:'PITX2 AFib',cat:'Heart'},rs11206510:{name:'PCSK9',cat:'Heart'},rs6025:{name:'Factor V Leiden',cat:'Clotting'},
+  rs1805007:{name:'MC1R R151C',cat:'Melanoma'},rs1805008:{name:'MC1R R160W',cat:'Melanoma'},rs1110400:{name:'MC1R D84E',cat:'Melanoma'},rs11547464:{name:'MC1R R142H',cat:'Melanoma'},
+  rs1799853:{name:'CYP2C9*2',cat:'Drug'},rs1057910:{name:'CYP2C9*3',cat:'Drug'},rs4244285:{name:'CYP2C19*2',cat:'Drug'},rs762551:{name:'CYP1A2 Caffeine',cat:'Drug'},rs3918290:{name:'DPYD 5-FU',cat:'Drug'},rs1800460:{name:'TPMT',cat:'Drug'},
+  rs231775:{name:'CTLA4',cat:'Immune'},rs1800629:{name:'TNF-α',cat:'Immune'},rs1800795:{name:'IL-6',cat:'Immune'},
+  rs601338:{name:'FUT2 Secretor',cat:'Nutrition'},rs1801133:{name:'MTHFR C677T',cat:'Carrier'},rs1801131:{name:'MTHFR A1298C',cat:'Carrier'},
+  rs1544410:{name:'VDR BsmI',cat:'Nutrition'},rs4988235:{name:'LCT Lactase',cat:'Nutrition'},
+  rs1800562:{name:'HFE C282Y',cat:'Carrier'},rs1799945:{name:'HFE H63D',cat:'Carrier'},
+  rs334:{name:'HBB Sickle Cell',cat:'Carrier'},rs2981582:{name:'FGFR2 Breast',cat:'Cancer'},
+  rs12913832:{name:'HERC2 Eye Color',cat:'Trait'},rs1800407:{name:'OCA2 Eye Color',cat:'Trait'}
+};
+
+function parse23andMe(text){
+  const lines=text.split('\n');
+  const snps={};let total=0,het=0,mt=0,y=0;
+  for(const line of lines){
+    if(line.startsWith('#')||!line.trim())continue;
+    const parts=line.split('\t');
+    if(parts.length<4)continue;
+    const rsid=parts[0],chr=parts[1],pos=parts[2],geno=parts[3].trim();
+    if(!geno||geno==='--'||geno==='II'||geno==='DD'||geno==='DI')continue;
+    total++;
+    snps[rsid]={chr,pos,geno};
+    if(geno.length===2&&geno[0]!==geno[1])het++;
+    if(chr==='MT')mt++;
+    if(chr==='Y')y++;
+  }
+  return {snps,total,het,mt,y};
+}
+
+function parseGenomes(){
+  const f1=document.getElementById('file1').files[0];
+  if(!f1){document.getElementById('upload-results').innerHTML='<div class="variant" style="border-left:3px solid #d4838f"><div class="variant-desc" style="color:#d4838f">Please select at least one genome file.</div></div>';return;}
+  const reader1=new FileReader();
+  reader1.onload=function(e){
+    const data1=parse23andMe(e.target.result);
+    let html=renderGenomeResult(f1.name,data1);
+    const f2=document.getElementById('file2').files[0];
+    if(f2){
+      const reader2=new FileReader();
+      reader2.onload=function(e2){
+        const data2=parse23andMe(e2.target.result);
+        html+=renderGenomeResult(f2.name,data2);
+        html+=renderComparison(f1.name,data1,f2.name,data2);
+        document.getElementById('upload-results').innerHTML=html;
+      };
+      reader2.readAsText(f2);
+    }else{
+      document.getElementById('upload-results').innerHTML=html;
+    }
+  };
+  reader1.readAsText(f1);
+}
+
+function renderGenomeResult(name,data){
+  let html='<div class="section-title">'+name+'</div>';
+  html+='<div class="stats-banner"><div class="stat-pill"><b>'+data.total.toLocaleString()+'</b> SNPs</div><div class="stat-pill"><b>'+data.het.toLocaleString()+'</b> Heterozygous</div><div class="stat-pill"><b>'+data.mt.toLocaleString()+'</b> MT</div><div class="stat-pill"><b>'+data.y.toLocaleString()+'</b> Y-chr</div></div>';
+  html+='<div class="variant" style="border-left:3px solid #60a5fa"><div class="variant-header"><div class="variant-name">Clinical Loci Report</div><div class="variant-badge badge-green">'+Object.keys(CLINICAL_LOCI).filter(r=>data.snps[r]).length+' Found</div></div><div class="variant-desc" style="font-size:.72rem;line-height:2">';
+  const cats={};
+  for(const[rsid,info]of Object.entries(CLINICAL_LOCI)){
+    if(!cats[info.cat])cats[info.cat]=[];
+    const snp=data.snps[rsid];
+    cats[info.cat].push({rsid,name:info.name,geno:snp?snp.geno:'Not on chip'});
+  }
+  for(const[cat,items]of Object.entries(cats)){
+    html+='<b style="color:#C49A6C">'+cat+':</b><br>';
+    for(const it of items){
+      const clr=it.geno==='Not on chip'?'rgba(196,154,108,.3)':it.geno.length===2&&it.geno[0]!==it.geno[1]?'#C49A6C':'#6db87d';
+      html+='&nbsp;&nbsp;'+it.name+' ('+it.rsid+'): <span style="color:'+clr+';font-family:monospace">'+it.geno+'</span><br>';
+    }
+  }
+  html+='</div></div>';
+  return html;
+}
+
+function renderComparison(n1,d1,n2,d2){
+  let html='<div class="section-title" style="color:#A51C30">Genome Comparison</div>';
+  // Shared clinical loci
+  let shared=0,diff=0,only1=0,only2=0;
+  const rows=[];
+  for(const rsid of Object.keys(CLINICAL_LOCI)){
+    const s1=d1.snps[rsid],s2=d2.snps[rsid];
+    if(s1&&s2){
+      shared++;
+      if(s1.geno!==s2.geno){diff++;rows.push({rsid,name:CLINICAL_LOCI[rsid].name,g1:s1.geno,g2:s2.geno});}
+    }else if(s1)only1++;
+    else if(s2)only2++;
+  }
+  html+='<div class="stats-banner"><div class="stat-pill"><b>'+shared+'</b> Shared Loci</div><div class="stat-pill"><b>'+diff+'</b> Different</div><div class="stat-pill"><b>'+(shared-diff)+'</b> Identical</div></div>';
+  if(rows.length){
+    html+='<div class="variant" style="border-left:3px solid #A51C30"><div class="variant-header"><div class="variant-name">Differing Clinical Variants</div><div class="variant-badge badge-red">'+diff+' Differences</div></div><div class="variant-desc" style="font-size:.72rem;line-height:2">';
+    html+='<table style="width:100%;font-size:.72rem;color:#c4b4a4;border-collapse:collapse"><tr><th style="text-align:left;padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">Variant</th><th style="padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">'+n1+'</th><th style="padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">'+n2+'</th></tr>';
+    for(const r of rows){
+      html+='<tr><td style="padding:4px 8px;border-bottom:1px solid rgba(196,154,108,.06)">'+r.name+' ('+r.rsid+')</td><td style="padding:4px 8px;text-align:center;font-family:monospace;border-bottom:1px solid rgba(196,154,108,.06)">'+r.g1+'</td><td style="padding:4px 8px;text-align:center;font-family:monospace;border-bottom:1px solid rgba(196,154,108,.06)">'+r.g2+'</td></tr>';
+    }
+    html+='</table></div></div>';
+  }
+  // Both-heterozygous count (bilateral)
+  let bilateral=0;
+  for(const rsid in d1.snps){
+    const s1=d1.snps[rsid],s2=d2.snps[rsid];
+    if(s1&&s2&&s1.geno.length===2&&s1.geno[0]!==s1.geno[1]&&s2.geno.length===2&&s2.geno[0]!==s2.geno[1])bilateral++;
+  }
+  html+='<div class="variant"><div class="variant-header"><div class="variant-name">Bilateral Heterozygous Variants</div><div class="variant-badge badge-yellow">'+bilateral.toLocaleString()+'</div></div><div class="variant-desc">Variants where BOTH genomes are heterozygous. Each child has a 75% chance of carrying at least one risk allele at these loci and a 25% chance of being homozygous for the variant allele.</div></div>';
+  return html;
+}
+
+// ═══════════════ PDF EXPORT ═══════════════
+function exportPDF(){
+  const style=document.createElement('style');
+  style.id='print-css';
+  style.textContent=`@media print{
+    .topnav,.back,button,input[type=file],.stats-banner{display:none!important}
+    body{background:#fff!important;color:#222!important;font-size:11pt}
+    .container{max-width:100%;padding:0}
+    .page{display:block!important;page-break-after:always}
+    .page:last-child{page-break-after:avoid}
+    .variant,.card,.stat-box{background:#f9f7f5!important;border-color:#ccc!important;color:#222!important}
+    .variant-name,.card-name,.card-title,.section-title,.cat-name,h1,h2{color:#333!important}
+    .variant-desc,.card-body,.cat-desc{color:#555!important}
+    .variant-geno{color:#888!important}
+    .cat-grid{grid-template-columns:repeat(3,1fr)!important}
+    footer{display:block!important;color:#aaa!important}
+    a{color:#A51C30!important}
+  }`;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(()=>document.getElementById('print-css')?.remove(),2000);
 }
 </script>
 
