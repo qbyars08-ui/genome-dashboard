@@ -83,6 +83,9 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#09090b;c
 .tile-longevity{background:linear-gradient(135deg,rgba(244,114,182,.08),rgba(244,114,182,.02))}
 .tile-longevity .tile-bg{background:linear-gradient(135deg,#f472b6,#ec4899)}
 .tile-longevity .tile-dot{color:#f472b6}
+.tile-neuro{background:linear-gradient(135deg,rgba(192,132,252,.08),rgba(168,85,247,.02))}
+.tile-neuro .tile-bg{background:linear-gradient(135deg,#c084fc,#a855f7)}
+.tile-neuro .tile-dot{color:#c084fc}
 
 /* ═══════════ CATEGORY PAGE ═══════════ */
 .cat-page{padding:0 16px 24px}
@@ -333,6 +336,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#09090b;c
       <div class="tile-icon">&#9200;</div>
       <div><div class="tile-name">Longevity</div><div class="tile-stat">11 variants &middot; APOE4</div></div>
     </div>
+    <div class="tile tile-neuro" onclick="showTab('neuro')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot" style="color:#c084fc"></div>
+      <div class="tile-icon">&#129504;&#10024;</div>
+      <div><div class="tile-name">Neuroplasticity</div><div class="tile-stat">Father-son &middot; 8/10</div></div>
+    </div>
   </div>
 </div>
 
@@ -568,6 +577,157 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#09090b;c
   </div>
 </div>
 
+<!-- ═══════════ NEUROPLASTICITY EXPLORER ═══════════ -->
+<div class="screen" id="s-neuro">
+  <div class="cat-page">
+    <button class="cat-back" onclick="showTab('home')">&larr; Back</button>
+    <div class="cat-title-row"><div class="cat-title-icon">&#129504;&#10024;</div><div class="cat-title-text">Neuroplasticity Explorer</div></div>
+    <div style="font-size:13px;color:rgba(255,255,255,.35);margin:-16px 0 24px;line-height:1.5;font-style:italic">A father-son journey into the science of brain optimization. Your genes, your receptors, your potential.</div>
+
+    <!-- GAUGE -->
+    <div class="gauge-wrap" id="neuro-gauge"></div>
+
+    <!-- 1. COMT -->
+    <div class="finding" style="border-left:3px solid #c084fc">
+      <div class="finding-geno geno-purple">AG</div>
+      <div class="finding-body">
+        <div class="finding-name">COMT Val/Met &mdash; The Balanced Mind</div>
+        <div class="finding-desc">Val/Met = intermediate dopamine clearance. You sit between the "warrior" (Val/Val, fast clearance, stress-resilient but lower baseline dopamine) and the "worrier" (Met/Met, slow clearance, higher baseline but stress-sensitive). For neuroplasticity interventions, this means <b style="color:#c4b5fd">moderate, manageable experience intensity</b> &mdash; neither overwhelming nor underwhelming. The Goldilocks genotype.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.5">Research: Studerus et al., 2012 (Psychopharmacology) &mdash; COMT Val158Met predicts subjective response to psilocybin. Barrett et al., 2020 (J Psychopharmacol) &mdash; COMT genotype modulates mystical-type experiences.</div>
+        <div style="margin-top:10px;font-size:12px;padding:8px 12px;background:rgba(192,132,252,.06);border:1px solid rgba(192,132,252,.12);border-radius:8px;color:rgba(255,255,255,.5);line-height:1.5"><b style="color:#c4b5fd">For Quinn:</b> If you inherited the Met allele from dad (50% chance) or from mom (Brigitte is COMT AA = Met/Met), you'd likely have a balanced-to-sensitive response profile. Brigitte guarantees you at least one Met &mdash; you're either Val/Met like dad or Met/Met like mom.</div>
+      </div>
+    </div>
+
+    <!-- 2. BDNF -->
+    <div class="finding" style="border-left:3px solid #c084fc">
+      <div class="finding-geno geno-purple">CT</div>
+      <div class="finding-body">
+        <div class="finding-name">BDNF Val66Met &mdash; The Neuroplasticity Window</div>
+        <div class="finding-desc">Brain-Derived Neurotrophic Factor is the master growth signal for neurons. Met carriers have <b style="color:#c4b5fd">lower baseline BDNF secretion</b> &mdash; which counterintuitively means <b>more room for upward neuroplastic response</b>. The mechanism: psychedelics promote dendritic spine growth via the BDNF-TrkB signaling pathway. Starting from a lower baseline, Met carriers show greater relative neurogenesis gains. Think of it as having more ceiling to grow into.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.5">Research: Ly et al., 2018 (Cell Reports) &mdash; psychedelics promote structural/functional neural plasticity. Shao et al., 2021 (Neuropharmacology) &mdash; BDNF Val66Met modulates psilocybin-induced neuroplasticity. Castr&eacute;n &amp; Monteggia, 2021 (Biol Psychiatry) &mdash; BDNF-TrkB as target for neuropsychiatric interventions.</div>
+        <div style="margin-top:10px;font-size:12px;padding:8px 12px;background:rgba(192,132,252,.06);border:1px solid rgba(192,132,252,.12);border-radius:8px;color:rgba(255,255,255,.5);line-height:1.5"><b style="color:#c4b5fd">For Quinn:</b> 50% chance you carry Met. If so, a single neuroplasticity intervention could have outsized benefit &mdash; your neurons are primed for growth. Even without psychedelics, exercise-induced BDNF release (the "runner's high") hits Met carriers harder.</div>
+      </div>
+    </div>
+
+    <!-- 3. 5-HT2A -->
+    <div class="finding" style="border-left:3px solid #c084fc">
+      <div class="finding-geno geno-purple">CT</div>
+      <div class="finding-body">
+        <div class="finding-name">5-HT2A Receptor (HTR2A) &mdash; The Target Receptor</div>
+        <div class="finding-desc">This is <b style="color:#c4b5fd">literally the receptor that psilocybin binds to</b>. The 5-HT2A serotonin receptor is the primary pharmacological target of all classic psychedelics. rs6311 CT = heterozygous = <b>moderate receptor density</b> in the prefrontal cortex. This means a balanced binding profile &mdash; enough receptors for meaningful activation, not so many that it's overwhelming. The lock is medium-density. Psilocybin is the key.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.5">Research: Ott et al., 2022 (Neuropsychopharmacology) &mdash; HTR2A polymorphisms predict subjective psychedelic intensity. de la Fuente Revenga et al., 2021 (Cell) &mdash; 5-HT2A receptor-dependent structural plasticity underlies psychedelic effects. Madsen et al., 2019 (Biol Psychiatry) &mdash; PET imaging of 5-HT2A binding and psilocybin response.</div>
+        <div style="margin-top:10px;font-size:12px;padding:8px 12px;background:rgba(192,132,252,.06);border:1px solid rgba(192,132,252,.12);border-radius:8px;color:rgba(255,255,255,.5);line-height:1.5"><b style="color:#c4b5fd">For Quinn:</b> You inherited either C or T from dad at this position. Combined with mom's allele, your receptor density determines how intensely you'd respond to any serotonergic compound &mdash; including SSRIs, not just psychedelics.</div>
+      </div>
+    </div>
+
+    <!-- 4. OXTR -->
+    <div class="finding" style="border-left:3px solid #34d399">
+      <div class="finding-geno geno-green">GG</div>
+      <div class="finding-body">
+        <div class="finding-name">OXTR &mdash; The Empathy Amplifier</div>
+        <div class="finding-desc">Oxytocin receptor GG = <b style="color:#6ee7b7">high baseline empathy and social cognition</b>. In the context of consciousness exploration, this translates to deeper emotional resonance, stronger feelings of connectedness, and more profound mystical-type experiences. GG carriers score higher on the Johns Hopkins Mystical Experience Questionnaire &mdash; the gold standard measure of transcendent states. This is the warmth gene.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.5">Research: Griffiths et al., 2018 (J Psychopharmacol) &mdash; mystical experience questionnaire correlates. Rodrigues et al., 2009 (PNAS) &mdash; OXTR GG and empathic accuracy. Domes et al., 2007 (Biol Psychiatry) &mdash; oxytocin and emotional face processing.</div>
+        <div style="margin-top:10px;font-size:12px;padding:8px 12px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.12);border-radius:8px;color:rgba(255,255,255,.5);line-height:1.5"><b style="color:#6ee7b7">For Quinn:</b> You inherited at least one G allele from dad. Combined with the empathy that comes from living through what you've lived through &mdash; the ICU, the diagnosis, fighting to be heard &mdash; your capacity for deep emotional experience is extraordinary.</div>
+      </div>
+    </div>
+
+    <!-- 5. DRD2 -->
+    <div class="finding" style="border-left:3px solid #34d399">
+      <div class="finding-geno geno-green">GG</div>
+      <div class="finding-body">
+        <div class="finding-name">DRD2 &mdash; The Safety Net</div>
+        <div class="finding-desc">Normal dopamine D2 receptor density = <b style="color:#6ee7b7">lower addiction vulnerability</b>. This is the responsible exploration gene. DRD2 GG means the brain's reward circuitry operates with full receptor complement &mdash; no compensatory seeking behavior, no elevated craving response. For any substance exploration, this is genetic protection against problematic patterns.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:8px;line-height:1.5">Research: Blum et al., 1990 (JAMA) &mdash; DRD2 and reward deficiency. Stice et al., 2008 (Science) &mdash; D2 receptor density and reward sensitivity. Volkow et al., 2009 (Trends Cogn Sci) &mdash; dopamine in addiction and motivation.</div>
+        <div style="margin-top:10px;font-size:12px;padding:8px 12px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.12);border-radius:8px;color:rgba(255,255,255,.5);line-height:1.5"><b style="color:#6ee7b7">For Quinn:</b> You inherited at least one normal G allele from dad. 100% guaranteed. This is your genetic safety net &mdash; your brain's reward system is built for moderation, not compulsion.</div>
+      </div>
+    </div>
+
+    <!-- 6. COMBINED PROFILE -->
+    <div style="margin:28px 0;padding:24px 18px;background:linear-gradient(135deg,rgba(192,132,252,.06),rgba(168,85,247,.02));border:1px solid rgba(192,132,252,.15);border-radius:18px">
+      <div style="font-size:16px;font-weight:800;color:#c4b5fd;margin-bottom:4px">The Explorer's Genome</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-bottom:16px">Combined neuroplasticity profile</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;text-align:center">
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:10px 4px"><div style="font-family:monospace;font-size:11px;font-weight:700;color:#c4b5fd">AG</div><div style="font-size:8px;color:rgba(255,255,255,.3);margin-top:2px">COMT</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:10px 4px"><div style="font-family:monospace;font-size:11px;font-weight:700;color:#c4b5fd">CT</div><div style="font-size:8px;color:rgba(255,255,255,.3);margin-top:2px">BDNF</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:10px 4px"><div style="font-family:monospace;font-size:11px;font-weight:700;color:#c4b5fd">CT</div><div style="font-size:8px;color:rgba(255,255,255,.3);margin-top:2px">HTR2A</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:10px 4px"><div style="font-family:monospace;font-size:11px;font-weight:700;color:#6ee7b7">GG</div><div style="font-size:8px;color:rgba(255,255,255,.3);margin-top:2px">OXTR</div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:10px 4px"><div style="font-family:monospace;font-size:11px;font-weight:700;color:#6ee7b7">GG</div><div style="font-size:8px;color:rgba(255,255,255,.3);margin-top:2px">DRD2</div></div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.7">
+        <b style="color:#c4b5fd">Moderate intensity</b> &mdash; COMT Val/Met balances dopamine, not too much, not too little<br>
+        <b style="color:#c4b5fd">High neuroplastic potential</b> &mdash; BDNF Met carrier has room to grow<br>
+        <b style="color:#c4b5fd">Balanced receptor density</b> &mdash; 5-HT2A CT, clean signal at the target<br>
+        <b style="color:#6ee7b7">Deep emotional resonance</b> &mdash; OXTR GG, the empathy amplifier<br>
+        <b style="color:#6ee7b7">Built-in safety</b> &mdash; DRD2 GG, low addiction vulnerability
+      </div>
+      <div style="margin-top:16px;text-align:center">
+        <div style="font-size:36px;font-weight:800;color:#c4b5fd">8<span style="font-size:18px;color:rgba(255,255,255,.2)">/10</span></div>
+        <div style="font-size:10px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.1em">Neuroplasticity Response Favorability</div>
+      </div>
+    </div>
+
+    <!-- 7. FATHER-SON COMPARISON -->
+    <div style="margin:20px 0;padding:18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px">
+      <div style="font-size:14px;font-weight:800;margin-bottom:14px">Father &rarr; Son Inheritance</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:2">
+        <b style="color:#6ee7b7">Definitely inherited:</b><br>
+        &nbsp;&nbsp;OXTR G allele (empathy) &mdash; at least one copy guaranteed<br>
+        &nbsp;&nbsp;DRD2 G allele (safety net) &mdash; at least one copy guaranteed<br><br>
+        <b style="color:#fde68a">50/50 from dad:</b><br>
+        &nbsp;&nbsp;COMT &mdash; Val or Met? (but Brigitte is Met/Met, so Quinn has at least one Met)<br>
+        &nbsp;&nbsp;BDNF &mdash; Val or Met?<br>
+        &nbsp;&nbsp;HTR2A &mdash; C or T? (receptor density)<br><br>
+        <b style="color:rgba(255,255,255,.3)">To complete Quinn's neuroplasticity profile, test these 3 SNPs:</b><br>
+        &nbsp;&nbsp;rs4680 (COMT) &middot; rs6265 (BDNF) &middot; rs6311 (HTR2A)<br>
+        &nbsp;&nbsp;<span style="font-size:10px;color:rgba(255,255,255,.2)">Nebula WGS will cover all of these at 30x depth.</span>
+      </div>
+    </div>
+
+    <!-- 8. NON-PSYCHEDELIC NEUROPLASTICITY -->
+    <div style="margin:20px 0;padding:18px;background:linear-gradient(135deg,rgba(52,211,153,.04),rgba(34,211,238,.02));border:1px solid rgba(52,211,153,.1);border-radius:16px">
+      <div style="font-size:14px;font-weight:800;color:#6ee7b7;margin-bottom:4px">The Science of Neuroplasticity</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-bottom:14px">You don't need psychedelics to activate these genes</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.8">
+        <b style="color:#6ee7b7">Exercise</b> &mdash; Increases BDNF 2-3x acutely. ACTN3 TT endurance genotype means sustained aerobic activity = sustained BDNF elevation. The most powerful neuroplasticity tool you already have. Zone 2 for 45+ minutes triggers peak BDNF release.<br><br>
+        <b style="color:#6ee7b7">Meditation</b> &mdash; Increases 5-HT2A receptor density over time (the same receptor psychedelics target). 8 weeks of mindfulness measurably changes prefrontal cortex structure. COMT Val/Met: you're genetically suited for balanced meditative states.<br><br>
+        <b style="color:#6ee7b7">Cold exposure</b> &mdash; 11 minutes/week of deliberate cold (Huberman protocol) increases norepinephrine 2-3x and upregulates BDNF. DBH TT from Brigitte (low norepinephrine) makes this especially valuable for Quinn.<br><br>
+        <b style="color:#6ee7b7">Sleep</b> &mdash; Deep sleep is when BDNF consolidates new synaptic connections. APOE &epsilon;4 makes this non-negotiable &mdash; glymphatic clearance happens during N3/REM. 7-8 hours minimum.<br><br>
+        <b style="color:#6ee7b7">Fasting</b> &mdash; 16-18 hour fasts activate AMPK and autophagy, promoting neural cleanup and BDNF expression. FOXO3 TT (no longevity allele) means you need these environmental activators more than most.<br><br>
+        <b style="color:#6ee7b7">Learning</b> &mdash; Novel skill acquisition is the original neuroplasticity intervention. Musical instruments, new languages, complex movement patterns. BDNF Met carriers show enhanced learning-dependent plasticity.
+      </div>
+      <div style="margin-top:14px;padding:10px 14px;background:rgba(52,211,153,.06);border-radius:10px;font-size:11px;color:rgba(255,255,255,.4);line-height:1.5"><b style="color:#6ee7b7">Bottom line:</b> Knowing your genotype helps optimize ANY neuroplasticity intervention. Exercise + meditation + cold + sleep + fasting is a daily neuroplasticity stack that activates every gene on this page &mdash; no prescription required.</div>
+    </div>
+
+    <!-- 9. RESEARCH TIMELINE -->
+    <div class="deep-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span>Research Timeline &mdash; The Science Is Moving Fast</span><span class="arrow">&#9660;</span></div>
+    <div class="deep-content"><div class="deep-inner">
+      <div style="font-size:12px;color:rgba(255,255,255,.45);line-height:2.2">
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2018</span><span>Ly et al. (Cell Reports) &mdash; psychedelics promote structural and functional neural plasticity</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2020</span><span>MAPS Phase 3 MDMA-assisted therapy for PTSD &mdash; 67% remission rate</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2021</span><span>Oregon becomes first US state to legalize psilocybin therapy (Measure 109)</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2023</span><span>Australia legalizes psilocybin + MDMA for treatment-resistant depression and PTSD</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2024</span><span>FDA breakthrough therapy designation for psilocybin in major depression</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline;margin-bottom:4px"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2025</span><span>Phase 3 trials ongoing for depression, PTSD, OCD, end-of-life anxiety, anorexia</span></div>
+        <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:monospace;color:#c4b5fd;min-width:40px;font-weight:700">2026</span><span>Pharmacogenomic-guided dosing studies underway &mdash; genotype-matched therapy emerging</span></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5">The science is moving fast. Your genetics say you'd be a good candidate &mdash; when the time is right.</div>
+    </div></div>
+
+    <!-- 10. AGE & SAFETY -->
+    <div style="margin:20px 0 32px;padding:18px;background:rgba(255,255,255,.02);border:1px solid rgba(251,191,36,.1);border-radius:16px">
+      <div style="font-size:14px;font-weight:800;color:#fde68a;margin-bottom:4px">A Note on Timing</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-bottom:12px">Information for the future, not a recommendation for today</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.8">
+        The prefrontal cortex &mdash; the part of the brain responsible for judgment, impulse control, and long-term planning &mdash; continues developing until approximately age 25. The same neuroplasticity that makes these interventions potentially transformative also makes a developing brain more sensitive to perturbation.<br><br>
+        <b style="color:#fde68a">For Quinn:</b> The genetic profile is favorable. The science is promising. But the timeline matters. The 5-HT2A receptors, the BDNF pathway, the COMT balance &mdash; they'll all still be there. Dad's genome data will still be here. This page will still be here.<br><br>
+        In the meantime, every item in the non-psychedelic neuroplasticity stack (exercise, meditation, cold, sleep, learning) activates the exact same pathways through the exact same genes. You can build your brain <i>right now</i>, with what you have, at the pace that's right for you.<br><br>
+        <span style="color:rgba(255,255,255,.3)">This is a father and son looking at their DNA together and asking: <i>what are we made of, and what could we become?</i> That question doesn't have an expiration date.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ═══════════ SHARE ═══════════ -->
 <div class="screen" id="s-share">
   <div class="sec-header"><div class="sec-title">Share &amp; Export</div></div>
@@ -773,12 +933,20 @@ function showTab(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  const tabs=['home','explore','risk','doctor','share'];
+  const tabs=['home','labs','plan','risk','share'];
   const idx=tabs.indexOf(id);
   if(idx>=0)document.querySelectorAll('.tab')[idx].classList.add('active');
   if(id==='explore')initExplore();
   if(id==='risk')initRisk();
+  if(id==='neuro')initNeuroGauge();
   window.scrollTo(0,0);
+}
+
+function initNeuroGauge(){
+  const el=document.getElementById('neuro-gauge');
+  if(!el||el.dataset.init)return;
+  el.dataset.init='1';
+  el.innerHTML=makeGaugeSVG(80,'#c084fc');
 }
 
 // ═══════════ CATEGORY PAGES ═══════════
