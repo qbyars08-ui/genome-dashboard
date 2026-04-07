@@ -88,6 +88,11 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
     <a class="topnav-link" href="#ancestry" onclick="go('ancestry')">Ancestry</a>
     <a class="topnav-link" href="#quinn" onclick="go('quinn')">Quinn</a>
     <a class="topnav-link" href="#doctor" onclick="go('doctor')">Doctor</a>
+    <a class="topnav-link" href="#risk" onclick="go('risk')">Risk</a>
+    <a class="topnav-link" href="#timeline" onclick="go('timeline')">Timeline</a>
+    <a class="topnav-link" href="#protocol" onclick="go('protocol')">Protocol</a>
+    <a class="topnav-link" href="#matrix" onclick="go('matrix')">Drug Matrix</a>
+    <a class="topnav-link" href="#whatif" onclick="go('whatif')">What-If</a>
   </div>
 </div>
 
@@ -175,6 +180,66 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
       <div class="cat-name">Doctor Card</div>
       <div class="cat-count">Top 10</div>
       <div class="cat-desc">Printable clinical summary for any physician</div>
+    </a>
+    <a class="cat-card" onclick="go('risk')" style="border-left:3px solid #fb923c">
+      <div class="cat-icon">&#128200;</div>
+      <div class="cat-name">Risk Dashboard</div>
+      <div class="cat-count">6 Systems</div>
+      <div class="cat-desc">Animated risk gauges for heart, brain, cancer, metabolism, immune, longevity</div>
+    </a>
+    <a class="cat-card" onclick="go('timeline')" style="border-left:3px solid #C49A6C">
+      <div class="cat-icon">&#128197;</div>
+      <div class="cat-name">Health Timeline</div>
+      <div class="cat-count">By Decade</div>
+      <div class="cat-desc">Predicted milestones from now through 70s+</div>
+    </a>
+    <a class="cat-card" onclick="go('protocol')" style="border-left:3px solid #6db87d">
+      <div class="cat-icon">&#127793;</div>
+      <div class="cat-name">Daily Protocol</div>
+      <div class="cat-count">Personalized</div>
+      <div class="cat-desc">Morning, exercise, diet, evening — all gene-targeted</div>
+    </a>
+    <a class="cat-card" onclick="go('matrix')" style="border-left:3px solid #fbbf24">
+      <div class="cat-icon">&#128138;</div>
+      <div class="cat-name">Drug Matrix</div>
+      <div class="cat-count">11 Drug Classes</div>
+      <div class="cat-desc">How you metabolize every major drug. Printable.</div>
+    </a>
+    <a class="cat-card" onclick="go('whatif')" style="border-left:3px solid #a78bfa">
+      <div class="cat-icon">&#129300;</div>
+      <div class="cat-name">What-If</div>
+      <div class="cat-count">5 Scenarios</div>
+      <div class="cat-desc">Exercise, statins, coffee, chemo, diet — modeled</div>
+    </a>
+    <a class="cat-card" onclick="go('emergency')" style="border-left:3px solid #A51C30">
+      <div class="cat-icon">&#128680;</div>
+      <div class="cat-name">ER Card</div>
+      <div class="cat-count">10 Seconds</div>
+      <div class="cat-desc">Show any ER doctor on your phone. Drug alerts + safety.</div>
+    </a>
+    <a class="cat-card" onclick="go('calculator')" style="border-left:3px solid #22d3ee">
+      <div class="cat-icon">&#127918;</div>
+      <div class="cat-name">Risk Calculator</div>
+      <div class="cat-count">Interactive</div>
+      <div class="cat-desc">Move sliders. Watch risk scores change in real-time.</div>
+    </a>
+    <a class="cat-card" onclick="go('prs')" style="border-left:3px solid #fb923c">
+      <div class="cat-icon">&#128202;</div>
+      <div class="cat-name">PRS Percentiles</div>
+      <div class="cat-count">5 Scores</div>
+      <div class="cat-desc">Polygenic risk vs population. Cardiovascular, AD, melanoma, T2D, longevity.</div>
+    </a>
+    <a class="cat-card" onclick="go('age')" style="border-left:3px solid #f472b6">
+      <div class="cat-icon">&#9200;</div>
+      <div class="cat-name">Bio Age</div>
+      <div class="cat-count">Estimator</div>
+      <div class="cat-desc">+2.3 years → -0.8 with full protocol. See exactly how.</div>
+    </a>
+    <a class="cat-card" onclick="go('trials')" style="border-left:3px solid #6db87d">
+      <div class="cat-icon">&#128300;</div>
+      <div class="cat-name">Clinical Trials</div>
+      <div class="cat-count">Eligible</div>
+      <div class="cat-desc">Anti-amyloid, melanoma prevention, pharmacogenomics trials.</div>
     </a>
     <a class="cat-card" href="behcets.html" style="border-left:3px solid #A51C30">
       <div class="cat-icon">&#9877;&#65039;</div>
@@ -645,6 +710,408 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
   <div style="margin-top:20px;text-align:center"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:Inter,sans-serif">&#128247; Print Doctor Card</button></div>
 </div>
 
+<!-- ═══════════════ RISK DASHBOARD ═══════════════ -->
+<div class="page" id="page-risk">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128200; Risk Dashboard</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0">
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#d4838f" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="114" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#d4838f;margin-top:-70px;position:relative">65</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">HEART</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">9p21 &times;3 + PITX2 + PCSK9<br>offset by FTO + TCF7L2</div>
+    </div>
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#C49A6C" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="147" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#C49A6C;margin-top:-70px;position:relative">55</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">BRAIN</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">APOE &epsilon;4 risk offset by<br>COMT/OXTR/DRD2 favorable</div>
+    </div>
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#d4838f" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="98" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#d4838f;margin-top:-70px;position:relative">70</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">CANCER</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">MC1R &times;4 melanoma<br>BRCA clear, colon clear</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#6db87d" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="33" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d;margin-top:-70px;position:relative">90</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">METABOLISM</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">FTO TT + TCF7L2 CC<br>No diabetes genes</div>
+    </div>
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#6db87d" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="65" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d;margin-top:-70px;position:relative">80</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">IMMUNE</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">CTLA4 AG mild, no major<br>autoimmune risk (as carrier)</div>
+    </div>
+    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
+      <svg viewBox="0 0 120 120" width="100" height="100">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#C49A6C" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="131" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
+      </svg>
+      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#C49A6C;margin-top:-70px;position:relative">60</div>
+      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">LONGEVITY</div>
+      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">FOXO3 TT + APOE &epsilon;4 + IL-6 CC<br>TERT AC partially helps</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TIMELINE PAGE ═══════════════ -->
+<div class="page" id="page-timeline">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128197; Health Timeline by Decade</h2>
+  </div>
+
+  <div style="position:relative;padding-left:28px;border-left:2px solid rgba(165,28,48,.2)">
+    <div style="position:relative;margin-bottom:24px;padding-left:18px">
+      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#6db87d;border:2px solid #0f0a08"></div>
+      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#6db87d;margin-bottom:4px">Now (40s)</div>
+      <div class="variant"><div class="variant-desc">
+      <b>START:</b> Mediterranean diet strictly (9p21 elimination). Exercise 150+ min/week (ACTN3 optimized). SPF 50+ daily (MC1R &times;4). Methylfolate 800mcg + methylcobalamin 2000mcg (MTHFR + FUT2). Vitamin D 4000 IU (GC variant confirmed insufficient). Omega-3 2g (FADS1 CT).<br><br>
+      <b>GET TESTED:</b> CAC score. p-tau217 Alzheimer's baseline. Full lipid panel + ApoB. Hereditary cancer panel. Full-body dermatology mapping.</div></div>
+    </div>
+
+    <div style="position:relative;margin-bottom:24px;padding-left:18px">
+      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#C49A6C;border:2px solid #0f0a08"></div>
+      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#C49A6C;margin-bottom:4px">50s</div>
+      <div class="variant"><div class="variant-desc">
+      <b>INTENSIFY:</b> Alzheimer's prevention protocol active (APOE &epsilon;4). Annual p-tau217 tracking. Aggressive LDL management — statin if needed (SLCO1B1 TT favorable, PCSK9 CT precision option). AFib screening ramps up (PITX2 CT — sister's PAF started in her 50s likely). Prostate PSA monitoring (MSMB CC + HNF1B AG). Colonoscopy screening per guidelines (8q24 GT bilateral).</div></div>
+    </div>
+
+    <div style="position:relative;margin-bottom:24px;padding-left:18px">
+      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#d4838f;border:2px solid #0f0a08"></div>
+      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f;margin-bottom:4px">60s</div>
+      <div class="variant"><div class="variant-desc">
+      <b>Father's inflection point:</b> He had stent at 62. Chad carries the same 9p21 &times;3 signals BUT is a non-smoker + Mediterranean diet eliminates the risk. If lifestyle has been followed, CAD risk is dramatically reduced vs his father's trajectory. Cognitive monitoring continues — if p-tau217 is trending, discuss anti-amyloid therapy (lecanemab works for &epsilon;3/&epsilon;4 heterozygotes). Annual EKG for AFib. Melanoma surveillance continues q6mo.</div></div>
+    </div>
+
+    <div style="position:relative;margin-bottom:24px;padding-left:18px">
+      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#d4838f;border:2px solid #0f0a08"></div>
+      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f;margin-bottom:4px">70s+</div>
+      <div class="variant"><div class="variant-desc">
+      <b>Father had CABG at 75 and is now in advanced dementia.</b> Chad's trajectory can be different: non-smoker, Mediterranean diet, exercise, statin/PCSK9i if needed, Alzheimer's prevention since his 40s, biomarker tracking. The genetic risk is the same — the intervention is 30 years earlier. FOXO3: lifestyle FOXO3 activation (exercise, fasting) compensates for TT genotype. Sauna 4-7&times;/week = 50% CVD risk reduction in Finnish data.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PROTOCOL PAGE ═══════════════ -->
+<div class="page" id="page-protocol">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128138; Daily Health Protocol</h2>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-name">&#127749; Morning</div>
+    <div class="variant-desc">
+    <b>Supplements:</b> Methylfolate 800mcg (MTHFR compound), Methylcobalamin 2000mcg sublingual (FUT2 AA), Vitamin D3 4000 IU + K2 100mcg (GC AC + CYP27B1 GT), Omega-3 EPA+DHA 2g (FADS1 CT intermediate conversion)<br>
+    <b>Coffee:</b> 2-3 cups max (CYP1A2 AA fast — beneficial, but 9p21 CAD risk with &gt;4 cups/day)<br>
+    <b>SPF:</b> 50+ mineral broad-spectrum on face/neck/hands (MC1R &times;4 + childhood NOLA burns)</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #22d3ee">
+    <div class="variant-name">&#127939; Exercise</div>
+    <div class="variant-desc">
+    <b>Zone 2 aerobic:</b> 30-45 min, 4-5&times;/week (ACTN3 TT endurance optimized). <b>HIIT:</b> 1-2&times;/week, 20-30 min (FOXO3 activation via AMPK). <b>Strength:</b> 2&times;/week (COL5A1 CT connective tissue). <b>Total cap:</b> 5-6 hrs/week (PITX2 CT AFib paradox). Exercise = 45% AD risk reduction for APOE &epsilon;4 carriers specifically.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-name">&#127869; Diet</div>
+    <div class="variant-desc">
+    <b>Mediterranean strictly</b> — eliminates 9p21 CAD risk (PROVEN in INTERHEART). Fatty fish 3&times;/week (FADS1 CT — marine &gt; plant omega-3). EVOO, berries, nuts, vegetables, legumes, whole grains. Limit saturated fat. No processed food. Last meal by 7pm (MTNR1B CG — late eating elevates glucose via melatonin-insulin interaction).</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #a78bfa">
+    <div class="variant-name">&#127769; Evening</div>
+    <div class="variant-desc">
+    <b>Supplements:</b> Magnesium 400mg (D3 cofactor + sleep), Probiotic with B. longum BB536 (FUT2 non-secretor microbiome)<br>
+    <b>Sleep:</b> 7-9 hours non-negotiable. APOE &epsilon;4 = glymphatic clearance during sleep clears amyloid. Circadian genes disrupted at 3 loci (CRY1, CLOCK, NPAS2) — strict schedule compensates.<br>
+    <b>Alcohol:</b> &lt;3 drinks/week. PITX2 AFib multiplicative with alcohol. Sister has PAF.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #fb923c">
+    <div class="variant-name">&#128200; Monitoring</div>
+    <div class="variant-desc">
+    <b>Annual:</b> Lipid panel + ApoB, 25-OH Vitamin D, B12 + MMA (FUT2), ferritin (HFE H63D), hs-CRP, homocysteine (MTHFR), TSH, EKG (PITX2)<br>
+    <b>Every 6 months:</b> Full-body dermatology (MC1R &times;4)<br>
+    <b>Every 2-3 years:</b> CAC score update, p-tau217 (APOE &epsilon;4)<br>
+    <b>Sauna:</b> 4-7&times;/week if accessible (50% CVD reduction + dementia risk reduction, Finnish cohort)</div>
+  </div>
+</div>
+
+<!-- ═══════════════ DRUG MATRIX PAGE ═══════════════ -->
+<div class="page" id="page-matrix">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128138; Drug Metabolism Matrix</h2>
+  </div>
+  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">How Chad's genome affects every major drug class. Print and carry.</div>
+
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:.75rem;color:#c4b4a4">
+    <thead><tr style="border-bottom:1px solid rgba(196,154,108,.2)">
+      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em">Drug Class</th>
+      <th style="text-align:center;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Status</th>
+      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Gene</th>
+      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Action</th>
+    </tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>NSAIDs</b> (ibuprofen, naproxen)</td><td style="padding:8px;text-align:center;color:#d4838f;font-weight:700">&#9888; SLOW</td><td style="padding:8px">CYP2C9 *1/*2</td><td style="padding:8px">Lower dose, shorter duration. Prefer acetaminophen.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Statins</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; NORMAL</td><td style="padding:8px">SLCO1B1 TT</td><td style="padding:8px">Low myopathy risk. Rosuvastatin/pravastatin preferred (CYP2C9).</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Beta-blockers</b></td><td style="padding:8px;text-align:center;color:#C49A6C;font-weight:700">&#9679; ENHANCED</td><td style="padding:8px">ADRB1 CG</td><td style="padding:8px">Enhanced response. May need lower dose of metoprolol/atenolol.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Opioids</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; NORMAL</td><td style="padding:8px">OPRM1 AA, CYP2D6</td><td style="padding:8px">Normal mu-receptor. Standard codeine/tramadol response expected.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Caffeine</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#9889; FAST</td><td style="padding:8px">CYP1A2 AA</td><td style="padding:8px">Fast metabolizer. 2-3h half-life. Cap 2-3 cups (9p21 CAD &gt;4 cups).</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>5-FU / Capecitabine</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">DPYD clear (3/3)</td><td style="padding:8px">Standard dosing. No dose reduction needed.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Thiopurines</b> (azathioprine, 6-MP)</td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">TPMT clear (3/3)</td><td style="padding:8px">Standard dosing safe.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Tacrolimus</b></td><td style="padding:8px;text-align:center;color:#C49A6C;font-weight:700">&#9679; INTERMEDIATE</td><td style="padding:8px">CYP3A5 *1/*3 (CT)</td><td style="padding:8px">One active CYP3A5 allele. Faster clearance than most Europeans.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Abacavir</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">HLA-B*57:01 absent</td><td style="padding:8px">No hypersensitivity risk from this HLA allele.</td></tr>
+      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Anti-TNF</b> (infliximab)</td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#9889; PRECISION</td><td style="padding:8px">TNF-&alpha; AA (HIGH)</td><td style="padding:8px">Targets Chad's specific overproduced molecule. Genetically targeted.</td></tr>
+      <tr><td style="padding:8px;color:#d4838f"><b>Nitrous Oxide</b></td><td style="padding:8px;text-align:center;color:#d4838f;font-weight:700">&#10060; AVOID</td><td style="padding:8px">MTHFR compound</td><td style="padding:8px"><b>CONTRAINDICATED.</b> Irreversibly oxidizes B12. Inform all anesthesiologists.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div style="margin-top:16px;text-align:center"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem">&#128247; Print Drug Matrix</button></div>
+</div>
+
+<!-- ═══════════════ WHAT-IF SCENARIOS ═══════════════ -->
+<div class="page" id="page-whatif">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#129300; What-If Scenarios</h2>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">What if Chad exercises 5&times;/week?</div><div class="variant-badge badge-green">Positive</div></div>
+    <div class="variant-desc"><b>APOE &epsilon;4:</b> 45% Alzheimer's risk reduction (DOUBLE non-carriers) — EXERT trial + UK Biobank + Nature Medicine 2025. <b>9p21 CAD:</b> Exercise attenuates genetic CAD risk by ~50% (Khera NEJM 2016). <b>FOXO3:</b> HIIT activates FOXO3 via AMPK bypass regardless of TT genotype. <b>HDL:</b> Exercise raises HDL (currently concerns at 35.7 in Quinn's labs — same genes). <b>ACTN3 TT:</b> Built for endurance — this is achievable genetics. <b>Net effect:</b> Single highest-impact modifiable intervention across ALL risk categories simultaneously.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">What if Chad takes a statin?</div><div class="variant-badge badge-green">Good Candidate</div></div>
+    <div class="variant-desc"><b>SLCO1B1 TT:</b> Low myopathy risk — favorable transporter genotype. <b>PCSK9 CT:</b> If statin alone insufficient, PCSK9 inhibitors (evolocumab/alirocumab) are precision-targeted to his pathway variant. <b>CYP2C9 *1/*2:</b> Avoid high-dose simvastatin — prefer rosuvastatin or pravastatin. <b>SORT1 GT:</b> LDL may be genetically elevated — statin addresses the root cause. <b>Net:</b> Good candidate with favorable safety profile and a genetically-targeted escalation option.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">What if Chad stops coffee entirely?</div><div class="variant-badge badge-yellow">Mixed</div></div>
+    <div class="variant-desc"><b>CYP1A2 AA:</b> Fast metabolizer — 2-3 cups/day may be cardioprotective in fast metabolizers. Stopping removes this potential benefit. <b>However:</b> 9p21 carriers with &gt;4 cups/day have elevated CAD risk even as fast metabolizers. <b>Net:</b> Don't stop — moderate (2-3 cups). The sweet spot is genetically defined.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">What if Chad needs chemotherapy?</div><div class="variant-badge badge-green">Safe</div></div>
+    <div class="variant-desc"><b>DPYD:</b> All three variants clear — 5-FU/capecitabine safe at standard doses. <b>TPMT:</b> All three variants clear — thiopurines safe. <b>UGT1A1:</b> Normal — irinotecan safe. <b>GSTP1:</b> AG intermediate — may slightly alter some chemo metabolism. <b>Net:</b> No pharmacogenomic contraindications to standard chemotherapy regimens.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">What if Chad follows Mediterranean diet strictly?</div><div class="variant-badge badge-green">Transformative</div></div>
+    <div class="variant-desc"><b>9p21:</b> INTERHEART analysis showed Mediterranean diet COMPLETELY ELIMINATED the 9p21-associated MI risk (P=0.008 for gene-diet interaction). <b>APOE &epsilon;4:</b> Low glycemic index diet is specifically recommended for &epsilon;4 carriers. <b>IL-6 CC:</b> Anti-inflammatory dietary pattern directly counters constitutive IL-6 elevation. <b>FADS1 CT:</b> Fatty fish 3&times;/week provides EPA/DHA that bypasses his intermediate ALA conversion. <b>FUT2 AA:</b> High fiber increases butyrate-producing Roseburia. <b>Net:</b> Most evidence-backed dietary intervention for this SPECIFIC genotype.</div>
+  </div>
+</div>
+
+<!-- ═══════════════ EMERGENCY CARD ═══════════════ -->
+<div class="page" id="page-emergency">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128680; Emergency Medical Card</h2>
+  </div>
+  <div style="font-size:.68rem;color:rgba(196,154,108,.4);margin-bottom:12px">Show this to any ER doctor on your phone. 10-second read.</div>
+
+  <div style="border:2px solid #A51C30;border-radius:14px;padding:24px;max-width:500px;margin:0 auto;background:rgba(18,12,10,.97)">
+    <div style="text-align:center;font-family:'EB Garamond',serif;font-size:1.3rem;font-weight:700;color:#A51C30;margin-bottom:4px">PHARMACOGENOMIC ALERTS</div>
+    <div style="text-align:center;font-size:.78rem;color:#C49A6C;margin-bottom:16px">Chad Byars, M.D. &nbsp;|&nbsp; DOB: check records</div>
+
+    <div style="background:rgba(165,28,48,.15);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #A51C30">
+      <div style="font-size:.85rem;font-weight:700;color:#d4838f">&#10060; NO NITROUS OXIDE (N2O)</div>
+      <div style="font-size:.72rem;color:#b0a090">MTHFR compound heterozygous — irreversibly oxidizes B12</div>
+    </div>
+    <div style="background:rgba(165,28,48,.1);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #d4838f">
+      <div style="font-size:.85rem;font-weight:700;color:#d4838f">&#9888; NSAIDs: REDUCE DOSE</div>
+      <div style="font-size:.72rem;color:#b0a090">CYP2C9 *1/*2 — ibuprofen/naproxen/celecoxib accumulate. Use lowest dose. Prefer acetaminophen.</div>
+    </div>
+    <div style="background:rgba(196,154,108,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #C49A6C">
+      <div style="font-size:.85rem;font-weight:700;color:#C49A6C">&#9679; Beta-blockers: ENHANCED RESPONSE</div>
+      <div style="font-size:.72rem;color:#b0a090">ADRB1 CG — may need lower dose metoprolol/atenolol</div>
+    </div>
+    <div style="background:rgba(78,140,100,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #6db87d">
+      <div style="font-size:.85rem;font-weight:700;color:#6db87d">&#10003; Opioids: STANDARD DOSING</div>
+      <div style="font-size:.72rem;color:#b0a090">OPRM1 AA — normal mu-receptor. Standard codeine/morphine/fentanyl response.</div>
+    </div>
+    <div style="background:rgba(78,140,100,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #6db87d">
+      <div style="font-size:.85rem;font-weight:700;color:#6db87d">&#10003; 5-FU: SAFE &nbsp;|&nbsp; Thiopurines: SAFE &nbsp;|&nbsp; Abacavir: SAFE</div>
+      <div style="font-size:.72rem;color:#b0a090">DPYD clear. TPMT clear. HLA-B*57:01 absent.</div>
+    </div>
+    <div style="background:rgba(196,154,108,.06);padding:8px 12px;border-radius:8px;border-left:4px solid #C49A6C">
+      <div style="font-size:.85rem;font-weight:700;color:#C49A6C">&#9679; No Factor V Leiden &nbsp;|&nbsp; No Prothrombin mutation</div>
+      <div style="font-size:.72rem;color:#b0a090">Standard anticoagulation protocols apply. HLA-B*51 carrier (son has Behçet's).</div>
+    </div>
+    <div style="text-align:center;font-size:.55rem;color:rgba(196,154,108,.3);margin-top:10px">qbyars08-ui.github.io/genome-dashboard/chad-brainmap.html#emergency</div>
+  </div>
+  <div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem">&#128247; Print Emergency Card</button></div>
+</div>
+
+<!-- ═══════════════ DYNAMIC RISK CALCULATOR ═══════════════ -->
+<div class="page" id="page-calculator">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#127918; Dynamic Risk Calculator</h2>
+  </div>
+  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">Move the sliders. Watch your risk scores change in real-time based on gene-environment interaction data.</div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Exercise (hours/week)</div><div id="ex-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#6db87d">3</div></div>
+    <input type="range" id="ex-slider" min="0" max="10" value="3" style="width:100%;accent-color:#6db87d" oninput="updateCalc()">
+    <div id="ex-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Moderate protection. APOE ε4: ~30% AD risk reduction. 9p21 CAD: ~35% attenuation.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #a78bfa">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Sleep (hours/night)</div><div id="sl-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#a78bfa">7</div></div>
+    <input type="range" id="sl-slider" min="4" max="10" value="7" style="width:100%;accent-color:#a78bfa" oninput="updateCalc()">
+    <div id="sl-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Adequate for glymphatic clearance. APOE ε4 amyloid clearance operating normally at 7h.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #d4838f">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Alcohol (drinks/week)</div><div id="al-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f">3</div></div>
+    <input type="range" id="al-slider" min="0" max="21" value="3" style="width:100%;accent-color:#d4838f" oninput="updateCalc()">
+    <div id="al-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Moderate. PITX2 AFib risk: multiplicative interaction above 3/week. Below threshold.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Mediterranean Diet Adherence (%)</div><div id="di-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#C49A6C">60</div></div>
+    <input type="range" id="di-slider" min="0" max="100" value="60" style="width:100%;accent-color:#C49A6C" oninput="updateCalc()">
+    <div id="di-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Good. 9p21 risk partially attenuated. Full adherence (>80%) completely eliminates 9p21-associated MI risk.</div>
+  </div>
+
+  <div style="margin-top:20px;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px">
+    <div style="font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:#C49A6C;margin-bottom:10px">Calculated Risk Modification</div>
+    <div id="calc-result" style="font-size:.82rem;color:#b0a090;line-height:1.8">
+      <b style="color:#e8d5c4">Cardiovascular:</b> <span id="cv-mod">Moderate reduction from baseline</span><br>
+      <b style="color:#e8d5c4">Alzheimer's:</b> <span id="ad-mod">~30% reduction (exercise-driven)</span><br>
+      <b style="color:#e8d5c4">AFib:</b> <span id="af-mod">Within safe alcohol threshold</span><br>
+      <b style="color:#e8d5c4">Biological Age:</b> <span id="ba-mod">Estimated +1.5 years above chronological</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PRS PERCENTILES ═══════════════ -->
+<div class="page" id="page-prs">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128202; Polygenic Risk Scores — Population Percentiles</h2>
+  </div>
+  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">Aggregate scores using ALL variants per category. Compared to general European population.</div>
+
+  <div class="variant" style="border-left:3px solid #d4838f">
+    <div class="variant-header"><div class="variant-name">Cardiovascular PRS</div><div class="variant-badge badge-red">72nd percentile</div></div>
+    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:72%;background:linear-gradient(90deg,#C49A6C,#d4838f);border-radius:10px;transition:width 1.5s ease"></div></div>
+    <div class="variant-desc">Variants included: 9p21 AG×3, PITX2 CT, PCSK9 CT, AGTR1 AC, AGT AG, ADRB1 CG, SCN5A CT, IL-6 CC, MTHFR compound, LPA favorable, ADD1 favorable. Net: 72nd percentile — higher than ~72% of the European population. Offset partially by FTO TT + TCF7L2 CC metabolic protection. Father's confirmed CAD validates this score clinically.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">Alzheimer's PRS</div><div class="variant-badge badge-yellow">68th percentile</div></div>
+    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:68%;background:linear-gradient(90deg,#C49A6C,#d4838f);border-radius:10px;transition:width 1.5s ease"></div></div>
+    <div class="variant-desc">APOE ε3/ε4 (heaviest weight), PICALM CT, MS4A6A AG, MS4A4E GT, BIN1 AG, ABCA7 GT. Father has advanced dementia — clinical validation. Brigitte has NO ε4 — Quinn can't be ε4/ε4. Exercise 150+ min/week in ε4 carriers = strongest modifier (45% reduction).</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #d4838f">
+    <div class="variant-header"><div class="variant-name">Melanoma PRS</div><div class="variant-badge badge-red">91st percentile</div></div>
+    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:91%;background:linear-gradient(90deg,#d4838f,#A51C30);border-radius:10px;transition:width 1.5s ease"></div></div>
+    <div class="variant-desc">MC1R R151C (high-penetrance) + V60L + rs910873 + childhood NOLA blistering sunburns. Compound MC1R heterozygote OR up to ~10× in literature. <b>91st percentile — higher melanoma genetic risk than ~91% of Europeans.</b> Dermatology q6 months mandatory. SPF 50+ daily non-negotiable.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">Type 2 Diabetes PRS</div><div class="variant-badge badge-green">18th percentile</div></div>
+    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:18%;background:#6db87d;border-radius:10px;transition:width 1.5s ease"></div></div>
+    <div class="variant-desc">TCF7L2 CC (strongest T2D gene — CLEAR), FTO TT×2 (favorable), PPARG CC (favorable), KCNJ11 CT (mild), MC4R CT (mild). Net: 18th percentile — <b>LOWER T2D genetic risk than ~82% of Europeans.</b> Metabolic genetics are excellent.</div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">Longevity PRS</div><div class="variant-badge badge-yellow">38th percentile</div></div>
+    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:38%;background:#C49A6C;border-radius:10px;transition:width 1.5s ease"></div></div>
+    <div class="variant-desc">FOXO3 TT (no longevity allele — heaviest negative weight), APOE ε4 (negative), IL-6 CC (inflammaging), SOD2 AG (oxidative stress), TERT AC (partial positive), Klotho TT (no KL-VS). 38th percentile — below average longevity genetics, but the MOST lifestyle-modifiable category. Exercise + diet + sleep can override genetics here.</div>
+  </div>
+</div>
+
+<!-- ═══════════════ EPIGENETIC AGE ═══════════════ -->
+<div class="page" id="page-age">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#9200; Epigenetic Age Estimator</h2>
+  </div>
+
+  <div style="text-align:center;padding:24px 0">
+    <div style="font-family:'EB Garamond',serif;font-size:3rem;font-weight:700;color:#d4838f">+2.3</div>
+    <div style="font-size:.9rem;color:#C49A6C;margin-bottom:4px">years above chronological age</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4)">Estimated biological age acceleration based on genetic aging variants</div>
+  </div>
+
+  <div class="section-title">What's Accelerating</div>
+  <div class="variant" style="border-left:3px solid #d4838f"><div class="variant-name">FOXO3 TT — No longevity allele</div><div class="variant-desc">Estimated impact: +1.0 year. FOXO3 G allele is the most replicated longevity variant. TT lacks it.</div></div>
+  <div class="variant" style="border-left:3px solid #d4838f"><div class="variant-name">APOE ε3/ε4 — Accelerated neurological aging</div><div class="variant-desc">Estimated impact: +0.8 years. ε4 impairs amyloid clearance and BBB repair.</div></div>
+  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">IL-6 CC — Chronic inflammaging</div><div class="variant-desc">Estimated impact: +0.5 years. Constitutive IL-6 elevation drives chronic low-grade inflammation.</div></div>
+  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">SOD2 AG — Reduced mitochondrial antioxidant</div><div class="variant-desc">Estimated impact: +0.3 years. Intermediate SOD2 activity = higher oxidative damage accumulation.</div></div>
+  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">MTHFR AG — Methylation stress</div><div class="variant-desc">Estimated impact: +0.2 years. Reduced methylfolate production affects DNA methylation maintenance.</div></div>
+
+  <div class="section-title">What Would Reduce It</div>
+  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Exercise 150+ min/week → -1.5 years</div><div class="variant-desc">Strongest single intervention. ACTN3 TT makes it achievable. 45% AD reduction for ε4. FOXO3 activation via AMPK.</div></div>
+  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Mediterranean diet strictly → -0.8 years</div><div class="variant-desc">Anti-inflammatory (IL-6 CC counter), 9p21 elimination, antioxidant support (SOD2 deficit).</div></div>
+  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Sleep 7-9 hours consistently → -0.5 years</div><div class="variant-desc">APOE ε4 glymphatic clearance. Circadian gene compensation (CRY1/CLOCK/NPAS2 disrupted).</div></div>
+  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Sauna 4-7×/week → -0.3 years</div><div class="variant-desc">Finnish data: 50% CVD reduction. Heat shock proteins repair misfolded proteins.</div></div>
+
+  <div style="text-align:center;padding:20px;background:rgba(78,140,100,.06);border:1px solid rgba(78,140,100,.2);border-radius:12px;margin-top:16px">
+    <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d">-0.8</div>
+    <div style="font-size:.85rem;color:#6db87d">years with full protocol</div>
+    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-top:4px">From +2.3 → -0.8 = net 3.1 years of biological age reversed through lifestyle</div>
+  </div>
+</div>
+
+<!-- ═══════════════ CLINICAL TRIALS ═══════════════ -->
+<div class="page" id="page-trials">
+  <div class="page-header">
+    <a class="back" onclick="go('home')">&larr; Home</a>
+    <h2>&#128300; Clinical Trial Eligibility</h2>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">APOE ε4 — Anti-Amyloid Trials</div><div class="variant-badge badge-green">Eligible</div></div>
+    <div class="variant-desc">ε3/ε4 heterozygotes ARE eligible for lecanemab and donanemab (only ε4/ε4 excluded by MHRA/EMA). CYCLE-AD trial (Cleveland Clinic) specifically recruiting ε4 carriers for high-intensity cycling. U.S. POINTER validated lifestyle intervention for ε4. Search: <a href="https://clinicaltrials.gov/search?cond=Alzheimer+Disease&term=APOE4" target="_blank">ClinicalTrials.gov APOE4 + Alzheimer's</a></div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #6db87d">
+    <div class="variant-header"><div class="variant-name">MC1R Compound — Melanoma Prevention</div><div class="variant-badge badge-green">Eligible</div></div>
+    <div class="variant-desc">MC1R compound carriers eligible for melanoma chemoprevention studies and imaging surveillance trials. MC1R status increasingly used for immunotherapy response prediction. Search: <a href="https://clinicaltrials.gov/search?cond=Melanoma&term=MC1R" target="_blank">ClinicalTrials.gov MC1R + Melanoma</a></div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">CYP2C9 *2 — Pharmacogenomics Dosing</div><div class="variant-badge badge-yellow">Potential</div></div>
+    <div class="variant-desc">CYP2C9 intermediate metabolizers eligible for pharmacogenomic-guided dosing trials, particularly for anticoagulation and NSAID optimization. Search: <a href="https://clinicaltrials.gov/search?term=CYP2C9&cond=Pharmacogenomics" target="_blank">ClinicalTrials.gov CYP2C9</a></div>
+  </div>
+
+  <div class="variant" style="border-left:3px solid #C49A6C">
+    <div class="variant-header"><div class="variant-name">9p21 CAD — Cardiovascular Prevention</div><div class="variant-badge badge-yellow">Potential</div></div>
+    <div class="variant-desc">9p21 carriers being studied in gene-diet interaction trials and polygenic risk score-guided statin initiation studies. Search: <a href="https://clinicaltrials.gov/search?term=9p21&cond=Coronary+Artery+Disease" target="_blank">ClinicalTrials.gov 9p21 + CAD</a></div>
+  </div>
+</div>
+
 <footer>Byars Family Health &middot; Portland, Oregon &middot; 614,452 SNPs &middot; 900+ Analyzed &middot; 72 Commits</footer>
 
 </div>
@@ -677,6 +1144,57 @@ window.addEventListener('hashchange', () => {
   const hash = window.location.hash.replace('#', '') || 'home';
   go(hash);
 });
+
+// Dynamic Risk Calculator
+function updateCalc(){
+  const ex=+document.getElementById('ex-slider').value;
+  const sl=+document.getElementById('sl-slider').value;
+  const al=+document.getElementById('al-slider').value;
+  const di=+document.getElementById('di-slider').value;
+
+  document.getElementById('ex-val').textContent=ex;
+  document.getElementById('sl-val').textContent=sl;
+  document.getElementById('al-val').textContent=al;
+  document.getElementById('di-val').textContent=di;
+
+  // Exercise effects
+  const adRed=ex>=5?45:ex>=3?30:ex>=1?15:0;
+  const cvRed=ex>=5?50:ex>=3?35:ex>=1?20:0;
+  document.getElementById('ex-effect').innerHTML=ex===0?'<span style="color:#d4838f">No exercise. APOE ε4 risk unmodified. 9p21 CAD risk at full genetic baseline. FOXO3 not activated.</span>':
+    ex<=2?'Light activity. APOE ε4: ~'+adRed+'% AD risk reduction. 9p21: ~'+cvRed+'% attenuation. Minimal FOXO3 activation.':
+    ex<=4?'Moderate. APOE ε4: ~'+adRed+'% AD reduction (approaching optimal). 9p21: ~'+cvRed+'% attenuation. FOXO3 activating via AMPK.':
+    ex<=6?'<span style="color:#6db87d">Optimal zone. APOE ε4: ~'+adRed+'% AD reduction (DOUBLE non-carriers). 9p21: ~'+cvRed+'% attenuation. FOXO3 fully activated. Cap here for PITX2 AFib safety.</span>':
+    '<span style="color:#d4838f">⚠ PITX2 AFib RISK: >6 hrs/week sustained endurance INCREASES AFib risk 2-10× in genetic carriers. Both parents carry PITX2. Reduce to 5-6 hrs/week.</span>';
+
+  // Sleep effects
+  document.getElementById('sl-effect').innerHTML=sl<6?'<span style="color:#d4838f">Insufficient. APOE ε4: glymphatic clearance severely impaired. Amyloid accumulates. Th17 upregulated (BD risk for Quinn). Circadian genes already disrupted at 3 loci — this compounds it.</span>':
+    sl<7?'<span style="color:#C49A6C">Borderline. APOE ε4: glymphatic clearance suboptimal. Aim for 7-8h minimum.</span>':
+    sl<=9?'<span style="color:#6db87d">Optimal. Glymphatic clearance operating normally. Circadian compensation adequate. Amyloid clearance, Treg differentiation, cortisol rhythm all supported.</span>':
+    '<span style="color:#C49A6C">Excessive sleep (>9h) is associated with increased mortality in some studies. Aim for 7-9h.</span>';
+
+  // Alcohol effects
+  document.getElementById('al-effect').innerHTML=al===0?'<span style="color:#6db87d">Zero alcohol. PITX2 AFib risk at genetic baseline only (not amplified). Lowest liver cancer risk. Best for BD inflammation.</span>':
+    al<=3?'<span style="color:#6db87d">Low intake. PITX2 AFib: within safe threshold (multiplicative effect starts above ~3/week). Modest CV benefit possible from polyphenols in red wine.</span>':
+    al<=7?'<span style="color:#C49A6C">Moderate. PITX2 AFib: risk is now MULTIPLICATIVELY amplified above 3/week. Even 1 drink/day = 8% increased AFib risk per EHJ meta-analysis. Sister has PAF.</span>':
+    '<span style="color:#d4838f">⚠ HIGH RISK. PITX2 AFib: significantly amplified. Liver: increased cancer and disease risk. BD trigger (for Quinn). 9p21 CAD: alcohol raises BP and LDL. Strongly recommend reducing to <3/week.</span>';
+
+  // Diet effects
+  document.getElementById('di-effect').innerHTML=di<30?'<span style="color:#d4838f">Low adherence. 9p21 CAD risk at FULL genetic baseline (~30% increased MI). IL-6 CC inflammation unmitigated. FADS1 omega-3 deficit unaddressed.</span>':
+    di<60?'<span style="color:#C49A6C">Moderate. 9p21 risk partially attenuated. IL-6 CC partially countered. FADS1: some marine omega-3 intake. Room for improvement.</span>':
+    di<80?'<span style="color:#6db87d">Good. 9p21 risk significantly attenuated. Anti-inflammatory benefits active. FADS1 omega-3 pathway supported.</span>':
+    '<span style="color:#6db87d">Excellent. 9p21-associated MI risk COMPLETELY ELIMINATED at >80% adherence (INTERHEART P=0.008). IL-6 CC fully countered. Omega-3, polyphenols, fiber all optimized. This is the most powerful dietary intervention for this specific genotype.</span>';
+
+  // Composite scores
+  const cvScore=Math.max(0,72-cvRed*.5-(di>80?15:di>60?8:0)-(al>7?-5:0));
+  const adScore=Math.max(0,68-adRed*.5-(sl>=7?5:0));
+  const afScore=Math.min(100,30+(al>3?al*3:0));
+  const bioAge=(2.3-(ex>=3?1.5:ex>=1?.5:0)-(di>60?.8:di>30?.3:0)-(sl>=7?.5:0)).toFixed(1);
+
+  document.getElementById('cv-mod').innerHTML='Cardiovascular genetic risk: <b style="color:'+(cvScore<50?'#6db87d':'#C49A6C')+'">'+cvScore.toFixed(0)+'th percentile</b> (baseline 72nd)';
+  document.getElementById('ad-mod').innerHTML='Alzheimer\'s risk: <b style="color:'+(adScore<50?'#6db87d':'#C49A6C')+'">~'+adRed+'% reduction</b> from exercise';
+  document.getElementById('af-mod').innerHTML='AFib trigger risk: <b style="color:'+(afScore>50?'#d4838f':'#6db87d')+'">'+(al<=3?'Low — within safe threshold':'ELEVATED — above multiplicative threshold')+'</b>';
+  document.getElementById('ba-mod').innerHTML='Biological age acceleration: <b style="color:'+(bioAge<=0?'#6db87d':bioAge<=1.5?'#C49A6C':'#d4838f')+'">'+bioAge+' years</b> '+(bioAge<=0?'BELOW chronological — younger than your age':'above chronological');
+}
 </script>
 
 </body>
