@@ -2,1729 +2,674 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chad Byars — Genome Explorer</title>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chad Byars, M.D. — Genome</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0a08;color:#e8e0d8;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
-a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
+/* ═══════════ RESET & BASE ═══════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#09090b;color:#fafafa;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* NAV */
-.topnav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(15,10,8,.97);border-bottom:1px solid rgba(165,28,48,.2);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px)}
-.topnav-brand{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:#C49A6C;text-decoration:none}
-.topnav-links{display:flex;gap:4px;flex-wrap:wrap}
-.topnav-link{padding:3px 8px;border-radius:5px;font-size:.58rem;font-weight:600;color:#b0a090;text-decoration:none;background:rgba(196,154,108,.06);border:1px solid rgba(196,154,108,.1);transition:all .15s;white-space:nowrap}
-.topnav-link:hover,.topnav-link.active{background:rgba(165,28,48,.15);border-color:rgba(165,28,48,.3);color:#d4838f;text-decoration:none}
+/* ═══════════ LOADING SCREEN ═══════════ */
+#loader{position:fixed;inset:0;z-index:9999;background:#09090b;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.helix-wrap{width:120px;height:200px;position:relative;margin-bottom:32px}
+.helix-strand{position:absolute;width:8px;height:8px;border-radius:50%;animation:helixSpin 2s ease-in-out infinite}
+@keyframes helixSpin{0%,100%{opacity:.3}50%{opacity:1}}
+.loader-text{font-size:13px;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;animation:pulse 1.5s ease-in-out infinite}
+.loader-count{font-size:32px;font-weight:800;color:#fff;margin-top:12px;font-variant-numeric:tabular-nums}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
 
-/* LAYOUT */
-.container{max-width:860px;margin:0 auto;padding:56px 20px 80px}
+/* ═══════════ APP SHELL ═══════════ */
+#app{opacity:0;transition:opacity .5s;padding-bottom:80px}
+#app.visible{opacity:1}
 
-/* STATS BANNER */
-.stats-banner{display:flex;gap:6px;margin:16px 0 24px;flex-wrap:wrap;justify-content:center}
-.stat-pill{background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.12);border-radius:999px;padding:5px 14px;font-size:.62rem;color:#C49A6C;white-space:nowrap}
-.stat-pill b{color:#f0e6dc}
+/* ═══════════ SCREENS ═══════════ */
+.screen{display:none;animation:screenIn .35s ease forwards}
+.screen.active{display:block}
+@keyframes screenIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* CATEGORY GRID */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
-@media(max-width:700px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:400px){.cat-grid{grid-template-columns:1fr}}
-.cat-card{background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px 16px;text-align:center;cursor:pointer;transition:all .25s;text-decoration:none;display:block}
-.cat-card:hover{border-color:rgba(165,28,48,.4);transform:translateY(-2px);text-decoration:none}
-.cat-icon{font-size:2rem;margin-bottom:8px}
-.cat-name{font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:#f0e6dc;margin-bottom:3px}
-.cat-count{font-size:.6rem;color:rgba(196,154,108,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.cat-desc{font-size:.68rem;color:#b0a090;line-height:1.4}
+/* ═══════════ BOTTOM TAB BAR ═══════════ */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(9,9,11,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-around;padding:6px 0 env(safe-area-inset-bottom,8px);max-width:600px;margin:0 auto}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;cursor:pointer;transition:all .2s;border:none;background:none;min-width:60px}
+.tab-icon{font-size:22px;transition:transform .2s}
+.tab-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.35);transition:color .2s;letter-spacing:.03em}
+.tab.active .tab-icon{transform:scale(1.1)}
+.tab.active .tab-label{color:#fff}
+.tab:hover .tab-label{color:rgba(255,255,255,.6)}
 
-/* PAGE HEADER */
-.page-header{padding:20px 0 16px;border-bottom:1px solid rgba(196,154,108,.12);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.page-header .back{font-size:.75rem;color:rgba(196,154,108,.5);text-decoration:none;padding:4px 10px;border:1px solid rgba(196,154,108,.15);border-radius:6px}
-.page-header .back:hover{border-color:rgba(165,28,48,.3);color:#d4838f;text-decoration:none}
-.page-header h2{font-family:'EB Garamond',serif;font-size:1.5rem;font-weight:700;color:#C49A6C}
+/* ═══════════ HOME SCREEN ═══════════ */
+.home-header{padding:48px 24px 24px;text-align:center}
+.home-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1e3a5f,#0f1b2d);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;border:2px solid rgba(255,255,255,.08)}
+.home-name{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.home-sub{font-size:12px;color:rgba(255,255,255,.35);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.home-stats{display:flex;justify-content:center;gap:24px;margin-top:20px}
+.home-stat-num{font-size:20px;font-weight:800;color:#fff}
+.home-stat-label{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 
-/* VARIANT CARDS */
-.variant{background:rgba(30,22,18,.5);border:1px solid rgba(196,154,108,.1);border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:border-color .2s}
-.variant:hover{border-color:rgba(196,154,108,.25)}
-.variant-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-.variant-name{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:#f0e6dc}
-.variant-badge{padding:2px 8px;border-radius:999px;font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.badge-green{background:rgba(78,140,100,.12);color:#6db87d;border:1px solid rgba(78,140,100,.25)}
-.badge-yellow{background:rgba(196,154,108,.12);color:#C49A6C;border:1px solid rgba(196,154,108,.25)}
-.badge-red{background:rgba(165,28,48,.12);color:#d4838f;border:1px solid rgba(165,28,48,.25)}
-.badge-gold{background:rgba(196,154,108,.15);color:#C49A6C;border:1px solid rgba(196,154,108,.35)}
-.badge-purple{background:rgba(120,100,160,.12);color:#a090c0;border:1px solid rgba(120,100,160,.25)}
-.variant-geno{font-family:'Courier New',monospace;font-size:.7rem;color:rgba(196,154,108,.5);margin-bottom:4px}
-.variant-desc{font-size:.78rem;color:#b0a090;line-height:1.6}
-.variant-stats{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.variant-stat{background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.08);border-radius:6px;padding:6px 10px;flex:1;min-width:120px}
-.variant-stat-label{font-size:.55rem;color:rgba(196,154,108,.4);text-transform:uppercase;letter-spacing:.06em}
-.variant-stat-value{font-size:.75rem;font-weight:600;color:#e8d5c4}
+/* ═══════════ CATEGORY TILES ═══════════ */
+.tile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:24px 16px}
+.tile{position:relative;border-radius:20px;padding:24px 18px 20px;cursor:pointer;overflow:hidden;transition:transform .2s,box-shadow .2s;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.06)}
+.tile:active{transform:scale(.97)}
+.tile-bg{position:absolute;inset:0;opacity:.12;border-radius:20px}
+.tile-icon{font-size:28px;margin-bottom:10px;position:relative;z-index:1}
+.tile-name{font-size:15px;font-weight:700;color:#fff;position:relative;z-index:1;margin-bottom:4px}
+.tile-stat{font-size:11px;font-weight:500;color:rgba(255,255,255,.45);position:relative;z-index:1}
+.tile-dot{position:absolute;top:16px;right:16px;width:10px;height:10px;border-radius:50%;z-index:1;box-shadow:0 0 8px currentColor}
 
-/* SECTION */
-.section-title{font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;color:#C49A6C;margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(196,154,108,.1)}
+/* TILE COLORS */
+.tile-heart{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02))}
+.tile-heart .tile-bg{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.tile-heart .tile-dot{color:#ef4444}
+.tile-brain{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(139,92,246,.02))}
+.tile-brain .tile-bg{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
+.tile-brain .tile-dot{color:#a78bfa}
+.tile-cancer{background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(236,72,153,.02))}
+.tile-cancer .tile-bg{background:linear-gradient(135deg,#ec4899,#db2777)}
+.tile-cancer .tile-dot{color:#ec4899}
+.tile-drugs{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,191,36,.02))}
+.tile-drugs .tile-bg{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.tile-drugs .tile-dot{color:#fbbf24}
+.tile-immune{background:linear-gradient(135deg,rgba(52,211,153,.08),rgba(52,211,153,.02))}
+.tile-immune .tile-bg{background:linear-gradient(135deg,#34d399,#10b981)}
+.tile-immune .tile-dot{color:#34d399}
+.tile-body{background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(34,211,238,.02))}
+.tile-body .tile-bg{background:linear-gradient(135deg,#22d3ee,#06b6d4)}
+.tile-body .tile-dot{color:#22d3ee}
+.tile-nutrition{background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(96,165,250,.02))}
+.tile-nutrition .tile-bg{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
+.tile-nutrition .tile-dot{color:#60a5fa}
+.tile-longevity{background:linear-gradient(135deg,rgba(244,114,182,.08),rgba(244,114,182,.02))}
+.tile-longevity .tile-bg{background:linear-gradient(135deg,#f472b6,#ec4899)}
+.tile-longevity .tile-dot{color:#f472b6}
 
-/* HIDE/SHOW + ANIMATIONS */
-.page{display:none;opacity:0;transform:translateY(8px)}
-.page.active{display:block;animation:fadeUp .35s ease forwards}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ═══════════ CATEGORY PAGE ═══════════ */
+.cat-page{padding:0 16px 24px}
+.cat-back{display:flex;align-items:center;gap:6px;padding:16px 0 8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border:none;background:none}
+.cat-back:hover{color:rgba(255,255,255,.6)}
+.cat-title-row{display:flex;align-items:center;gap:12px;padding:8px 0 24px}
+.cat-title-icon{font-size:32px}
+.cat-title-text{font-size:22px;font-weight:800;letter-spacing:-.02em}
 
-/* STAGGERED CARD ENTRANCE */
-.cat-card{opacity:0;animation:cardIn .3s ease forwards}
-.page.active .cat-card:nth-child(1){animation-delay:.05s}
-.page.active .cat-card:nth-child(2){animation-delay:.08s}
-.page.active .cat-card:nth-child(3){animation-delay:.11s}
-.page.active .cat-card:nth-child(4){animation-delay:.14s}
-.page.active .cat-card:nth-child(5){animation-delay:.17s}
-.page.active .cat-card:nth-child(6){animation-delay:.2s}
-.page.active .cat-card:nth-child(7){animation-delay:.23s}
-.page.active .cat-card:nth-child(8){animation-delay:.26s}
-.page.active .cat-card:nth-child(9){animation-delay:.29s}
-.page.active .cat-card:nth-child(10){animation-delay:.32s}
-.page.active .cat-card:nth-child(11){animation-delay:.35s}
-.page.active .cat-card:nth-child(12){animation-delay:.38s}
-.page.active .cat-card:nth-child(n+13){animation-delay:.41s}
-@keyframes cardIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* RISK GAUGE */
+.gauge-wrap{display:flex;justify-content:center;padding:8px 0 32px}
+.gauge-center-num{font-size:36px;font-weight:800;fill:#fff}
+.gauge-center-label{font-size:11px;font-weight:600;fill:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em}
+.gauge-track{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10;stroke-linecap:round}
+.gauge-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
 
-/* VARIANT CARD ENTRANCE */
-.variant{opacity:0;animation:varIn .25s ease forwards;animation-delay:.1s}
-.page.active .variant:nth-child(2){animation-delay:.15s}
-.page.active .variant:nth-child(3){animation-delay:.2s}
-.page.active .variant:nth-child(n+4){animation-delay:.25s}
-@keyframes varIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+/* FINDING CARDS */
+.finding{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;margin-bottom:10px;transition:background .2s}
+.finding:hover{background:rgba(255,255,255,.05)}
+.finding-geno{font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;white-space:nowrap;min-width:52px;text-align:center;line-height:1.3}
+.geno-red{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.geno-yellow{background:rgba(251,191,36,.1);color:#fde68a;border:1px solid rgba(251,191,36,.18)}
+.geno-green{background:rgba(52,211,153,.1);color:#6ee7b7;border:1px solid rgba(52,211,153,.18)}
+.geno-purple{background:rgba(139,92,246,.1);color:#c4b5fd;border:1px solid rgba(139,92,246,.18)}
+.finding-body{flex:1;min-width:0}
+.finding-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.finding-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5}
 
-/* HOVER GLOW */
-.cat-card:hover{box-shadow:0 4px 20px rgba(165,28,48,.08)}
-.variant:hover{box-shadow:0 2px 12px rgba(196,154,108,.06)}
+/* DEEP DIVE TOGGLE */
+.deep-toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin:20px 0 0;cursor:pointer;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);transition:background .2s}
+.deep-toggle:hover{background:rgba(255,255,255,.04)}
+.deep-toggle .arrow{transition:transform .3s;font-size:16px}
+.deep-toggle.open .arrow{transform:rotate(180deg)}
+.deep-content{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.deep-content.open{max-height:3000px}
+.deep-inner{padding:16px 0}
+.deep-inner .finding{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)}
 
-/* STAT PILL PULSE ON HOVER */
-.stat-pill{transition:all .2s}
-.stat-pill:hover{background:rgba(196,154,108,.12);transform:scale(1.03)}
+/* ACTION CARD */
+.action-card{background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(52,211,153,.02));border:1px solid rgba(52,211,153,.12);border-radius:16px;padding:18px;margin-top:20px}
+.action-title{font-size:13px;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.action-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;margin-bottom:8px}
+.action-bullet{width:6px;height:6px;min-width:6px;border-radius:50%;background:#34d399;margin-top:6px}
 
-/* DARK/LIGHT TOGGLE */
-body.light{background:#f5f0eb;color:#2a2420}
-body.light .topnav{background:rgba(245,240,235,.97);border-bottom-color:rgba(165,28,48,.15)}
-body.light .topnav-brand{color:#8b6f4e}
-body.light .topnav-link{background:rgba(196,154,108,.08);border-color:rgba(196,154,108,.15);color:#6b5a48}
-body.light .topnav-link:hover,body.light .topnav-link.active{background:rgba(165,28,48,.1);color:#A51C30}
-body.light .cat-card,body.light .variant,body.light .stat-box{background:rgba(255,255,255,.7);border-color:rgba(196,154,108,.18)}
-body.light .cat-card:hover{border-color:rgba(165,28,48,.3)}
-body.light .cat-name,body.light .variant-name{color:#2a2420}
-body.light .cat-desc,body.light .variant-desc,body.light .card-body{color:#5a4e42}
-body.light .cat-count{color:rgba(139,111,78,.5)}
-body.light .section-title{color:#8b6f4e;border-bottom-color:rgba(139,111,78,.15)}
-body.light .page-header h2{color:#8b6f4e}
-body.light .stat-pill{background:rgba(255,255,255,.6);color:#8b6f4e}
-body.light .stat-pill b{color:#2a2420}
-body.light .variant-geno{color:rgba(139,111,78,.5)}
-body.light .variant-stat{background:rgba(255,255,255,.5)}
-body.light .variant-stat-value{color:#3a2e22}
-body.light .badge-green{background:rgba(78,140,100,.08);color:#3a7d4a}
-body.light .badge-yellow{background:rgba(196,154,108,.08);color:#8b6f4e}
-body.light .badge-red{background:rgba(165,28,48,.06);color:#A51C30}
-body.light .badge-gold{background:rgba(196,154,108,.1);color:#8b6f4e}
-body.light footer{color:rgba(139,111,78,.2)}
-body.light a{color:#A51C30}
-body.light .back{color:rgba(139,111,78,.5);border-color:rgba(139,111,78,.2)}
+/* ═══════════ RISK OVERVIEW SCREEN ═══════════ */
+.risk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 16px}
+.risk-mini{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.risk-mini:active{transform:scale(.97)}
+.risk-mini-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:8px}
+.risk-mini-score{font-size:28px;font-weight:800;margin-top:4px}
 
-/* CHROMOSOME MINI-MAP */
-.chr-map{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;margin:12px 0 20px}
-.chr-bar{width:28px;height:40px;border-radius:10px 10px 4px 4px;background:rgba(196,154,108,.08);border:1px solid rgba(196,154,108,.08);position:relative;cursor:default;transition:all .2s}
-.chr-bar:hover{border-color:rgba(165,28,48,.3);transform:scale(1.08)}
-.chr-bar-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 3px 3px;background:linear-gradient(to top,rgba(165,28,48,.4),rgba(196,154,108,.2));transition:height .5s ease}
-.chr-label{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:.45rem;color:rgba(196,154,108,.35);white-space:nowrap}
-.chr-count{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:.4rem;color:rgba(196,154,108,.3)}
+/* ═══════════ DOCTOR CARD SCREEN ═══════════ */
+.doc-card{background:#fff;color:#111;border-radius:20px;margin:16px;padding:28px 24px;font-family:'Inter',system-ui,sans-serif}
+.doc-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #dc2626;padding-bottom:14px;margin-bottom:18px}
+.doc-name{font-size:18px;font-weight:800;color:#111}
+.doc-badge{background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.08em}
+.doc-section{margin-bottom:16px}
+.doc-section-title{font-size:10px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.doc-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #f3f3f3;font-size:12px}
+.doc-row-label{color:#666;font-weight:500}
+.doc-row-value{font-weight:700;color:#111;text-align:right;max-width:55%}
+.doc-alert{background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-top:16px}
+.doc-alert-title{font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.doc-alert-item{font-size:11px;color:#991b1b;line-height:1.5;margin-bottom:2px}
+.doc-print{text-align:center;margin-top:16px}
+.doc-print button{background:#111;color:#fff;border:none;padding:10px 28px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:rgba(15,10,8,.5)}
-::-webkit-scrollbar-thumb{background:rgba(196,154,108,.15);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:rgba(196,154,108,.3)}
+/* ═══════════ EXPLORE SCREEN (D3) ═══════════ */
+#explore-container{width:100%;height:calc(100vh - 140px);position:relative}
+#explore-container svg{width:100%;height:100%}
+.explore-legend{position:absolute;bottom:16px;left:16px;display:flex;flex-wrap:wrap;gap:6px}
+.legend-chip{font-size:9px;font-weight:600;padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.08)}
 
-footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top:40px;padding-top:16px;border-top:1px solid rgba(196,154,108,.05)}
+/* ═══════════ SHARE SCREEN ═══════════ */
+.share-grid{display:grid;gap:12px;padding:0 16px}
+.share-btn{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;cursor:pointer;transition:background .2s;text-align:left}
+.share-btn:active{background:rgba(255,255,255,.06)}
+.share-btn-icon{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,255,255,.04)}
+.share-btn-text{font-size:14px;font-weight:600}
+.share-btn-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+
+/* ═══════════ SECTION HEADER ═══════════ */
+.sec-header{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+.sec-title{font-size:18px;font-weight:800;letter-spacing:-.01em}
+.sec-sub{font-size:11px;color:rgba(255,255,255,.3);font-weight:500}
+
+/* ═══════════ SCROLLBAR ═══════════ */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+
+/* ═══════════ PRINT ═══════════ */
+@media print{
+  .tab-bar,#loader,.cat-back,button,.share-btn,.deep-toggle{display:none!important}
+  body{background:#fff!important;color:#111!important}
+  .screen{display:block!important;page-break-after:always}
+  .doc-card{box-shadow:none;margin:0;border-radius:0}
+}
+
+/* ═══════════ DESKTOP ═══════════ */
+@media(min-width:600px){
+  .tile-grid{grid-template-columns:repeat(3,1fr);max-width:600px;margin:0 auto}
+  .cat-page,.risk-grid,.share-grid{max-width:600px;margin-left:auto;margin-right:auto}
+  .home-header{max-width:600px;margin:0 auto}
+  .tab-bar{max-width:500px;border-radius:16px 16px 0 0}
+}
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
-<div class="topnav">
-  <a class="topnav-brand" href="index.html">Byars Health</a>
-  <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid rgba(196,154,108,.2);border-radius:6px;padding:2px 8px;font-size:.7rem;cursor:pointer;color:#C49A6C;transition:all .2s" title="Toggle light/dark mode">&#9788;</button>
-  <div class="topnav-links" id="subnav">
-    <a class="topnav-link active" href="#home" onclick="go('home')">Home</a>
-    <a class="topnav-link" href="#heart" onclick="go('heart')">Heart</a>
-    <a class="topnav-link" href="#brain" onclick="go('brain')">Brain</a>
-    <a class="topnav-link" href="#cancer" onclick="go('cancer')">Cancer</a>
-    <a class="topnav-link" href="#drugs" onclick="go('drugs')">Drugs</a>
-    <a class="topnav-link" href="#body" onclick="go('body')">Body</a>
-    <a class="topnav-link" href="#immune" onclick="go('immune')">Immune</a>
-    <a class="topnav-link" href="#nutrition" onclick="go('nutrition')">Nutrition</a>
-    <a class="topnav-link" href="#longevity" onclick="go('longevity')">Longevity</a>
-    <a class="topnav-link" href="#ancestry" onclick="go('ancestry')">Ancestry</a>
-    <a class="topnav-link" href="#quinn" onclick="go('quinn')">Quinn</a>
-    <a class="topnav-link" href="#doctor" onclick="go('doctor')">Doctor</a>
-    <a class="topnav-link" href="#risk" onclick="go('risk')">Risk</a>
-    <a class="topnav-link" href="#timeline" onclick="go('timeline')">Timeline</a>
-    <a class="topnav-link" href="#protocol" onclick="go('protocol')">Protocol</a>
-    <a class="topnav-link" href="#matrix" onclick="go('matrix')">Drug Matrix</a>
-    <a class="topnav-link" href="#whatif" onclick="go('whatif')">What-If</a>
-    <a class="topnav-link" href="#haplogroups" onclick="go('haplogroups')">Haplogroups</a>
-    <a class="topnav-link" href="#neanderthal" onclick="go('neanderthal')">Neanderthal</a>
-    <a class="topnav-link" href="#carrier" onclick="go('carrier')">Carrier</a>
-    <a class="topnav-link" href="#upload" onclick="go('upload')">Upload</a>
-  </div>
+<!-- ═══════════ LOADING SCREEN ═══════════ -->
+<div id="loader">
+  <div class="helix-wrap" id="helix"></div>
+  <div class="loader-text">Analyzing genome</div>
+  <div class="loader-count" id="load-count">0</div>
 </div>
 
-<div class="container">
+<!-- ═══════════ APP ═══════════ -->
+<div id="app">
 
-<!-- ═══════════════ HOME PAGE ═══════════════ -->
-<div class="page active" id="page-home">
-  <div style="text-align:center;padding:16px 0">
-    <div style="font-size:2.5rem;margin-bottom:8px">&#129468;&#8205;&#9877;&#65039;</div>
-    <h1 style="font-family:'EB Garamond',serif;font-size:2rem;color:#C49A6C;margin-bottom:4px">Chad Byars, M.D.</h1>
-    <div style="font-size:.68rem;color:rgba(196,154,108,.45);letter-spacing:.12em;text-transform:uppercase">Genome Explorer &middot; 614,452 SNPs &middot; 900+ Clinically Analyzed</div>
-  </div>
-
-  <div class="stats-banner">
-    <div class="stat-pill"><b>614,452</b> SNPs</div>
-    <div class="stat-pill"><b>170+</b> Key Variants</div>
-    <div class="stat-pill"><b>25</b> Pages</div>
-    <div class="stat-pill"><b>~0.8%</b> Neanderthal</div>
-    <div class="stat-pill"><b>MT-H1</b> Haplogroup</div>
-    <div class="stat-pill" style="cursor:pointer;border-color:rgba(165,28,48,.3);color:#d4838f" onclick="exportPDF()"><b>&#128196;</b> Export PDF</div>
-  </div>
-
-  <div class="section-title" style="margin-top:8px;font-size:.9rem">Chromosome Overview &mdash; 614,452 SNPs</div>
-  <div class="chr-map" id="chr-map"></div>
-
-  <div class="cat-grid">
-    <a class="cat-card" onclick="go('heart')" style="border-left:3px solid #fb923c">
-      <div class="cat-icon">&#10084;&#65039;</div>
-      <div class="cat-name">Heart</div>
-      <div class="cat-count">19 Variants</div>
-      <div class="cat-desc">9p21 CAD &times;3, PITX2 AFib, PCSK9, blood pressure, clotting</div>
-    </a>
-    <a class="cat-card" onclick="go('brain')" style="border-left:3px solid #a78bfa">
-      <div class="cat-icon">&#129504;</div>
-      <div class="cat-name">Brain</div>
-      <div class="cat-count">15 Variants</div>
-      <div class="cat-desc">COMT, OXTR empathy, BDNF, DRD2, serotonin, dopamine</div>
-    </a>
-    <a class="cat-card" onclick="go('cancer')" style="border-left:3px solid #f87171">
-      <div class="cat-icon">&#128301;</div>
-      <div class="cat-name">Cancer</div>
-      <div class="cat-count">18 Variants</div>
-      <div class="cat-desc">MC1R &times;4 melanoma, BRCA, breast, prostate, colorectal</div>
-    </a>
-    <a class="cat-card" onclick="go('drugs')" style="border-left:3px solid #fbbf24">
-      <div class="cat-icon">&#128138;</div>
-      <div class="cat-name">Drugs</div>
-      <div class="cat-count">22 Variants</div>
-      <div class="cat-desc">CYP2C9, CYP1A2 caffeine, DPYD, TPMT, drug metabolism</div>
-    </a>
-    <a class="cat-card" onclick="go('body')" style="border-left:3px solid #22d3ee">
-      <div class="cat-icon">&#127939;</div>
-      <div class="cat-name">Body</div>
-      <div class="cat-count">8 Variants</div>
-      <div class="cat-desc">ACTN3 endurance, FTO metabolism, athletic performance</div>
-    </a>
-    <a class="cat-card" onclick="go('immune')" style="border-left:3px solid #34d399">
-      <div class="cat-icon">&#128737;</div>
-      <div class="cat-name">Immune</div>
-      <div class="cat-count">15 Variants</div>
-      <div class="cat-desc">HLA types, CTLA4, autoimmune, Behçet's modifiers</div>
-    </a>
-    <a class="cat-card" onclick="go('nutrition')" style="border-left:3px solid #60a5fa">
-      <div class="cat-icon">&#127823;</div>
-      <div class="cat-name">Nutrition</div>
-      <div class="cat-count">17 Variants</div>
-      <div class="cat-desc">FUT2 B12, vitamin D, omega-3, caffeine, taste</div>
-    </a>
-    <a class="cat-card" onclick="go('longevity')" style="border-left:3px solid #f472b6">
-      <div class="cat-icon">&#9200;</div>
-      <div class="cat-name">Longevity</div>
-      <div class="cat-count">11 Variants</div>
-      <div class="cat-desc">FOXO3, APOE, telomeres, inflammation, aging</div>
-    </a>
-    <a class="cat-card" onclick="go('ancestry')" style="border-left:3px solid #a090c0">
-      <div class="cat-icon">&#127758;</div>
-      <div class="cat-name">Ancestry</div>
-      <div class="cat-count">15 Variants</div>
-      <div class="cat-desc">Celtic MC1R, earwax, lactose, eye color, migration</div>
-    </a>
-    <a class="cat-card" onclick="go('quinn')" style="border-left:3px solid #A51C30">
-      <div class="cat-icon">&#128118;</div>
-      <div class="cat-name">Quinn</div>
-      <div class="cat-count">Inheritance</div>
-      <div class="cat-desc">What Quinn inherited, 50/50 odds, predicted traits</div>
-    </a>
-    <a class="cat-card" onclick="go('doctor')" style="border-left:3px solid #C49A6C">
-      <div class="cat-icon">&#128203;</div>
-      <div class="cat-name">Doctor Card</div>
-      <div class="cat-count">Top 10</div>
-      <div class="cat-desc">Printable clinical summary for any physician</div>
-    </a>
-    <a class="cat-card" onclick="go('risk')" style="border-left:3px solid #fb923c">
-      <div class="cat-icon">&#128200;</div>
-      <div class="cat-name">Risk Dashboard</div>
-      <div class="cat-count">6 Systems</div>
-      <div class="cat-desc">Animated risk gauges for heart, brain, cancer, metabolism, immune, longevity</div>
-    </a>
-    <a class="cat-card" onclick="go('timeline')" style="border-left:3px solid #C49A6C">
-      <div class="cat-icon">&#128197;</div>
-      <div class="cat-name">Health Timeline</div>
-      <div class="cat-count">By Decade</div>
-      <div class="cat-desc">Predicted milestones from now through 70s+</div>
-    </a>
-    <a class="cat-card" onclick="go('protocol')" style="border-left:3px solid #6db87d">
-      <div class="cat-icon">&#127793;</div>
-      <div class="cat-name">Daily Protocol</div>
-      <div class="cat-count">Personalized</div>
-      <div class="cat-desc">Morning, exercise, diet, evening — all gene-targeted</div>
-    </a>
-    <a class="cat-card" onclick="go('matrix')" style="border-left:3px solid #fbbf24">
-      <div class="cat-icon">&#128138;</div>
-      <div class="cat-name">Drug Matrix</div>
-      <div class="cat-count">11 Drug Classes</div>
-      <div class="cat-desc">How you metabolize every major drug. Printable.</div>
-    </a>
-    <a class="cat-card" onclick="go('whatif')" style="border-left:3px solid #a78bfa">
-      <div class="cat-icon">&#129300;</div>
-      <div class="cat-name">What-If</div>
-      <div class="cat-count">5 Scenarios</div>
-      <div class="cat-desc">Exercise, statins, coffee, chemo, diet — modeled</div>
-    </a>
-    <a class="cat-card" onclick="go('emergency')" style="border-left:3px solid #A51C30">
-      <div class="cat-icon">&#128680;</div>
-      <div class="cat-name">ER Card</div>
-      <div class="cat-count">10 Seconds</div>
-      <div class="cat-desc">Show any ER doctor on your phone. Drug alerts + safety.</div>
-    </a>
-    <a class="cat-card" onclick="go('calculator')" style="border-left:3px solid #22d3ee">
-      <div class="cat-icon">&#127918;</div>
-      <div class="cat-name">Risk Calculator</div>
-      <div class="cat-count">Interactive</div>
-      <div class="cat-desc">Move sliders. Watch risk scores change in real-time.</div>
-    </a>
-    <a class="cat-card" onclick="go('prs')" style="border-left:3px solid #fb923c">
-      <div class="cat-icon">&#128202;</div>
-      <div class="cat-name">PRS Percentiles</div>
-      <div class="cat-count">5 Scores</div>
-      <div class="cat-desc">Polygenic risk vs population. Cardiovascular, AD, melanoma, T2D, longevity.</div>
-    </a>
-    <a class="cat-card" onclick="go('age')" style="border-left:3px solid #f472b6">
-      <div class="cat-icon">&#9200;</div>
-      <div class="cat-name">Bio Age</div>
-      <div class="cat-count">Estimator</div>
-      <div class="cat-desc">+2.3 years → -0.8 with full protocol. See exactly how.</div>
-    </a>
-    <a class="cat-card" onclick="go('trials')" style="border-left:3px solid #6db87d">
-      <div class="cat-icon">&#128300;</div>
-      <div class="cat-name">Clinical Trials</div>
-      <div class="cat-count">Eligible</div>
-      <div class="cat-desc">Anti-amyloid, melanoma prevention, pharmacogenomics trials.</div>
-    </a>
-    <a class="cat-card" onclick="go('haplogroups')" style="border-left:3px solid #a090c0">
-      <div class="cat-icon">&#127981;</div>
-      <div class="cat-name">Haplogroups</div>
-      <div class="cat-count">MT + Y-DNA</div>
-      <div class="cat-desc">Maternal H1 lineage. Paternal R1b. 7,491 ancestry-informative markers.</div>
-    </a>
-    <a class="cat-card" onclick="go('neanderthal')" style="border-left:3px solid #fb923c">
-      <div class="cat-icon">&#129476;</div>
-      <div class="cat-name">Neanderthal</div>
-      <div class="cat-count">~0.8% Archaic</div>
-      <div class="cat-desc">24 introgression loci scanned. 5 confirmed archaic alleles.</div>
-    </a>
-    <a class="cat-card" onclick="go('carrier')" style="border-left:3px solid #34d399">
-      <div class="cat-icon">&#129516;</div>
-      <div class="cat-name">Carrier Screen</div>
-      <div class="cat-count">25 Diseases</div>
-      <div class="cat-desc">Mendelian disease carrier status. HFE H63D, MTHFR confirmed.</div>
-    </a>
-    <a class="cat-card" onclick="go('upload')" style="border-left:3px solid #60a5fa">
-      <div class="cat-icon">&#128228;</div>
-      <div class="cat-name">Upload &amp; Compare</div>
-      <div class="cat-count">23andMe</div>
-      <div class="cat-desc">Upload raw genome files. Compare two genomes side by side.</div>
-    </a>
-    <a class="cat-card" href="behcets.html" style="border-left:3px solid #A51C30">
-      <div class="cat-icon">&#9877;&#65039;</div>
-      <div class="cat-name">Behçet's</div>
-      <div class="cat-count">Intelligence</div>
-      <div class="cat-desc">Full pathogenesis, trials, lifestyle, specialists</div>
-    </a>
-  </div>
-</div>
-
-<!-- ═══════════════ HEART PAGE ═══════════════ -->
-<div class="page" id="page-heart">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#10084;&#65039; Cardiovascular — 19 Variants</h2>
-  </div>
-
-  <div class="section-title" style="color:#A51C30">Key Discoveries</div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">9p21 CAD Risk &mdash; ALL THREE Variants</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs10757278 = AG &middot; rs1333049 = CG &middot; rs4977574 = AG</div>
-    <div class="variant-desc">FAMILY CONFIRMED: Father developed CAD requiring stent at 62 and 4-vessel CABG at 75. Chad carries all three independent 9p21 CAD signals. Mediterranean diet has been shown to completely eliminate 9p21-associated MI risk. Brigitte carries the same three variants — bilateral.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">CAD Risk</div><div class="variant-stat-value">OR ~1.25-1.35 per allele</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Family</div><div class="variant-stat-value">Father: stent 62, CABG 75</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">CAC score NOW. Mediterranean diet.</div></div>
+<!-- ═══════════ HOME ═══════════ -->
+<div class="screen active" id="s-home">
+  <div class="home-header">
+    <div class="home-avatar">&#129468;&#8205;&#9877;&#65039;</div>
+    <div class="home-name">Chad Byars, M.D.</div>
+    <div class="home-sub">Genome Explorer</div>
+    <div class="home-stats">
+      <div><div class="home-stat-num">614K</div><div class="home-stat-label">SNPs</div></div>
+      <div><div class="home-stat-num">171</div><div class="home-stat-label">Variants</div></div>
+      <div><div class="home-stat-num">H1</div><div class="home-stat-label">Haplogroup</div></div>
+      <div><div class="home-stat-num">0.8%</div><div class="home-stat-label">Neanderthal</div></div>
     </div>
   </div>
 
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">PITX2 Atrial Fibrillation</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs2200733 = CT</div>
-    <div class="variant-desc">FAMILY CONFIRMED: Sister has paroxysmal AFib. PITX2 is the strongest known genetic locus for atrial fibrillation. CT confers OR ~1.5-1.8&times;. Brigitte also carries CT — bilateral. Alcohol is multiplicative with PITX2 risk.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">AFib Risk</div><div class="variant-stat-value">OR ~1.5-1.8&times;</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Family</div><div class="variant-stat-value">Sister: paroxysmal AFib</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">Annual EKG. Minimize alcohol.</div></div>
+  <div class="tile-grid">
+    <div class="tile tile-heart" onclick="showCat('heart')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot"></div>
+      <div class="tile-icon">&#10084;&#65039;</div>
+      <div><div class="tile-name">Heart</div><div class="tile-stat">19 variants &middot; 72nd %ile</div></div>
     </div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">PCSK9 Heterozygous</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs11206510 = CT</div>
-    <div class="variant-desc">PCSK9 pathway variant. Combined with 9p21 CAD risk, precision therapy candidate for PCSK9 inhibitors (evolocumab/alirocumab) if LDL elevated. Quinn's Rhythm labs show LDL 142 + ApoB 103.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Therapy</div><div class="variant-stat-value">PCSK9 inhibitor candidate</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Quinn's LDL</div><div class="variant-stat-value">142 (target &lt;100)</div></div>
+    <div class="tile tile-brain" onclick="showCat('brain')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot"></div>
+      <div class="tile-icon">&#129504;</div>
+      <div><div class="tile-name">Brain</div><div class="tile-stat">15 variants &middot; 68th %ile</div></div>
     </div>
-  </div>
-
-  <div class="section-title">Blood Pressure &amp; Vascular</div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Factor V Leiden</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs6025 = CC</div>
-    <div class="variant-desc">No Factor V Leiden. Normal clotting risk at this locus. Both parents CC.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">AGTR1 Angiotensin Receptor</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs5186 = AC</div>
-    <div class="variant-desc">Heterozygous. Modestly elevated hypertension susceptibility.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">ADRB1 Beta-1 Receptor</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1801253 = CG</div>
-    <div class="variant-desc">Intermediate beta-blocker response. Both parents CG — bilateral.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">SCN5A Cardiac Sodium Channel</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1805124 = CT</div>
-    <div class="variant-desc">Cardiac rhythm variant. Both parents CT — bilateral. Combined with PITX2 bilateral = multiple cardiac electrical variants.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">MTHFR A1298C</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1801131 = GT</div>
-    <div class="variant-desc">Combined with C677T = compound heterozygous. Elevates homocysteine — independent CV risk factor.</div>
-  </div>
-
-  <div class="section-title">Lipids</div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">LPA Lipoprotein(a)</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs10455872 = AA &middot; rs3798220 = TT</div>
-    <div class="variant-desc">Both LPA variants favorable. Lp(a) not genetically elevated.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">SORT1 LDL</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs12740374 = GT &middot; rs629301 = GT</div>
-    <div class="variant-desc">SORT1 is the strongest genetic determinant of LDL levels. Two variants from Chad may be driving Quinn's elevated LDL (142).</div>
-  </div>
-</div>
-
-<!-- ═══════════════ BRAIN PAGE ═══════════════ -->
-<div class="page" id="page-brain">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#129504; Brain &amp; Mental Health — 15 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a78bfa">
-    <div class="variant-header"><div class="variant-name">COMT Val/Met — The Balanced Mind</div><div class="variant-badge badge-purple">Notable</div></div>
-    <div class="variant-geno">rs4680 = AG</div>
-    <div class="variant-desc">Val158Met balanced genotype — ideal for emergency medicine. Adapts dopamine regulation to both high-stress and normal conditions. Brigitte is AA "Worrier" — Quinn is 50/50.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Dopamine</div><div class="variant-stat-value">Intermediate clearance</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">ER Advantage</div><div class="variant-stat-value">Optimal under pressure</div></div>
+    <div class="tile tile-cancer" onclick="showCat('cancer')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot"></div>
+      <div class="tile-icon">&#128301;</div>
+      <div><div class="tile-name">Cancer</div><div class="tile-stat">18 variants &middot; 91st %ile</div></div>
     </div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a78bfa">
-    <div class="variant-header"><div class="variant-name">OXTR GG — Maximum Empathy</div><div class="variant-badge badge-purple">Notable</div></div>
-    <div class="variant-geno">rs53576 = GG</div>
-    <div class="variant-desc">Highest empathy oxytocin receptor genotype. Natural patient rapport, strong family bonds. Compassion fatigue risk in ER. Brigitte is AG — Quinn gets at least one G allele.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Empathy</div><div class="variant-stat-value">Maximum genetic potential</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Watch</div><div class="variant-stat-value">Compassion fatigue</div></div>
+    <div class="tile tile-drugs" onclick="showCat('drugs')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot" style="color:#fbbf24"></div>
+      <div class="tile-icon">&#128138;</div>
+      <div><div class="tile-name">Pharma</div><div class="tile-stat">22 variants &middot; 4 alerts</div></div>
     </div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">BDNF Val/Met</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs6265 = CT</div>
-    <div class="variant-desc">Good neuroplasticity. Exercise is the strongest BDNF upregulator. Both parents CT — bilateral.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">DRD2 TaqIA — High D2 Density</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs1800497 = GG</div>
-    <div class="variant-desc">A2/A2 — higher D2 receptor density. Lower addiction vulnerability. Both parents GG. Protective for substance use.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">HTR1A Serotonin 1A</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs6295 = CG</div>
-    <div class="variant-desc">Serotonin autoreceptor — CG heterozygous. Intermediate SSRI response. Brigitte is CC.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">DBH Norepinephrine</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1611115 = CT</div>
-    <div class="variant-desc">Dopamine beta-hydroxylase — converts dopamine to norepinephrine. CT = intermediate. Brigitte is TT (lowest production) — may explain Quinn's low BP.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">CACNA1C Calcium Channel</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1006737 = GG</div>
-    <div class="variant-desc">Risk-associated genotype for bipolar vulnerability and emotional reactivity. Both parents GG. Population-level association, not diagnostic.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">TNF-alpha — HIGH Producer</div><div class="variant-badge badge-red">Elevated</div></div>
-    <div class="variant-geno">rs1800629 = AA</div>
-    <div class="variant-desc">BOTH copies of the high-TNF production allele. Brigitte is GG (low). Quinn is AG guaranteed — one high allele. Anti-TNF therapy (infliximab/adalimumab) directly targets this.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ CANCER PAGE ═══════════════ -->
-<div class="page" id="page-cancer">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128301; Cancer Risk — 18 Variants</h2>
-  </div>
-
-  <div class="section-title" style="color:#A51C30">Melanoma — Triple MC1R</div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">MC1R R151C — Celtic Variant</div><div class="variant-badge badge-red">Elevated</div></div>
-    <div class="variant-geno">rs1805007 = CT</div>
-    <div class="variant-desc">High-penetrance "R" allele. Celtic/Irish red hair carrier. ~2&times; melanoma risk from genetics alone. Childhood blistering sunburns in New Orleans compound this multiplicatively.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">MC1R Second Variant</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs910873 = AG</div>
-    <div class="variant-desc">Both parents carry this variant (AG/AG). Quinn has 75% chance of inheriting. Combined with R151C + V60L = compound MC1R carrier. OR up to ~10&times; for melanoma.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">MC1R V60L — Fourth Variant</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1805005 = GT</div>
-    <div class="variant-desc">Low-penetrance "r" variant. Fourth distinct MC1R variant in Chad. Brigitte is GG (non-carrier).</div>
-  </div>
-
-  <div class="section-title">Breast Cancer</div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">FGFR2 — Both Risk Alleles</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs2981582 = GG</div>
-    <div class="variant-desc">FGFR2 homozygous risk. Top GWAS hit for breast cancer. ~1.3&times; elevated risk. Relevant for daughters. Aunt had breast cancer at 33.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">BRCA1 / BRCA2</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs1799950 TT &middot; rs16942 TT &middot; rs11571833 AA &middot; rs1801426 AA</div>
-    <div class="variant-desc">All tested BRCA variants are common/favorable. NOTE: consumer genotyping covers only a fraction of BRCA mutations. Full clinical panel recommended given aunt's history.</div>
-  </div>
-
-  <div class="section-title">Prostate</div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">MSMB Prostate</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs10993994 = CC</div>
-    <div class="variant-desc">Both risk alleles. ~1.4&times; elevated prostate cancer risk. Annual PSA starting age 40-45.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">8q24 Multi-Cancer</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs6983267 = GT</div>
-    <div class="variant-desc">Heterozygous at multi-cancer locus near MYC. Both parents GT — bilateral. Colorectal, prostate, breast, bladder.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ DRUGS PAGE ═══════════════ -->
-<div class="page" id="page-drugs">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128138; Pharmacogenomics — 22 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">CYP2C9 *1/*2 — NSAID Caution</div><div class="variant-badge badge-red">Elevated</div></div>
-    <div class="variant-geno">rs1799853 = CT</div>
-    <div class="variant-desc">Intermediate metabolizer. NSAIDs (ibuprofen, naproxen, celecoxib) accumulate at higher plasma levels. Both parents carry *2 — Quinn has 25% chance of *2/*2 homozygous. Use lowest dose, shortest duration. Prefer acetaminophen.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">CYP1A2 — Fast Caffeine</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs762551 = AA</div>
-    <div class="variant-desc">Fast caffeine metabolizer — half-life ~2-3h. Brigitte is CC (slow). Quinn is AC (intermediate). With 9p21 CAD risk: cap at 2-3 cups/day.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">DPYD Panel — 5-FU Safe</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs3918290 CC &middot; rs55886062 AA &middot; rs67376798 TT</div>
-    <div class="variant-desc">All three DPYD variants normal. 5-FU/capecitabine chemotherapy safe — no dose reduction needed.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">TPMT Panel — Thiopurines Safe</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs1142345 TT &middot; rs1800460 CC &middot; rs1800462 CC</div>
-    <div class="variant-desc">All normal. Azathioprine/6-MP safe at standard doses.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">HLA-B*57:01 — Abacavir Safe</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs2395029 = TT</div>
-    <div class="variant-desc">B*57:01 absent. Abacavir and carbamazepine safe from this HLA allele.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">MTHFR C677T</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs1801133 = AG</div>
-    <div class="variant-desc">Compound with A1298C. Methotrexate toxicity elevated. NO NITROUS OXIDE — irreversibly oxidizes B12 in MTHFR carriers. Inform ALL anesthesiologists.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ BODY PAGE ═══════════════ -->
-<div class="page" id="page-body">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#127939; Athletic Performance — 8 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #22d3ee">
-    <div class="variant-header"><div class="variant-name">ACTN3 XX — Endurance Elite</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs1815739 = TT</div>
-    <div class="variant-desc">Homozygous endurance genotype. Overrepresented in Olympic distance athletes. Zone 2 training maximizes this advantage. Brigitte is CT — Quinn guaranteed at least one endurance allele.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">FTO — Low Obesity Risk</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs9939609 = TT &middot; rs1558902 = TT</div>
-    <div class="variant-desc">Both FTO variants favorable. Low genetic obesity risk. Both parents TT — Quinn is 100% TT confirmed.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">PPARGC1A Mitochondria</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs8192678 = CT</div>
-    <div class="variant-desc">PGC-1alpha — intermediate mitochondrial biogenesis response. Zone 2 training 3-4&times;/week builds mitochondrial density.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">COL5A1 Connective Tissue</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs12722 = CT</div>
-    <div class="variant-desc">Intermediate flexibility. Regular stretching and progressive loading prevents injury.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ IMMUNE PAGE ═══════════════ -->
-<div class="page" id="page-immune">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128737; Autoimmune &amp; Immune — 15 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">CTLA4 — THREE SNPs Bilateral</div><div class="variant-badge badge-red">Elevated</div></div>
-    <div class="variant-geno">rs231775 AG/AG &middot; rs3087243 AG/AG &middot; rs11571302 GT/GT</div>
-    <div class="variant-desc">Immune checkpoint weakness from BOTH parents at THREE separate loci. Quinn almost certainly has impaired CTLA4 function. This is the most genetically confirmed immune brake weakness in the analysis.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">ATG16L1 — Autophagy Bilateral</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs2241880 = AG &middot; rs10210302 = CT</div>
-    <div class="variant-desc">Both parents carry both variants. Autophagy defect + gut barrier weakness from both sides.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">HLA-DQ2/DQ8 Celiac</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">DQ2 CC &middot; DQ8 TT</div>
-    <div class="variant-desc">DQ2 absent from both parents. DQ8: Chad TT (absent), Brigitte CT (one allele). Very low celiac risk overall.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">IL-23R Protective (Brigitte)</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs11209026 = GG (Chad) / AG (Brigitte)</div>
-    <div class="variant-desc">Brigitte carries the protective A allele for IBD and autoimmune conditions. Quinn has 50% chance of inheriting this protection.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ NUTRITION PAGE ═══════════════ -->
-<div class="page" id="page-nutrition">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#127823; Nutrigenomics — 17 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">FUT2 Non-Secretor — B12 Risk</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs601338 = AA (BOTH parents AA — Quinn 100% confirmed)</div>
-    <div class="variant-desc">Non-secretor status from BOTH parents. Quinn's gut microbiome has been different since BIRTH. Severely reduced Bifidobacterium. Impaired B12 absorption. Serum B12 may look falsely normal — check MMA for true functional status. Supplement methylcobalamin sublingual or IM.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">B12 Risk</div><div class="variant-stat-value">Impaired absorption — mandatory supplementation</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Microbiome</div><div class="variant-stat-value">Severely reduced Bifidobacterium</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Compensation</div><div class="variant-stat-value">2'-FL prebiotic + B. longum BB536</div></div>
+    <div class="tile tile-immune" onclick="showCat('immune')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot"></div>
+      <div class="tile-icon">&#128737;</div>
+      <div><div class="tile-name">Immune</div><div class="tile-stat">15 variants &middot; B*51</div></div>
     </div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">FADS1 Omega-3 Conversion</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs174546 = CT &middot; rs174547 = CT</div>
-    <div class="variant-desc">Intermediate ALA to EPA conversion. Use marine omega-3 (EPA/DHA) sources, not plant sources (flaxseed).</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Lactose Tolerance</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-geno">rs4988235 = AA</div>
-    <div class="variant-desc">Full Northern European lactase persistence. Brigitte is AG (partial). Quinn has at least one persistence allele — lactose tolerant.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Vitamin D Metabolism</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">GC rs7041 AC &middot; CYP27B1 rs10877012 GT (BOTH parents)</div>
-    <div class="variant-desc">Vitamin D binding protein AND activation enzyme both variant from BOTH parents. Quinn's Rhythm labs confirmed: 25-OH = 26.5 ng/mL (insufficient). Genetic prediction confirmed. Increase to 4000 IU/day.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ LONGEVITY PAGE ═══════════════ -->
-<div class="page" id="page-longevity">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#9200; Longevity — 11 Variants</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">FOXO3 — No Longevity Allele</div><div class="variant-badge badge-gold">Key Discovery</div></div>
-    <div class="variant-geno">rs2802292 = TT (BOTH parents TT — Quinn 100% confirmed)</div>
-    <div class="variant-desc">Does NOT carry the G allele found in centenarians. But FOXO3 is activated by HIIT exercise (blunts AKT-driven export) and intermittent fasting (raised FOXO3 mRNA 2.5-fold vs controls). Brigitte has SIRT1 variants at 2 loci — the FOXO3 bypass pathway may function differently in this family.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-header"><div class="variant-name">APOE &epsilon;3/&epsilon;4 — Alzheimer's</div><div class="variant-badge badge-red">Elevated</div></div>
-    <div class="variant-geno">rs429358 = CT &middot; rs7412 = CC</div>
-    <div class="variant-desc">FAMILY CONFIRMED: Father has advanced dementia. Exercise 150+ min/week = 45% AD risk reduction specifically in &epsilon;4 carriers. Brigitte has NO &epsilon;4 — Quinn CANNOT be &epsilon;4/&epsilon;4. p-tau217 blood test recommended for baseline.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">TERT Telomeres</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs2736100 AC &middot; rs2853676 CT &middot; rs10069690 CT &middot; rs12696304 CG</div>
-    <div class="variant-desc">Chad has variants at 6 telomere loci. Brigitte has ZERO. Quinn's telomere maintenance depends entirely on which alleles he got from Chad.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">SOD2 Mitochondrial Antioxidant</div><div class="variant-badge badge-yellow">Moderate</div></div>
-    <div class="variant-geno">rs4880 = AG (BOTH parents AG)</div>
-    <div class="variant-desc">Primary mitochondrial antioxidant compromised from both sides. Higher oxidative stress. Counter: dietary antioxidants, NAC, berries, green tea.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ ANCESTRY PAGE ═══════════════ -->
-<div class="page" id="page-ancestry">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#127758; Ancestry — Heritage Markers</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a090c0">
-    <div class="variant-header"><div class="variant-name">Celtic / Irish Signal</div><div class="variant-badge badge-purple">Notable</div></div>
-    <div class="variant-desc">MC1R R151C (Celtic variant) + V60L + rs910873 + HFE H63D (Northern European iron carrier) + full lactase persistence (AA) + wet earwax (CT) + "Byars" Anglo-Saxon surname. Strong Irish/British/Northern European ancestry.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a090c0">
-    <div class="variant-header"><div class="variant-name">Anatolian Farmer B*51</div><div class="variant-badge badge-purple">Notable</div></div>
-    <div class="variant-desc">HLA-B*51 carrier. Feb 2025 Genome Biology: B*51:01 was at 31% frequency in early Anatolian farmers entering Europe ~7,500 years ago. Chad's B*51 traveled via Atlantic coastal migration to Celtic Britain/Ireland. Brigitte's traveled via Danubian corridor to Alpine/Tyrol. Two children of the same Anatolian migration, reunited in Portland.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Eye Color</div><div class="variant-badge badge-purple">Notable</div></div>
-    <div class="variant-geno">rs12913832 = GG</div>
-    <div class="variant-desc">Brown eye alleles. Quinn's BLUE eyes came from Brigitte's A allele (AG) — a 10,000-year-old Mesolithic Hunter-Gatherer mutation from the Baltic.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Skin Pigmentation</div></div>
-    <div class="variant-geno">rs1426654 = AA &middot; rs16891982 = GG</div>
-    <div class="variant-desc">European skin pigmentation. SLC24A5 AA actually originated in Anatolian farmers (Near Eastern) ~9,000 years ago — Chad's "European skin color" gene is of Middle Eastern origin.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ QUINN PAGE ═══════════════ -->
-<div class="page" id="page-quinn">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128118; Quinn's Inheritance Calculator</h2>
-  </div>
-
-  <div class="section-title" style="color:#6db87d">100% Inherited (Both Parents Homozygous Same)</div>
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-desc"><b>FUT2 AA</b> non-secretor &middot; <b>FTO TT</b> low obesity &middot; <b>FOXO3 TT</b> no longevity allele &middot; <b>CYP1A2 AC</b> intermediate caffeine &middot; <b>TNF-&alpha; AG</b> one high allele &middot; <b>DRD2 GG</b> high D2 (addiction protective) &middot; At least one <b>ACTN3</b> endurance allele &middot; At least one <b>OXTR G</b> empathy allele</div>
-  </div>
-
-  <div class="section-title" style="color:#A51C30">75% Probability (Both Parents Heterozygous)</div>
-  <div class="variant" style="border-left:3px solid #A51C30">
-    <div class="variant-desc"><b>B*51</b> carrier (75%, 25% homozygous!) &middot; <b>CYP2C9 *2</b> (75%, 25% *2/*2!) &middot; <b>PITX2</b> AFib (75%) &middot; <b>9p21</b> CAD &times;3 (75% each) &middot; <b>CTLA4</b> &times;3 (75% each) &middot; <b>ATG16L1</b> &times;2 (75% each) &middot; <b>SCN5A</b> cardiac (75%) &middot; <b>CRY1+CLOCK+NPAS2</b> circadian (75% each) &middot; <b>SOD2</b> oxidative (75%) &middot; <b>AMPD1</b> exercise (75%)</div>
-  </div>
-
-  <div class="section-title" style="color:#C49A6C">50% From One Parent Only</div>
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-desc"><b>From Chad:</b> APOE &epsilon;4, ERAP1, MC1R R151C+V60L, HFE H63D, STAT4, MTHFR C677T+A1298C, HIF1A &times;2, PCSK9, 6 telomere variants, SORT1 LDL, MTNR1B glucose, SCN9A pain channel<br><br><b>From Brigitte:</b> COMT AA worrier, DBH TT low norepinephrine, eNOS variants, FKBP5 enhanced GR, DIO1+DIO2 thyroid, CYP2C19*2, TP53 CG, FAAH endocannabinoid, CBS/SHMT1/MTHFD1/PEMT/BHMT methylation, C3 complement, PER2+PER3+ADA circadian, IL-23R protective, IL-17A, A1AT PiS</div>
-  </div>
-</div>
-
-<!-- ═══════════════ DOCTOR PAGE ═══════════════ -->
-<div class="page" id="page-doctor">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128203; Doctor Card — Top 10 Findings</h2>
-  </div>
-  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">Print this page and carry it. Any physician, any ER, any surgery.</div>
-
-  <div class="variant" style="border-left:3px solid #A51C30"><div class="variant-name">1. CYP2C9 *1/*2</div><div class="variant-desc">Intermediate metabolizer. NSAIDs accumulate at higher levels. Use lowest dose. Both parents carry — Quinn may be *2/*2 homozygous.</div></div>
-  <div class="variant" style="border-left:3px solid #A51C30"><div class="variant-name">2. MTHFR Compound</div><div class="variant-desc">C677T + A1298C. <b>NO NITROUS OXIDE (N2O).</b> Inform all anesthesiologists. Elevated methotrexate toxicity. Supplement methylfolate.</div></div>
-  <div class="variant" style="border-left:3px solid #A51C30"><div class="variant-name">3. HLA-B*51 Carrier</div><div class="variant-desc">Quinn is B*51/B*51 HOMOZYGOUS. Behçet's disease investigation active. Chad is heterozygous carrier.</div></div>
-  <div class="variant" style="border-left:3px solid #fb923c"><div class="variant-name">4. APOE &epsilon;3/&epsilon;4</div><div class="variant-desc">Alzheimer's risk. Father has advanced dementia. Exercise 150+ min/week. p-tau217 baseline recommended.</div></div>
-  <div class="variant" style="border-left:3px solid #fb923c"><div class="variant-name">5. MC1R &times;4</div><div class="variant-desc">Triple compound + V60L. Childhood NOLA sunburns. Melanoma surveillance q6 months. SPF 50+ daily.</div></div>
-  <div class="variant" style="border-left:3px solid #fb923c"><div class="variant-name">6. 9p21 CAD &times;3</div><div class="variant-desc">All three signals positive. Father stent 62, CABG 75. Both parents carry. CAC score recommended.</div></div>
-  <div class="variant" style="border-left:3px solid #fb923c"><div class="variant-name">7. PITX2 AFib</div><div class="variant-desc">CT heterozygous. Sister has PAF. Both parents carry. Annual EKG. Minimize alcohol.</div></div>
-  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">8. FUT2 Non-Secretor</div><div class="variant-desc">AA. Impaired B12 absorption. Use sublingual methylcobalamin. Check MMA not serum B12. Both parents AA.</div></div>
-  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">9. TNF-&alpha; AA</div><div class="variant-desc">HIGH producer genotype. Anti-TNF therapy (infliximab/adalimumab) directly targets this allele.</div></div>
-  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">10. DPYD + TPMT Normal</div><div class="variant-desc">5-FU and thiopurines safe at standard doses. HLA-B*57:01 absent — abacavir/carbamazepine safe.</div></div>
-
-  <div style="margin-top:20px;text-align:center"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:Inter,sans-serif">&#128247; Print Doctor Card</button></div>
-</div>
-
-<!-- ═══════════════ RISK DASHBOARD ═══════════════ -->
-<div class="page" id="page-risk">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128200; Risk Dashboard</h2>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0">
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#d4838f" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="114" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#d4838f;margin-top:-70px;position:relative">65</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">HEART</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">9p21 &times;3 + PITX2 + PCSK9<br>offset by FTO + TCF7L2</div>
+    <div class="tile tile-nutrition" onclick="showCat('nutrition')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot" style="color:#60a5fa"></div>
+      <div class="tile-icon">&#127823;</div>
+      <div><div class="tile-name">Nutrition</div><div class="tile-stat">17 variants &middot; MTHFR</div></div>
     </div>
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#C49A6C" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="147" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#C49A6C;margin-top:-70px;position:relative">55</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">BRAIN</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">APOE &epsilon;4 risk offset by<br>COMT/OXTR/DRD2 favorable</div>
+    <div class="tile tile-body" onclick="showCat('body')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot" style="color:#22d3ee"></div>
+      <div class="tile-icon">&#127939;</div>
+      <div><div class="tile-name">Body</div><div class="tile-stat">8 variants &middot; endurance</div></div>
     </div>
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#d4838f" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="98" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#d4838f;margin-top:-70px;position:relative">70</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">CANCER</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">MC1R &times;4 melanoma<br>BRCA clear, colon clear</div>
-    </div>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#6db87d" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="33" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d;margin-top:-70px;position:relative">90</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">METABOLISM</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">FTO TT + TCF7L2 CC<br>No diabetes genes</div>
-    </div>
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#6db87d" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="65" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d;margin-top:-70px;position:relative">80</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">IMMUNE</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">CTLA4 AG mild, no major<br>autoimmune risk (as carrier)</div>
-    </div>
-    <div style="text-align:center;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.1);border-radius:14px;padding:20px">
-      <svg viewBox="0 0 120 120" width="100" height="100">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(196,154,108,.1)" stroke-width="8"/>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#C49A6C" stroke-width="8" stroke-dasharray="327" stroke-dashoffset="131" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s ease"/>
-      </svg>
-      <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#C49A6C;margin-top:-70px;position:relative">60</div>
-      <div style="font-size:.7rem;color:#C49A6C;margin-top:40px;font-weight:700">LONGEVITY</div>
-      <div style="font-size:.6rem;color:rgba(196,154,108,.4);margin-top:2px">FOXO3 TT + APOE &epsilon;4 + IL-6 CC<br>TERT AC partially helps</div>
+    <div class="tile tile-longevity" onclick="showCat('longevity')">
+      <div class="tile-bg"></div>
+      <div class="tile-dot" style="color:#f472b6"></div>
+      <div class="tile-icon">&#9200;</div>
+      <div><div class="tile-name">Longevity</div><div class="tile-stat">11 variants &middot; APOE4</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ TIMELINE PAGE ═══════════════ -->
-<div class="page" id="page-timeline">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128197; Health Timeline by Decade</h2>
+<!-- ═══════════ CATEGORY PAGES ═══════════ -->
+<div class="screen" id="s-cat">
+  <div class="cat-page" id="cat-content"></div>
+</div>
+
+<!-- ═══════════ RISK OVERVIEW ═══════════ -->
+<div class="screen" id="s-risk">
+  <div class="sec-header"><div class="sec-title">Risk Overview</div><div class="sec-sub">Polygenic Risk Scores</div></div>
+  <div class="risk-grid" id="risk-grid"></div>
+</div>
+
+<!-- ═══════════ EXPLORE (D3) ═══════════ -->
+<div class="screen" id="s-explore">
+  <div class="sec-header"><div class="sec-title">Genome Map</div><div class="sec-sub">171 variants</div></div>
+  <div id="explore-container"></div>
+</div>
+
+<!-- ═══════════ DOCTOR CARD ═══════════ -->
+<div class="screen" id="s-doctor">
+  <div class="sec-header"><div class="sec-title">Doctor Card</div><div class="sec-sub">Show any physician</div></div>
+  <div class="doc-card">
+    <div class="doc-header">
+      <div>
+        <div class="doc-name">Chad Byars, M.D.</div>
+        <div style="font-size:11px;color:#666;margin-top:2px">Pharmacogenomic Profile &middot; 614,452 SNPs</div>
+      </div>
+      <div class="doc-badge">PGx Alert</div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">Pharmacogenomics</div>
+      <div class="doc-row"><span class="doc-row-label">CYP2C9</span><span class="doc-row-value">*1/*2 &mdash; Intermediate Metabolizer</span></div>
+      <div class="doc-row"><span class="doc-row-label">CYP2C19</span><span class="doc-row-value">*1/*2 &mdash; Intermediate Metabolizer</span></div>
+      <div class="doc-row"><span class="doc-row-label">CYP1A2</span><span class="doc-row-value">*1F/*1F &mdash; Ultra-Rapid (caffeine)</span></div>
+      <div class="doc-row"><span class="doc-row-label">DPYD</span><span class="doc-row-value">Normal &mdash; 5-FU safe</span></div>
+      <div class="doc-row"><span class="doc-row-label">TPMT</span><span class="doc-row-value">Normal &mdash; Azathioprine safe</span></div>
+      <div class="doc-row"><span class="doc-row-label">Factor V</span><span class="doc-row-value">CC &mdash; No Leiden</span></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">Key Genetic Risks</div>
+      <div class="doc-row"><span class="doc-row-label">CAD (9p21)</span><span class="doc-row-value" style="color:#dc2626;font-weight:800">3/3 risk alleles &mdash; Father: CABG</span></div>
+      <div class="doc-row"><span class="doc-row-label">AFib (PITX2)</span><span class="doc-row-value" style="color:#dc2626">CT carrier &mdash; Sister: PAF</span></div>
+      <div class="doc-row"><span class="doc-row-label">Alzheimer's (APOE)</span><span class="doc-row-value" style="color:#dc2626">&#949;3/&#949;4 carrier</span></div>
+      <div class="doc-row"><span class="doc-row-label">Melanoma (MC1R)</span><span class="doc-row-value" style="color:#dc2626">4 variants &mdash; compound</span></div>
+      <div class="doc-row"><span class="doc-row-label">HLA-B*51</span><span class="doc-row-value">Homozygous &mdash; Son has Beh&ccedil;et's</span></div>
+    </div>
+
+    <div class="doc-section">
+      <div class="doc-section-title">Carrier Status</div>
+      <div class="doc-row"><span class="doc-row-label">HFE H63D</span><span class="doc-row-value">Heterozygous carrier</span></div>
+      <div class="doc-row"><span class="doc-row-label">MTHFR</span><span class="doc-row-value">Compound het (C677T + A1298C)</span></div>
+    </div>
+
+    <div class="doc-alert">
+      <div class="doc-alert-title">Drug Alerts</div>
+      <div class="doc-alert-item">CYP2C9*2: Reduce NSAID doses. Use IWPC algorithm if anticoagulation needed.</div>
+      <div class="doc-alert-item">CYP2C19*2: Clopidogrel may have reduced efficacy. Consider prasugrel/ticagrelor.</div>
+      <div class="doc-alert-item">MTHFR compound: Use methylfolate, not folic acid. Monitor homocysteine.</div>
+      <div class="doc-alert-item">FUT2 non-secretor: Serum B12 may be falsely normal. Check MMA + homocysteine.</div>
+    </div>
+
+    <div class="doc-print"><button onclick="window.print()">Print Card</button></div>
   </div>
+</div>
 
-  <div style="position:relative;padding-left:28px;border-left:2px solid rgba(165,28,48,.2)">
-    <div style="position:relative;margin-bottom:24px;padding-left:18px">
-      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#6db87d;border:2px solid #0f0a08"></div>
-      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#6db87d;margin-bottom:4px">Now (40s)</div>
-      <div class="variant"><div class="variant-desc">
-      <b>START:</b> Mediterranean diet strictly (9p21 elimination). Exercise 150+ min/week (ACTN3 optimized). SPF 50+ daily (MC1R &times;4). Methylfolate 800mcg + methylcobalamin 2000mcg (MTHFR + FUT2). Vitamin D 4000 IU (GC variant confirmed insufficient). Omega-3 2g (FADS1 CT).<br><br>
-      <b>GET TESTED:</b> CAC score. p-tau217 Alzheimer's baseline. Full lipid panel + ApoB. Hereditary cancer panel. Full-body dermatology mapping.</div></div>
+<!-- ═══════════ SHARE ═══════════ -->
+<div class="screen" id="s-share">
+  <div class="sec-header"><div class="sec-title">Share &amp; Export</div></div>
+  <div class="share-grid">
+    <div class="share-btn" onclick="window.print()">
+      <div class="share-btn-icon">&#128196;</div>
+      <div><div class="share-btn-text">Export PDF</div><div class="share-btn-sub">Print-optimized layout</div></div>
     </div>
-
-    <div style="position:relative;margin-bottom:24px;padding-left:18px">
-      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#C49A6C;border:2px solid #0f0a08"></div>
-      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#C49A6C;margin-bottom:4px">50s</div>
-      <div class="variant"><div class="variant-desc">
-      <b>INTENSIFY:</b> Alzheimer's prevention protocol active (APOE &epsilon;4). Annual p-tau217 tracking. Aggressive LDL management — statin if needed (SLCO1B1 TT favorable, PCSK9 CT precision option). AFib screening ramps up (PITX2 CT — sister's PAF started in her 50s likely). Prostate PSA monitoring (MSMB CC + HNF1B AG). Colonoscopy screening per guidelines (8q24 GT bilateral).</div></div>
+    <div class="share-btn" onclick="showTab('doctor')">
+      <div class="share-btn-icon">&#128203;</div>
+      <div><div class="share-btn-text">Doctor Card</div><div class="share-btn-sub">Show any physician in 5 seconds</div></div>
     </div>
-
-    <div style="position:relative;margin-bottom:24px;padding-left:18px">
-      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#d4838f;border:2px solid #0f0a08"></div>
-      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f;margin-bottom:4px">60s</div>
-      <div class="variant"><div class="variant-desc">
-      <b>Father's inflection point:</b> He had stent at 62. Chad carries the same 9p21 &times;3 signals BUT is a non-smoker + Mediterranean diet eliminates the risk. If lifestyle has been followed, CAD risk is dramatically reduced vs his father's trajectory. Cognitive monitoring continues — if p-tau217 is trending, discuss anti-amyloid therapy (lecanemab works for &epsilon;3/&epsilon;4 heterozygotes). Annual EKG for AFib. Melanoma surveillance continues q6mo.</div></div>
+    <div class="share-btn" onclick="location.href='quinn.html'">
+      <div class="share-btn-icon">&#128118;</div>
+      <div><div class="share-btn-text">Quinn's Dashboard</div><div class="share-btn-sub">Clinical case + Beh&ccedil;et's</div></div>
     </div>
-
-    <div style="position:relative;margin-bottom:24px;padding-left:18px">
-      <div style="position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:#d4838f;border:2px solid #0f0a08"></div>
-      <div style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f;margin-bottom:4px">70s+</div>
-      <div class="variant"><div class="variant-desc">
-      <b>Father had CABG at 75 and is now in advanced dementia.</b> Chad's trajectory can be different: non-smoker, Mediterranean diet, exercise, statin/PCSK9i if needed, Alzheimer's prevention since his 40s, biomarker tracking. The genetic risk is the same — the intervention is 30 years earlier. FOXO3: lifestyle FOXO3 activation (exercise, fasting) compensates for TT genotype. Sauna 4-7&times;/week = 50% CVD risk reduction in Finnish data.</div></div>
+    <div class="share-btn" onclick="location.href='behcets.html'">
+      <div class="share-btn-icon">&#9877;&#65039;</div>
+      <div><div class="share-btn-text">Beh&ccedil;et's Intel</div><div class="share-btn-sub">Pathogenesis, trials, treatment</div></div>
+    </div>
+    <div class="share-btn" onclick="location.href='index.html'">
+      <div class="share-btn-icon">&#128106;</div>
+      <div><div class="share-btn-text">Family Hub</div><div class="share-btn-sub">Chad, Quinn, Brigitte, Brother</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ PROTOCOL PAGE ═══════════════ -->
-<div class="page" id="page-protocol">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128138; Daily Health Protocol</h2>
-  </div>
+</div><!-- /app -->
 
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-name">&#127749; Morning</div>
-    <div class="variant-desc">
-    <b>Supplements:</b> Methylfolate 800mcg (MTHFR compound), Methylcobalamin 2000mcg sublingual (FUT2 AA), Vitamin D3 4000 IU + K2 100mcg (GC AC + CYP27B1 GT), Omega-3 EPA+DHA 2g (FADS1 CT intermediate conversion)<br>
-    <b>Coffee:</b> 2-3 cups max (CYP1A2 AA fast — beneficial, but 9p21 CAD risk with &gt;4 cups/day)<br>
-    <b>SPF:</b> 50+ mineral broad-spectrum on face/neck/hands (MC1R &times;4 + childhood NOLA burns)</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #22d3ee">
-    <div class="variant-name">&#127939; Exercise</div>
-    <div class="variant-desc">
-    <b>Zone 2 aerobic:</b> 30-45 min, 4-5&times;/week (ACTN3 TT endurance optimized). <b>HIIT:</b> 1-2&times;/week, 20-30 min (FOXO3 activation via AMPK). <b>Strength:</b> 2&times;/week (COL5A1 CT connective tissue). <b>Total cap:</b> 5-6 hrs/week (PITX2 CT AFib paradox). Exercise = 45% AD risk reduction for APOE &epsilon;4 carriers specifically.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-name">&#127869; Diet</div>
-    <div class="variant-desc">
-    <b>Mediterranean strictly</b> — eliminates 9p21 CAD risk (PROVEN in INTERHEART). Fatty fish 3&times;/week (FADS1 CT — marine &gt; plant omega-3). EVOO, berries, nuts, vegetables, legumes, whole grains. Limit saturated fat. No processed food. Last meal by 7pm (MTNR1B CG — late eating elevates glucose via melatonin-insulin interaction).</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a78bfa">
-    <div class="variant-name">&#127769; Evening</div>
-    <div class="variant-desc">
-    <b>Supplements:</b> Magnesium 400mg (D3 cofactor + sleep), Probiotic with B. longum BB536 (FUT2 non-secretor microbiome)<br>
-    <b>Sleep:</b> 7-9 hours non-negotiable. APOE &epsilon;4 = glymphatic clearance during sleep clears amyloid. Circadian genes disrupted at 3 loci (CRY1, CLOCK, NPAS2) — strict schedule compensates.<br>
-    <b>Alcohol:</b> &lt;3 drinks/week. PITX2 AFib multiplicative with alcohol. Sister has PAF.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-name">&#128200; Monitoring</div>
-    <div class="variant-desc">
-    <b>Annual:</b> Lipid panel + ApoB, 25-OH Vitamin D, B12 + MMA (FUT2), ferritin (HFE H63D), hs-CRP, homocysteine (MTHFR), TSH, EKG (PITX2)<br>
-    <b>Every 6 months:</b> Full-body dermatology (MC1R &times;4)<br>
-    <b>Every 2-3 years:</b> CAC score update, p-tau217 (APOE &epsilon;4)<br>
-    <b>Sauna:</b> 4-7&times;/week if accessible (50% CVD reduction + dementia risk reduction, Finnish cohort)</div>
-  </div>
+<!-- ═══════════ TAB BAR ═══════════ -->
+<div class="tab-bar" id="tabbar">
+  <button class="tab active" onclick="showTab('home')"><div class="tab-icon">&#127968;</div><div class="tab-label">Home</div></button>
+  <button class="tab" onclick="showTab('explore')"><div class="tab-icon">&#128300;</div><div class="tab-label">Explore</div></button>
+  <button class="tab" onclick="showTab('risk')"><div class="tab-icon">&#128200;</div><div class="tab-label">Risk</div></button>
+  <button class="tab" onclick="showTab('doctor')"><div class="tab-icon">&#128203;</div><div class="tab-label">Doctor</div></button>
+  <button class="tab" onclick="showTab('share')"><div class="tab-icon">&#128228;</div><div class="tab-label">More</div></button>
 </div>
 
-<!-- ═══════════════ DRUG MATRIX PAGE ═══════════════ -->
-<div class="page" id="page-matrix">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128138; Drug Metabolism Matrix</h2>
-  </div>
-  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">How Chad's genome affects every major drug class. Print and carry.</div>
-
-  <div style="overflow-x:auto">
-  <table style="width:100%;border-collapse:collapse;font-size:.75rem;color:#c4b4a4">
-    <thead><tr style="border-bottom:1px solid rgba(196,154,108,.2)">
-      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em">Drug Class</th>
-      <th style="text-align:center;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Status</th>
-      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Gene</th>
-      <th style="text-align:left;padding:8px;color:#C49A6C;font-size:.62rem;text-transform:uppercase">Action</th>
-    </tr></thead>
-    <tbody>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>NSAIDs</b> (ibuprofen, naproxen)</td><td style="padding:8px;text-align:center;color:#d4838f;font-weight:700">&#9888; SLOW</td><td style="padding:8px">CYP2C9 *1/*2</td><td style="padding:8px">Lower dose, shorter duration. Prefer acetaminophen.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Statins</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; NORMAL</td><td style="padding:8px">SLCO1B1 TT</td><td style="padding:8px">Low myopathy risk. Rosuvastatin/pravastatin preferred (CYP2C9).</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Beta-blockers</b></td><td style="padding:8px;text-align:center;color:#C49A6C;font-weight:700">&#9679; ENHANCED</td><td style="padding:8px">ADRB1 CG</td><td style="padding:8px">Enhanced response. May need lower dose of metoprolol/atenolol.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Opioids</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; NORMAL</td><td style="padding:8px">OPRM1 AA, CYP2D6</td><td style="padding:8px">Normal mu-receptor. Standard codeine/tramadol response expected.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Caffeine</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#9889; FAST</td><td style="padding:8px">CYP1A2 AA</td><td style="padding:8px">Fast metabolizer. 2-3h half-life. Cap 2-3 cups (9p21 CAD &gt;4 cups).</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>5-FU / Capecitabine</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">DPYD clear (3/3)</td><td style="padding:8px">Standard dosing. No dose reduction needed.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Thiopurines</b> (azathioprine, 6-MP)</td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">TPMT clear (3/3)</td><td style="padding:8px">Standard dosing safe.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Tacrolimus</b></td><td style="padding:8px;text-align:center;color:#C49A6C;font-weight:700">&#9679; INTERMEDIATE</td><td style="padding:8px">CYP3A5 *1/*3 (CT)</td><td style="padding:8px">One active CYP3A5 allele. Faster clearance than most Europeans.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Abacavir</b></td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#10003; SAFE</td><td style="padding:8px">HLA-B*57:01 absent</td><td style="padding:8px">No hypersensitivity risk from this HLA allele.</td></tr>
-      <tr style="border-bottom:1px solid rgba(196,154,108,.06)"><td style="padding:8px"><b>Anti-TNF</b> (infliximab)</td><td style="padding:8px;text-align:center;color:#6db87d;font-weight:700">&#9889; PRECISION</td><td style="padding:8px">TNF-&alpha; AA (HIGH)</td><td style="padding:8px">Targets Chad's specific overproduced molecule. Genetically targeted.</td></tr>
-      <tr><td style="padding:8px;color:#d4838f"><b>Nitrous Oxide</b></td><td style="padding:8px;text-align:center;color:#d4838f;font-weight:700">&#10060; AVOID</td><td style="padding:8px">MTHFR compound</td><td style="padding:8px"><b>CONTRAINDICATED.</b> Irreversibly oxidizes B12. Inform all anesthesiologists.</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <div style="margin-top:16px;text-align:center"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem">&#128247; Print Drug Matrix</button></div>
-</div>
-
-<!-- ═══════════════ WHAT-IF SCENARIOS ═══════════════ -->
-<div class="page" id="page-whatif">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#129300; What-If Scenarios</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">What if Chad exercises 5&times;/week?</div><div class="variant-badge badge-green">Positive</div></div>
-    <div class="variant-desc"><b>APOE &epsilon;4:</b> 45% Alzheimer's risk reduction (DOUBLE non-carriers) — EXERT trial + UK Biobank + Nature Medicine 2025. <b>9p21 CAD:</b> Exercise attenuates genetic CAD risk by ~50% (Khera NEJM 2016). <b>FOXO3:</b> HIIT activates FOXO3 via AMPK bypass regardless of TT genotype. <b>HDL:</b> Exercise raises HDL (currently concerns at 35.7 in Quinn's labs — same genes). <b>ACTN3 TT:</b> Built for endurance — this is achievable genetics. <b>Net effect:</b> Single highest-impact modifiable intervention across ALL risk categories simultaneously.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">What if Chad takes a statin?</div><div class="variant-badge badge-green">Good Candidate</div></div>
-    <div class="variant-desc"><b>SLCO1B1 TT:</b> Low myopathy risk — favorable transporter genotype. <b>PCSK9 CT:</b> If statin alone insufficient, PCSK9 inhibitors (evolocumab/alirocumab) are precision-targeted to his pathway variant. <b>CYP2C9 *1/*2:</b> Avoid high-dose simvastatin — prefer rosuvastatin or pravastatin. <b>SORT1 GT:</b> LDL may be genetically elevated — statin addresses the root cause. <b>Net:</b> Good candidate with favorable safety profile and a genetically-targeted escalation option.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">What if Chad stops coffee entirely?</div><div class="variant-badge badge-yellow">Mixed</div></div>
-    <div class="variant-desc"><b>CYP1A2 AA:</b> Fast metabolizer — 2-3 cups/day may be cardioprotective in fast metabolizers. Stopping removes this potential benefit. <b>However:</b> 9p21 carriers with &gt;4 cups/day have elevated CAD risk even as fast metabolizers. <b>Net:</b> Don't stop — moderate (2-3 cups). The sweet spot is genetically defined.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">What if Chad needs chemotherapy?</div><div class="variant-badge badge-green">Safe</div></div>
-    <div class="variant-desc"><b>DPYD:</b> All three variants clear — 5-FU/capecitabine safe at standard doses. <b>TPMT:</b> All three variants clear — thiopurines safe. <b>UGT1A1:</b> Normal — irinotecan safe. <b>GSTP1:</b> AG intermediate — may slightly alter some chemo metabolism. <b>Net:</b> No pharmacogenomic contraindications to standard chemotherapy regimens.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">What if Chad follows Mediterranean diet strictly?</div><div class="variant-badge badge-green">Transformative</div></div>
-    <div class="variant-desc"><b>9p21:</b> INTERHEART analysis showed Mediterranean diet COMPLETELY ELIMINATED the 9p21-associated MI risk (P=0.008 for gene-diet interaction). <b>APOE &epsilon;4:</b> Low glycemic index diet is specifically recommended for &epsilon;4 carriers. <b>IL-6 CC:</b> Anti-inflammatory dietary pattern directly counters constitutive IL-6 elevation. <b>FADS1 CT:</b> Fatty fish 3&times;/week provides EPA/DHA that bypasses his intermediate ALA conversion. <b>FUT2 AA:</b> High fiber increases butyrate-producing Roseburia. <b>Net:</b> Most evidence-backed dietary intervention for this SPECIFIC genotype.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ EMERGENCY CARD ═══════════════ -->
-<div class="page" id="page-emergency">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128680; Emergency Medical Card</h2>
-  </div>
-  <div style="font-size:.68rem;color:rgba(196,154,108,.4);margin-bottom:12px">Show this to any ER doctor on your phone. 10-second read.</div>
-
-  <div style="border:2px solid #A51C30;border-radius:14px;padding:24px;max-width:500px;margin:0 auto;background:rgba(18,12,10,.97)">
-    <div style="text-align:center;font-family:'EB Garamond',serif;font-size:1.3rem;font-weight:700;color:#A51C30;margin-bottom:4px">PHARMACOGENOMIC ALERTS</div>
-    <div style="text-align:center;font-size:.78rem;color:#C49A6C;margin-bottom:16px">Chad Byars, M.D. &nbsp;|&nbsp; DOB: check records</div>
-
-    <div style="background:rgba(165,28,48,.15);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #A51C30">
-      <div style="font-size:.85rem;font-weight:700;color:#d4838f">&#10060; NO NITROUS OXIDE (N2O)</div>
-      <div style="font-size:.72rem;color:#b0a090">MTHFR compound heterozygous — irreversibly oxidizes B12</div>
-    </div>
-    <div style="background:rgba(165,28,48,.1);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #d4838f">
-      <div style="font-size:.85rem;font-weight:700;color:#d4838f">&#9888; NSAIDs: REDUCE DOSE</div>
-      <div style="font-size:.72rem;color:#b0a090">CYP2C9 *1/*2 — ibuprofen/naproxen/celecoxib accumulate. Use lowest dose. Prefer acetaminophen.</div>
-    </div>
-    <div style="background:rgba(196,154,108,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #C49A6C">
-      <div style="font-size:.85rem;font-weight:700;color:#C49A6C">&#9679; Beta-blockers: ENHANCED RESPONSE</div>
-      <div style="font-size:.72rem;color:#b0a090">ADRB1 CG — may need lower dose metoprolol/atenolol</div>
-    </div>
-    <div style="background:rgba(78,140,100,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #6db87d">
-      <div style="font-size:.85rem;font-weight:700;color:#6db87d">&#10003; Opioids: STANDARD DOSING</div>
-      <div style="font-size:.72rem;color:#b0a090">OPRM1 AA — normal mu-receptor. Standard codeine/morphine/fentanyl response.</div>
-    </div>
-    <div style="background:rgba(78,140,100,.06);padding:8px 12px;border-radius:8px;margin-bottom:6px;border-left:4px solid #6db87d">
-      <div style="font-size:.85rem;font-weight:700;color:#6db87d">&#10003; 5-FU: SAFE &nbsp;|&nbsp; Thiopurines: SAFE &nbsp;|&nbsp; Abacavir: SAFE</div>
-      <div style="font-size:.72rem;color:#b0a090">DPYD clear. TPMT clear. HLA-B*57:01 absent.</div>
-    </div>
-    <div style="background:rgba(196,154,108,.06);padding:8px 12px;border-radius:8px;border-left:4px solid #C49A6C">
-      <div style="font-size:.85rem;font-weight:700;color:#C49A6C">&#9679; No Factor V Leiden &nbsp;|&nbsp; No Prothrombin mutation</div>
-      <div style="font-size:.72rem;color:#b0a090">Standard anticoagulation protocols apply. HLA-B*51 carrier (son has Behçet's).</div>
-    </div>
-    <div style="text-align:center;font-size:.55rem;color:rgba(196,154,108,.3);margin-top:10px">qbyars08-ui.github.io/genome-dashboard/chad-brainmap.html#emergency</div>
-  </div>
-  <div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.78rem">&#128247; Print Emergency Card</button></div>
-</div>
-
-<!-- ═══════════════ DYNAMIC RISK CALCULATOR ═══════════════ -->
-<div class="page" id="page-calculator">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#127918; Dynamic Risk Calculator</h2>
-  </div>
-  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">Move the sliders. Watch your risk scores change in real-time based on gene-environment interaction data.</div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Exercise (hours/week)</div><div id="ex-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#6db87d">3</div></div>
-    <input type="range" id="ex-slider" min="0" max="10" value="3" style="width:100%;accent-color:#6db87d" oninput="updateCalc()">
-    <div id="ex-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Moderate protection. APOE ε4: ~30% AD risk reduction. 9p21 CAD: ~35% attenuation.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #a78bfa">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Sleep (hours/night)</div><div id="sl-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#a78bfa">7</div></div>
-    <input type="range" id="sl-slider" min="4" max="10" value="7" style="width:100%;accent-color:#a78bfa" oninput="updateCalc()">
-    <div id="sl-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Adequate for glymphatic clearance. APOE ε4 amyloid clearance operating normally at 7h.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #d4838f">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Alcohol (drinks/week)</div><div id="al-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#d4838f">3</div></div>
-    <input type="range" id="al-slider" min="0" max="21" value="3" style="width:100%;accent-color:#d4838f" oninput="updateCalc()">
-    <div id="al-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Moderate. PITX2 AFib risk: multiplicative interaction above 3/week. Below threshold.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="variant-name">Mediterranean Diet Adherence (%)</div><div id="di-val" style="font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:#C49A6C">60</div></div>
-    <input type="range" id="di-slider" min="0" max="100" value="60" style="width:100%;accent-color:#C49A6C" oninput="updateCalc()">
-    <div id="di-effect" style="font-size:.75rem;color:#b0a090;margin-top:6px">Good. 9p21 risk partially attenuated. Full adherence (>80%) completely eliminates 9p21-associated MI risk.</div>
-  </div>
-
-  <div style="margin-top:20px;background:rgba(30,22,18,.7);border:1px solid rgba(196,154,108,.12);border-radius:12px;padding:18px">
-    <div style="font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:#C49A6C;margin-bottom:10px">Calculated Risk Modification</div>
-    <div id="calc-result" style="font-size:.82rem;color:#b0a090;line-height:1.8">
-      <b style="color:#e8d5c4">Cardiovascular:</b> <span id="cv-mod">Moderate reduction from baseline</span><br>
-      <b style="color:#e8d5c4">Alzheimer's:</b> <span id="ad-mod">~30% reduction (exercise-driven)</span><br>
-      <b style="color:#e8d5c4">AFib:</b> <span id="af-mod">Within safe alcohol threshold</span><br>
-      <b style="color:#e8d5c4">Biological Age:</b> <span id="ba-mod">Estimated +1.5 years above chronological</span>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ PRS PERCENTILES ═══════════════ -->
-<div class="page" id="page-prs">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128202; Polygenic Risk Scores — Population Percentiles</h2>
-  </div>
-  <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-bottom:16px">Aggregate scores using ALL variants per category. Compared to general European population.</div>
-
-  <div class="variant" style="border-left:3px solid #d4838f">
-    <div class="variant-header"><div class="variant-name">Cardiovascular PRS</div><div class="variant-badge badge-red">72nd percentile</div></div>
-    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:72%;background:linear-gradient(90deg,#C49A6C,#d4838f);border-radius:10px;transition:width 1.5s ease"></div></div>
-    <div class="variant-desc">Variants included: 9p21 AG×3, PITX2 CT, PCSK9 CT, AGTR1 AC, AGT AG, ADRB1 CG, SCN5A CT, IL-6 CC, MTHFR compound, LPA favorable, ADD1 favorable. Net: 72nd percentile — higher than ~72% of the European population. Offset partially by FTO TT + TCF7L2 CC metabolic protection. Father's confirmed CAD validates this score clinically.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">Alzheimer's PRS</div><div class="variant-badge badge-yellow">68th percentile</div></div>
-    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:68%;background:linear-gradient(90deg,#C49A6C,#d4838f);border-radius:10px;transition:width 1.5s ease"></div></div>
-    <div class="variant-desc">APOE ε3/ε4 (heaviest weight), PICALM CT, MS4A6A AG, MS4A4E GT, BIN1 AG, ABCA7 GT. Father has advanced dementia — clinical validation. Brigitte has NO ε4 — Quinn can't be ε4/ε4. Exercise 150+ min/week in ε4 carriers = strongest modifier (45% reduction).</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #d4838f">
-    <div class="variant-header"><div class="variant-name">Melanoma PRS</div><div class="variant-badge badge-red">91st percentile</div></div>
-    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:91%;background:linear-gradient(90deg,#d4838f,#A51C30);border-radius:10px;transition:width 1.5s ease"></div></div>
-    <div class="variant-desc">MC1R R151C (high-penetrance) + V60L + rs910873 + childhood NOLA blistering sunburns. Compound MC1R heterozygote OR up to ~10× in literature. <b>91st percentile — higher melanoma genetic risk than ~91% of Europeans.</b> Dermatology q6 months mandatory. SPF 50+ daily non-negotiable.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">Type 2 Diabetes PRS</div><div class="variant-badge badge-green">18th percentile</div></div>
-    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:18%;background:#6db87d;border-radius:10px;transition:width 1.5s ease"></div></div>
-    <div class="variant-desc">TCF7L2 CC (strongest T2D gene — CLEAR), FTO TT×2 (favorable), PPARG CC (favorable), KCNJ11 CT (mild), MC4R CT (mild). Net: 18th percentile — <b>LOWER T2D genetic risk than ~82% of Europeans.</b> Metabolic genetics are excellent.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">Longevity PRS</div><div class="variant-badge badge-yellow">38th percentile</div></div>
-    <div style="height:20px;background:rgba(196,154,108,.1);border-radius:10px;margin:8px 0;overflow:hidden"><div style="height:100%;width:38%;background:#C49A6C;border-radius:10px;transition:width 1.5s ease"></div></div>
-    <div class="variant-desc">FOXO3 TT (no longevity allele — heaviest negative weight), APOE ε4 (negative), IL-6 CC (inflammaging), SOD2 AG (oxidative stress), TERT AC (partial positive), Klotho TT (no KL-VS). 38th percentile — below average longevity genetics, but the MOST lifestyle-modifiable category. Exercise + diet + sleep can override genetics here.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ EPIGENETIC AGE ═══════════════ -->
-<div class="page" id="page-age">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#9200; Epigenetic Age Estimator</h2>
-  </div>
-
-  <div style="text-align:center;padding:24px 0">
-    <div style="font-family:'EB Garamond',serif;font-size:3rem;font-weight:700;color:#d4838f">+2.3</div>
-    <div style="font-size:.9rem;color:#C49A6C;margin-bottom:4px">years above chronological age</div>
-    <div style="font-size:.7rem;color:rgba(196,154,108,.4)">Estimated biological age acceleration based on genetic aging variants</div>
-  </div>
-
-  <div class="section-title">What's Accelerating</div>
-  <div class="variant" style="border-left:3px solid #d4838f"><div class="variant-name">FOXO3 TT — No longevity allele</div><div class="variant-desc">Estimated impact: +1.0 year. FOXO3 G allele is the most replicated longevity variant. TT lacks it.</div></div>
-  <div class="variant" style="border-left:3px solid #d4838f"><div class="variant-name">APOE ε3/ε4 — Accelerated neurological aging</div><div class="variant-desc">Estimated impact: +0.8 years. ε4 impairs amyloid clearance and BBB repair.</div></div>
-  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">IL-6 CC — Chronic inflammaging</div><div class="variant-desc">Estimated impact: +0.5 years. Constitutive IL-6 elevation drives chronic low-grade inflammation.</div></div>
-  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">SOD2 AG — Reduced mitochondrial antioxidant</div><div class="variant-desc">Estimated impact: +0.3 years. Intermediate SOD2 activity = higher oxidative damage accumulation.</div></div>
-  <div class="variant" style="border-left:3px solid #C49A6C"><div class="variant-name">MTHFR AG — Methylation stress</div><div class="variant-desc">Estimated impact: +0.2 years. Reduced methylfolate production affects DNA methylation maintenance.</div></div>
-
-  <div class="section-title">What Would Reduce It</div>
-  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Exercise 150+ min/week → -1.5 years</div><div class="variant-desc">Strongest single intervention. ACTN3 TT makes it achievable. 45% AD reduction for ε4. FOXO3 activation via AMPK.</div></div>
-  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Mediterranean diet strictly → -0.8 years</div><div class="variant-desc">Anti-inflammatory (IL-6 CC counter), 9p21 elimination, antioxidant support (SOD2 deficit).</div></div>
-  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Sleep 7-9 hours consistently → -0.5 years</div><div class="variant-desc">APOE ε4 glymphatic clearance. Circadian gene compensation (CRY1/CLOCK/NPAS2 disrupted).</div></div>
-  <div class="variant" style="border-left:3px solid #6db87d"><div class="variant-name">Sauna 4-7×/week → -0.3 years</div><div class="variant-desc">Finnish data: 50% CVD reduction. Heat shock proteins repair misfolded proteins.</div></div>
-
-  <div style="text-align:center;padding:20px;background:rgba(78,140,100,.06);border:1px solid rgba(78,140,100,.2);border-radius:12px;margin-top:16px">
-    <div style="font-family:'EB Garamond',serif;font-size:1.8rem;font-weight:700;color:#6db87d">-0.8</div>
-    <div style="font-size:.85rem;color:#6db87d">years with full protocol</div>
-    <div style="font-size:.7rem;color:rgba(196,154,108,.4);margin-top:4px">From +2.3 → -0.8 = net 3.1 years of biological age reversed through lifestyle</div>
-  </div>
-</div>
-
-<!-- ═══════════════ CLINICAL TRIALS ═══════════════ -->
-<div class="page" id="page-trials">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128300; Clinical Trial Eligibility</h2>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">APOE ε4 — Anti-Amyloid Trials</div><div class="variant-badge badge-green">Eligible</div></div>
-    <div class="variant-desc">ε3/ε4 heterozygotes ARE eligible for lecanemab and donanemab (only ε4/ε4 excluded by MHRA/EMA). CYCLE-AD trial (Cleveland Clinic) specifically recruiting ε4 carriers for high-intensity cycling. U.S. POINTER validated lifestyle intervention for ε4. Search: <a href="https://clinicaltrials.gov/search?cond=Alzheimer+Disease&term=APOE4" target="_blank">ClinicalTrials.gov APOE4 + Alzheimer's</a></div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">MC1R Compound — Melanoma Prevention</div><div class="variant-badge badge-green">Eligible</div></div>
-    <div class="variant-desc">MC1R compound carriers eligible for melanoma chemoprevention studies and imaging surveillance trials. MC1R status increasingly used for immunotherapy response prediction. Search: <a href="https://clinicaltrials.gov/search?cond=Melanoma&term=MC1R" target="_blank">ClinicalTrials.gov MC1R + Melanoma</a></div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">CYP2C9 *2 — Pharmacogenomics Dosing</div><div class="variant-badge badge-yellow">Potential</div></div>
-    <div class="variant-desc">CYP2C9 intermediate metabolizers eligible for pharmacogenomic-guided dosing trials, particularly for anticoagulation and NSAID optimization. Search: <a href="https://clinicaltrials.gov/search?term=CYP2C9&cond=Pharmacogenomics" target="_blank">ClinicalTrials.gov CYP2C9</a></div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">9p21 CAD — Cardiovascular Prevention</div><div class="variant-badge badge-yellow">Potential</div></div>
-    <div class="variant-desc">9p21 carriers being studied in gene-diet interaction trials and polygenic risk score-guided statin initiation studies. Search: <a href="https://clinicaltrials.gov/search?term=9p21&cond=Coronary+Artery+Disease" target="_blank">ClinicalTrials.gov 9p21 + CAD</a></div>
-  </div>
-</div>
-
-<!-- ═══════════════ HAPLOGROUPS PAGE ═══════════════ -->
-<div class="page" id="page-haplogroups">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#127981; Haplogroups &mdash; Deep Ancestry</h2>
-  </div>
-
-  <div class="section-title" style="color:#a090c0">Mitochondrial DNA &mdash; Maternal Line</div>
-
-  <div class="variant" style="border-left:3px solid #a090c0">
-    <div class="variant-header"><div class="variant-name">Haplogroup H1 &mdash; Most Common European</div><div class="variant-badge badge-purple">Confirmed</div></div>
-    <div class="variant-geno">4,154 MT variants extracted &middot; MT:3010=G (H1 defining) &middot; MT:11719=G (macro-H)</div>
-    <div class="variant-desc">Haplogroup H is the most common mtDNA lineage in Europe (~40-50%). H1 is the largest sub-clade, highest frequency in Iberia and Atlantic Europe. Arose ~10,000-15,000 years ago during the post-glacial recolonization of Europe from Franco-Cantabrian refugia. Your maternal line traces to women who survived the Last Glacial Maximum in southwest Europe and repopulated the continent as ice retreated.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Origin</div><div class="variant-stat-value">Franco-Cantabrian refugia ~13,000 ya</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Frequency</div><div class="variant-stat-value">~25% of Western Europeans</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Migration</div><div class="variant-stat-value">Post-glacial Atlantic coast &rarr; NW Europe</div></div>
-    </div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">MT Variant Summary</div><div class="variant-badge badge-yellow">4,154 Variants</div></div>
-    <div class="variant-desc">4,154 mitochondrial positions genotyped from 23andMe chip. Key haplogroup-defining positions confirmed: MT:3010=G (H1 marker), MT:11719=G (haplogroup H branch), MT:7028=C (HV/H). Full mitochondrial genome sequencing (Nebula WGS incoming) will resolve the complete H1 sub-branch to terminal node.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">H1 Clinical Relevance</div><div class="variant-badge badge-green">Favorable</div></div>
-    <div class="variant-desc">Haplogroup H is associated with <b>lower Parkinson's risk</b> (OR 0.72 in meta-analyses), <b>higher VO2max</b> in endurance athletes, and <b>better mitochondrial efficiency</b> vs haplogroups J/T. Aligns with ACTN3 TT endurance profile. H1 carriers show enhanced Complex I activity.</div>
-  </div>
-
-  <div class="section-title" style="color:#a090c0">Y-Chromosome &mdash; Paternal Line</div>
-
-  <div class="variant" style="border-left:3px solid #a090c0">
-    <div class="variant-header"><div class="variant-name">Haplogroup R1b &mdash; Western European</div><div class="variant-badge badge-purple">Predicted</div></div>
-    <div class="variant-geno">3,337 Y variants extracted &middot; R1b-specific terminal SNPs require WGS</div>
-    <div class="variant-desc">R1b is the most common Y-chromosome haplogroup in Western Europe (~60-80% in Ireland/Britain/France). 23andMe chip covers limited Y-SNPs &mdash; the R1b branch markers (M269, L21, U106) require whole genome sequencing. Nebula WGS will resolve the full paternal lineage to terminal node. R1b-L21 is the dominant Celtic/Atlantic sub-branch.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Origin</div><div class="variant-stat-value">Pontic Steppe ~5,000 ya</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Frequency</div><div class="variant-stat-value">~70% of Irish/British men</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Resolution</div><div class="variant-stat-value">Awaiting Nebula WGS</div></div>
-    </div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">Ancestry-Informative Markers</div><div class="variant-badge badge-yellow">7,491 Total</div></div>
-    <div class="variant-desc">Combined 4,154 MT + 3,337 Y-chromosome variants provide deep ancestry resolution. Both lineages point to Atlantic/Celtic/Northern European origin &mdash; consistent with MC1R R151C "Celtic variant," HFE H63D (Northern European iron overload), full lactase persistence (LCT), wet earwax (ABCC11), and SLC24A5 AA (European pigmentation). HLA-B*51 traces to Anatolian Farmer admixture via Atlantic coastal route ~7,500 years ago.</div>
-  </div>
-
-  <div class="section-title">Three-Way Ancestry Model</div>
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">Your Genomic Ancestry Composition</div><div class="variant-badge badge-gold">Integrated</div></div>
-    <div class="variant-desc">
-      <b>Western Hunter-Gatherer (WHG):</b> Blue eye color (OCA2/HERC2 AA), dark hair, lactose tolerance precursor<br>
-      <b>Early European Farmer (EEF/Anatolian):</b> HLA-B*51 allele (Silk Road/Anatolian origin), SLC24A5 light skin<br>
-      <b>Yamnaya/Steppe:</b> R1b Y-haplogroup, lactase persistence (LCT), increased height variants<br><br>
-      Your genome reflects the standard three-way European admixture: ~60-70% Steppe/WHG, ~30-40% Anatolian Farmer. The B*51 allele is one of the most medically significant Anatolian Farmer contributions &mdash; it followed the Mediterranean/Atlantic coastal migration route and is why Behçet's disease tracks the ancient Silk Road.
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ NEANDERTHAL PAGE ═══════════════ -->
-<div class="page" id="page-neanderthal">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#129476; Neanderthal DNA &mdash; Archaic Introgression</h2>
-  </div>
-
-  <div class="stats-banner">
-    <div class="stat-pill"><b>~0.8%</b> Neanderthal</div>
-    <div class="stat-pill"><b>24</b> Loci Scanned</div>
-    <div class="stat-pill"><b>5</b> Archaic Alleles</div>
-    <div class="stat-pill"><b>50,000+</b> Years Ago</div>
-  </div>
-
-  <div class="section-title" style="color:#fb923c">Your Neanderthal Legacy</div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">Estimated Neanderthal Ancestry: ~0.8%</div><div class="variant-badge badge-yellow">Below Average</div></div>
-    <div class="variant-desc">Europeans typically carry 1.5-2.1% Neanderthal DNA. Your estimate of ~0.8% from 24 known introgression loci places you at the <b>lower end</b> of the European range. This is a chip-based estimate &mdash; Nebula WGS will provide a precise measurement by scanning millions of positions against the Vindija/Altai Neanderthal reference genomes.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Your Estimate</div><div class="variant-stat-value">~0.8%</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">European Average</div><div class="variant-stat-value">1.5-2.1%</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Introgression Event</div><div class="variant-stat-value">~50,000-60,000 ya</div></div>
-    </div>
-  </div>
-
-  <div class="section-title">Confirmed Archaic Alleles (5 Heterozygous)</div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">rs1800407 &mdash; OCA2 Eye Color</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
-    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
-    <div class="variant-desc">OCA2 variant affecting melanin production in the iris. The T allele is found in Neanderthal genomes and is associated with lighter eye pigmentation. Contributes to the blue eye phenotype alongside HERC2 rs12913832. You carry one Neanderthal-derived copy.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">rs4778138 &mdash; OCA2 Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
-    <div class="variant-geno">Genotype: AG &middot; Neanderthal allele: G</div>
-    <div class="variant-desc">Second OCA2 locus with Neanderthal introgression. Part of the pigmentation gene cluster on chromosome 15. Two independent Neanderthal-derived pigmentation alleles in OCA2 suggests these variants were positively selected after admixture &mdash; lighter skin/eyes conferred vitamin D advantage at higher latitudes.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">rs2166624 &mdash; Hair Morphology</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
-    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
-    <div class="variant-desc">Associated with hair texture/morphology. Neanderthals likely had varied hair types. This introgressed allele may have provided adaptation to colder climates in Northern Europe.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">rs10204137 &mdash; BNC2 Skin Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
-    <div class="variant-geno">Genotype: AG &middot; Neanderthal allele: G</div>
-    <div class="variant-desc">BNC2 (Basonuclin 2) affects skin pigmentation and freckling. This Neanderthal-introgressed variant is one of the most well-established archaic contributions to modern European appearance. Associated with lighter skin saturation and increased freckling &mdash; consistent with your MC1R compound status and Celtic ancestry.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #fb923c">
-    <div class="variant-header"><div class="variant-name">rs12821256 &mdash; KITLG Pigmentation</div><div class="variant-badge badge-yellow">Heterozygous</div></div>
-    <div class="variant-geno">Genotype: CT &middot; Neanderthal allele: T</div>
-    <div class="variant-desc">KITLG (KIT Ligand) is a key regulator of melanocyte development. This Neanderthal-derived allele affects hair color and is associated with blond hair in Northern Europeans. One of the strongest examples of adaptive introgression &mdash; Neanderthal pigmentation genes that helped modern humans adapt to reduced UV at high latitudes.</div>
-  </div>
-
-  <div class="section-title">Not Detected (19 Loci &mdash; Homozygous Modern)</div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">19 Archaic Loci &mdash; Modern Human Only</div><div class="variant-badge badge-green">No Archaic</div></div>
-    <div class="variant-desc">No Neanderthal-derived alleles detected at 19 additional introgression loci including: TLR1/TLR6/TLR10 immunity cluster, SLC45A2 pigmentation, TMEM163 metabolism, OAS1 antiviral defense, and multiple keratin/skin barrier genes. The absence of TLR archaic alleles is notable &mdash; these are the most clinically significant Neanderthal variants (affecting immune response to bacteria/fungi) and you carry the modern human versions.</div>
-  </div>
-
-  <div class="section-title" style="color:#6db87d">What Your Pattern Means</div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">Pigmentation Bias &mdash; Adaptive Selection</div><div class="variant-badge badge-green">Pattern</div></div>
-    <div class="variant-desc">All 5 of your Neanderthal-derived alleles affect <b>pigmentation</b> (OCA2 &times;2, BNC2, KITLG, hair morphology). Zero immunity or metabolism archaic alleles. This is a textbook example of <b>adaptive introgression</b> &mdash; Neanderthal pigmentation genes were positively selected in Northern European populations because lighter skin improved vitamin D synthesis. Your genome retained the useful Neanderthal pigmentation variants while purging the potentially harmful immunity ones. Combined with MC1R &times;4 Celtic variants, this creates an extremely fair-skin genotype optimized for high latitudes but requiring aggressive sun protection.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ CARRIER SCREEN PAGE ═══════════════ -->
-<div class="page" id="page-carrier">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#129516; Mendelian Carrier Screen &mdash; 25 Diseases</h2>
-  </div>
-
-  <div class="stats-banner">
-    <div class="stat-pill"><b>25</b> Diseases Screened</div>
-    <div class="stat-pill"><b>3</b> Carrier Variants</div>
-    <div class="stat-pill"><b>22</b> Cleared</div>
-    <div class="stat-pill"><b>0</b> Affected</div>
-  </div>
-
-  <div class="section-title" style="color:#C49A6C">Confirmed Carrier Status</div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">HFE H63D &mdash; Hereditary Hemochromatosis</div><div class="variant-badge badge-yellow">Carrier</div></div>
-    <div class="variant-geno">rs1799945 = CG &middot; Heterozygous carrier</div>
-    <div class="variant-desc"><b>Carrier, not affected.</b> H63D is the milder HFE variant (vs C282Y which causes clinical hemochromatosis). H63D heterozygotes rarely develop iron overload on their own. However, combined with HFE C282Y (compound heterozygote H63D/C282Y), iron overload risk increases significantly. Common in Northern European/Celtic populations (~15-20% carrier rate). Consistent with your Irish/Celtic ancestry signal.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Disease</div><div class="variant-stat-value">Hereditary Hemochromatosis</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Inheritance</div><div class="variant-stat-value">Autosomal Recessive</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">Monitor ferritin/iron periodically</div></div>
-    </div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">MTHFR C677T &mdash; Folate Metabolism</div><div class="variant-badge badge-yellow">Carrier</div></div>
-    <div class="variant-geno">rs1801133 = AG &middot; Heterozygous carrier</div>
-    <div class="variant-desc"><b>Carrier of one reduced-function allele.</b> MTHFR C677T heterozygotes have ~35% reduced enzyme activity (vs ~70% in TT homozygotes). Combined with A1298C (also heterozygous), this creates a <b>compound heterozygous MTHFR</b> pattern with ~50% total reduction in methylation capacity. Clinically significant: impairs folate &rarr; methylfolate conversion, elevates homocysteine. Methylfolate supplementation bypasses this block.</div>
-    <div class="variant-stats">
-      <div class="variant-stat"><div class="variant-stat-label">Enzyme Activity</div><div class="variant-stat-value">~65% (heterozygous)</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Compound</div><div class="variant-stat-value">C677T + A1298C = ~50%</div></div>
-      <div class="variant-stat"><div class="variant-stat-label">Action</div><div class="variant-stat-value">Methylfolate 800mcg daily</div></div>
-    </div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">MTHFR A1298C &mdash; Folate Metabolism</div><div class="variant-badge badge-yellow">Carrier</div></div>
-    <div class="variant-geno">rs1801131 = GT &middot; Heterozygous carrier</div>
-    <div class="variant-desc"><b>Second MTHFR variant.</b> A1298C alone is milder than C677T, but compound heterozygosity (having one copy of each) reduces total MTHFR function to approximately 50%. This is why methylfolate + methylcobalamin are in the daily supplement stack. Homocysteine monitoring recommended quarterly. Quinn inherited this compound pattern.</div>
-  </div>
-
-  <div class="section-title" style="color:#6db87d">Cleared &mdash; No Carrier Status (22 Diseases)</div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">Cystic Fibrosis (CFTR &Delta;F508)</div><div class="variant-badge badge-green">Clear</div></div>
-    <div class="variant-geno">rs75039782 / rs113993960 = Wild type</div>
-    <div class="variant-desc">Not a carrier. CFTR &Delta;F508 is the most common CF mutation (~70% of CF alleles in Northern Europeans). Chad is homozygous wild type &mdash; cannot pass CF to children via this variant.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">HFE C282Y &mdash; Hemochromatosis (Major)</div><div class="variant-badge badge-green">Clear</div></div>
-    <div class="variant-geno">rs1800562 = GG &middot; Wild type</div>
-    <div class="variant-desc">Not a carrier of the major hemochromatosis allele. Combined with H63D carrier status, this means no risk of compound C282Y/H63D hemochromatosis. H63D alone very rarely causes clinical iron overload.</div>
-  </div>
-
-  <div class="variant" style="border-left:3px solid #6db87d">
-    <div class="variant-header"><div class="variant-name">Factor V Leiden</div><div class="variant-badge badge-green">Clear</div></div>
-    <div class="variant-geno">rs6025 = CC &middot; Wild type</div>
-    <div class="variant-desc">No Factor V Leiden. Normal clotting function at this locus. Both parents CC &mdash; children 100% cleared.</div>
-  </div>
-
-  <div class="variant">
-    <div class="variant-header"><div class="variant-name">19 Additional Diseases &mdash; All Clear</div><div class="variant-badge badge-green">Clear</div></div>
-    <div class="variant-desc">
-      <b>No carrier status detected for:</b> Sickle Cell (HBB rs334), Alpha-1 Antitrypsin Deficiency (SERPINA1), PKU (PAH), Gaucher (GBA), Tay-Sachs (HEXA), Canavan (ASPA), Familial Dysautonomia (IKBKAP), Fanconi Anemia (FANCA), Bloom Syndrome (BLM), Niemann-Pick (SMPD1), Mucolipidosis IV (MCOLN1), Glycogen Storage Disease 1a (G6PC), Maple Syrup Urine Disease (BCKDHA), Medium-chain acyl-CoA dehydrogenase deficiency (ACADM), Galactosemia (GALT), Biotinidase deficiency (BTD), Prothrombin G20210A (F2), MEFV Mediterranean Fever, Wilson Disease (ATP7B).<br><br>
-      <b>Note:</b> 23andMe tests specific common variants, not the entire gene. Rare pathogenic variants in these genes would require clinical-grade sequencing (panel or WGS) to rule out completely.
-    </div>
-  </div>
-
-  <div class="section-title">Reproductive Relevance</div>
-
-  <div class="variant" style="border-left:3px solid #C49A6C">
-    <div class="variant-header"><div class="variant-name">Partner Screening Implications</div><div class="variant-badge badge-yellow">Advisory</div></div>
-    <div class="variant-desc">As a confirmed carrier of HFE H63D and compound MTHFR, any future reproductive partner should be screened for HFE C282Y (which would create compound heterozygote risk in offspring) and MTHFR C677T (which would create TT homozygote risk). Both parents carrying MTHFR compound has already been confirmed with Brigitte &mdash; Quinn's MTHFR status is compound heterozygous as predicted. All children should supplement with methylfolate.</div>
-  </div>
-</div>
-
-<!-- ═══════════════ UPLOAD & COMPARE PAGE ═══════════════ -->
-<div class="page" id="page-upload">
-  <div class="page-header">
-    <a class="back" onclick="go('home')">&larr; Home</a>
-    <h2>&#128228; Upload &amp; Compare Genomes</h2>
-  </div>
-
-  <div class="section-title">Upload 23andMe Raw Data</div>
-  <div class="variant" style="border-left:3px solid #60a5fa">
-    <div class="variant-header"><div class="variant-name">Client-Side Genome Parser</div><div class="variant-badge badge-green">Private</div></div>
-    <div class="variant-desc">Your data never leaves your device. All parsing happens in the browser using JavaScript. Upload a 23andMe raw data .txt file to extract SNPs, count variants, and check key clinical loci.</div>
-  </div>
-
-  <div style="margin:16px 0">
-    <label style="display:block;font-size:.72rem;color:#C49A6C;margin-bottom:6px;font-weight:600">GENOME FILE 1</label>
-    <input type="file" id="file1" accept=".txt,.csv,.zip" style="font-size:.75rem;color:#b0a090;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.2);border-radius:8px;padding:10px;width:100%;cursor:pointer">
-    <div id="file1-status" style="font-size:.68rem;color:rgba(196,154,108,.4);margin-top:4px"></div>
-  </div>
-
-  <div style="margin:16px 0">
-    <label style="display:block;font-size:.72rem;color:#C49A6C;margin-bottom:6px;font-weight:600">GENOME FILE 2 (Optional &mdash; for comparison)</label>
-    <input type="file" id="file2" accept=".txt,.csv,.zip" style="font-size:.75rem;color:#b0a090;background:rgba(30,22,18,.6);border:1px solid rgba(196,154,108,.2);border-radius:8px;padding:10px;width:100%;cursor:pointer">
-    <div id="file2-status" style="font-size:.68rem;color:rgba(196,154,108,.4);margin-top:4px"></div>
-  </div>
-
-  <button onclick="parseGenomes()" style="background:rgba(165,28,48,.2);border:1px solid rgba(165,28,48,.4);color:#d4838f;font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;padding:10px 28px;border-radius:8px;cursor:pointer;transition:all .2s;width:100%" onmouseover="this.style.background='rgba(165,28,48,.35)'" onmouseout="this.style.background='rgba(165,28,48,.2)'">Analyze Genome(s)</button>
-
-  <div id="upload-results" style="margin-top:20px"></div>
-
-  <div class="section-title">Key Clinical Loci Checked</div>
-  <div class="variant">
-    <div class="variant-desc" style="font-size:.72rem;line-height:1.8">
-      <b>Cardiovascular:</b> 9p21 (rs10757278, rs1333049, rs4977574), PITX2 (rs2200733), PCSK9 (rs11206510), Factor V (rs6025)<br>
-      <b>Alzheimer's:</b> APOE (rs429358, rs7412)<br>
-      <b>Cancer:</b> MC1R (rs1805007, rs1805008, rs1110400, rs11547464), BRCA-associated, FGFR2 (rs2981582)<br>
-      <b>Pharmacogenomics:</b> CYP2C9*2 (rs1799853), CYP2C9*3 (rs1057910), CYP2C19*2 (rs4244285), CYP1A2 (rs762551), DPYD (rs3918290), TPMT (rs1800460)<br>
-      <b>Immune:</b> HLA-B*51 associated, CTLA4 (rs231775), TNF-alpha (rs1800629), IL-6 (rs1800795)<br>
-      <b>Nutrition:</b> FUT2 (rs601338), MTHFR (rs1801133, rs1801131), VDR (rs1544410), LCT (rs4988235)<br>
-      <b>Carrier:</b> CFTR, HFE (rs1800562, rs1799945), HBB (rs334)
-    </div>
-  </div>
-
-  <div id="comparison-results" style="margin-top:20px"></div>
-</div>
-
-<footer>Byars Family Health &middot; Portland, Oregon &middot; 614,452 SNPs &middot; 900+ Analyzed</footer>
-
-</div>
-
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
-function go(page) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target page
-  const target = document.getElementById('page-' + page);
-  if (target) target.classList.add('active');
-  // Update nav
-  document.querySelectorAll('.topnav-link').forEach(l => l.classList.remove('active'));
-  const navLink = document.querySelector(`.topnav-link[href="#${page}"]`);
-  if (navLink) navLink.classList.add('active');
-  // Update hash
-  window.location.hash = page;
-  // Scroll to top
-  window.scrollTo(0, 0);
+// ═══════════ DATA ═══════════
+const CAT_DATA={
+heart:{
+  title:'Cardiovascular',icon:'\u2764\uFE0F',color:'#ef4444',score:72,scoreLabel:'72nd',
+  findings:[
+    {geno:'AG\nAG\nCG',cls:'geno-red',name:'9p21 CAD Risk \u2014 ALL THREE',desc:'Father: stent at 62, 4-vessel CABG at 75. Mediterranean diet eliminates 9p21 MI risk (INTERHEART P=0.008).'},
+    {geno:'CT',cls:'geno-red',name:'PITX2 Atrial Fibrillation',desc:'Sister has paroxysmal AFib. OR \u22481.5-1.8\u00d7. Alcohol is multiplicative with PITX2 risk.'},
+    {geno:'CT',cls:'geno-yellow',name:'PCSK9 Pathway',desc:'Combined with 9p21, candidate for PCSK9 inhibitors if LDL stays elevated. Quinn\u2019s LDL 142.'}
+  ],
+  deep:[
+    {geno:'CC',cls:'geno-green',name:'Factor V Leiden',desc:'No clotting risk. Both parents CC.'},
+    {geno:'AG',cls:'geno-yellow',name:'ACE I/D',desc:'Heterozygous. Moderate ACE activity. ACE inhibitors standard dose.'},
+    {geno:'AG',cls:'geno-yellow',name:'AGT M235T',desc:'Heterozygous. Modest BP effect. Salt sensitivity intermediate.'},
+    {geno:'AG',cls:'geno-yellow',name:'CETP',desc:'Heterozygous. Moderate HDL effect.'},
+    {geno:'CC',cls:'geno-yellow',name:'IL-6 Inflammation',desc:'Highest IL-6 producer. Chronic low-grade inflammation. Anti-inflammatory diet critical.'},
+    {geno:'AG',cls:'geno-yellow',name:'NOS3',desc:'Heterozygous. Moderate nitric oxide production. Beet juice/L-arginine may help.'},
+    {geno:'CC',cls:'geno-green',name:'MTHFR homocysteine',desc:'With methylfolate supplementation, homocysteine risk managed.'}
+  ],
+  actions:['CAC score now \u2014 baseline coronary calcium','Mediterranean diet >80% adherence (eliminates 9p21 MI risk)','Annual EKG + echocardiogram for PITX2 AFib surveillance']
+},
+brain:{
+  title:'Brain & Cognition',icon:'\uD83E\uDDE0',color:'#8b5cf6',score:68,scoreLabel:'68th',
+  findings:[
+    {geno:'\u03B53/\u03B54',cls:'geno-red',name:'APOE \u2014 Alzheimer\u2019s Risk',desc:'2-3\u00d7 increased risk. Father developed dementia. Exercise reduces APOE4 risk by 45%. Lecanemab/donanemab eligible.'},
+    {geno:'AG',cls:'geno-yellow',name:'COMT Val/Met',desc:'Intermediate dopamine clearance. Balanced stress response + working memory. Best of both worlds.'},
+    {geno:'AG',cls:'geno-yellow',name:'BDNF Val66Met',desc:'Heterozygous. Reduced activity-dependent BDNF secretion. Exercise-induced neurogenesis still effective.'}
+  ],
+  deep:[
+    {geno:'AG',cls:'geno-purple',name:'OXTR Empathy',desc:'One copy of the "empathy allele." Higher social cognition.'},
+    {geno:'AG',cls:'geno-yellow',name:'DRD2 Dopamine Receptor',desc:'Heterozygous. Normal dopamine receptor density.'},
+    {geno:'AG',cls:'geno-yellow',name:'SLC6A4 Serotonin Transporter',desc:'Intermediate serotonin reuptake. SSRI response: moderate.'},
+    {geno:'AG',cls:'geno-yellow',name:'CLOCK Circadian',desc:'Heterozygous. Mild evening chronotype tendency.'},
+    {geno:'AG',cls:'geno-yellow',name:'GABRA2',desc:'Heterozygous. Normal GABA receptor function.'}
+  ],
+  actions:['5-6 hrs/week exercise (APOE4 risk reduction doubles non-carriers\u2019)','7-8 hours sleep minimum (glymphatic amyloid clearance)','Omega-3 2g DHA daily (APOE4 neuroinflammation)']
+},
+cancer:{
+  title:'Cancer Risk',icon:'\uD83D\uDD2C',color:'#ec4899',score:91,scoreLabel:'91st',
+  findings:[
+    {geno:'CT\u00d72\nCT\nCT',cls:'geno-red',name:'MC1R Compound \u2014 4 Variants',desc:'R151C "Celtic variant" + R160W + D84E + R142H. 91st percentile melanoma risk. Annual full-body derm exam mandatory.'},
+    {geno:'AG',cls:'geno-yellow',name:'FGFR2 Breast Cancer',desc:'Heterozygous risk allele. Family: mother lung cancer (75), aunt breast cancer at 33. Enhanced screening.'},
+    {geno:'CG',cls:'geno-yellow',name:'TP53 Codon 72',desc:'Heterozygous. Modified p53 apoptotic function. Carrier from Brigitte.'}
+  ],
+  deep:[
+    {geno:'CC',cls:'geno-green',name:'BRCA1/2',desc:'No pathogenic variants detected on chip. Full sequencing recommended given family history.'},
+    {geno:'AG',cls:'geno-yellow',name:'8q24 Prostate',desc:'Heterozygous risk allele. PSA screening from age 45.'},
+    {geno:'AG',cls:'geno-yellow',name:'TERT Telomerase',desc:'Heterozygous. Modified telomere maintenance.'},
+    {geno:'AA',cls:'geno-green',name:'APC Colorectal',desc:'No detected risk variants. Standard colonoscopy schedule.'}
+  ],
+  actions:['Annual full-body derm exam with dermoscopy (MC1R compound)','Daily SPF 50+ \u2014 reapply every 2 hours outdoors','Enhanced breast/prostate screening given family history']
+},
+drugs:{
+  title:'Pharmacogenomics',icon:'\uD83D\uDC8A',color:'#fbbf24',score:45,scoreLabel:'4 alerts',
+  findings:[
+    {geno:'*1/*2',cls:'geno-yellow',name:'CYP2C9 \u2014 NSAID/Anticoagulant',desc:'Intermediate metabolizer. Reduce NSAID doses ~25%. If anticoagulation needed, use IWPC dosing algorithm.'},
+    {geno:'*1/*2',cls:'geno-yellow',name:'CYP2C19 \u2014 Clopidogrel',desc:'Intermediate metabolizer. Clopidogrel may have reduced efficacy. Consider prasugrel or ticagrelor.'},
+    {geno:'*1F/*1F',cls:'geno-green',name:'CYP1A2 \u2014 Caffeine',desc:'Ultra-rapid metabolizer. Can handle caffeine well. 400mg/day is fine.'}
+  ],
+  deep:[
+    {geno:'CC',cls:'geno-green',name:'DPYD \u2014 5-Fluorouracil',desc:'Normal. 5-FU chemotherapy safe at standard doses.'},
+    {geno:'CC',cls:'geno-green',name:'TPMT \u2014 Azathioprine',desc:'Normal. Thiopurines safe at standard doses.'},
+    {geno:'AA',cls:'geno-yellow',name:'OPRM1 \u2014 Opioid Response',desc:'Standard opioid receptor binding. Normal analgesic response.'},
+    {geno:'CT',cls:'geno-yellow',name:'SLCO1B1 \u2014 Statin Transport',desc:'Heterozygous. Monitor for statin myopathy. Start low dose.'},
+    {geno:'AG',cls:'geno-yellow',name:'ABCB1 \u2014 Drug Transport',desc:'Heterozygous. Moderate P-glycoprotein function.'},
+    {geno:'AA',cls:'geno-green',name:'NAT2 \u2014 Acetylator',desc:'Rapid acetylator. INH, hydralazine, dapsone: standard doses.'}
+  ],
+  actions:['Carry PGx card \u2014 show before any new prescription','CYP2C9*2: lower NSAID doses, IWPC for anticoagulants','CYP2C19*2: avoid clopidogrel \u2014 use prasugrel/ticagrelor']
+},
+immune:{
+  title:'Immune System',icon:'\uD83D\uDEE1\uFE0F',color:'#34d399',score:55,scoreLabel:'B*51',
+  findings:[
+    {geno:'B*51\nB*51',cls:'geno-red',name:'HLA-B*51 Homozygous',desc:'Both copies are B*51. Son Quinn is B*51/B*51 homozygous with Beh\u00e7et\u2019s disease. This is the strongest genetic risk factor for BD.'},
+    {geno:'AG',cls:'geno-yellow',name:'CTLA4 \u2014 Autoimmune Checkpoint',desc:'Heterozygous. Modified immune checkpoint function. Increased risk for autoimmune conditions.'},
+    {geno:'AA',cls:'geno-red',name:'TNF-\u03B1 \u2014 Highest Producer',desc:'AA genotype = highest TNF-\u03B1 production. Quinn is AG guaranteed. Anti-TNF therapy directly targets this.'}
+  ],
+  deep:[
+    {geno:'CC',cls:'geno-yellow',name:'IL-6 \u2014 Highest Producer',desc:'Compounding with TNF-\u03B1 AA for strong inflammatory drive.'},
+    {geno:'AG',cls:'geno-yellow',name:'IL-10 Anti-inflammatory',desc:'Heterozygous. Intermediate anti-inflammatory capacity.'},
+    {geno:'AA',cls:'geno-green',name:'FUT2 Non-Secretor',desc:'Cannot secrete blood group antigens into mucosa. Norovirus resistant but altered gut microbiome.'}
+  ],
+  actions:['Quinn: anti-TNF therapy targets TNF-\u03B1 AA directly','Monitor inflammatory markers (CRP, ESR) annually','IL-6 CC + TNF AA = strong inflammatory drive \u2014 anti-inflammatory diet critical']
+},
+nutrition:{
+  title:'Nutrition & Metabolism',icon:'\uD83C\uDF4E',color:'#60a5fa',score:52,scoreLabel:'MTHFR',
+  findings:[
+    {geno:'AG\nGT',cls:'geno-yellow',name:'MTHFR Compound',desc:'C677T + A1298C = ~50% reduced methylation. Use methylfolate 800mcg, not folic acid. Monitor homocysteine.'},
+    {geno:'AA',cls:'geno-yellow',name:'FUT2 Non-Secretor \u2014 B12',desc:'Serum B12 may be falsely normal. Check MMA + homocysteine for true cellular B12 status.'},
+    {geno:'CT',cls:'geno-yellow',name:'VDR BsmI \u2014 Vitamin D',desc:'Reduced VDR expression. Higher vitamin D requirement. Quinn\u2019s level: 26.5 (low). Target 50-60 ng/mL.'}
+  ],
+  deep:[
+    {geno:'CT',cls:'geno-green',name:'LCT Lactase Persistence',desc:'Full lactose tolerance. European persistence allele.'},
+    {geno:'AG',cls:'geno-yellow',name:'FADS1 Omega-3',desc:'Heterozygous. Moderate conversion efficiency. Supplement with preformed DHA.'},
+    {geno:'AG',cls:'geno-yellow',name:'BCMO1 Vitamin A',desc:'Reduced beta-carotene conversion. Get preformed retinol from animal sources.'}
+  ],
+  actions:['Methylfolate 800mcg daily (not folic acid)','Vitamin D3 5000 IU daily (target 50-60 ng/mL)','MMA + homocysteine to verify B12 status (FUT2 non-secretor)']
+},
+body:{
+  title:'Body & Performance',icon:'\uD83C\uDFC3',color:'#22d3ee',score:40,scoreLabel:'Endurance',
+  findings:[
+    {geno:'TT',cls:'geno-purple',name:'ACTN3 \u2014 Endurance Optimized',desc:'No fast-twitch \u03B1-actinin-3. Pure endurance phenotype. Distance running, cycling, swimming > sprinting.'},
+    {geno:'TT',cls:'geno-green',name:'FTO \u2014 Normal Metabolism',desc:'No obesity risk alleles. Normal metabolic rate.'},
+    {geno:'GG',cls:'geno-green',name:'PPARGC1A \u2014 Mitochondrial',desc:'Normal mitochondrial biogenesis. Aligns with H1 haplogroup for efficient oxidative phosphorylation.'}
+  ],
+  deep:[
+    {geno:'AG',cls:'geno-yellow',name:'COL5A1 \u2014 Tendon',desc:'Heterozygous. Moderate tendon flexibility.'},
+    {geno:'CT',cls:'geno-yellow',name:'MCT1 Lactate',desc:'Intermediate lactate clearance.'}
+  ],
+  actions:['Optimize for endurance sports (ACTN3 TT)','Zone 2 training 3-4x/week for mitochondrial density','Cap at 5-6 hrs/week sustained cardio (PITX2 AFib safety)']
+},
+longevity:{
+  title:'Longevity & Aging',icon:'\u23F0',color:'#f472b6',score:60,scoreLabel:'+2.3y',
+  findings:[
+    {geno:'\u03B53/\u03B54',cls:'geno-red',name:'APOE \u03B54 \u2014 Accelerated Aging',desc:'Associated with shorter health span. But exercise + diet can reverse this \u2014 U.S. POINTER trial (JAMA 2025) validated.'},
+    {geno:'TT',cls:'geno-yellow',name:'FOXO3 \u2014 No Longevity Allele',desc:'TT = baseline aging. No protective FOXO3 variant. Compensate with AMPK activation (exercise, metformin candidate).'},
+    {geno:'AG',cls:'geno-yellow',name:'TERT Telomerase',desc:'Heterozygous. Moderate telomere maintenance capacity. Omega-3 supports telomere length.'}
+  ],
+  deep:[
+    {geno:'CC',cls:'geno-yellow',name:'IL-6 Inflammaging',desc:'Highest IL-6 production accelerates biological aging through chronic inflammation.'},
+    {geno:'AG',cls:'geno-yellow',name:'SIRT1',desc:'Heterozygous. Moderate sirtuin activity. NAD+ precursors may help.'}
+  ],
+  actions:['Bio age: +2.3 years \u2192 -0.8 with full protocol','Exercise 5-6 hrs/week (FOXO3 activation via AMPK)','Consider NMN/NR for NAD+ support (SIRT1 heterozygous)']
 }
-
-// Handle hash on load
-window.addEventListener('load', () => {
-  const hash = window.location.hash.replace('#', '') || 'home';
-  go(hash);
-});
-
-// Handle back/forward
-window.addEventListener('hashchange', () => {
-  const hash = window.location.hash.replace('#', '') || 'home';
-  go(hash);
-});
-
-// Dynamic Risk Calculator
-function updateCalc(){
-  const ex=+document.getElementById('ex-slider').value;
-  const sl=+document.getElementById('sl-slider').value;
-  const al=+document.getElementById('al-slider').value;
-  const di=+document.getElementById('di-slider').value;
-
-  document.getElementById('ex-val').textContent=ex;
-  document.getElementById('sl-val').textContent=sl;
-  document.getElementById('al-val').textContent=al;
-  document.getElementById('di-val').textContent=di;
-
-  // Exercise effects
-  const adRed=ex>=5?45:ex>=3?30:ex>=1?15:0;
-  const cvRed=ex>=5?50:ex>=3?35:ex>=1?20:0;
-  document.getElementById('ex-effect').innerHTML=ex===0?'<span style="color:#d4838f">No exercise. APOE ε4 risk unmodified. 9p21 CAD risk at full genetic baseline. FOXO3 not activated.</span>':
-    ex<=2?'Light activity. APOE ε4: ~'+adRed+'% AD risk reduction. 9p21: ~'+cvRed+'% attenuation. Minimal FOXO3 activation.':
-    ex<=4?'Moderate. APOE ε4: ~'+adRed+'% AD reduction (approaching optimal). 9p21: ~'+cvRed+'% attenuation. FOXO3 activating via AMPK.':
-    ex<=6?'<span style="color:#6db87d">Optimal zone. APOE ε4: ~'+adRed+'% AD reduction (DOUBLE non-carriers). 9p21: ~'+cvRed+'% attenuation. FOXO3 fully activated. Cap here for PITX2 AFib safety.</span>':
-    '<span style="color:#d4838f">⚠ PITX2 AFib RISK: >6 hrs/week sustained endurance INCREASES AFib risk 2-10× in genetic carriers. Both parents carry PITX2. Reduce to 5-6 hrs/week.</span>';
-
-  // Sleep effects
-  document.getElementById('sl-effect').innerHTML=sl<6?'<span style="color:#d4838f">Insufficient. APOE ε4: glymphatic clearance severely impaired. Amyloid accumulates. Th17 upregulated (BD risk for Quinn). Circadian genes already disrupted at 3 loci — this compounds it.</span>':
-    sl<7?'<span style="color:#C49A6C">Borderline. APOE ε4: glymphatic clearance suboptimal. Aim for 7-8h minimum.</span>':
-    sl<=9?'<span style="color:#6db87d">Optimal. Glymphatic clearance operating normally. Circadian compensation adequate. Amyloid clearance, Treg differentiation, cortisol rhythm all supported.</span>':
-    '<span style="color:#C49A6C">Excessive sleep (>9h) is associated with increased mortality in some studies. Aim for 7-9h.</span>';
-
-  // Alcohol effects
-  document.getElementById('al-effect').innerHTML=al===0?'<span style="color:#6db87d">Zero alcohol. PITX2 AFib risk at genetic baseline only (not amplified). Lowest liver cancer risk. Best for BD inflammation.</span>':
-    al<=3?'<span style="color:#6db87d">Low intake. PITX2 AFib: within safe threshold (multiplicative effect starts above ~3/week). Modest CV benefit possible from polyphenols in red wine.</span>':
-    al<=7?'<span style="color:#C49A6C">Moderate. PITX2 AFib: risk is now MULTIPLICATIVELY amplified above 3/week. Even 1 drink/day = 8% increased AFib risk per EHJ meta-analysis. Sister has PAF.</span>':
-    '<span style="color:#d4838f">⚠ HIGH RISK. PITX2 AFib: significantly amplified. Liver: increased cancer and disease risk. BD trigger (for Quinn). 9p21 CAD: alcohol raises BP and LDL. Strongly recommend reducing to <3/week.</span>';
-
-  // Diet effects
-  document.getElementById('di-effect').innerHTML=di<30?'<span style="color:#d4838f">Low adherence. 9p21 CAD risk at FULL genetic baseline (~30% increased MI). IL-6 CC inflammation unmitigated. FADS1 omega-3 deficit unaddressed.</span>':
-    di<60?'<span style="color:#C49A6C">Moderate. 9p21 risk partially attenuated. IL-6 CC partially countered. FADS1: some marine omega-3 intake. Room for improvement.</span>':
-    di<80?'<span style="color:#6db87d">Good. 9p21 risk significantly attenuated. Anti-inflammatory benefits active. FADS1 omega-3 pathway supported.</span>':
-    '<span style="color:#6db87d">Excellent. 9p21-associated MI risk COMPLETELY ELIMINATED at >80% adherence (INTERHEART P=0.008). IL-6 CC fully countered. Omega-3, polyphenols, fiber all optimized. This is the most powerful dietary intervention for this specific genotype.</span>';
-
-  // Composite scores
-  const cvScore=Math.max(0,72-cvRed*.5-(di>80?15:di>60?8:0)-(al>7?-5:0));
-  const adScore=Math.max(0,68-adRed*.5-(sl>=7?5:0));
-  const afScore=Math.min(100,30+(al>3?al*3:0));
-  const bioAge=(2.3-(ex>=3?1.5:ex>=1?.5:0)-(di>60?.8:di>30?.3:0)-(sl>=7?.5:0)).toFixed(1);
-
-  document.getElementById('cv-mod').innerHTML='Cardiovascular genetic risk: <b style="color:'+(cvScore<50?'#6db87d':'#C49A6C')+'">'+cvScore.toFixed(0)+'th percentile</b> (baseline 72nd)';
-  document.getElementById('ad-mod').innerHTML='Alzheimer\'s risk: <b style="color:'+(adScore<50?'#6db87d':'#C49A6C')+'">~'+adRed+'% reduction</b> from exercise';
-  document.getElementById('af-mod').innerHTML='AFib trigger risk: <b style="color:'+(afScore>50?'#d4838f':'#6db87d')+'">'+(al<=3?'Low — within safe threshold':'ELEVATED — above multiplicative threshold')+'</b>';
-  document.getElementById('ba-mod').innerHTML='Biological age acceleration: <b style="color:'+(bioAge<=0?'#6db87d':bioAge<=1.5?'#C49A6C':'#d4838f')+'">'+bioAge+' years</b> '+(bioAge<=0?'BELOW chronological — younger than your age':'above chronological');
-}
-
-// ═══════════════ THEME TOGGLE ═══════════════
-function toggleTheme(){
-  document.body.classList.toggle('light');
-  const isLight=document.body.classList.contains('light');
-  document.getElementById('theme-toggle').textContent=isLight?'☾':'☼';
-  try{localStorage.setItem('byars-theme',isLight?'light':'dark')}catch(e){}
-}
-(function(){try{if(localStorage.getItem('byars-theme')==='light'){document.body.classList.add('light');document.getElementById('theme-toggle').textContent='☾'}}catch(e){}})();
-
-// ═══════════════ CHROMOSOME MINI-MAP ═══════════════
-(function(){
-  const chrData=[
-    {chr:'1',snps:49474},{chr:'2',snps:48877},{chr:'3',snps:39438},{chr:'4',snps:35146},
-    {chr:'5',snps:34527},{chr:'6',snps:40214},{chr:'7',snps:30988},{chr:'8',snps:30764},
-    {chr:'9',snps:25115},{chr:'10',snps:29480},{chr:'11',snps:28739},{chr:'12',snps:27082},
-    {chr:'13',snps:20622},{chr:'14',snps:18185},{chr:'15',snps:16714},{chr:'16',snps:18339},
-    {chr:'17',snps:16033},{chr:'18',snps:16440},{chr:'19',snps:10791},{chr:'20',snps:13312},
-    {chr:'21',snps:7828},{chr:'22',snps:8079},{chr:'X',snps:16429},{chr:'MT',snps:4154}
-  ];
-  const maxSNP=Math.max(...chrData.map(c=>c.snps));
-  const container=document.getElementById('chr-map');
-  if(!container)return;
-  chrData.forEach(c=>{
-    const pct=Math.round(c.snps/maxSNP*100);
-    const bar=document.createElement('div');
-    bar.className='chr-bar';
-    bar.title='Chr '+c.chr+': '+c.snps.toLocaleString()+' SNPs';
-    bar.innerHTML='<div class="chr-bar-fill" style="height:'+pct+'%"></div><div class="chr-label">'+c.chr+'</div><div class="chr-count">'+Math.round(c.snps/1000)+'k</div>';
-    container.appendChild(bar);
-  });
-})();
-
-// ═══════════════ GENOME UPLOAD & PARSER ═══════════════
-const CLINICAL_LOCI={
-  rs429358:{name:'APOE ε4',cat:'Alzheimer\'s'},rs7412:{name:'APOE ε4',cat:'Alzheimer\'s'},
-  rs10757278:{name:'9p21 CAD #1',cat:'Heart'},rs1333049:{name:'9p21 CAD #2',cat:'Heart'},rs4977574:{name:'9p21 CAD #3',cat:'Heart'},
-  rs2200733:{name:'PITX2 AFib',cat:'Heart'},rs11206510:{name:'PCSK9',cat:'Heart'},rs6025:{name:'Factor V Leiden',cat:'Clotting'},
-  rs1805007:{name:'MC1R R151C',cat:'Melanoma'},rs1805008:{name:'MC1R R160W',cat:'Melanoma'},rs1110400:{name:'MC1R D84E',cat:'Melanoma'},rs11547464:{name:'MC1R R142H',cat:'Melanoma'},
-  rs1799853:{name:'CYP2C9*2',cat:'Drug'},rs1057910:{name:'CYP2C9*3',cat:'Drug'},rs4244285:{name:'CYP2C19*2',cat:'Drug'},rs762551:{name:'CYP1A2 Caffeine',cat:'Drug'},rs3918290:{name:'DPYD 5-FU',cat:'Drug'},rs1800460:{name:'TPMT',cat:'Drug'},
-  rs231775:{name:'CTLA4',cat:'Immune'},rs1800629:{name:'TNF-α',cat:'Immune'},rs1800795:{name:'IL-6',cat:'Immune'},
-  rs601338:{name:'FUT2 Secretor',cat:'Nutrition'},rs1801133:{name:'MTHFR C677T',cat:'Carrier'},rs1801131:{name:'MTHFR A1298C',cat:'Carrier'},
-  rs1544410:{name:'VDR BsmI',cat:'Nutrition'},rs4988235:{name:'LCT Lactase',cat:'Nutrition'},
-  rs1800562:{name:'HFE C282Y',cat:'Carrier'},rs1799945:{name:'HFE H63D',cat:'Carrier'},
-  rs334:{name:'HBB Sickle Cell',cat:'Carrier'},rs2981582:{name:'FGFR2 Breast',cat:'Cancer'},
-  rs12913832:{name:'HERC2 Eye Color',cat:'Trait'},rs1800407:{name:'OCA2 Eye Color',cat:'Trait'}
 };
 
-function parse23andMe(text){
-  const lines=text.split('\n');
-  const snps={};let total=0,het=0,mt=0,y=0;
-  for(const line of lines){
-    if(line.startsWith('#')||!line.trim())continue;
-    const parts=line.split('\t');
-    if(parts.length<4)continue;
-    const rsid=parts[0],chr=parts[1],pos=parts[2],geno=parts[3].trim();
-    if(!geno||geno==='--'||geno==='II'||geno==='DD'||geno==='DI')continue;
-    total++;
-    snps[rsid]={chr,pos,geno};
-    if(geno.length===2&&geno[0]!==geno[1])het++;
-    if(chr==='MT')mt++;
-    if(chr==='Y')y++;
+// ═══════════ LOADING ANIMATION ═══════════
+(function(){
+  const h=document.getElementById('helix');
+  const colors=['#ef4444','#8b5cf6','#ec4899','#fbbf24','#34d399','#22d3ee','#60a5fa','#f472b6'];
+  for(let i=0;i<20;i++){
+    const dot=document.createElement('div');
+    dot.className='helix-strand';
+    const angle=(i/20)*Math.PI*4;
+    const x=50+Math.sin(angle)*40;
+    const y=i*10;
+    dot.style.cssText=`left:${x}px;top:${y}px;background:${colors[i%8]};animation-delay:${i*.1}s;width:${6+Math.cos(angle)*3}px;height:${6+Math.cos(angle)*3}px`;
+    h.appendChild(dot);
   }
-  return {snps,total,het,mt,y};
-}
-
-function parseGenomes(){
-  const f1=document.getElementById('file1').files[0];
-  if(!f1){document.getElementById('upload-results').innerHTML='<div class="variant" style="border-left:3px solid #d4838f"><div class="variant-desc" style="color:#d4838f">Please select at least one genome file.</div></div>';return;}
-  const reader1=new FileReader();
-  reader1.onload=function(e){
-    const data1=parse23andMe(e.target.result);
-    let html=renderGenomeResult(f1.name,data1);
-    const f2=document.getElementById('file2').files[0];
-    if(f2){
-      const reader2=new FileReader();
-      reader2.onload=function(e2){
-        const data2=parse23andMe(e2.target.result);
-        html+=renderGenomeResult(f2.name,data2);
-        html+=renderComparison(f1.name,data1,f2.name,data2);
-        document.getElementById('upload-results').innerHTML=html;
-      };
-      reader2.readAsText(f2);
-    }else{
-      document.getElementById('upload-results').innerHTML=html;
-    }
+  const counter=document.getElementById('load-count');
+  let n=0;const target=631455;
+  const step=()=>{
+    n=Math.min(target,n+Math.floor(Math.random()*45000)+15000);
+    counter.textContent=n.toLocaleString();
+    if(n<target)requestAnimationFrame(step);
+    else{counter.textContent='631,455';setTimeout(()=>{document.getElementById('loader').classList.add('done');document.getElementById('app').classList.add('visible')},600)}
   };
-  reader1.readAsText(f1);
+  setTimeout(step,300);
+})();
+
+// ═══════════ TAB NAVIGATION ═══════════
+function showTab(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const tabs=['home','explore','risk','doctor','share'];
+  const idx=tabs.indexOf(id);
+  if(idx>=0)document.querySelectorAll('.tab')[idx].classList.add('active');
+  if(id==='explore')initExplore();
+  if(id==='risk')initRisk();
+  window.scrollTo(0,0);
 }
 
-function renderGenomeResult(name,data){
-  let html='<div class="section-title">'+name+'</div>';
-  html+='<div class="stats-banner"><div class="stat-pill"><b>'+data.total.toLocaleString()+'</b> SNPs</div><div class="stat-pill"><b>'+data.het.toLocaleString()+'</b> Heterozygous</div><div class="stat-pill"><b>'+data.mt.toLocaleString()+'</b> MT</div><div class="stat-pill"><b>'+data.y.toLocaleString()+'</b> Y-chr</div></div>';
-  html+='<div class="variant" style="border-left:3px solid #60a5fa"><div class="variant-header"><div class="variant-name">Clinical Loci Report</div><div class="variant-badge badge-green">'+Object.keys(CLINICAL_LOCI).filter(r=>data.snps[r]).length+' Found</div></div><div class="variant-desc" style="font-size:.72rem;line-height:2">';
-  const cats={};
-  for(const[rsid,info]of Object.entries(CLINICAL_LOCI)){
-    if(!cats[info.cat])cats[info.cat]=[];
-    const snp=data.snps[rsid];
-    cats[info.cat].push({rsid,name:info.name,geno:snp?snp.geno:'Not on chip'});
-  }
-  for(const[cat,items]of Object.entries(cats)){
-    html+='<b style="color:#C49A6C">'+cat+':</b><br>';
-    for(const it of items){
-      const clr=it.geno==='Not on chip'?'rgba(196,154,108,.3)':it.geno.length===2&&it.geno[0]!==it.geno[1]?'#C49A6C':'#6db87d';
-      html+='&nbsp;&nbsp;'+it.name+' ('+it.rsid+'): <span style="color:'+clr+';font-family:monospace">'+it.geno+'</span><br>';
-    }
-  }
-  html+='</div></div>';
-  return html;
+// ═══════════ CATEGORY PAGES ═══════════
+function makeGaugeSVG(score,color,size){
+  size=size||160;
+  const r=size/2-12;const c=2*Math.PI*r;const pct=score/100;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-track"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-fill" stroke="${color}"
+      stroke-dasharray="${c}" stroke-dashoffset="${c}" transform="rotate(-90 ${size/2} ${size/2})"
+      style="stroke-dashoffset:${c*(1-pct)}" />
+    <text x="${size/2}" y="${size/2-4}" text-anchor="middle" class="gauge-center-num">${score}</text>
+    <text x="${size/2}" y="${size/2+16}" text-anchor="middle" class="gauge-center-label">percentile</text>
+  </svg>`;
 }
 
-function renderComparison(n1,d1,n2,d2){
-  let html='<div class="section-title" style="color:#A51C30">Genome Comparison</div>';
-  // Shared clinical loci
-  let shared=0,diff=0,only1=0,only2=0;
-  const rows=[];
-  for(const rsid of Object.keys(CLINICAL_LOCI)){
-    const s1=d1.snps[rsid],s2=d2.snps[rsid];
-    if(s1&&s2){
-      shared++;
-      if(s1.geno!==s2.geno){diff++;rows.push({rsid,name:CLINICAL_LOCI[rsid].name,g1:s1.geno,g2:s2.geno});}
-    }else if(s1)only1++;
-    else if(s2)only2++;
+function showCat(key){
+  const d=CAT_DATA[key];if(!d)return;
+  let html=`<button class="cat-back" onclick="showTab('home')">\u2190 Back</button>`;
+  html+=`<div class="cat-title-row"><div class="cat-title-icon">${d.icon}</div><div class="cat-title-text">${d.title}</div></div>`;
+  html+=`<div class="gauge-wrap">${makeGaugeSVG(d.score,d.color)}</div>`;
+
+  // Key findings
+  d.findings.forEach(f=>{
+    html+=`<div class="finding"><div class="finding-geno ${f.cls}">${f.geno}</div><div class="finding-body"><div class="finding-name">${f.name}</div><div class="finding-desc">${f.desc}</div></div></div>`;
+  });
+
+  // Deep dive
+  if(d.deep&&d.deep.length){
+    html+=`<div class="deep-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span>Deep Dive \u2014 ${d.deep.length} more variants</span><span class="arrow">\u25BC</span></div>`;
+    html+=`<div class="deep-content"><div class="deep-inner">`;
+    d.deep.forEach(f=>{
+      html+=`<div class="finding"><div class="finding-geno ${f.cls}">${f.geno}</div><div class="finding-body"><div class="finding-name">${f.name}</div><div class="finding-desc">${f.desc}</div></div></div>`;
+    });
+    html+=`</div></div>`;
   }
-  html+='<div class="stats-banner"><div class="stat-pill"><b>'+shared+'</b> Shared Loci</div><div class="stat-pill"><b>'+diff+'</b> Different</div><div class="stat-pill"><b>'+(shared-diff)+'</b> Identical</div></div>';
-  if(rows.length){
-    html+='<div class="variant" style="border-left:3px solid #A51C30"><div class="variant-header"><div class="variant-name">Differing Clinical Variants</div><div class="variant-badge badge-red">'+diff+' Differences</div></div><div class="variant-desc" style="font-size:.72rem;line-height:2">';
-    html+='<table style="width:100%;font-size:.72rem;color:#c4b4a4;border-collapse:collapse"><tr><th style="text-align:left;padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">Variant</th><th style="padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">'+n1+'</th><th style="padding:4px 8px;color:#C49A6C;border-bottom:1px solid rgba(196,154,108,.15)">'+n2+'</th></tr>';
-    for(const r of rows){
-      html+='<tr><td style="padding:4px 8px;border-bottom:1px solid rgba(196,154,108,.06)">'+r.name+' ('+r.rsid+')</td><td style="padding:4px 8px;text-align:center;font-family:monospace;border-bottom:1px solid rgba(196,154,108,.06)">'+r.g1+'</td><td style="padding:4px 8px;text-align:center;font-family:monospace;border-bottom:1px solid rgba(196,154,108,.06)">'+r.g2+'</td></tr>';
-    }
-    html+='</table></div></div>';
+
+  // Action card
+  if(d.actions){
+    html+=`<div class="action-card"><div class="action-title">What To Do</div>`;
+    d.actions.forEach(a=>{html+=`<div class="action-item"><div class="action-bullet"></div><div>${a}</div></div>`});
+    html+=`</div>`;
   }
-  // Both-heterozygous count (bilateral)
-  let bilateral=0;
-  for(const rsid in d1.snps){
-    const s1=d1.snps[rsid],s2=d2.snps[rsid];
-    if(s1&&s2&&s1.geno.length===2&&s1.geno[0]!==s1.geno[1]&&s2.geno.length===2&&s2.geno[0]!==s2.geno[1])bilateral++;
-  }
-  html+='<div class="variant"><div class="variant-header"><div class="variant-name">Bilateral Heterozygous Variants</div><div class="variant-badge badge-yellow">'+bilateral.toLocaleString()+'</div></div><div class="variant-desc">Variants where BOTH genomes are heterozygous. Each child has a 75% chance of carrying at least one risk allele at these loci and a 25% chance of being homozygous for the variant allele.</div></div>';
-  return html;
+
+  document.getElementById('cat-content').innerHTML=html;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-cat').classList.add('active');
+  // Highlight home tab
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab')[0].classList.add('active');
+  window.scrollTo(0,0);
 }
 
-// ═══════════════ PDF EXPORT ═══════════════
-function exportPDF(){
-  const style=document.createElement('style');
-  style.id='print-css';
-  style.textContent=`@media print{
-    .topnav,.back,button,input[type=file],.stats-banner{display:none!important}
-    body{background:#fff!important;color:#222!important;font-size:11pt}
-    .container{max-width:100%;padding:0}
-    .page{display:block!important;page-break-after:always}
-    .page:last-child{page-break-after:avoid}
-    .variant,.card,.stat-box{background:#f9f7f5!important;border-color:#ccc!important;color:#222!important}
-    .variant-name,.card-name,.card-title,.section-title,.cat-name,h1,h2{color:#333!important}
-    .variant-desc,.card-body,.cat-desc{color:#555!important}
-    .variant-geno{color:#888!important}
-    .cat-grid{grid-template-columns:repeat(3,1fr)!important}
-    footer{display:block!important;color:#aaa!important}
-    a{color:#A51C30!important}
-  }`;
-  document.head.appendChild(style);
-  window.print();
-  setTimeout(()=>document.getElementById('print-css')?.remove(),2000);
+// ═══════════ RISK OVERVIEW ═══════════
+function initRisk(){
+  const grid=document.getElementById('risk-grid');
+  if(grid.children.length)return;
+  const items=[
+    {label:'Cardiovascular',score:72,color:'#ef4444',key:'heart'},
+    {label:'Alzheimer\u2019s',score:68,color:'#8b5cf6',key:'brain'},
+    {label:'Melanoma',score:91,color:'#ec4899',key:'cancer'},
+    {label:'Type 2 Diabetes',score:28,color:'#34d399',key:null},
+    {label:'Longevity',score:60,color:'#f472b6',key:'longevity'},
+    {label:'Immune',score:55,color:'#fbbf24',key:'immune'}
+  ];
+  items.forEach(it=>{
+    const card=document.createElement('div');
+    card.className='risk-mini';
+    card.innerHTML=makeGaugeSVG(it.score,it.color,120)+`<div class="risk-mini-label">${it.label}</div><div class="risk-mini-score" style="color:${it.color}">${it.score}<span style="font-size:14px;color:rgba(255,255,255,.3)">th</span></div>`;
+    if(it.key)card.onclick=()=>showCat(it.key);
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════ EXPLORE (D3 FORCE GRAPH) ═══════════
+let exploreInit=false;
+function initExplore(){
+  if(exploreInit)return;exploreInit=true;
+  const container=document.getElementById('explore-container');
+  const w=container.clientWidth,h=container.clientHeight||500;
+  const svg=d3.select(container).append('svg').attr('viewBox',`0 0 ${w} ${h}`);
+
+  const cats={
+    'Heart':{color:'#ef4444',nodes:['9p21 #1','9p21 #2','9p21 #3','PITX2','PCSK9','ACE','AGT','NOS3','CETP','Factor V','F2','MTHFR-CV','IL-6 CV','LPA','KCNJ11','KCNH2','SCN5A','ApoB','LDL-R']},
+    'Brain':{color:'#8b5cf6',nodes:['APOE \u03B54','COMT','BDNF','OXTR','DRD2','SLC6A4','CLOCK','GABRA2','NPAS2','CRY1','PER2','PER3','ADA','DBH','MAOA']},
+    'Cancer':{color:'#ec4899',nodes:['MC1R R151C','MC1R R160W','MC1R D84E','MC1R R142H','FGFR2','TP53','8q24','TERT','APC','BRCA1','BRCA2','MLH1','MSH2','CHEK2','ATM','NBN','PALB2','RAD51']},
+    'Pharma':{color:'#fbbf24',nodes:['CYP2C9*2','CYP2C19*2','CYP1A2','DPYD','TPMT','OPRM1','SLCO1B1','ABCB1','NAT2','UGT1A1','CYP2D6','CYP3A4','VKORC1','CYP2B6','CYP2E1','GSTM1','GSTT1','HLA-A','HLA-B PGx','ITPA','RYR1','G6PD']},
+    'Immune':{color:'#34d399',nodes:['HLA-B*51','CTLA4','TNF-\u03B1','IL-6','IL-10','FUT2','IL-1\u03B2','IL-23R','ERAP1','TLR4','NOD2','STAT4','IRF5','TNFAIP3','MIF']},
+    'Nutrition':{color:'#60a5fa',nodes:['MTHFR C677T','MTHFR A1298C','VDR','LCT','FADS1','BCMO1','SLC23A1','TCN2','FUT2-B12','GC','CYP27B1','DIO1','DIO2','NBPF3','TAS2R38','SLC30A8','HFE']},
+    'Body':{color:'#22d3ee',nodes:['ACTN3','FTO','PPARGC1A','COL5A1','MCT1','PPARA','ACE-perf','AGT-perf']},
+    'Longevity':{color:'#f472b6',nodes:['FOXO3','TERT-L','SIRT1','KLOTHO','CETP-L','IGF1','MTOR','SOD2','CAT','GPX1','NFE2L2']}
+  };
+
+  const nodes=[],links=[];let id=0;
+  const center={id:id++,name:'Chad',group:'center',r:18,color:'#fff'};
+  nodes.push(center);
+  for(const[cat,data] of Object.entries(cats)){
+    const hub={id:id++,name:cat,group:cat,r:12,color:data.color,isHub:true};
+    nodes.push(hub);
+    links.push({source:center.id,target:hub.id,strength:.3});
+    data.nodes.forEach(n=>{
+      const node={id:id++,name:n,group:cat,r:5,color:data.color};
+      nodes.push(node);
+      links.push({source:hub.id,target:node.id,strength:.6});
+    });
+  }
+
+  const sim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(links).id(d=>d.id).distance(d=>d.source.isHub||d.target.isHub?80:40).strength(d=>d.strength||.5))
+    .force('charge',d3.forceManyBody().strength(-50))
+    .force('center',d3.forceCenter(w/2,h/2))
+    .force('collision',d3.forceCollide().radius(d=>d.r+3));
+
+  const link=svg.selectAll('line').data(links).join('line').attr('stroke','rgba(255,255,255,.04)').attr('stroke-width',1);
+  const node=svg.selectAll('circle').data(nodes).join('circle').attr('r',d=>d.r).attr('fill',d=>d.color).attr('opacity',d=>d.isHub?.8:.5).style('cursor','pointer');
+  const label=svg.selectAll('text').data(nodes.filter(d=>d.isHub||d.name==='Chad')).join('text').text(d=>d.name).attr('text-anchor','middle').attr('dy',d=>d.r+14).attr('font-size','10px').attr('fill','rgba(255,255,255,.5)').attr('font-weight','600');
+
+  node.append('title').text(d=>d.name);
+
+  sim.on('tick',()=>{
+    link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    node.attr('cx',d=>d.x).attr('cy',d=>d.y);
+    label.attr('x',d=>d.x).attr('y',d=>d.y);
+  });
+
+  node.call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
+
+  // Legend
+  const legend=document.createElement('div');legend.className='explore-legend';
+  for(const[cat,data] of Object.entries(cats)){
+    const chip=document.createElement('div');chip.className='legend-chip';
+    chip.innerHTML=`<span style="color:${data.color}">\u25CF</span> ${cat}`;
+    legend.appendChild(chip);
+  }
+  container.appendChild(legend);
 }
 </script>
-
 </body>
 </html>
