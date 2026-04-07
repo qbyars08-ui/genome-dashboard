@@ -63,9 +63,82 @@ a{color:#d4838f;text-decoration:none}a:hover{text-decoration:underline}
 /* SECTION */
 .section-title{font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;color:#C49A6C;margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(196,154,108,.1)}
 
-/* HIDE/SHOW */
-.page{display:none}
-.page.active{display:block}
+/* HIDE/SHOW + ANIMATIONS */
+.page{display:none;opacity:0;transform:translateY(8px)}
+.page.active{display:block;animation:fadeUp .35s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* STAGGERED CARD ENTRANCE */
+.cat-card{opacity:0;animation:cardIn .3s ease forwards}
+.page.active .cat-card:nth-child(1){animation-delay:.05s}
+.page.active .cat-card:nth-child(2){animation-delay:.08s}
+.page.active .cat-card:nth-child(3){animation-delay:.11s}
+.page.active .cat-card:nth-child(4){animation-delay:.14s}
+.page.active .cat-card:nth-child(5){animation-delay:.17s}
+.page.active .cat-card:nth-child(6){animation-delay:.2s}
+.page.active .cat-card:nth-child(7){animation-delay:.23s}
+.page.active .cat-card:nth-child(8){animation-delay:.26s}
+.page.active .cat-card:nth-child(9){animation-delay:.29s}
+.page.active .cat-card:nth-child(10){animation-delay:.32s}
+.page.active .cat-card:nth-child(11){animation-delay:.35s}
+.page.active .cat-card:nth-child(12){animation-delay:.38s}
+.page.active .cat-card:nth-child(n+13){animation-delay:.41s}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* VARIANT CARD ENTRANCE */
+.variant{opacity:0;animation:varIn .25s ease forwards;animation-delay:.1s}
+.page.active .variant:nth-child(2){animation-delay:.15s}
+.page.active .variant:nth-child(3){animation-delay:.2s}
+.page.active .variant:nth-child(n+4){animation-delay:.25s}
+@keyframes varIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+
+/* HOVER GLOW */
+.cat-card:hover{box-shadow:0 4px 20px rgba(165,28,48,.08)}
+.variant:hover{box-shadow:0 2px 12px rgba(196,154,108,.06)}
+
+/* STAT PILL PULSE ON HOVER */
+.stat-pill{transition:all .2s}
+.stat-pill:hover{background:rgba(196,154,108,.12);transform:scale(1.03)}
+
+/* DARK/LIGHT TOGGLE */
+body.light{background:#f5f0eb;color:#2a2420}
+body.light .topnav{background:rgba(245,240,235,.97);border-bottom-color:rgba(165,28,48,.15)}
+body.light .topnav-brand{color:#8b6f4e}
+body.light .topnav-link{background:rgba(196,154,108,.08);border-color:rgba(196,154,108,.15);color:#6b5a48}
+body.light .topnav-link:hover,body.light .topnav-link.active{background:rgba(165,28,48,.1);color:#A51C30}
+body.light .cat-card,body.light .variant,body.light .stat-box{background:rgba(255,255,255,.7);border-color:rgba(196,154,108,.18)}
+body.light .cat-card:hover{border-color:rgba(165,28,48,.3)}
+body.light .cat-name,body.light .variant-name{color:#2a2420}
+body.light .cat-desc,body.light .variant-desc,body.light .card-body{color:#5a4e42}
+body.light .cat-count{color:rgba(139,111,78,.5)}
+body.light .section-title{color:#8b6f4e;border-bottom-color:rgba(139,111,78,.15)}
+body.light .page-header h2{color:#8b6f4e}
+body.light .stat-pill{background:rgba(255,255,255,.6);color:#8b6f4e}
+body.light .stat-pill b{color:#2a2420}
+body.light .variant-geno{color:rgba(139,111,78,.5)}
+body.light .variant-stat{background:rgba(255,255,255,.5)}
+body.light .variant-stat-value{color:#3a2e22}
+body.light .badge-green{background:rgba(78,140,100,.08);color:#3a7d4a}
+body.light .badge-yellow{background:rgba(196,154,108,.08);color:#8b6f4e}
+body.light .badge-red{background:rgba(165,28,48,.06);color:#A51C30}
+body.light .badge-gold{background:rgba(196,154,108,.1);color:#8b6f4e}
+body.light footer{color:rgba(139,111,78,.2)}
+body.light a{color:#A51C30}
+body.light .back{color:rgba(139,111,78,.5);border-color:rgba(139,111,78,.2)}
+
+/* CHROMOSOME MINI-MAP */
+.chr-map{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;margin:12px 0 20px}
+.chr-bar{width:28px;height:40px;border-radius:10px 10px 4px 4px;background:rgba(196,154,108,.08);border:1px solid rgba(196,154,108,.08);position:relative;cursor:default;transition:all .2s}
+.chr-bar:hover{border-color:rgba(165,28,48,.3);transform:scale(1.08)}
+.chr-bar-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 3px 3px;background:linear-gradient(to top,rgba(165,28,48,.4),rgba(196,154,108,.2));transition:height .5s ease}
+.chr-label{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:.45rem;color:rgba(196,154,108,.35);white-space:nowrap}
+.chr-count{position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:.4rem;color:rgba(196,154,108,.3)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:rgba(15,10,8,.5)}
+::-webkit-scrollbar-thumb{background:rgba(196,154,108,.15);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(196,154,108,.3)}
 
 footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top:40px;padding-top:16px;border-top:1px solid rgba(196,154,108,.05)}
 </style>
@@ -75,6 +148,7 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
 <!-- TOP NAV -->
 <div class="topnav">
   <a class="topnav-brand" href="index.html">Byars Health</a>
+  <button id="theme-toggle" onclick="toggleTheme()" style="background:none;border:1px solid rgba(196,154,108,.2);border-radius:6px;padding:2px 8px;font-size:.7rem;cursor:pointer;color:#C49A6C;transition:all .2s" title="Toggle light/dark mode">&#9788;</button>
   <div class="topnav-links" id="subnav">
     <a class="topnav-link active" href="#home" onclick="go('home')">Home</a>
     <a class="topnav-link" href="#heart" onclick="go('heart')">Heart</a>
@@ -118,6 +192,9 @@ footer{text-align:center;font-size:.55rem;color:rgba(196,154,108,.15);margin-top
     <div class="stat-pill"><b>MT-H1</b> Haplogroup</div>
     <div class="stat-pill" style="cursor:pointer;border-color:rgba(165,28,48,.3);color:#d4838f" onclick="exportPDF()"><b>&#128196;</b> Export PDF</div>
   </div>
+
+  <div class="section-title" style="margin-top:8px;font-size:.9rem">Chromosome Overview &mdash; 614,452 SNPs</div>
+  <div class="chr-map" id="chr-map"></div>
 
   <div class="cat-grid">
     <a class="cat-card" onclick="go('heart')" style="border-left:3px solid #fb923c">
@@ -1482,6 +1559,38 @@ function updateCalc(){
   document.getElementById('af-mod').innerHTML='AFib trigger risk: <b style="color:'+(afScore>50?'#d4838f':'#6db87d')+'">'+(al<=3?'Low — within safe threshold':'ELEVATED — above multiplicative threshold')+'</b>';
   document.getElementById('ba-mod').innerHTML='Biological age acceleration: <b style="color:'+(bioAge<=0?'#6db87d':bioAge<=1.5?'#C49A6C':'#d4838f')+'">'+bioAge+' years</b> '+(bioAge<=0?'BELOW chronological — younger than your age':'above chronological');
 }
+
+// ═══════════════ THEME TOGGLE ═══════════════
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  const isLight=document.body.classList.contains('light');
+  document.getElementById('theme-toggle').textContent=isLight?'☾':'☼';
+  try{localStorage.setItem('byars-theme',isLight?'light':'dark')}catch(e){}
+}
+(function(){try{if(localStorage.getItem('byars-theme')==='light'){document.body.classList.add('light');document.getElementById('theme-toggle').textContent='☾'}}catch(e){}})();
+
+// ═══════════════ CHROMOSOME MINI-MAP ═══════════════
+(function(){
+  const chrData=[
+    {chr:'1',snps:49474},{chr:'2',snps:48877},{chr:'3',snps:39438},{chr:'4',snps:35146},
+    {chr:'5',snps:34527},{chr:'6',snps:40214},{chr:'7',snps:30988},{chr:'8',snps:30764},
+    {chr:'9',snps:25115},{chr:'10',snps:29480},{chr:'11',snps:28739},{chr:'12',snps:27082},
+    {chr:'13',snps:20622},{chr:'14',snps:18185},{chr:'15',snps:16714},{chr:'16',snps:18339},
+    {chr:'17',snps:16033},{chr:'18',snps:16440},{chr:'19',snps:10791},{chr:'20',snps:13312},
+    {chr:'21',snps:7828},{chr:'22',snps:8079},{chr:'X',snps:16429},{chr:'MT',snps:4154}
+  ];
+  const maxSNP=Math.max(...chrData.map(c=>c.snps));
+  const container=document.getElementById('chr-map');
+  if(!container)return;
+  chrData.forEach(c=>{
+    const pct=Math.round(c.snps/maxSNP*100);
+    const bar=document.createElement('div');
+    bar.className='chr-bar';
+    bar.title='Chr '+c.chr+': '+c.snps.toLocaleString()+' SNPs';
+    bar.innerHTML='<div class="chr-bar-fill" style="height:'+pct+'%"></div><div class="chr-label">'+c.chr+'</div><div class="chr-count">'+Math.round(c.snps/1000)+'k</div>';
+    container.appendChild(bar);
+  });
+})();
 
 // ═══════════════ GENOME UPLOAD & PARSER ═══════════════
 const CLINICAL_LOCI={
