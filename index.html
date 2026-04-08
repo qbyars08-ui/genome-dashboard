@@ -415,6 +415,54 @@ body.is-doctor #nav .nb.on::after{background:#111}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:1px}
 
 /* ══════════════════════════════════════
+   LIFESPAN OPTIMIZER
+══════════════════════════════════════ */
+.ls-hero{padding:20px 16px 0}
+.ls-compare{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);overflow:hidden;margin-bottom:12px}
+.ls-compare-row{display:flex}
+.ls-col{flex:1;padding:18px 16px;text-align:center;position:relative}
+.ls-col+.ls-col{border-left:1px solid var(--bd)}
+.ls-col-lbl{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ls-col-num{font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.ls-col-unit{font-size:11px;font-weight:500;color:var(--t3);margin-top:3px}
+.ls-live{background:linear-gradient(135deg,rgba(91,139,212,.12) 0%,rgba(155,122,219,.08) 100%);border-top:1px solid var(--bd);padding:16px;text-align:center}
+.ls-live-n{font-size:54px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:all .3s var(--expo)}
+.ls-live-lbl{font-size:11px;font-weight:500;color:var(--t3);margin-top:4px}
+.ls-gain{display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:rgba(90,173,139,.1);border:1px solid rgba(90,173,139,.25);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--green)}
+
+.ls-variants{padding:0 16px 12px}
+.ls-var-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.ls-var-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px}
+.ls-var-row:last-child{border-bottom:none}
+.ls-var-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ls-var-name{flex:1;color:var(--t2)}
+.ls-var-delta{font-weight:700;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
+
+.ls-sliders{padding:0 16px 8px}
+.ls-sl-hdr{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;margin-top:16px}
+.ls-sl{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 16px;margin-bottom:8px}
+.ls-sl-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.ls-sl-name{font-size:13px;font-weight:600}
+.ls-sl-gain{font-size:12px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
+.ls-sl-gene{font-size:10px;font-weight:600;color:var(--t3);margin-bottom:8px}
+.ls-sl-insight{font-size:11px;color:var(--t2);line-height:1.6;margin-top:6px;padding-top:8px;border-top:1px solid var(--bd)}
+.ls-range{width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;-webkit-appearance:none;background:var(--bd);accent-color:var(--blue)}
+.ls-range::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 0 0 4px rgba(91,139,212,.15)}
+.ls-range::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer;border:none}
+.ls-range-row{display:flex;align-items:center;gap:10px}
+.ls-range-val{font-size:11px;font-weight:700;color:var(--t2);min-width:52px;text-align:right;font-variant-numeric:tabular-nums}
+
+.ls-decade{background:var(--sf);border:1px solid var(--bd);border-left:3px solid;border-radius:var(--r-m);padding:16px;margin-bottom:8px}
+.ls-dec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.ls-dec-title{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.ls-dec-body{font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:10px}
+.ls-dec-action{font-size:11px;color:var(--t2);padding:4px 0;display:flex;gap:8px;align-items:flex-start}
+.ls-dec-action::before{content:'→';color:var(--t3);flex-shrink:0;margin-top:1px}
+
+.ls-cite{padding:16px 16px 28px;font-size:10px;color:var(--t4);line-height:1.7}
+.ls-cite b{color:var(--t3)}
+
+/* ══════════════════════════════════════
    PRINT
 ══════════════════════════════════════ */
 @media print{
@@ -874,6 +922,87 @@ const PEGGY = {
 const PERSONS = {chad:CHAD, quinn:QUINN, brigitte:BRIGITTE, brother:BROTHER, peggy:PEGGY};
 
 /* ══════════════════════════════════════
+   LIFESPAN OPTIMIZER DATA
+══════════════════════════════════════ */
+const LIFESPAN = {
+  chad:{
+    base:76,
+    geneticAdj:-8,
+    variants:[
+      {n:'APOE ε3/ε4',y:-3,c:'#E05A5A'},{n:'9p21 ×3 CAD',y:-2,c:'#E05A5A'},
+      {n:'IL-6 CC inflammaging',y:-1.5,c:'#D4855A'},{n:'FOXO3 TT (no longevity allele)',y:-1,c:'#D4855A'},
+      {n:'MC1R ×4 melanoma risk',y:-0.5,c:'#C9A84C'}
+    ],
+    sliders:[
+      {id:'exercise',l:'Exercise',sub:'hours per week — target 5-6',gene:'APOE4 + FOXO3',min:0,max:8,val:2,maxGain:5,unit:'hrs/wk',inv:false,
+       insight:'Your single most powerful lever. APOE4 carriers who exercise 5+ hrs/week cut Alzheimer\'s risk by 45%. FOXO3 TT is activated by sustained aerobic effort — you can compensate for the absent longevity allele.'},
+      {id:'diet',l:'Mediterranean Diet',sub:'% adherence — target 80%+',gene:'9p21 ×3',min:0,max:100,val:30,maxGain:4,unit:'%',inv:false,
+       insight:'The INTERHEART study (Lancet 2004) proved Mediterranean diet at 80%+ adherence completely eliminates 9p21 CAD risk. This is one of the strongest gene-diet interactions ever measured.'},
+      {id:'sleep',l:'Sleep',sub:'hours per night — target 7-8',gene:'APOE4 + amyloid',min:4,max:9,val:6.5,maxGain:3,unit:'hrs/night',inv:false,
+       insight:'APOE4 carriers sleeping under 7 hours show 3× higher amyloid accumulation. Sleep is when your brain clears the proteins that drive dementia. Non-negotiable.'},
+      {id:'omega3',l:'Omega-3 DHA',sub:'grams per day — target 2g',gene:'APOE4 + FADS1',min:0,max:4,val:0,maxGain:2,unit:'g/day',inv:false,
+       insight:'APOE4 carriers clear DHA from the brain faster than normal. 2g/day of preformed DHA (not ALA from flaxseed) maintains the levels your brain needs for myelin and neuroinflammation control.'},
+      {id:'vitd',l:'Vitamin D',sub:'blood level ng/mL — target 50-60',gene:'VDR + GC',min:15,max:80,val:35,maxGain:1.5,unit:'ng/mL',inv:false,
+       insight:'Your VDR variant reduces receptor expression — you need higher serum levels to get the immune and cardiovascular benefits others get at lower levels. 5000 IU/day is your likely dose.'},
+      {id:'stress',l:'Stress Level',sub:'0 = calm, 10 = chronic stress',gene:'IL-6 CC + COMT',min:0,max:10,val:6,maxGain:2,unit:'',inv:true,
+       insight:'Chronic stress directly activates IL-6 — your highest-producer allele. Stress management is a direct anti-inflammatory intervention, not optional or soft.'},
+      {id:'alcohol',l:'Alcohol',sub:'drinks per week — target <3',gene:'PITX2 AFib',min:0,max:14,val:5,maxGain:2,unit:'drinks/wk',inv:true,
+       insight:'Alcohol >3×/week is multiplicative with your PITX2 AFib risk — not additive. Reducing intake is one of your highest-leverage cardiovascular moves.'},
+      {id:'screening',l:'Annual Screening',sub:'dermatology + cardiac + labs',gene:'MC1R + APOE4',min:0,max:1,val:0,maxGain:2.5,unit:'on/off',inv:false,isBool:true,
+       insight:'Annual dermoscopy with your MC1R ×4 profile catches melanoma at stage 1 — over 95% survivable. Skipping this doesn\'t eliminate the risk. It just leaves it unmonitored.'}
+    ],
+    decades:[
+      {label:'Your 60s',c:'#5B8BD4',title:'This decade sets the trajectory.',
+       body:'The choices you make now determine whether your cardiovascular and brain health compound positively or negatively into your 70s. 9p21 CAD risk is almost entirely modifiable with Mediterranean diet. APOE4 exercise benefit is highest in your 60s. A CAC score now tells you exactly where you stand.',
+       actions:['CAC score — your cardiovascular baseline','Mediterranean diet 80%+ starts now','5-6 hrs exercise/week — this is the APOE4 prescription']},
+      {label:'Your 70s',c:'#9B7ADB',title:'Your mind becomes the priority.',
+       body:'APOE4 carriers who maintained exercise through their 60s show 45% lower Alzheimer\'s incidence in their 70s. Omega-3 DHA in the brain is measurable and modifiable. Annual cognitive assessments catch changes years before clinical symptoms — and lecanemab/donanemab are now available for early intervention.',
+       actions:['Annual cognitive assessment — baseline established now','Omega-3 DHA 2g maintained — brain preservation','Sleep 7-8 hours — amyloid clearance is real']},
+      {label:'Your 80s+',c:'#5AAD8B',title:'Screening continuity is your edge.',
+       body:'MC1R ×4 carriers who maintained annual dermoscopy have dramatically better melanoma outcomes — every melanoma caught at stage 1 is nearly 100% survivable. Social connection and cognitive engagement show the strongest longevity signal in the literature at this age.',
+       actions:['Annual derm — no exceptions with MC1R ×4','Stay cognitively engaged — learning protects','Maintain social depth — this is physiological, not optional']}
+    ]
+  },
+  quinn:{
+    base:81,
+    geneticAdj:-4,
+    variants:[
+      {n:'9p21 ×3 bilateral CAD',y:-2,c:'#E05A5A'},{n:'BD / immune dysregulation',y:-1,c:'#D4855A'},
+      {n:'LDL 142 at age 17',y:-1,c:'#E05A5A'}
+    ],
+    sliders:[
+      {id:'exercise',l:'Exercise',sub:'hours per week — start gentle, build',gene:'9p21 + immune',min:0,max:8,val:1,maxGain:4,unit:'hrs/wk',inv:false,
+       insight:'Exercise is anti-inflammatory — directly counteracting your TNF-α and IL-6 variants. Start gentle (walking, swimming). Build as EF stabilizes. This is cardiac rehab and immune therapy simultaneously.'},
+      {id:'diet',l:'Mediterranean Diet',sub:'% adherence — target 80%+',gene:'9p21 bilateral',min:0,max:100,val:30,maxGain:4,unit:'%',inv:false,
+       insight:'You inherited all three 9p21 markers from both parents. Mediterranean diet at 80%+ eliminates that CAD risk. Starting at 17 means decades of compounding benefit — this is the single best LDL intervention too.'},
+      {id:'sleep',l:'Sleep',sub:'hours per night + consistent timing',gene:'6 circadian genes',min:4,max:9,val:7,maxGain:2.5,unit:'hrs/night',inv:false,
+       insight:'You carry disrupted variants in 6 circadian clock genes. Consistent sleep timing matters as much as duration — a regular wake time within 30 minutes anchors everything else.'},
+      {id:'vitd',l:'Vitamin D',sub:'blood level ng/mL — target 50-60',gene:'VDR + GC + BD',min:15,max:80,val:26.5,maxGain:2,unit:'ng/mL',inv:false,
+       insight:'Vitamin D is critical for immune regulation in BD specifically. Your current level of 26.5 ng/mL is too low. 5000 IU/day should bring you to 50-60 — the therapeutic range for immune modulation.'},
+      {id:'stress',l:'Stress Level',sub:'0 = calm, 10 = chronic stress',gene:'COMT Met + BD',min:0,max:10,val:7,maxGain:2.5,unit:'',inv:true,
+       insight:'Stress directly triggers BD flares — not psychologically, immunologically. Your COMT Met allele makes you more stress-sensitive at a biological level. Investing in stress management is investing in BD control.'},
+      {id:'methylfolate',l:'Methylfolate',sub:'800mcg daily — on or off',gene:'MTHFR compound',min:0,max:1,val:0,maxGain:1,unit:'on/off',inv:false,isBool:true,
+       insight:'Your compound MTHFR cuts methylation by ~50%. Methylfolate 800mcg bypasses the block completely. It affects mood, immunity, and cardiovascular risk — all at once. Folic acid will not work.'},
+      {id:'alcohol',l:'Alcohol-free',sub:'staying completely alcohol-free',gene:'BD + liver',min:0,max:1,val:1,maxGain:1.5,unit:'on/off',inv:false,isBool:true,
+       insight:'Alcohol is a known BD trigger and immune activator. Staying alcohol-free at 17 sets a pattern that compounds for decades of better immune control. This one is easy given the circumstances.'},
+      {id:'screening',l:'Follow-up Appointments',sub:'keeping all scheduled visits',gene:'BD + cardiac',min:0,max:1,val:0,maxGain:2,unit:'on/off',inv:false,isBool:true,
+       insight:'Cardiac MRI to confirm EF recovery, testosterone recheck, cortisol testing — each appointment changes medical decisions. Keeping them is the most direct longevity intervention you have right now.'}
+    ],
+    decades:[
+      {label:'Your 20s',c:'#E05A5A',title:'Recovery is the foundation.',
+       body:'Getting to real, stable BD remission is the most important health investment of your 20s. Everything else — LDL, testosterone, Vitamin D — normalizes as the steroids taper and inflammation stays controlled. One year of stable BD management before college is the goal.',
+       actions:['BD remission with Otezla or anti-TNF if needed','Confirm EF recovery on cardiac MRI','LDL to <100 with Mediterranean diet — starts now']},
+      {label:'Your 30s',c:'#5AAD8B',title:'Compound the gains.',
+       body:'A decade of controlled BD makes your 30s dramatically different. Testosterone will have recovered. LDL managed by diet. The 9p21 CAD risk that affected your grandfather is almost entirely within your control at this point.',
+       actions:['Exercise 5+ hrs/week — cardiac and immune benefit','Annual BD labs — CRP, ESR, Vitamin D','Nebula WGS results fully analyzed — act on findings']},
+      {label:'Your 40s+',c:'#9B7ADB',title:'You will have rewritten this story.',
+       body:'Research on BD outcomes shows patients who achieve early stable remission and maintain lifestyle interventions have near-normal life expectancy and quality of life. Your genetics are not your destiny — they are your roadmap. You\'re reading it at 17.',
+       actions:['Coronary calcium score at 40 — 9p21 surveillance','Full BD remission maintained — the rest follows','Teach your children what you\'ve learned']}
+    ]
+  }
+};
+
+/* ══════════════════════════════════════
    STORAGE HELPERS (person-scoped)
 ══════════════════════════════════════ */
 function ls(pid,k,d){try{const v=localStorage.getItem(pid+'-'+k);return v?JSON.parse(v):d}catch(e){return d}}
@@ -963,8 +1092,8 @@ function hexAlpha(hex,a){
 /* ══════════════════════════════════════
    RENDER — PERSON
 ══════════════════════════════════════ */
-const TABS=['overview','genetics','tracking','doctor','more'];
-const TAB_LABELS=['Overview','Genetics','Tracking','Doctor','More'];
+const TABS=['overview','lifespan','tracking','doctor','more'];
+const TAB_LABELS=['Overview','Lifespan','Tracking','Doctor','More'];
 
 function renderPerson(p,tab){
   if(p.pending){renderPending(p);return;}
@@ -972,11 +1101,11 @@ function renderPerson(p,tab){
   const navEl=document.getElementById('nav');
   navEl.style.display='flex';
   navEl.innerHTML=TABS.map((t,i)=>`<button class="nb${t===tab?' on':''}" onclick="nav('${p.id}/${t==='overview'?'':t}')">${TAB_LABELS[i]}</button>`).join('');
-  // fix overview tab link
   navEl.querySelectorAll('.nb')[0].setAttribute('onclick',`nav('${p.id}')`);
 
   let body='';
   if(tab==='overview')body=renderOverview(p);
+  else if(tab==='lifespan')body=renderLifespan(p);
   else if(tab==='genetics')body=renderGenetics(p);
   else if(tab==='tracking')body=renderTracking(p);
   else if(tab==='doctor')body=renderDoctor(p);
@@ -1051,6 +1180,121 @@ function findingHTML(f){
 function toggleFinding(id){
   const el=document.getElementById(id);
   if(el)el.classList.toggle('open');
+}
+
+/* ══════════════════════════════════════
+   RENDER — LIFESPAN OPTIMIZER
+══════════════════════════════════════ */
+function renderLifespan(p){
+  const ld=LIFESPAN[p.id];
+  if(!ld){
+    return `<div class="pending-view"><div class="pend-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="pend-t">Coming soon</div><div class="pend-s">Longevity plan will be available once full genome analysis is complete.</div></div>`;
+  }
+  const geneticBase=ld.base+ld.geneticAdj;
+  const maxGain=ld.sliders.reduce((s,sl)=>s+sl.maxGain,0);
+  const maxPossible=Math.round(geneticBase+maxGain);
+  const currentGain=calcLifespanGain(ld);
+  const currentEst=Math.round(geneticBase+currentGain);
+
+  let h=`<div class="ls-hero">`;
+
+  // Compare banner
+  h+=`<div class="ls-compare">
+    <div class="ls-compare-row">
+      <div class="ls-col"><div class="ls-col-lbl">Without optimization</div><div class="ls-col-num" style="color:var(--t3)">${geneticBase}</div><div class="ls-col-unit">years</div></div>
+      <div class="ls-col"><div class="ls-col-lbl">Full optimization</div><div class="ls-col-num" style="color:var(--green)">${maxPossible}</div><div class="ls-col-unit">years</div></div>
+    </div>
+    <div class="ls-live">
+      <div class="ls-col-lbl" style="margin-bottom:8px">Your current estimated lifespan</div>
+      <div class="ls-live-n" id="ls-live-num-${p.id}">${currentEst}</div>
+      <div class="ls-live-lbl">years — adjust sliders to see your potential</div>
+      <div class="ls-gain" id="ls-gain-${p.id}">+${Math.round(currentGain)} years from lifestyle</div>
+    </div>
+  </div>`;
+
+  // Genetic variant breakdown
+  h+=`</div><div class="ls-variants">
+    <div class="ls-var-lbl">Your genetic starting point</div>
+    <div class="ls-var-row"><div class="ls-var-dot" style="background:var(--t3)"></div><div class="ls-var-name">US average lifespan baseline</div><div class="ls-var-delta" style="color:var(--t2)">+${ld.base}</div></div>`;
+  ld.variants.forEach(v=>{
+    h+=`<div class="ls-var-row"><div class="ls-var-dot" style="background:${v.c}"></div><div class="ls-var-name">${v.n}</div><div class="ls-var-delta" style="color:${v.c}">${v.y > 0 ? '+' : ''}${v.y} yr</div></div>`;
+  });
+  h+=`<div class="ls-var-row" style="border-top:1px solid var(--bd);margin-top:4px;padding-top:8px"><div class="ls-var-dot" style="background:var(--blue)"></div><div class="ls-var-name" style="font-weight:600;color:var(--t1)">Genetic baseline</div><div class="ls-var-delta" style="color:var(--blue);font-size:14px">${geneticBase} yr</div></div>
+  </div>`;
+
+  // Sliders
+  h+=`<div class="ls-sliders"><div class="ls-sl-hdr">Your lifestyle levers — drag to update</div>`;
+  ld.sliders.forEach(sl=>{
+    const gain=calcSliderGain(sl);
+    const displayVal=sl.isBool?(sl.val?'On':'Off'):(sl.val+(sl.unit&&sl.unit!=='on/off'?' '+sl.unit:''));
+    h+=`<div class="ls-sl">
+      <div class="ls-sl-top">
+        <div><div class="ls-sl-name">${sl.l}</div><div class="ls-sl-gene">${sl.gene}</div></div>
+        <div class="ls-sl-gain" id="ls-sg-${p.id}-${sl.id}">+${gain.toFixed(1)} yr</div>
+      </div>
+      <div class="ls-range-row">
+        <input class="ls-range" type="range" min="${sl.min}" max="${sl.max}" step="${sl.isBool?1:sl.id==='vitd'||sl.id==='diet'?sl.id==='diet'?5:5:sl.id==='sleep'?0.5:sl.id==='omega3'?0.25:sl.id==='exercise'?0.5:1}" value="${sl.val}"
+          oninput="updateLifespan('${p.id}','${sl.id}',parseFloat(this.value))">
+        <div class="ls-range-val" id="ls-rv-${p.id}-${sl.id}">${displayVal}</div>
+      </div>
+      <div class="ls-sl-insight">${sl.insight}</div>
+    </div>`;
+  });
+  h+=`</div>`;
+
+  // Decade roadmap
+  h+=`<div class="ls-sliders"><div class="ls-sl-hdr">Your decade-by-decade roadmap</div>`;
+  ld.decades.forEach(d=>{
+    h+=`<div class="ls-decade" style="border-left-color:${d.c}">
+      <div class="ls-dec-lbl" style="color:${d.c}">${d.label}</div>
+      <div class="ls-dec-title">${d.title}</div>
+      <div class="ls-dec-body">${d.body}</div>
+      ${d.actions.map(a=>`<div class="ls-dec-action">${a}</div>`).join('')}
+    </div>`;
+  });
+  h+=`</div>`;
+
+  // Citations
+  h+=`<div class="ls-cite"><b>Evidence base:</b> EXERT trial (Alzheimer's Res. & Therapy 2024) · INTERHEART (Lancet 2004) · PREDIMED (NEJM 2013) · VITALITY trial (NEJM 2019) · U.S. POINTER (JAMA 2025) · Walker sleep research (UCSF) · ARIC study · USPSTF screening outcomes. Year estimates are illustrative life-expectancy adjustments based on population-level studies. Not a clinical prediction.</div>`;
+
+  return h;
+}
+
+function calcSliderGain(sl){
+  if(sl.isBool) return sl.val * sl.maxGain;
+  if(sl.inv){
+    // lower value = more gain (stress, alcohol)
+    return (1-(sl.val-sl.min)/(sl.max-sl.min))*sl.maxGain;
+  }
+  // for sleep: optimal at 8h, penalty outside range
+  if(sl.id==='sleep'){
+    const opt=8, v=parseFloat(sl.val);
+    const frac=v<=opt?Math.max(0,(v-sl.min)/(opt-sl.min)):Math.max(0,1-(v-opt)/2);
+    return frac*sl.maxGain;
+  }
+  return ((sl.val-sl.min)/(sl.max-sl.min))*sl.maxGain;
+}
+
+function calcLifespanGain(ld){
+  return ld.sliders.reduce((s,sl)=>s+calcSliderGain(sl),0);
+}
+
+function updateLifespan(pid,slid,val){
+  const ld=LIFESPAN[pid];if(!ld)return;
+  const sl=ld.sliders.find(s=>s.id===slid);if(!sl)return;
+  sl.val=val;
+  const gain=calcSliderGain(sl);
+  const gainEl=document.getElementById('ls-sg-'+pid+'-'+slid);
+  if(gainEl)gainEl.textContent='+'+gain.toFixed(1)+' yr';
+  const rvEl=document.getElementById('ls-rv-'+pid+'-'+slid);
+  if(rvEl)rvEl.textContent=sl.isBool?(val?'On':'Off'):(val+(sl.unit&&sl.unit!=='on/off'?' '+sl.unit:''));
+  const totalGain=calcLifespanGain(ld);
+  const geneticBase=ld.base+ld.geneticAdj;
+  const est=Math.round(geneticBase+totalGain);
+  const liveEl=document.getElementById('ls-live-num-'+pid);
+  if(liveEl)liveEl.textContent=est;
+  const gainBadge=document.getElementById('ls-gain-'+pid);
+  if(gainBadge)gainBadge.textContent='+'+Math.round(totalGain)+' years from lifestyle';
 }
 
 /* ══════════════════════════════════════
@@ -1313,8 +1557,8 @@ function renderMore(p){
   let h=`<div class="sec"><div class="sec-t">More</div></div><div class="pad">`;
   const items=[
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',t:'Family Hub',s:'All family members',fn:`nav('home')`},
+    {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Your Longevity Plan',s:'How many years your protocol can add',fn:`nav('${p.id}/lifespan')`},
     {icon:'<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-2.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-2.93 7.07l-2.83-2.83M6.76 6.76L3.93 3.93"/>',t:'Genetics / Explore',s:p.id==='quinn'?'Inheritance map':'Variant network',fn:`nav('${p.id}/genetics')`},
-    {icon:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',t:'Lab Tracking',s:'Enter and track biomarkers',fn:`nav('${p.id}/tracking')`},
     {icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',t:'Doctor Card',s:'Printable clinical report',fn:`nav('${p.id}/doctor')`},
     {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'}
   ];
