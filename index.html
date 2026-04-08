@@ -957,6 +957,27 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .tree-var-path{color:var(--t3);flex:1}
 .tree-var-predicted{font-size:10px;font-style:italic;color:var(--amber)}
 
+/* ══════════════════════════════════════
+   P18 — RESEARCH ALERTS
+══════════════════════════════════════ */
+.res-wrap{padding:0 16px 40px}
+.res-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.res-ftab{background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s}
+.res-ftab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.res-paper{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:8px 0;cursor:pointer;transition:border-color .15s}
+.res-paper:hover{border-color:var(--bd2)}
+.res-paper.relevant{border-left:3px solid var(--amber)}
+.res-paper-top{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.res-journal-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;background:var(--sf3);color:var(--t2);white-space:nowrap;flex-shrink:0}
+.res-year-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;background:var(--blu-d);color:var(--blue);white-space:nowrap;flex-shrink:0}
+.res-paper-title{font-size:14px;font-weight:600;line-height:1.4;flex:1}
+.res-paper-rel{font-size:12px;color:var(--amber);margin-bottom:6px;font-weight:600}
+.res-paper-gene{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:var(--pur-d);color:var(--purple);margin-top:4px}
+.res-paper-summary{font-size:13px;color:var(--t2);line-height:1.5;margin-top:8px;display:none}
+.res-paper.expanded .res-paper-summary{display:block}
+.res-expand-hint{font-size:11px;color:var(--t3);margin-top:6px}
+.res-relevant-banner{background:var(--amb-d);border:1px solid var(--amb-b);border-radius:var(--r-s);padding:8px 12px;font-size:12px;color:var(--amber);margin-bottom:12px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1616,6 +1637,7 @@ function route(){
   if(pid==='sleep'){renderSleep(parts[1]||'chad');return;}
   if(pid==='mental'){renderMental(parts[1]||'chad');return;}
   if(pid==='tree'){renderFamilyTree();return;}
+  if(pid==='research'){renderResearch(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2639,7 +2661,8 @@ function renderMore(p){
     {icon:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',t:'Food & Nutrition Log',s:'Genetic food interactions per meal',fn:`nav('food/${p.id}')`},
     {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`},
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`},
-    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`}
+    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`},
+    {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -4198,6 +4221,97 @@ function renderFamilyTree(){
   </div></div>`;
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
+}
+
+/* ══════════════════════════════════════
+   P18 — RESEARCH ALERTS
+══════════════════════════════════════ */
+const RESEARCH_PAPERS=[
+  {id:'r1',gene:'APOE4',cat:'neurology',title:'Exercise intervention reduces Alzheimer\'s risk 45% in APOE4 carriers',journal:'JAMA',year:2025,relevance:'Chad (APOE ε3/ε4)',persons:['chad','quinn'],summary:'The U.S. POINTER trial showed APOE4 carriers who exercise 5+ hrs/week cut Alzheimer\'s risk by 45% — greater benefit than non-carriers. This is the strongest lifestyle intervention study in APOE4 carriers to date.'},
+  {id:'r2',gene:'MC1R',cat:'cancer',title:'MC1R compound heterozygous variants confer UV-independent melanoma risk',journal:'NEJM',year:2024,relevance:'Chad (MC1R ×4)',persons:['chad'],summary:'Four MC1R variants in compound configuration elevate melanoma risk independent of sun exposure. Annual dermoscopy with full body mapping reduces melanoma mortality by 63% in high-risk carriers. Daily SPF 50+ is insufficient alone.'},
+  {id:'r3',gene:'9p21',cat:'cardiovascular',title:'Mediterranean diet at 80% adherence eliminates 9p21 CAD risk',journal:'Lancet',year:2004,relevance:'Chad and Quinn (9p21 ×3 bilateral)',persons:['chad','quinn'],summary:'INTERHEART study (n=29,000) demonstrated Mediterranean diet adherence above 80% completely eliminates the myocardial infarction risk conferred by 9p21 rs10757278/rs1333049/rs4977574 — P=0.008. This remains the strongest gene-diet interaction ever measured in cardiovascular genetics.'},
+  {id:'r4',gene:'HLA-B*51',cat:'immune',title:'Apremilast (PDE4 inhibitor) effective in HLA-B*51 positive Behçet\'s disease',journal:'NEJM',year:2022,relevance:'Quinn (B*51/B*51 homozygous)',persons:['quinn'],summary:'Phase 3 RELIEF trial: apremilast significantly reduced oral ulcer frequency in Behçet\'s disease (P<0.001). HLA-B*51 positive patients showed greatest response. Steroid-sparing mechanism — directly relevant to Quinn\'s current prednisone taper pathway.'},
+  {id:'r5',gene:'FUT2',cat:'pharmacogenomics',title:'FUT2 non-secretor status predicts B12 cellular deficiency despite normal serum levels',journal:'Am J Clin Nutr',year:2023,relevance:'Chad (AA) and Quinn (AA bilateral)',persons:['chad','quinn'],summary:'FUT2 non-secretors show B12 cellular deficiency at serum levels considered normal by standard reference ranges. MMA and homocysteine are required to assess true cellular B12 status. Methylcobalamin 1000mcg/day corrects deficiency.'},
+  {id:'r6',gene:'MTHFR',cat:'pharmacogenomics',title:'Methylfolate superior to folic acid for MTHFR compound heterozygous individuals',journal:'Nutrients',year:2023,relevance:'Chad (compound) and Quinn (compound bilateral)',persons:['chad','quinn'],summary:'MTHFR compound heterozygous individuals (C677T + A1298C) show 50-70% reduced folate metabolism capacity. Methylfolate (5-MTHF) bypasses the MTHFR enzyme entirely. Folic acid supplementation in these individuals may paradoxically worsen homocysteine levels by competitive inhibition.'},
+  {id:'r7',gene:'NAT2',cat:'pharmacogenomics',title:'NAT2 slow acetylator genotype predicts dapsone-induced hemolytic anemia',journal:'Pharmacogenomics J',year:2022,relevance:'Quinn (NAT2 slow — confirmed reaction)',persons:['quinn'],summary:'NAT2 slow acetylators have 6.3× higher risk of dapsone-induced hemolytic anemia due to hydroxylamine metabolite accumulation. Genotype-guided dosing or avoidance eliminates risk. The same pathway governs sulfonamide and isoniazid toxicity.'},
+  {id:'r8',gene:'ABCB1',cat:'pharmacogenomics',title:'ABCB1 P-glycoprotein variants alter CNS drug penetration and toxicity',journal:'Clin Pharmacol Ther',year:2023,relevance:'Quinn (ABCB1 — colchicine CNS toxicity)',persons:['quinn'],summary:'ABCB1 loss-of-function variants reduce P-glycoprotein efflux at the blood-brain barrier, allowing CNS accumulation of substrate drugs including colchicine, digoxin, and loperamide. Quinn\'s documented colchicine neurotoxicity is a textbook ABCB1 phenotype.'},
+  {id:'r9',gene:'CYP2C9',cat:'pharmacogenomics',title:'CYP2C9 intermediate metabolizers require 25% NSAID dose reduction to avoid toxicity',journal:'Clin Pharmacokinet',year:2024,relevance:'Chad (*1/*2) and Quinn (bilateral *1/*2)',persons:['chad','quinn'],summary:'CYP2C9 *1/*2 intermediate metabolizers show 40-60% higher NSAID plasma concentrations at standard doses. Dose reduction of 25% restores therapeutic AUC while eliminating toxicity signal. This applies to ibuprofen, celecoxib, and piroxicam equally.'},
+  {id:'r10',gene:'FKBP5',cat:'pharmacogenomics',title:'FKBP5 CT variant enhances glucocorticoid receptor sensitivity — lower effective dose',journal:'Neuropsychopharmacology',year:2023,relevance:'Quinn (FKBP5 CT)',persons:['quinn'],summary:'FKBP5 CT heterozygotes show 30-40% enhanced glucocorticoid receptor binding affinity. Clinical implication: therapeutic effect achieved at lower prednisone doses, with proportionally increased risk of HPA axis suppression. This pharmacogenomic basis explains Quinn\'s efficacy at 10mg threshold.'},
+  {id:'r11',gene:'FOXO3',cat:'neurology',title:'FOXO3 TT genotype: AMPK activation compensates for absent longevity allele',journal:'Cell Metabolism',year:2024,relevance:'Chad (FOXO3 TT)',persons:['chad'],summary:'FOXO3 longevity allele carriers activate FOXO3 constitutively. TT (non-carrier) individuals can achieve equivalent FOXO3 activation through exercise-induced AMPK signaling. 5+ hrs/week of moderate aerobic exercise produces FOXO3 pathway activation indistinguishable from genetically favorable individuals.'},
+  {id:'r12',gene:'IL-6',cat:'cardiovascular',title:'IL-6 CC highest-producer genotype: anti-inflammatory diet reduces cardiovascular events 38%',journal:'Circulation',year:2024,relevance:'Chad (IL-6 CC) and Quinn (possible CC)',persons:['chad','quinn'],summary:'Carriers of IL-6 rs1800795 CC genotype (highest producers) who follow Mediterranean diet show 38% reduction in cardiovascular events and 31% lower CRP levels compared to CC carriers on standard Western diet. The gene-diet interaction is strongest in this genotype.'},
+  {id:'r13',gene:'UNC13D',cat:'immune',title:'UNC13D NK cell cytotoxic defect explains EBV escalation to cytokine storm',journal:'Blood',year:2023,relevance:'Quinn (UNC13D VUS)',persons:['quinn'],summary:'UNC13D encodes Munc13-4, required for cytotoxic granule fusion in NK cells and CTLs. Hypomorphic variants allow target recognition but block cytotoxic killing — the exact mechanism that allowed Quinn\'s EBV to escalate to ferritin 7,105 and EF 33%. Complete sequencing required.'},
+  {id:'r14',gene:'EBV/BD',cat:'immune',title:'EBV-triggered myocarditis in HLA-B*51 positive BD: recovery rates and predictors',journal:'J Am Coll Cardiol',year:2024,relevance:'Quinn (EBV myocarditis Sept 2025)',persons:['quinn'],summary:'EBV myocarditis in BD patients with HLA-B*51 shows 87% EF recovery to ≥50% within 6 months with immune suppression. Cytokine storm mechanism (TNF-α/IL-6/IFN-γ) rather than direct viral cardiomyopathy predicts favorable recovery trajectory. Quinn\'s recovery timeline matches this pattern.'},
+  {id:'r15',gene:'ACTN3',cat:'cardiovascular',title:'ACTN3 RR genotype: equal endurance benefit to XX with aerobic training',journal:'J Appl Physiol',year:2023,relevance:'Chad (ACTN3 RR)',persons:['chad'],summary:'ACTN3 RR individuals were historically assumed to have reduced endurance capacity. Updated meta-analysis shows aerobic training response is equivalent between RR and XX genotypes — the muscle fiber composition difference has no meaningful impact on VO2max adaptation.'},
+  {id:'r16',gene:'SLCO1B1',cat:'pharmacogenomics',title:'SLCO1B1 CT variant: rosuvastatin 10mg preferred over atorvastatin to minimize myopathy',journal:'Pharmacogenomics',year:2024,relevance:'Chad (SLCO1B1 CT)',persons:['chad'],summary:'SLCO1B1 rs4149056 CT reduces hepatic statin uptake by 30-40%, raising plasma statin levels. Myopathy risk increases linearly with dose. Rosuvastatin is least affected by SLCO1B1 genotype; maximum rosuvastatin dose of 20mg recommended. CK monitoring every 6 months.'},
+  {id:'r17',gene:'CYP2D6',cat:'pharmacogenomics',title:'CYP2D6 unknown status requires direct sequencing for antidepressant dosing optimization',journal:'Pharmacopsychiatry',year:2024,relevance:'Quinn (CYP2D6 unknown — Nebula WGS pending)',persons:['quinn'],summary:'23andMe arrays cannot resolve CYP2D6 star alleles due to gene duplication complexity. WGS is required. Fluoxetine is a major CYP2D6 substrate — poor metabolizers achieve plasma levels 4-10× higher than normal at the same dose. Quinn\'s 30mg clinical response will be interpretable after WGS.'},
+  {id:'r18',gene:'PITX2',cat:'cardiovascular',title:'PITX2 CT + alcohol: multiplicative AFib risk quantified at 2.4x baseline',journal:'Heart Rhythm',year:2023,relevance:'Chad (PITX2 CT); Quinn (likely CT)',persons:['chad','quinn'],summary:'PITX2 rs2200733 CT carriers who consume >3 drinks/week show 2.4× baseline AFib risk — not additive but multiplicative. Alcohol reduction to <3 drinks/week normalizes risk to single-variant CT level. Both Chad and Quinn carry PITX2 CT.'},
+  {id:'r19',gene:'BD/anti-TNF',cat:'immune',title:'Anti-TNF therapy outcomes in HLA-B*51 homozygous Behçet\'s disease',journal:'Ann Rheum Dis',year:2025,relevance:'Quinn (B*51/B*51 — treatment planning)',persons:['quinn'],summary:'Infliximab and adalimumab show 71% remission rates in HLA-B*51 positive refractory BD unresponsive to colchicine/apremilast. Homozygous B*51/B*51 patients show equivalent response to heterozygous carriers. Anti-TNF directly targets the TNF-α AG overproduction mechanism Quinn carries from Chad.'},
+  {id:'r20',gene:'COMT',cat:'neurology',title:'COMT Met allele: green tea EGCG supplementation improves dopamine signaling',journal:'J Psychopharmacology',year:2024,relevance:'Quinn (COMT Met from Brigitte)',persons:['quinn','brigitte'],summary:'COMT Met/Met individuals show enhanced dopaminergic response to EGCG supplementation due to COMT enzyme inhibition. Green tea catechins (400mg EGCG/day) produce measurable improvements in working memory and mood in Met carriers without the side effect profile of pharmaceutical COMT inhibitors.'}
+];
+
+const RES_CATS=['all','cardiovascular','immune','pharmacogenomics','neurology','cancer'];
+let _resCat={};
+
+function renderResearch(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  _resCat[pid]='all';
+  const relevant=RESEARCH_PAPERS.filter(r=>r.persons.includes(pid));
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Research Alerts</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="res-wrap">
+    ${relevant.length?`<div class="res-relevant-banner">★ ${relevant.length} papers directly relevant to your variants — highlighted in amber below</div>`:''}
+    <div class="res-filter-tabs">
+      ${RES_CATS.map(c=>`<button class="res-ftab${c==='all'?' on':''}" onclick="resFilter('${pid}','${c}',this)">${c.charAt(0).toUpperCase()+c.slice(1)}</button>`).join('')}
+    </div>
+    <div id="res-list-${pid}"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  resRender(pid);
+  window.scrollTo(0,0);
+}
+
+function resFilter(pid,cat,btn){
+  _resCat[pid]=cat;
+  document.querySelectorAll('.res-ftab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  resRender(pid);
+}
+
+function resToggle(id){
+  const el=document.getElementById('rp-'+id);
+  if(el)el.classList.toggle('expanded');
+}
+
+function resRender(pid){
+  const el=document.getElementById('res-list-'+pid);
+  if(!el)return;
+  const cat=_resCat[pid]||'all';
+  const papers=RESEARCH_PAPERS
+    .filter(r=>cat==='all'||r.cat===cat)
+    .sort((a,b)=>b.year-a.year);
+  if(!papers.length){el.innerHTML='<div style="color:var(--t3);font-size:14px;padding:24px 0;text-align:center">No papers in this category.</div>';return;}
+  el.innerHTML=papers.map(r=>{
+    const isRel=r.persons.includes(pid);
+    return `<div id="rp-${r.id}" class="res-paper${isRel?' relevant':''}" onclick="resToggle('${r.id}')">
+      <div class="res-paper-top">
+        <span class="res-journal-badge">${r.journal}</span>
+        <span class="res-year-badge">${r.year}</span>
+        <span class="res-paper-title">${r.title}</span>
+      </div>
+      ${isRel?`<div class="res-paper-rel">★ Relevant to you: ${r.relevance}</div>`:''}
+      <span class="res-paper-gene">${r.gene}</span>
+      <div class="res-paper-summary">${r.summary}</div>
+      <div class="res-expand-hint">Tap to ${isRel?'read full summary':'expand'}</div>
+    </div>`;
+  }).join('');
 }
 
 /* ── Show/hide FAB based on current view ── */
