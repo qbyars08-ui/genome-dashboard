@@ -868,6 +868,47 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .ex-stat-val{font-size:24px;font-weight:700;color:var(--blue)}
 .ex-stat-lbl{font-size:11px;color:var(--t3);margin-top:2px}
 
+/* ══════════════════════════════════════
+   P15 — SLEEP OPTIMIZER
+══════════════════════════════════════ */
+.slp-wrap{padding:0 16px 40px}
+.slp-profile-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.slp-profile-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.slp-profile-row:last-child{border-bottom:none}
+.slp-gene-val{color:var(--purple);font-size:12px;font-weight:600;text-align:right;max-width:60%}
+.slp-log-form{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.slp-log-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;align-items:flex-end}
+.slp-inp-group{display:flex;flex-direction:column;gap:4px}
+.slp-inp-group label{font-size:12px;color:var(--t3);font-weight:600}
+.slp-time-inp{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:8px 12px;color:var(--t1);font-size:14px;outline:none;width:130px}
+.slp-time-inp:focus{border-color:var(--purple)}
+.slp-qual-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.slp-qual-row label{font-size:12px;color:var(--t3);white-space:nowrap}
+.slp-qual-row input[type=range]{flex:1;accent-color:var(--purple)}
+.slp-save-btn{background:var(--purple);color:#fff;border:none;border-radius:var(--r-s);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.slp-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:8px 0;display:flex;gap:12px;align-items:center}
+.slp-dur-badge{width:52px;height:52px;border-radius:var(--r-s);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.slp-dur-badge.g{background:var(--grn-b);color:var(--green)}
+.slp-dur-badge.a{background:var(--amb-b);color:var(--amber)}
+.slp-dur-badge.r{background:var(--red-b);color:var(--red)}
+.slp-dur-num{font-size:18px;font-weight:700;line-height:1}
+.slp-dur-unit{font-size:10px;opacity:.8}
+.slp-card-body{flex:1}
+.slp-card-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.slp-card-meta{font-size:12px;color:var(--t3)}
+.slp-del{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer}
+.slp-del:hover{color:var(--red)}
+.slp-weekly{display:flex;gap:16px;flex-wrap:wrap;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.slp-stat{text-align:center;flex:1;min-width:80px}
+.slp-stat-val{font-size:22px;font-weight:700;color:var(--purple)}
+.slp-stat-lbl{font-size:11px;color:var(--t3);margin-top:2px}
+.slp-target-bar{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.slp-bar-track{background:var(--sf3);border-radius:20px;height:10px;margin:8px 0;overflow:hidden}
+.slp-bar-fill{height:100%;border-radius:20px;background:var(--purple);transition:width .4s var(--ease)}
+.slp-tip{background:var(--sf);border-left:3px solid var(--purple);border-radius:0 var(--r-s) var(--r-s) 0;padding:10px 14px;margin:6px 0;font-size:13px;color:var(--t2)}
+.slp-apoe-banner{background:linear-gradient(135deg,var(--pur-d),var(--sf));border:1px solid var(--pur-b);border-radius:var(--r-m);padding:14px;margin:12px 0;font-size:13px;color:var(--t1)}
+.slp-apoe-title{font-weight:700;color:var(--purple);margin-bottom:4px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1524,6 +1565,7 @@ function route(){
   if(pid==='interactions'){renderInteractions(parts[1]||'chad');return;}
   if(pid==='food'){renderFood(parts[1]||'chad');return;}
   if(pid==='exercise'){renderExercise(parts[1]||'chad');return;}
+  if(pid==='sleep'){renderSleep(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2537,7 +2579,8 @@ function renderMore(p){
     {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'},
     {icon:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 1 2-2v-4M9 21H5a2 2 0 0 0-2-2v-4m0 0h18"/>',t:'Interaction Checker',s:'Drug-drug and gene-drug alerts',fn:`nav('interactions/${p.id}')`},
     {icon:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',t:'Food & Nutrition Log',s:'Genetic food interactions per meal',fn:`nav('food/${p.id}')`},
-    {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`}
+    {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`},
+    {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -3709,6 +3752,162 @@ function exRender(pid){
         <span class="ex-align-badge ${ab.cls}">${ab.lbl}</span>
       </div>
       <button class="ex-del" onclick="exDelete('${pid}',${w.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   P15 — SLEEP OPTIMIZER
+══════════════════════════════════════ */
+const SLP_PROFILES={
+  chad:{
+    genes:[
+      {g:'APOE ε3/ε4',v:'7–8 hrs non-negotiable — amyloid clears during deep sleep'},
+      {g:'CLOCK AG',v:'Consistent timing critical — irregular schedule disrupts circadian phase'},
+      {g:'MTNR1B',v:'Melatonin timing variant — avoid bright light after 9pm'},
+      {g:'ADA',v:'Sleep depth variant — temperature drop at bedtime improves SWS'}
+    ],
+    target:7.5,tips:[
+      'Set a fixed wake time — consistency matters more than total hours for CLOCK AG',
+      'APOE4: 7+ hrs in deep sleep is when amyloid clears from the brain — non-negotiable',
+      'Cool bedroom (65–68°F) enhances ADA-related slow-wave sleep depth',
+      'Avoid alcohol within 3 hrs of bedtime — disrupts deep sleep and APOE4 amyloid clearance',
+      'Morning exercise before noon anchors CLOCK AG circadian phase'
+    ],apoe:true
+  },
+  quinn:{
+    genes:[
+      {g:'CRY1 variant',v:'Delayed sleep phase tendency — natural late chronotype'},
+      {g:'CLOCK AG (bilateral)',v:'Circadian timing disruption — both parents carry variant'},
+      {g:'NPAS2',v:'Secondary circadian regulator — compounds CLOCK instability'},
+      {g:'PER2 / PER3',v:'Period gene variants — sleep onset and duration affected'},
+      {g:'ADA',v:'Sleep depth — restorative sleep may be shallower'},
+      {g:'FKBP5 CT',v:'Stress reactivity affects sleep architecture — cortisol timing disrupted'}
+    ],
+    target:7.5,tips:[
+      'Timing > duration — 6 disrupted clock genes mean consistent wake time is your #1 lever',
+      'Morning light within 30 minutes of waking resets all 6 clock genes simultaneously',
+      'Avoid blue light after 9pm — CRY1 + CLOCK variants make you more sensitive to evening light',
+      'FKBP5 CT: stress before bed causes cortisol surge that blunts sleep architecture',
+      '5-10 min of sunlight outdoors at wake time is the single most effective circadian anchor'
+    ],apoe:false
+  }
+};
+
+function renderSleep(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  const prof=SLP_PROFILES[pid]||SLP_PROFILES.chad;
+  const now=new Date();
+  const defBed=`${String(now.getHours()-8<0?now.getHours()+16:now.getHours()-8).padStart(2,'0')}:00`;
+  const defWake=`${String(now.getHours()).padStart(2,'0')}:00`;
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Sleep Optimizer</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="slp-wrap">
+    <div class="ix-section-lbl">Genetic Sleep Profile</div>
+    <div class="slp-profile-card">${prof.genes.map(g=>`<div class="slp-profile-row"><span style="font-size:13px;font-weight:600">${g.g}</span><span class="slp-gene-val">${g.v}</span></div>`).join('')}</div>
+    <div class="ix-section-lbl">Log Sleep</div>
+    <div class="slp-log-form">
+      <div class="slp-log-row">
+        <div class="slp-inp-group"><label>Bedtime</label><input type="time" class="slp-time-inp" id="slp-bed-${pid}" value="${defBed}"></div>
+        <div class="slp-inp-group"><label>Wake time</label><input type="time" class="slp-time-inp" id="slp-wake-${pid}" value="${defWake}"></div>
+      </div>
+      <div class="slp-qual-row"><label>Quality 1–10: <b id="slp-ql-${pid}">7</b></label><input type="range" min="1" max="10" value="7" id="slp-qual-${pid}" oninput="document.getElementById('slp-ql-${pid}').textContent=this.value"></div>
+      <button class="slp-save-btn" onclick="slpSave('${pid}')">Save</button>
+    </div>
+    <div class="ix-section-lbl">This Week</div>
+    <div id="slp-weekly-${pid}"></div>
+    <div id="slp-target-${pid}"></div>
+    ${prof.apoe?`<div id="slp-apoe-${pid}"></div>`:''}
+    <div class="ix-section-lbl">Personalized Tips</div>
+    ${prof.tips.map(t=>`<div class="slp-tip">${t}</div>`).join('')}
+    <div class="ix-section-lbl">Sleep Log</div>
+    <div id="slp-list-${pid}"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  slpRender(pid);
+  window.scrollTo(0,0);
+}
+
+function slpSave(pid){
+  const bed=document.getElementById('slp-bed-'+pid).value;
+  const wake=document.getElementById('slp-wake-'+pid).value;
+  const qual=parseInt(document.getElementById('slp-qual-'+pid).value)||7;
+  if(!bed||!wake)return;
+  const [bh,bm]=bed.split(':').map(Number);
+  const [wh,wm]=wake.split(':').map(Number);
+  let dur=((wh*60+wm)-(bh*60+bm)+1440)%1440/60;
+  if(dur>16)dur=dur-24;
+  dur=Math.abs(dur);
+  const entries=ls(pid,'sleep',[]);
+  entries.unshift({id:Date.now(),bed,wake,dur:Math.round(dur*10)/10,qual,ts:new Date().toISOString()});
+  lw(pid,'sleep',entries);
+  slpRender(pid);
+}
+
+function slpDelete(pid,id){
+  const entries=ls(pid,'sleep',[]).filter(e=>e.id!==id);
+  lw(pid,'sleep',entries);
+  slpRender(pid);
+}
+
+function slpRender(pid){
+  const prof=SLP_PROFILES[pid]||SLP_PROFILES.chad;
+  const entries=ls(pid,'sleep',[]);
+  const weekStart=new Date();weekStart.setDate(weekStart.getDate()-7);
+  const recent=entries.filter(e=>new Date(e.ts)>=weekStart);
+  const avgDur=recent.length?Math.round(recent.reduce((a,e)=>a+e.dur,0)/recent.length*10)/10:0;
+  const avgQual=recent.length?Math.round(recent.reduce((a,e)=>a+e.qual,0)/recent.length*10)/10:0;
+  const wakes=recent.map(e=>e.wake);
+  let consistency='—';
+  if(wakes.length>1){
+    const mins=wakes.map(w=>{const[h,m]=w.split(':').map(Number);return h*60+m;});
+    const mean=mins.reduce((a,b)=>a+b,0)/mins.length;
+    const sd=Math.sqrt(mins.reduce((a,b)=>a+(b-mean)**2,0)/mins.length);
+    consistency=sd<20?'Consistent':'Variable';
+  }
+  const weekEl=document.getElementById('slp-weekly-'+pid);
+  if(weekEl)weekEl.innerHTML=`<div class="slp-weekly">
+    <div class="slp-stat"><div class="slp-stat-val">${avgDur||'—'}</div><div class="slp-stat-lbl">avg hours</div></div>
+    <div class="slp-stat"><div class="slp-stat-val">${avgQual||'—'}</div><div class="slp-stat-lbl">avg quality</div></div>
+    <div class="slp-stat"><div class="slp-stat-val">${consistency}</div><div class="slp-stat-lbl">wake timing</div></div>
+  </div>`;
+  const tgtEl=document.getElementById('slp-target-'+pid);
+  if(tgtEl){
+    const pct=avgDur?Math.min(100,Math.round(avgDur/prof.target*100)):0;
+    tgtEl.innerHTML=`<div class="slp-target-bar">
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px">Target: ${prof.target} hrs/night</div>
+      <div class="slp-bar-track"><div class="slp-bar-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:12px;color:var(--t3)">${pct}% of genetic target${avgDur?` · ${avgDur} hrs avg this week`:''}</div>
+    </div>`;
+  }
+  const apoeEl=document.getElementById('slp-apoe-'+pid);
+  if(apoeEl){
+    apoeEl.innerHTML=`<div class="slp-apoe-banner">
+      <div class="slp-apoe-title">APOE4 Amyloid Clearance</div>
+      This week: <b>${avgDur||'no data'} avg hrs</b> — amyloid clearance requires 7+ hrs of deep sleep. ${avgDur>=7?'✓ On target.':'Below threshold — amyloid accumulation risk elevated.'}
+    </div>`;
+  }
+  const listEl=document.getElementById('slp-list-'+pid);
+  if(!listEl)return;
+  if(!entries.length){listEl.innerHTML='<div style="color:var(--t3);font-size:14px;padding:16px 0">No sleep logged yet.</div>';return;}
+  listEl.innerHTML=entries.slice(0,14).map(e=>{
+    const cls=e.dur>=7?'g':e.dur>=6?'a':'r';
+    const dt=new Date(e.ts).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    return `<div class="slp-card">
+      <div class="slp-dur-badge ${cls}"><div class="slp-dur-num">${e.dur}</div><div class="slp-dur-unit">hrs</div></div>
+      <div class="slp-card-body">
+        <div class="slp-card-title">${e.bed} → ${e.wake} · quality ${e.qual}/10</div>
+        <div class="slp-card-meta">${dt}</div>
+      </div>
+      <button class="slp-del" onclick="slpDelete('${pid}',${e.id})">×</button>
     </div>`;
   }).join('');
 }
