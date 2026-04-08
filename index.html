@@ -536,6 +536,69 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .jrnl-del:hover{color:var(--t2);background:var(--sf2)}
 
 /* ══════════════════════════════════════
+   FAMILY COMPARISON — P7
+══════════════════════════════════════ */
+.cmp-hdr{padding:52px 20px 18px;text-align:center}
+.cmp-title{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.cmp-sub{font-size:12px;color:var(--t3);margin-top:4px;line-height:1.5}
+.cmp-select{display:flex;gap:10px;padding:0 16px 16px}
+.cmp-sel{
+  flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);
+  padding:12px 14px;font-size:13px;color:var(--t1);font-family:inherit;
+  -webkit-appearance:none;cursor:pointer;
+}
+.cmp-btn{
+  padding:12px 18px;background:var(--blue);color:#fff;border-radius:var(--r-m);
+  font-size:13px;font-weight:700;font-family:inherit;white-space:nowrap;min-height:44px;
+  transition:opacity .15s;
+}
+.cmp-btn:active{opacity:.8}
+.cmp-names{display:flex;padding:0 16px 12px;gap:8px}
+.cmp-name-col{flex:1;text-align:center}
+.cmp-avatar{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid}
+.cmp-nname{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.cmp-nsub{font-size:10px;color:var(--t3);margin-top:1px}
+.cmp-divider{width:1px;background:var(--bd);flex-shrink:0;margin:0 4px}
+.cmp-section{padding:0 16px 8px}
+.cmp-sec-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;margin-top:14px}
+.cmp-row{display:flex;gap:6px;margin-bottom:6px;align-items:stretch}
+.cmp-cell{
+  flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);
+  padding:10px 11px;font-size:11px;line-height:1.55;position:relative;overflow:hidden;
+}
+.cmp-cell::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.cmp-cell.shared-risk::before{background:var(--red)}
+.cmp-cell.shared-good::before{background:var(--green)}
+.cmp-cell.only-a::before{background:var(--blue)}
+.cmp-cell.only-b::before{background:var(--purple)}
+.cmp-cell.unknown::before{background:var(--t4)}
+.cmp-cell-gene{font-family:'SF Mono',SFMono-Regular,'Fira Code',monospace;font-size:9px;font-weight:600;color:var(--t3);margin-bottom:3px;letter-spacing:.04em}
+.cmp-cell-text{color:var(--t1);font-weight:500}
+.cmp-cell-sub{color:var(--t3);margin-top:2px;font-size:10px}
+.cmp-mid{width:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cmp-badge{font-size:9px;font-weight:700;padding:3px 5px;border-radius:4px;text-align:center;line-height:1.2;border:1px solid}
+.shared-r-b{background:rgba(224,90,90,.1);color:var(--red);border-color:var(--red-b)}
+.shared-g-b{background:rgba(90,173,139,.1);color:var(--green);border-color:var(--grn-b)}
+.diff-b{background:rgba(255,255,255,.04);color:var(--t3);border-color:var(--bd)}
+.cmp-summary{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);padding:16px;margin:0 16px 16px}
+.cmp-sum-t{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.cmp-sum-p{font-size:12px;color:var(--t2);line-height:1.65}
+.cmp-legend{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 20px}
+.cmp-leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--t3)}
+.cmp-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.cmp-tile{
+  display:flex;align-items:center;gap:14px;
+  background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);
+  padding:16px 18px;margin:0 16px 14px;cursor:pointer;
+  transition:border-color .15s,background .15s;
+}
+.cmp-tile:active{background:var(--sf2)}
+.cmp-tile-icon{font-size:22px;opacity:.8;flex-shrink:0}
+.cmp-tile-txt{flex:1;min-width:0}
+.cmp-tile-title{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.cmp-tile-sub{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
+
+/* ══════════════════════════════════════
    PRINT
 ══════════════════════════════════════ */
 /* ══════════════════════════════════════
@@ -1179,6 +1242,7 @@ function route(){
   const tab=parts[1]||'overview';
   document.body.classList.remove('is-doctor');
   if(pid==='home'||!PERSONS[pid]){renderHome();return;}
+  if(pid==='compare'){renderCompare(parts[1]||null,parts[2]||null);return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -1233,6 +1297,14 @@ function renderHome(){
     </div>`;
   });
   h+=`</div>
+  <div class="cmp-tile" onclick="nav('compare')">
+    <div class="cmp-tile-icon">⚖</div>
+    <div class="cmp-tile-txt">
+      <div class="cmp-tile-title">Compare Family Members</div>
+      <div class="cmp-tile-sub">Side-by-side genetic diff · shared risks · family patterns</div>
+    </div>
+    <div class="mc-arrow">›</div>
+  </div>
   <div class="hub-updates">
     <div class="sec-lbl">Latest Updates</div>
     <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — urgent:</b> Severe diarrhea, Lomotil ran out. Ask Dr. Tung for cholestyramine — it's never been tried and it's the right next step.</div></div>
@@ -2232,6 +2304,222 @@ function respondDangerousDrug(p,t){
 
 function respondFallback(p,text){
   return `I don't have a specific answer for "${text}" in my knowledge base yet, but I do have your complete genetic profile.\n\nTry asking about:\n• **Diet** — what to eat for your genotype\n• **Medications** — safety check for any drug by name\n• **Screening** — what tests you need and when\n• **Supplements** — your gene-informed protocol\n• **Exercise or sleep** — specific recommendations\n• **Your biggest risk** — ranked with action items`;
+}
+
+/* ══════════════════════════════════════
+   FAMILY COMPARISON — P7
+══════════════════════════════════════ */
+const COMPARE_PERSONS=['chad','quinn','brigitte'];
+
+const COMPARE_VARIANTS=[
+  // Cardiovascular
+  {gene:'9p21',label:'Coronary Artery Disease risk',system:'Cardiovascular',
+    chad:'3 risk loci (×3 inheritance)',quinn:'3 risk loci (×3 inheritance)',brigitte:'3 risk loci (×3 inheritance)',
+    classAB:'shared-risk',classMid:'shared-r-b',midLabel:'SHARED\nRISK',
+    classA:'shared-risk',classB:'shared-risk',
+    note:'All three carry bilateral 9p21 — family pattern confirmed'},
+  {gene:'PITX2',label:'AFib susceptibility',system:'Cardiovascular',
+    chad:'CT (1 copy)',quinn:'Unknown',brigitte:'Unknown',
+    classAB:'only-a',classMid:'diff-b',midLabel:'CHAD\nONLY',
+    note:'AFib risk concentrated in Chad'},
+  {gene:'IL-6',label:'Chronic inflammation',system:'Cardiovascular',
+    chad:'CC (elevated TNF-α)',quinn:'AG (moderate, from Chad)',brigitte:'Unknown',
+    classAB:'only-a',classMid:'diff-b',midLabel:'DIFFERS',
+    note:'Quinn inherited one copy from Chad'},
+
+  // Pharmacogenomics
+  {gene:'NAT2',label:'Drug acetylation (slow)',system:'Pharmacogenomics',
+    chad:'Unknown',quinn:'Slow acetylator',brigitte:'Slow acetylator (source)',
+    classAB:'only-b',classMid:'diff-b',midLabel:'MATERNAL',
+    note:'Quinn\'s dapsone reaction came from Brigitte\'s NAT2'},
+  {gene:'CYP2C9',label:'NSAID / warfarin metabolism',system:'Pharmacogenomics',
+    chad:'*2/*3 reduced function',quinn:'*1/*2 (one slow copy)',brigitte:'Unknown',
+    classAB:'shared-risk',classMid:'shared-r-b',midLabel:'SHARED\nRISK',
+    note:'Both should use lower NSAID doses'},
+  {gene:'ABCB1',label:'Blood-brain barrier transport',system:'Pharmacogenomics',
+    chad:'Normal',quinn:'Reduced (colchicine CNS penetration)',brigitte:'Unknown',
+    classAB:'only-b',classMid:'diff-b',midLabel:'QUINN\nONLY',
+    note:'Explains Quinn\'s colchicine CNS reaction'},
+
+  // Immune / HLA
+  {gene:'HLA-B*51',label:'Behçet\'s disease risk',system:'Immune',
+    chad:'Carrier (1 copy)',quinn:'Homozygous (2 copies)',brigitte:'Carrier (1 copy)',
+    classAB:'shared-risk',classMid:'shared-r-b',midLabel:'SHARED',
+    note:'Quinn received one copy from each parent'},
+  {gene:'TNF-α',label:'Inflammatory cytokine',system:'Immune',
+    chad:'AG (elevated production)',quinn:'AG (inherited from Chad)',brigitte:'Unknown',
+    classAB:'shared-risk',classMid:'shared-r-b',midLabel:'SHARED\nRISK',
+    note:'Chad passed TNF-α variant to Quinn'},
+  {gene:'UNC13D',label:'NK cell cytotoxicity',system:'Immune',
+    chad:'Normal',quinn:'VUS — reduced kill capacity',brigitte:'Unknown',
+    classAB:'only-b',classMid:'diff-b',midLabel:'QUINN\nONLY',
+    note:'Explains inability to clear EBV'},
+
+  // Longevity / Metabolism
+  {gene:'APOE',label:'Alzheimer\'s / longevity',system:'Brain & Longevity',
+    chad:'ε3/ε4 (elevated risk)',quinn:'ε3/ε3 (normal)',brigitte:'Unknown',
+    classAB:'only-a',classMid:'diff-b',midLabel:'CHAD\nONLY',
+    note:'Chad\'s ε4 is primary dementia risk; Quinn did not inherit it'},
+  {gene:'FOXO3',label:'Longevity variant',system:'Brain & Longevity',
+    chad:'TT (non-carrier)',quinn:'Unknown',brigitte:'Unknown',
+    classAB:'unknown',classMid:'diff-b',midLabel:'?',
+    note:'Centenarian variant absent in Chad'},
+  {gene:'MTHFR',label:'Folate / methylation',system:'Metabolism',
+    chad:'C677T heterozygous',quinn:'C677T + A1298C compound',brigitte:'A1298C (source)',
+    classAB:'shared-risk',classMid:'shared-r-b',midLabel:'SHARED',
+    note:'Quinn has worse methylation impairment than Chad'},
+
+  // Cancer / Skin
+  {gene:'MC1R',label:'Melanoma / skin cancer risk',system:'Cancer',
+    chad:'×4 variants (91st percentile)',quinn:'×1 variant (lower risk)',brigitte:'Unknown',
+    classAB:'only-a',classMid:'diff-b',midLabel:'CHAD\nONLY',
+    note:'Chad\'s melanoma risk dramatically higher'},
+  {gene:'HFE',label:'Hemochromatosis / iron',system:'Metabolism',
+    chad:'H63D carrier',quinn:'H63D carrier',brigitte:'H63D (source)',
+    classAB:'shared-good',classMid:'shared-g-b',midLabel:'SHARED',
+    note:'May have conferred medieval plague protection'},
+];
+
+function renderCompare(pidA, pidB){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const opts=COMPARE_PERSONS.map(id=>`<option value="${id}" ${id===pidA?'selected':''}>${PERSONS[id].name}</option>`).join('');
+  const opts2=COMPARE_PERSONS.map(id=>`<option value="${id}" ${id===(pidB||'quinn')?'selected':''}>${PERSONS[id].name}</option>`).join('');
+  let h=`<div class="view">
+  <div class="cmp-hdr">
+    <div class="hub-wordmark" style="justify-content:center;margin-bottom:10px">
+      <div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div>
+    </div>
+    <div class="cmp-title">Family Genetic Comparison</div>
+    <div class="cmp-sub">Select two family members to see shared variants,<br>differences, and what it means for your family</div>
+  </div>
+  <div class="cmp-select">
+    <select class="cmp-sel" id="cmp-a">${opts}</select>
+    <select class="cmp-sel" id="cmp-b">${opts2}</select>
+    <button class="cmp-btn" onclick="runCompare(document.getElementById('cmp-a').value,document.getElementById('cmp-b').value)">Compare</button>
+  </div>
+  <div id="cmp-results">`;
+  if(pidA&&pidB){
+    h+=buildCompareResults(pidA, pidB||'quinn');
+  } else {
+    h+=`<div style="text-align:center;padding:40px 20px;color:var(--t3);font-size:13px">Select two family members above and tap Compare</div>`;
+  }
+  h+=`</div></div>`;
+  document.getElementById('content').innerHTML=h;
+}
+
+function runCompare(pidA, pidB){
+  if(pidA===pidB){
+    document.getElementById('cmp-results').innerHTML=`<div style="text-align:center;padding:30px;color:var(--t3);font-size:13px">Select two <em>different</em> people to compare.</div>`;
+    return;
+  }
+  location.hash=`compare/${pidA}/${pidB}`;
+}
+
+function buildCompareResults(pidA, pidB){
+  const pA=PERSONS[pidA],pB=PERSONS[pidB];
+  if(!pA||!pB) return '';
+  // Group variants by system
+  const systems=[...new Set(COMPARE_VARIANTS.map(v=>v.system))];
+  let sharedRisk=0,sharedGood=0,diffCount=0;
+  COMPARE_VARIANTS.forEach(v=>{
+    if(v.classAB==='shared-risk')sharedRisk++;
+    else if(v.classAB==='shared-good')sharedGood++;
+    else diffCount++;
+  });
+
+  let h=``;
+  // Name headers
+  h+=`<div class="cmp-names">
+    <div class="cmp-name-col">
+      <div class="cmp-avatar" style="color:${pA.color};border-color:${pA.color};background:${hexAlpha(pA.color,0.1)}">${pA.initials}</div>
+      <div class="cmp-nname">${pA.name}</div>
+      <div class="cmp-nsub">${pA.sub}</div>
+    </div>
+    <div class="cmp-divider"></div>
+    <div class="cmp-name-col">
+      <div class="cmp-avatar" style="color:${pB.color};border-color:${pB.color};background:${hexAlpha(pB.color,0.1)}">${pB.initials}</div>
+      <div class="cmp-nname">${pB.name}</div>
+      <div class="cmp-nsub">${pB.sub}</div>
+    </div>
+  </div>`;
+
+  // Per-system variant rows
+  systems.forEach(sys=>{
+    const vars=COMPARE_VARIANTS.filter(v=>v.system===sys);
+    h+=`<div class="cmp-section"><div class="cmp-sec-lbl">${sys}</div>`;
+    vars.forEach(v=>{
+      const valA=v.chad&&pidA==='chad'?v.chad:v.quinn&&pidA==='quinn'?v.quinn:v.brigitte&&pidA==='brigitte'?v.brigitte:'Unknown';
+      const valB=v.chad&&pidB==='chad'?v.chad:v.quinn&&pidB==='quinn'?v.quinn:v.brigitte&&pidB==='brigitte'?v.brigitte:'Unknown';
+      const clA=getCellClass(v,pidA);
+      const clB=getCellClass(v,pidB);
+      const midCl=v.classMid||'diff-b';
+      const midLbl=(v.midLabel||'?').replace('\n','<br>');
+      h+=`<div class="cmp-row">
+        <div class="cmp-cell ${clA}">
+          <div class="cmp-cell-gene">${v.gene}</div>
+          <div class="cmp-cell-text">${valA}</div>
+        </div>
+        <div class="cmp-mid"><div class="cmp-badge ${midCl}" style="white-space:pre;text-align:center">${midLbl}</div></div>
+        <div class="cmp-cell ${clB}">
+          <div class="cmp-cell-gene">${v.gene}</div>
+          <div class="cmp-cell-text">${valB}</div>
+        </div>
+      </div>`;
+      if(v.note){h+=`<div style="font-size:10px;color:var(--t3);padding:0 4px 8px;line-height:1.5">↳ ${v.note}</div>`;}
+    });
+    h+=`</div>`;
+  });
+
+  // Summary
+  const sumText=buildFamilySummary(pidA,pidB,sharedRisk,sharedGood,diffCount);
+  h+=`<div class="cmp-summary">
+    <div class="cmp-sum-t">What this means for your family</div>
+    <div class="cmp-sum-p">${sumText}</div>
+  </div>`;
+
+  // Legend
+  h+=`<div class="cmp-legend">
+    <div class="cmp-leg"><div class="cmp-leg-dot" style="background:var(--red)"></div>Shared risk</div>
+    <div class="cmp-leg"><div class="cmp-leg-dot" style="background:var(--green)"></div>Shared protective</div>
+    <div class="cmp-leg"><div class="cmp-leg-dot" style="background:var(--blue)"></div>${pA.name} only</div>
+    <div class="cmp-leg"><div class="cmp-leg-dot" style="background:var(--purple)"></div>${pB.name} only</div>
+    <div class="cmp-leg"><div class="cmp-leg-dot" style="background:var(--t4)"></div>Unknown</div>
+  </div>
+  <div style="text-align:center;padding:0 16px 24px">
+    <button onclick="nav('home')" style="font-size:12px;color:var(--t3);padding:8px 16px;border:1px solid var(--bd);border-radius:var(--r-m)">← Back to Family Hub</button>
+  </div>`;
+
+  return h;
+}
+
+function getCellClass(v, pid){
+  if(pid===v.gene) return 'unknown';
+  if(v.classAB==='shared-risk')return 'shared-risk';
+  if(v.classAB==='shared-good')return 'shared-good';
+  if(v.classAB==='only-a'){
+    return pid===COMPARE_PERSONS[0]?'only-a':'unknown';
+  }
+  if(v.classAB==='only-b'){
+    return pid===COMPARE_PERSONS[1]?'only-b':'unknown';
+  }
+  return 'unknown';
+}
+
+function buildFamilySummary(pidA, pidB, sharedRisk, sharedGood, diffCount){
+  const pA=PERSONS[pidA],pB=PERSONS[pidB];
+  const names=`${pA.name} and ${pB.name}`;
+  let s='';
+  if(pidA==='chad'&&pidB==='quinn'||pidA==='quinn'&&pidB==='chad'){
+    s=`${names} share the most clinically important variants in this family. The 9p21 bilateral CAD inheritance is the most actionable finding — both should follow a Mediterranean diet as a medical intervention, not a lifestyle choice. The shared HLA-B*51 and TNF-α variants explain why Quinn developed Behçet's disease: Chad contributed the immune architecture that, combined with Brigitte's NAT2 and Quinn's own UNC13D variant, created the perfect inflammatory storm. The good news: Chad does not carry Quinn's ABCB1 transporter variant or the UNC13D VUS, meaning his immune system can clear pathogens that Quinn's struggles with. Chad's ε4 risk does not appear to have been inherited by Quinn.`;
+  } else if(pidA==='chad'&&pidB==='brigitte'||pidA==='brigitte'&&pidB==='chad'){
+    s=`Chad and Brigitte are the genetic source pair for this family. The 9p21 CAD risk appears in all three sequenced family members, suggesting at least one parent carried it. Brigitte's NAT2 slow acetylator status directly caused Quinn's dapsone reaction in Belize — a pharmacogenomic inheritance that required a clinical incident to discover. The HFE H63D iron variant is shared and likely traces to a common medieval European ancestor. Together, their variant combination means their children face elevated cardiovascular and inflammatory risks — and benefit from knowing this before those risks manifest clinically.`;
+  } else if(pidA==='quinn'&&pidB==='brigitte'||pidA==='brigitte'&&pidB==='quinn'){
+    s=`Quinn and Brigitte share several key variants that illuminate the maternal inheritance line. The NAT2 slow acetylator pattern passed from Brigitte to Quinn and directly explains the dapsone hemolysis reaction. The HLA-B*51 carrier status in Brigitte means Quinn received one copy from each parent — the homozygous combination that drives Behçet's disease required both. Brigitte's A1298C MTHFR variant, combined with Chad's C677T, created Quinn's compound heterozygous methylation impairment. The mother-child genetic picture suggests Brigitte herself should consider screening for inflammatory and cardiovascular risks she may carry without yet knowing it.`;
+  } else {
+    s=`${names} share ${sharedRisk} risk variant${sharedRisk!==1?'s':''} and ${sharedGood} protective variant${sharedGood!==1?'s':''}. The ${diffCount} differing variants explain some of the health differences between them. Understanding shared variants is especially valuable for screening decisions — if one family member has acted on a shared finding, the other should too.`;
+  }
+  return s;
 }
 
 /* ── Show/hide FAB based on current view ── */
