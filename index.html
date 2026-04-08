@@ -9,11 +9,11 @@
    DESIGN TOKENS
 ══════════════════════════════════════ */
 :root {
-  --bg:      #0B0F19;
-  --sf:      #141925;
-  --sf2:     #1A2233;
-  --sf3:     #212B3D;
-  --bd:      #1E2535;
+  --bg:      #111318;
+  --sf:      #181d27;
+  --sf2:     #1e2535;
+  --sf3:     #242f42;
+  --bd:      #222b3a;
   --bd2:     rgba(255,255,255,.12);
 
   --t1: #E8ECF4;
@@ -29,7 +29,7 @@
   --blue:   #5B8BD4; --blu-d:  rgba(91,139,212,.08);  --blu-b:  rgba(91,139,212,.25);
   --cyan:   #5BA8C9;
 
-  --r-s: 8px; --r-m: 12px; --r-l: 16px; --r-xl: 20px;
+  --r-s: 8px; --r-m: 14px; --r-l: 18px; --r-xl: 22px;
   --ease: cubic-bezier(.4,0,.2,1);
   --spring: cubic-bezier(.34,1.56,.64,1);
   --expo: cubic-bezier(.16,1,.3,1);
@@ -45,6 +45,7 @@ body{
   background:var(--bg);color:var(--t1);min-height:100vh;min-height:100dvh;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   -webkit-tap-highlight-color:transparent;transition:background .25s var(--ease),color .25s var(--ease);
+  line-height:1.65;
 }
 body.is-doctor{background:#fff;color:#111}
 button{font:inherit;border:none;background:none;cursor:pointer;color:inherit}
@@ -67,9 +68,13 @@ a{color:inherit;text-decoration:none}
 .dna-rung{stroke:var(--t4);stroke-width:1;opacity:.3;animation:dna-r 2.4s ease-in-out infinite}
 @keyframes dna-a{0%,100%{opacity:.25;stroke-dashoffset:0}50%{opacity:.7;stroke-dashoffset:6}}
 @keyframes dna-r{0%,100%{opacity:.12}50%{opacity:.3}}
-.load-lbl{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.14em;text-transform:uppercase}
-.load-cnt{font-size:26px;font-weight:700;color:var(--t2);margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-@media(prefers-reduced-motion:reduce){.dna-strand,.dna-rung{animation:none;opacity:.5}}
+.load-msg{font-size:15px;font-weight:500;color:var(--t2);margin-top:4px;letter-spacing:.01em}
+.load-dots span{animation:dot-pulse 1.4s ease-in-out infinite both}
+.load-dots span:nth-child(1){animation-delay:0s}
+.load-dots span:nth-child(2){animation-delay:.2s}
+.load-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dot-pulse{0%,80%,100%{opacity:.15}40%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.dna-strand,.dna-rung{animation:none;opacity:.5}.load-dots span{animation:none;opacity:.7}}
 
 /* ══════════════════════════════════════
    APP SHELL
@@ -218,7 +223,7 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .f-dot{width:7px;height:7px;border-radius:50%;margin-top:3px;flex-shrink:0}
 .fd-r{background:var(--red)}.fd-a{background:var(--amber)}.fd-g{background:var(--green)}.fd-p{background:var(--purple)}
 .f-n{font-size:13px;font-weight:600;margin-top:5px;letter-spacing:-.01em;line-height:1.3}
-.f-l{font-size:12px;color:var(--t2);margin-top:3px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.f-l{font-size:12px;color:var(--t2);margin-top:5px;line-height:1.65}
 .f-exp{max-height:0;overflow:hidden;transition:max-height .3s var(--ease)}
 .f-exp.open{max-height:400px}
 .f-detail{padding:8px 0 2px;font-size:12px;color:var(--t2);line-height:1.6}
@@ -435,8 +440,7 @@ body.is-doctor #nav .nb.on::after{background:#111}
     <line class="dna-rung" x1="20" y1="78" x2="36" y2="78" style="animation-delay:.9s"/>
     <line class="dna-rung" x1="26" y1="93" x2="30" y2="93" style="animation-delay:1.1s"/>
   </svg>
-  <div class="load-lbl">Loading family genomes</div>
-  <div class="load-cnt" id="lc">0</div>
+  <div class="load-msg">Reading your DNA<span class="load-dots"><span>.</span><span>.</span><span>.</span></span></div>
 </div>
 
 <div id="app">
@@ -459,35 +463,35 @@ const CHAD = {
     {v:'631K',l:'SNPs'},{v:'APOE ε4',l:'Alzheimer'},{v:'MC1R ×4',l:'Melanoma'},{v:'B*51',l:'HLA'}
   ],
   cats:{
-    cv:{title:'Cardiovascular',hex:'#E05A5A',score:72,st:'Elevated Risk',
-      sum:'9p21 triple risk alleles. PITX2 AFib carrier. Father stent 62, CABG 75.',
+    cv:{title:'Your Heart',hex:'#E05A5A',score:72,st:'Needs your attention',
+      sum:'You carry three separate heart disease markers — the same ones your father had. The good news: research shows Mediterranean diet can eliminate this risk. Your dad had his stent at 62. You have time to write a different story.',
       findings:[
-        {g:'AG AG CG',c:'f-red',dot:'fd-r',n:'9p21 CAD — All Three Loci',l:'Father: stent 62, CABG 75. Mediterranean diet eliminates 9p21 MI risk at >80% adherence.',d:'Three independent 9p21 signals (rs10757278 AG, rs1333049 CG, rs4977574 AG). INTERHEART showed Mediterranean diet completely eliminates associated MI risk (P=0.008). Both parents carry all three — bilateral. CAC score is the definitive next step.'},
+        {g:'AG AG CG',c:'f-red',dot:'fd-r',n:'9p21 — All Three Heart Risk Markers',l:'Your father had a stent at 62 and bypass surgery at 75. You carry the same three variants he did. The INTERHEART study found that Mediterranean diet adherence above 80% completely eliminates the heart attack risk from 9p21. This isn\'t spin — it\'s one of the strongest gene-diet interactions in the literature.',d:'Three independent 9p21 signals (rs10757278 AG, rs1333049 CG, rs4977574 AG). INTERHEART (Lancet 2004) showed Mediterranean diet completely eliminates associated MI risk (P=0.008). Both parents carry all three — bilateral inheritance. CAC score is the definitive next step to see if calcification is already present.'},
         {g:'CT',c:'f-red',dot:'fd-r',n:'PITX2 Atrial Fibrillation',l:'Sister has paroxysmal AFib. Alcohol >3×/week multiplicative with genetic risk.',d:'PITX2 is the strongest AFib locus. CT = OR ~1.5-1.8×. Both parents carry CT — bilateral. Annual EKG + echocardiogram recommended.'},
         {g:'CT',c:'f-amb',dot:'fd-a',n:'PCSK9 Pathway Variant',l:'Precision therapy candidate if LDL remains elevated.',d:'Combined with 9p21 ×3, candidate for PCSK9 inhibitors (evolocumab/alirocumab).'},
         {g:'CC',c:'f-grn',dot:'fd-g',n:'Factor V Leiden — Negative',l:'No clotting risk. Both parents CC. Standard surgery and travel protocols apply.'},
         {g:'CC',c:'f-red',dot:'fd-r',n:'IL-6 Highest Producer',l:'Chronic low-grade inflammatory drive. Anti-inflammatory diet and exercise critical.'}
       ],
       actions:['CAC score — baseline coronary calcium assessment','Mediterranean diet >80% adherence (eliminates 9p21 MI risk)','Annual EKG for PITX2 AFib surveillance']},
-    nr:{title:'Neurological',hex:'#9B7ADB',score:68,st:'APOE ε3/ε4',
-      sum:'APOE ε3/ε4 confers 2-3× Alzheimer\'s risk. Father developed dementia. Exercise reduces risk by 45%.',
+    nr:{title:'Your Mind',hex:'#9B7ADB',score:68,st:'APOE ε3/ε4',
+      sum:'You carry one copy of APOE ε4 — about 25% of people do. Your father developed dementia, which makes this personal. The research is clear: people who exercise 5+ hours a week cut this risk in half. Lifestyle is your most powerful lever here.',
       findings:[
-        {g:'ε3/ε4',c:'f-red',dot:'fd-r',n:'APOE Alzheimer\'s Risk',l:'2-3× increased risk. Father developed dementia. Exercise doubles the benefit vs non-carriers.',d:'APOE ε3/ε4 heterozygous. U.S. POINTER trial (JAMA 2025) validated lifestyle intervention. Eligible for lecanemab/donanemab trials. Omega-3 DHA 2g/day reduces neuroinflammation.'},
+        {g:'ε3/ε4',c:'f-red',dot:'fd-r',n:'APOE ε4 — One Copy',l:'About 25% of people carry one copy of APOE ε4. Your father developed dementia. That makes this personal. But the U.S. POINTER trial (JAMA 2025) showed that people with your exact genotype who exercise 5+ hours a week cut their Alzheimer\'s risk by 45%. You have a real lever here.',d:'APOE ε3/ε4 heterozygous — moderate risk, not high-risk ε4/ε4. U.S. POINTER trial (JAMA 2025) validated lifestyle intervention specifically in ε4 carriers. Eligible for lecanemab/donanemab prevention trials if MCI develops. Omega-3 DHA 2g/day reduces neuroinflammation. Sleep 7-8 hours is non-negotiable — this is when amyloid clears.'},
         {g:'Val/Met',c:'f-pur',dot:'fd-p',n:'COMT Val/Met',l:'Balanced dopamine clearance. Intermediate stress response. Neither extreme.',d:'Neither warrior (Val/Val) nor worrier (Met/Met). Brigitte is Met/Met — Quinn guaranteed at least one Met allele from her.'},
         {g:'CT',c:'f-amb',dot:'fd-a',n:'BDNF Val66Met',l:'Reduced activity-dependent BDNF. Exercise compensation very effective.',d:'Met carriers have lower baseline BDNF but greater relative response to exercise. Exercise-induced BDNF fully compensates.'}
       ],
       actions:['5-6 hrs/week exercise (APOE4 risk reduction doubles non-carriers)','7-8 hours sleep minimum (glymphatic amyloid clearance)','Omega-3 DHA 2g daily (APOE4 neuroinflammation)']},
-    ca:{title:'Cancer Risk',hex:'#D4855A',score:91,st:'91st Percentile',
-      sum:'MC1R compound heterozygous ×4 variants. 91st percentile melanoma risk. Annual full-body derm mandatory.',
+    ca:{title:'Cancer Screening',hex:'#D4855A',score:91,st:'91st percentile melanoma risk',
+      sum:'You carry four MC1R variants — a rare combination that puts you at the 91st percentile for melanoma. This sounds alarming, but it\'s almost entirely manageable. Annual full-body dermoscopy catches melanoma at stage 1, when it\'s nearly 100% survivable. That one appointment per year is everything.',
       findings:[
-        {g:'CT ×4',c:'f-red',dot:'fd-r',n:'MC1R Compound — 4 Variants',l:'91st percentile melanoma. Annual full-body derm with dermoscopy mandatory.',d:'R151C Celtic variant + R160W + D84E + R142H. Compound MC1R dramatically increases melanoma risk independent of UV. Annual dermoscopy with full body mapping.'},
+        {g:'CT ×4',c:'f-red',dot:'fd-r',n:'MC1R — Four Variants, Compound',l:'You\'re at the 91st percentile for melanoma risk. That number sounds frightening, but melanoma caught at stage 1 is nearly 100% survivable. One dermoscopy appointment per year, with full body mapping, is the difference between a managed risk and an unmanaged one.',d:'R151C Celtic variant + R160W + D84E + R142H — compound heterozygous across four MC1R loci. Risk is UV-independent, meaning you can burn from incidental exposure that most people ignore. Annual dermoscopy with full body mapping and photography for comparison. Daily SPF 50+ — not just beach days.'},
         {g:'AG',c:'f-amb',dot:'fd-a',n:'FGFR2 Breast Cancer',l:'Family: aunt breast cancer at 33. Mother: lung cancer age 75. Enhanced screening.',d:'Heterozygous risk allele. Consider BRCA full sequencing given family history.'},
         {g:'CG',c:'f-amb',dot:'fd-a',n:'TP53 Codon 72',l:'Modified p53 apoptotic function. Carrier from Brigitte.',d:'Heterozygous. Modified apoptotic pathway efficiency. Not high-penetrance variant.'},
         {g:'CC',c:'f-grn',dot:'fd-g',n:'BRCA1/2',l:'No pathogenic variants on chip. Full sequencing warranted given family history.'}
       ],
       actions:['Annual full-body dermatology with dermoscopy','Daily SPF 50+ — reapply every 2 hours outdoors','BRCA full sequencing (family history: aunt CA33, mother lung CA75)']},
-    dr:{title:'Drug Response',hex:'#C9A84C',score:45,st:'3 Actionable',
-      sum:'CYP2C9 *1/*2 intermediate. CYP2C19 *1/*2 intermediate. CYP1A2 ultra-rapid. SLCO1B1 statin monitor.',
+    dr:{title:'Your Medications',hex:'#C9A84C',score:45,st:'3 actionable variants',
+      sum:'Your liver processes certain medications differently than most people. CYP2C9 and CYP2C19 both run slower, which means standard doses of some drugs can accumulate to higher levels in your system. The key ones to know: warfarin, clopidogrel, and NSAIDs.',
       findings:[
         {g:'*1/*2',c:'f-amb',dot:'fd-a',n:'CYP2C9 NSAID / Anticoagulant',l:'Intermediate metabolizer. Reduce NSAID doses ~25%.',d:'Slower metabolism of NSAIDs, warfarin. If anticoagulation needed, use IWPC algorithm. Do not use standard warfarin dosing. NSAIDs at 75% standard dose.'},
         {g:'*1/*2',c:'f-amb',dot:'fd-a',n:'CYP2C19 Clopidogrel',l:'Reduced prodrug activation. Use prasugrel or ticagrelor instead.',d:'Intermediate metabolizer. Clopidogrel is a prodrug requiring CYP2C19. *1/*2 = inadequate conversion. Prasugrel or ticagrelor preferred if antiplatelet therapy needed.'},
@@ -496,16 +500,16 @@ const CHAD = {
         {g:'AA',c:'f-grn',dot:'fd-g',n:'NAT2 Rapid Acetylator',l:'Standard dosing for INH, dapsone, sulfonamides. Rapid clearance.'}
       ],
       actions:['Carry PGx card — show before any new prescription','CYP2C9 *2: IWPC algorithm if anticoagulant needed; 75% NSAID dose','CYP2C19 *2: prasugrel over clopidogrel if antiplatelet therapy needed']},
-    mt:{title:'Metabolism',hex:'#5AAD8B',score:52,st:'Notable Variants',
-      sum:'MTHFR compound heterozygous. FUT2 non-secretor. VDR moderate expression.',
+    mt:{title:'Your Body',hex:'#5AAD8B',score:52,st:'Notable variants',
+      sum:'Your MTHFR variant (compound heterozygous) cuts methylation capacity by about 50% — this affects everything from homocysteine levels to mood. The fix is simple: methylfolate instead of folic acid. Your FUT2 variant also means standard B12 tests can look normal while your cells are actually deficient.',
       findings:[
         {g:'AG/GT',c:'f-amb',dot:'fd-a',n:'MTHFR Compound Heterozygous',l:'C677T + A1298C = ~50% reduced methylation. Methylfolate only, not folic acid.',d:'Use methylfolate 800mcg, not folic acid. Compound heterozygosity reduces total MTHFR ~50%. Homocysteine monitoring recommended quarterly.'},
         {g:'AA',c:'f-amb',dot:'fd-a',n:'FUT2 Non-Secretor — B12',l:'Serum B12 may appear normal while cells are deficient. Check MMA.',d:'FUT2 non-secretor: impaired cellular B12 transport. Serum levels can appear normal while cells are deficient. MMA + homocysteine are the true markers.'},
         {g:'CT',c:'f-amb',dot:'fd-a',n:'VDR BsmI — Vitamin D',l:'Reduced receptor expression. Target 50-60 ng/mL. Need 5000 IU/day.'}
       ],
       actions:['Methylfolate 800mcg daily (not folic acid)','Vitamin D3 5000 IU daily (target 50-60 ng/mL)','MMA + homocysteine to verify B12 status']},
-    lg:{title:'Longevity',hex:'#5B8BD4',score:60,st:'Actionable',
-      sum:'APOE ε4 accelerates aging. FOXO3 TT — no protective allele. Lifestyle intervention critical.',
+    lg:{title:'Aging Well',hex:'#5B8BD4',score:60,st:'Lifestyle is your lever',
+      sum:'You don\'t carry the FOXO3 longevity allele, and APOE ε4 accelerates biological aging. But here\'s what the research actually shows: people with your genotype who exercise consistently and eat a Mediterranean diet age at the same rate as people with favorable genetics who don\'t. Your choices matter more than your genes here.',
       findings:[
         {g:'ε3/ε4',c:'f-red',dot:'fd-r',n:'APOE ε4 Accelerated Aging',l:'U.S. POINTER trial validated lifestyle reversal. Exercise + diet can reverse risk.',d:'Associated with shorter health span. Exercise reduces APOE4 aging effects by 45%. FOXO3 TT means no longevity allele, making lifestyle interventions even more critical.'},
         {g:'TT',c:'f-amb',dot:'fd-a',n:'FOXO3 — No Longevity Allele',l:'Compensate with AMPK activation via exercise, fasting, and metformin consideration.',d:'TT = baseline aging rate. No protective FOXO3 variant. AMPK-activating interventions (exercise, fasting, metformin) compensate for absent longevity allele.'},
@@ -602,8 +606,8 @@ const QUINN = {
     {v:'B*51/B*51',l:'HLA'},{v:'7',l:'Phases'},{v:'8',l:'Providers'},{v:'18mg',l:'Pred'}
   ],
   cats:{
-    cv:{title:'Cardiovascular',hex:'#E05A5A',score:65,st:'Post-Myocarditis',
-      sum:'EBV-triggered cardiac involvement Sept 2025. EF 33% → 52% recovery. Bilateral 9p21. LDL 142 at 17.',
+    cv:{title:'Your Heart',hex:'#E05A5A',score:65,st:'Recovering — remarkable progress',
+      sum:'Your heart took a serious hit in September 2025 when EBV triggered a cytokine storm. EF dropped to 33%. By December it had recovered to 52%. That recovery is genuinely remarkable. Your underlying heart was healthy — what happened was immune damage, not cardiac disease. The focus now is LDL 142 at age 17, which needs addressing.',
       findings:[
         {g:'EF 33%',c:'f-red',dot:'fd-r',n:'Post-Myocarditis — Sept 2025',l:'EBV cytokine storm. EF dropped to 33%. Recovered to 52% by Dec MRI.',d:'Mechanism: TNF-alpha AG (high producer from Dad) + IL-6 + IFN-gamma cytokine storm was directly cardiotoxic. Not primary cardiac disease — collateral damage from immune dysregulation. Heart recovered because underlying myocardium was healthy.'},
         {g:'9p21 ×3',c:'f-red',dot:'fd-r',n:'9p21 CAD Risk — Bilateral',l:'Inherited all 3 CAD risk alleles. Father: stent 62, CABG 75. LDL 142 + ApoB 103.',d:'Both Chad and Brigitte carry all three 9p21 loci. Quinn guaranteed at least one risk allele at each. Mediterranean diet eliminates 9p21 MI risk at >80% adherence (INTERHEART P=0.008).'},
@@ -611,8 +615,8 @@ const QUINN = {
         {g:'2.5mg BID',c:'f-amb',dot:'fd-a',n:'Enalapril — Reassess',l:'On ACE inhibitor post-myocarditis. BP runs chronically low (DBH TT).',d:'DBH TT from Brigitte = low norepinephrine. NOS3 CT = reduced eNOS. Enalapril further lowers BP. If EF confirmed recovered, may be causing more harm than benefit via orthostatic symptoms.'}
       ],
       actions:['Cardiac MRI — definitive EF clearance for activity','Reassess enalapril with cardiology (BP 65-100 systolic)','Mediterranean diet NOW — LDL 142 + ApoB 103 at age 17']},
-    nr:{title:'Immune / Behcet\'s',hex:'#9B7ADB',score:78,st:'Active Investigation',
-      sum:'HLA-B*51 homozygous — highest BD risk. ICBD criteria MET. UNC13D VUS abnormal on functional testing.',
+    nr:{title:'Your Immune System',hex:'#9B7ADB',score:78,st:'Active investigation',
+      sum:'You carry two copies of HLA-B*51 — one from each parent. This is the strongest known genetic risk factor for Behçet\'s disease, and you carry it on both chromosomes. Your ICBD criteria are already met (4 points). The goal now isn\'t more diagnosis — it\'s finding the right treatment to get your immune system out of overdrive.',
       findings:[
         {g:'B*51/B*51',c:'f-red',dot:'fd-r',n:'HLA-B*51 Homozygous',l:'Both copies B*51. Strongest BD risk factor. OR ~10.96×. ICBD criteria met.',d:'One copy from each parent. ICBD criteria MET: oral ulcers (2pts) + genital ulcers documented with scarring (2pts) = 4 points. This is a documentation problem, not a diagnostic one.'},
         {g:'VUS',c:'f-red',dot:'fd-r',n:'UNC13D — NK Cell Defect',l:'Abnormal NK degranulation on functional testing. Explains EBV escalation.',d:'UNC13D encodes Munc13-4, required for NK cell cytotoxic granule release. Quinn\'s NK cells can find EBV-infected targets but can\'t complete the kill. This explains why EBV escalated to cytokine storm.'},
@@ -621,8 +625,8 @@ const QUINN = {
         {g:'AA',c:'f-grn',dot:'fd-g',n:'FUT2 Non-Secretor',l:'100% from both parents. Altered gut microbiome. Norovirus resistant. B12 absorption impaired.'}
       ],
       actions:['Document genital ulcers in chart — ICBD criteria are MET','Otezla trial (PDE4 inhibitor, steroid-sparing)','If Otezla fails: anti-TNF escalation (targets TNF-alpha AG directly)']},
-    ca:{title:'GI / Gut',hex:'#D4855A',score:70,st:'TI Scarring + BAM',
-      sum:'Terminal ileal scarring from BD. BAM causing morning diarrhea. Cholestyramine never trialed. HPA axis unchecked.',
+    ca:{title:'Your Gut',hex:'#D4855A',score:70,st:'TI scarring + BAM',
+      sum:'The colonoscopy showed scarring in your terminal ileum from the BD flares. That scarring causes bile acid malabsorption — which is almost certainly what\'s behind the morning diarrhea. Cholestyramine has never been tried, and it\'s the textbook first treatment. This is fixable.',
       findings:[
         {g:'TI Scarring',c:'f-red',dot:'fd-r',n:'Terminal Ileal Disease',l:'Colonoscopy: diffuse ulceration, TI inflammation with scarring.',d:'Terminal ileal scarring is permanent. Causes bile acid malabsorption (BAM) — bile acids not reabsorbed in scarred TI, hit colon, cause osmotic watery diarrhea. Worst in morning. Lomotil was masking this.'},
         {g:'BAM',c:'f-red',dot:'fd-r',n:'Bile Acid Malabsorption',l:'Classic morning diarrhea pattern. Cholestyramine never trialed — ask Dr. Tung.',d:'Cholestyramine 4g before breakfast would be both diagnostic AND therapeutic. If it works, confirms BAM as primary driver. Has never been tried despite textbook presentation with TI scarring.'},
@@ -630,8 +634,8 @@ const QUINN = {
         {g:'Ferritin 217',c:'f-grn',dot:'fd-g',n:'Iron Status — Stop NovaFerrum',l:'Ferritin recovered from 7,105 to 217. Iron replete. Supplement may worsen diarrhea.'}
       ],
       actions:['Lomotil refill — TODAY','Cholestyramine trial — ask Dr. Tung','Stop NovaFerrum (ferritin 217, may worsen diarrhea)']},
-    dr:{title:'Drug Response',hex:'#C9A84C',score:45,st:'Critical Alerts',
-      sum:'NAT2 slow — dapsone caused hemolytic anemia. ABCB1 — colchicine CNS accumulation. CYP2C9 bilateral intermediate.',
+    dr:{title:'Your Medications',hex:'#C9A84C',score:45,st:'Critical alerts — read before prescribing',
+      sum:'Two medications have already caused serious reactions because of your genetics: dapsone (NAT2 slow — caused your Hgb to drop from 12.6 to 8.2 in Belize) and colchicine (ABCB1 — crossed your blood-brain barrier and caused severe headaches). These are not intolerances. They are predictable genetic reactions. Any new provider needs to know.',
       findings:[
         {g:'NAT2 slow',c:'f-red',dot:'fd-r',n:'Dapsone Toxicity — NEVER RESUME',l:'Slow acetylator from Brigitte. Caused hemolytic anemia (Hgb 12.6→8.2 in Belize).',d:'Brigitte NAT2: TT at rs1801280, AA at rs1208 = clear slow acetylator. Quinn inherited both slow alleles. Dapsone hydroxylamine metabolite accumulated, caused oxidative hemolysis. Also means isoniazid and sulfonamides problematic.'},
         {g:'ABCB1',c:'f-amb',dot:'fd-a',n:'Colchicine — CNS Accumulation',l:'Reduced P-glycoprotein transporter. Colchicine crossed BBB, severe headaches.',d:'ABCB1 rs1128503 from Chad. Reduced drug efflux at BBB. Colchicine accumulated in CNS causing neurotoxicity. The failure was a specific transporter variant, not intolerance.'},
@@ -640,8 +644,8 @@ const QUINN = {
         {g:'CYP2D6?',c:'f-amb',dot:'fd-a',n:'CYP2D6 — Unknown',l:'23andMe cannot type CYP2D6. Nebula WGS will resolve. Affects fluoxetine clearance.'}
       ],
       actions:['NO dapsone, NO sulfonamides ever — NAT2 slow acetylator','CYP2D6 testing needed (Nebula WGS)','Carry drug alert card — show before any new prescription']},
-    mt:{title:'Labs / Metabolism',hex:'#5AAD8B',score:52,st:'4 Abnormal',
-      sum:'Testosterone 211 ng/dL LOW. LDL 142. VitD 26.5. MTHFR compound. CRP 0.5 (controlled).',
+    mt:{title:'Your Body',hex:'#5AAD8B',score:52,st:'4 markers need attention',
+      sum:'Your April 2026 labs tell a clear story: testosterone is low (211 ng/dL) because prednisone suppresses the HPG axis — it will recover as you taper. LDL 142 at 17 needs diet now. Vitamin D 26.5 explains a lot of your fatigue. The good news: CRP 0.5 means inflammation is controlled on 18mg.',
       findings:[
         {g:'211',c:'f-red',dot:'fd-r',n:'Testosterone 211 ng/dL — LOW',l:'Normal 17M: 300-1000. Prednisone HPG axis suppression. Recheck in 8 weeks.',d:'Critically low. Affects energy, mood, motivation, muscle mass, bone density, recovery. Will recover as prednisone tapers but needs monitoring.'},
         {g:'142',c:'f-red',dot:'fd-r',n:'LDL 142 + ApoB 103',l:'Atherogenic at 17 with bilateral 9p21. Target LDL <100.',d:'9p21 ×3 from both parents + father CABG 75. Mediterranean diet is first line. If persistent after 6 months, early statin conversation.'},
@@ -650,8 +654,8 @@ const QUINN = {
         {g:'0.5',c:'f-grn',dot:'fd-g',n:'CRP 0.5 mg/L',l:'Excellent. Inflammation currently controlled on 18mg prednisone.'}
       ],
       actions:['Testosterone recheck in 8 weeks (after further taper)','Vitamin D3 5000 IU daily (target 50-60)','Homocysteine + MMA (MTHFR compound + FUT2)']},
-    lg:{title:'Mental Health',hex:'#5B8BD4',score:55,st:'Active Management',
-      sum:'MDD active. Fluoxetine 30mg tapering. COMT Met+ from Brigitte. DBH TT — chronic low NE.',
+    lg:{title:'Your Mind',hex:'#5B8BD4',score:55,st:'You\'re doing the work',
+      sum:'You\'ve been through something that would break most adults. ICU in September, months of steroids, isolation from school, a body you couldn\'t trust. Depression makes complete sense in that context. Your COMT and DBH genetics add biological weight to what you\'ve been carrying. Recovery is expected as the medical situation stabilizes — and you\'re already moving in the right direction.',
       findings:[
         {g:'MDD',c:'f-amb',dot:'fd-a',n:'Major Depressive Disorder',l:'Active episode diagnosed 2/5/26. Fluoxetine 30mg (tapering from 40). Joel Lampert managing.',d:'Transitioning to Mangata Wellness locally. Depression is contextual — chronic illness, ICU survival, months of steroids, isolation from school. Recovery expected as medical situation stabilizes.'},
         {g:'COMT Met+',c:'f-pur',dot:'fd-p',n:'COMT — At Least One Met Allele',l:'Brigitte AA (Met/Met). Quinn guaranteed ≥1 Met. Higher stress sensitivity.',d:'COMT Val/Met or Met/Met. Met = slower dopamine clearance = higher baseline but more stress-sensitive. Affects SSRI response and stress resilience.'},
@@ -746,8 +750,8 @@ const BRIGITTE = {
     {v:'614K',l:'SNPs'},{v:'B*51',l:'Carrier'},{v:'COMT AA',l:'Met/Met'},{v:'Central EU',l:'Ancestry'}
   ],
   cats:{
-    gave:{title:'What She Gave Quinn',hex:'#E05A5A',score:6,st:'6 Key Variants',
-      sum:'HLA-B*51, FUT2, CYP2C9*2, CYP2C19*2, COMT Met, DBH TT — all transmitted to Quinn.',
+    gave:{title:'What You Gave Quinn',hex:'#E05A5A',score:6,st:'6 key variants',
+      sum:'Six of Quinn\'s most clinically important variants came from you: HLA-B*51 (one of the two copies), FUT2, CYP2C9 *2, CYP2C19 *2, COMT Met, and DBH TT. Understanding your own genetics is the fastest way to understand Quinn\'s. You\'re not just a carrier — you\'re the roadmap.',
       findings:[
         {g:'rs1051792 = AG',c:'f-red',dot:'fd-r',n:'HLA-B*51 — Obligate Carrier',l:'One of Quinn\'s two B*51 copies. Critical Behcet\'s susceptibility allele.'},
         {g:'rs601338 = AA',c:'f-amb',dot:'fd-a',n:'FUT2 Non-Secretor',l:'Both parents AA. Quinn 100% non-secretor. Altered gut microbiome, B12 impaired.'},
@@ -756,15 +760,15 @@ const BRIGITTE = {
         {g:'rs4680 = AA',c:'f-pur',dot:'fd-p',n:'COMT AA (Met/Met)',l:'Worrier genotype. Quinn guaranteed ≥1 Met allele. Higher stress sensitivity.'},
         {g:'rs1611115 = TT',c:'f-amb',dot:'fd-a',n:'DBH TT — Low Norepinephrine',l:'Explains Quinn\'s chronic hypotension. Low NE production throughout life.'}
       ],actions:[]},
-    protect:{title:'Protective Variants',hex:'#5AAD8B',score:3,st:'3 Protective',
-      sum:'APOE e3/e3, Factor V CC, FTO TT — none of these risk alleles passed to Quinn.',
+    protect:{title:'Your Protections',hex:'#5AAD8B',score:3,st:'3 protective variants',
+      sum:'You carry three important protective variants that Quinn did not inherit the risk for: APOE e3/e3 (no Alzheimer\'s risk allele — that came from Chad), Factor V CC (no clotting disorder), and FTO TT (no metabolic obesity risk). These are worth knowing and worth celebrating.',
       findings:[
         {g:'APOE e3/e3',c:'f-grn',dot:'fd-g',n:'APOE e3/e3',l:'No Alzheimer\'s risk allele. Quinn\'s ε4 came from Chad only.'},
         {g:'Factor V CC',c:'f-grn',dot:'fd-g',n:'Factor V Leiden — Negative',l:'No Leiden. Normal clotting. Not transmitted to Quinn.'},
         {g:'FTO TT',c:'f-grn',dot:'fd-g',n:'FTO — No Obesity Risk',l:'No obesity risk allele from Brigitte. Normal metabolic baseline.'}
       ],actions:[]},
-    risk:{title:'Her Risk Profile',hex:'#C9A84C',score:6,st:'Monitor',
-      sum:'9p21 ×3 bilateral with Chad. PITX2 AFib. TP53. DIO1+DIO2 thyroid. NAT2 slow.',
+    risk:{title:'Your Health Picture',hex:'#C9A84C',score:6,st:'Worth monitoring',
+      sum:'You and Chad share the same 9p21 CAD markers and PITX2 AFib risk — bilateral means Quinn got all of them. Your DIO1 and DIO2 variants affect how you convert thyroid hormone, which may explain energy and mood patterns that labs miss. NAT2 slow acetylator means dapsone and sulfonamides are risky for you too.',
       findings:[
         {g:'9p21 ×3',c:'f-red',dot:'fd-r',n:'9p21 ×3 — All Three Loci',l:'All three CAD variants. Bilateral with Chad — Quinn guaranteed all three.'},
         {g:'PITX2 CT',c:'f-red',dot:'fd-r',n:'PITX2 AFib Risk',l:'Bilateral with Chad. Both carry CT. Quinn has 75% probability of carrier status.'},
@@ -773,8 +777,8 @@ const BRIGITTE = {
         {g:'FKBP5 CT',c:'f-amb',dot:'fd-a',n:'Enhanced Cortisol Sensitivity',l:'Stronger HPA axis stress response. Explains Quinn\'s prednisone sensitivity.'},
         {g:'TT + AA',c:'f-red',dot:'fd-r',n:'NAT2 Slow Acetylator',l:'TT at rs1801280, AA at rs1208. Dapsone hemolysis risk. Quinn inherited BOTH slow alleles.'}
       ],actions:['Thyroid panel — TSH, free T3, free T4 (DIO1 + DIO2)','Blood pressure monitoring (DBH TT)','Genetic counseling — TP53 + family history']},
-    drug:{title:'Drug Response',hex:'#5B8BD4',score:2,st:'Notable',
-      sum:'CYP1A2 slow (opposite of Chad). FAAH reduced activity. Standard caution with CYP2C9 substrates.',
+    drug:{title:'Drug Sensitivities',hex:'#5B8BD4',score:2,st:'Notable variants',
+      sum:'Your CYP1A2 runs slow — the opposite of Chad\'s ultra-rapid. This means caffeine lingers in your system much longer, and medications cleared by this pathway accumulate. Your NAT2 slow acetylator status is the most clinically important: dapsone, sulfonamides, and standard INH are all risky for you.',
       findings:[
         {g:'CYP1A2 CC',c:'f-amb',dot:'fd-a',n:'CYP1A2 — SLOW Caffeine',l:'SLOW caffeine metabolizer (opposite of Chad\'s ultra-rapid). Limit caffeine after noon.'},
         {g:'FAAH AC',c:'f-pur',dot:'fd-p',n:'FAAH — Reduced Endocannabinoid Clearance',l:'Reduced FAAH activity. Elevated endocannabinoid tone. Transmitted to Quinn.'},
@@ -898,18 +902,11 @@ function nav(hash){location.hash=hash;}
    LOADER
 ══════════════════════════════════════ */
 function startLoader(){
-  let n=0;const t=631455;const el=document.getElementById('lc');
-  function s(){
-    n=Math.min(t,n+Math.floor(Math.random()*44000)+20000);
-    el.textContent=n.toLocaleString();
-    if(n<t)requestAnimationFrame(s);
-    else{el.textContent='631,455';setTimeout(()=>{
-      document.getElementById('loader').classList.add('done');
-      document.getElementById('app').classList.add('show');
-      route();
-    },500);}
-  }
-  setTimeout(s,200);
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('done');
+    document.getElementById('app').classList.add('show');
+    route();
+  },1700);
 }
 
 /* ══════════════════════════════════════
@@ -918,17 +915,17 @@ function startLoader(){
 function renderHome(){
   document.getElementById('nav').style.display='none';
   const members=[
-    {p:CHAD,  status:'23 variants · PGx critical'},
-    {p:QUINN, status:'B*51/B*51 · Active Behcet\'s investigation'},
-    {p:BRIGITTE, status:'614K SNPs · B*51 carrier · COMT AA'},
-    {p:BROTHER, status:'75% B*51 probability · Predicted inheritance mapped'},
+    {p:CHAD,  status:'Heart, mind, and cancer genetics · active monitoring'},
+    {p:QUINN, status:'B*51/B*51 · Behçet\'s investigation · recovering strong'},
+    {p:BRIGITTE, status:'Quinn\'s genetic foundation · key variants mapped'},
+    {p:BROTHER, status:'Kit ordered · 75% B*51 probability · inheritance predicted'},
     {p:PEGGY, status:'MT-H1 shared · Lung cancer · Chad\'s maternal aunt'}
   ];
   let h=`<div class="view">
   <div class="hub-hdr">
     <div class="hub-wordmark"><div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div></div>
-    <div class="hub-title">Byars Family</div>
-    <div class="hub-sub">Genomic Intelligence</div>
+    <div class="hub-title">The Byars Family</div>
+    <div class="hub-sub">Your family's health, mapped together</div>
   </div>
   <div class="member-list">`;
   members.forEach(({p,status})=>{
@@ -948,12 +945,12 @@ function renderHome(){
   h+=`</div>
   <div class="hub-updates">
     <div class="sec-lbl">Latest Updates</div>
-    <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Today:</b> Quinn severe diarrhea. Lomotil ran out. Dr. Tung needs cholestyramine Rx + refill.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-a"></div><div class="upd-txt"><b>Incoming:</b> Cortisol spit test. MR Enterography. Push for cardiac MRI same session.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Incoming:</b> Nebula WGS. ERAP1 Hap10, deep UNC13D, full CYP2D6, complete haplogroups.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>Rhythm Apr 2026:</b> Testosterone 211 LOW. LDL 142. ApoB 103. VitD 26.5. Ferritin 217 — stop iron.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — urgent:</b> Severe diarrhea, Lomotil ran out. Ask Dr. Tung for cholestyramine — it's never been tried and it's the right next step.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-a"></div><div class="upd-txt"><b>Coming up:</b> Cortisol spit test ordered. Schedule MR Enterography and cardiac MRI together — one session.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Nebula WGS en route:</b> Will finally resolve CYP2D6, deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>April 2026 labs:</b> Testosterone 211 (low, taper will fix it). LDL 142 + ApoB 103 (diet now). VitD 26.5. Ferritin 217 — stop NovaFerrum.</div></div>
   </div>
-  <div class="hub-foot">Byars Family Health &middot; Portland, Oregon &middot; April 2026<br>Not a diagnostic tool. For informational use only.</div>
+  <div class="hub-foot">Built with care by the Byars family &middot; Portland, Oregon<br>Powered by science, designed for families &middot; Not a substitute for clinical care</div>
   </div>`;
   document.getElementById('content').innerHTML=h;
 }
@@ -1120,7 +1117,7 @@ function initD3(p){
    RENDER — TRACKING
 ══════════════════════════════════════ */
 function renderTracking(p){
-  return `<div class="track-hdr"><div class="track-t">Health Tracking</div></div>
+  return `<div class="track-hdr"><div class="track-t">Log your latest results</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Your personalized health plan</div></div>
   <div class="track-tabs">
     <button class="tbtn on" id="tt-labs" onclick="showTrackTab('${p.id}','labs',this)">Labs</button>
     <button class="tbtn" id="tt-meds" onclick="showTrackTab('${p.id}','meds',this)">Medications</button>
@@ -1214,7 +1211,7 @@ function removeMed(pid,i){
 function renderMeds(p){
   const el=document.getElementById('med-list-'+p.id);if(!el){initMeds(p);return;}
   const m=ls(p.id,'meds',[]);
-  if(!m.length){el.innerHTML='<div style="text-align:center;color:var(--t4);font-size:12px;padding:24px">No medications added</div>';return;}
+  if(!m.length){el.innerHTML='<div style="text-align:center;color:var(--t3);font-size:13px;padding:32px 16px;line-height:1.65">No medications yet.<br><span style="font-size:11px;color:var(--t4)">Add one above and we\'ll show you what your genes say about it.</span></div>';return;}
   el.innerHTML=m.map((x,i)=>{
     const k=x.n.toLowerCase();const pg=(p.pgx||{})[k]||{s:'var(--t3)',w:'No PGx data available.',g:'Unknown'};
     return `<div class="med"><div class="med-bar" style="background:${pg.s}"></div><div class="med-b"><div class="med-n">${x.n}</div><div class="med-d">${x.d} &middot; ${pg.g}</div><div class="med-w">${pg.w}</div></div><div class="med-rm" onclick="removeMed('${p.id}',${i})">×</div></div>`;
@@ -1275,7 +1272,8 @@ function renderDoctor(p){
     <div class="doc-date">Report date: ${today}</div>
     <div class="doc-badge">${d.badge}</div>
   </div>
-  <div class="doc-body">`;
+  <div class="doc-body">
+  <div style="font-size:11px;color:#6B7280;line-height:1.65;padding:14px 0 4px;border-bottom:1px solid #EAEAEA;margin-bottom:4px">This report was prepared to help your care team understand this patient's genetic background. Please share it with any physician who may prescribe medications or plan procedures. Genomic data should be interpreted alongside clinical context — not in isolation.</div>`;
 
   // PGx section
   h+=`<div class="doc-sec"><div class="doc-sec-t">Pharmacogenomics</div>`;
@@ -1301,7 +1299,8 @@ function renderDoctor(p){
     h+=`</div></div>`;
   }
 
-  h+=`</div><!-- /doc-body -->
+  h+=`<div style="font-size:11px;color:#9CA3AF;line-height:1.65;padding:18px 0 0;border-top:1px solid #EAEAEA;margin-top:20px;font-style:italic">Genomic data is one piece of this patient's health picture. Your providers have clinical context that numbers alone can never capture. This report was generated from direct-to-consumer genotyping and whole-genome sequencing data.</div>
+  </div><!-- /doc-body -->
   <button class="print-btn" onclick="window.print()">Print Clinical Report</button>
   </div>`;
   return h;
@@ -1335,8 +1334,8 @@ function renderPending(p){
   const h=`<div class="view">${renderHeader(p)}
   <div class="pending-view">
     <div class="pend-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-    <div class="pend-t">Analysis Pending</div>
-    <div class="pend-s">23andMe kit ordered. WGS results will populate this profile once analyzed. Inheritance map predicts 75% B*51 probability.</div>
+    <div class="pend-t">On the way</div>
+    <div class="pend-s">23andMe kit ordered. Once results are in, this profile fills automatically — labs, medications, genetics, and an inheritance map showing what came from each parent. Predicted 75% B*51 probability based on Chad and Brigitte's profiles.</div>
   </div></div>`;
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
