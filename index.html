@@ -1050,6 +1050,89 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .emrg-picker-sub2{font-size:12px;color:var(--t3)}
 .emrg-btn{display:inline-block;background:#C0392B;color:#fff;border:none;border-radius:var(--r-s);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;margin:4px 0}
 
+/* ══════════════════════════════════════
+   HEALTH STORY PAGE — P21
+══════════════════════════════════════ */
+.story-hdr{padding:20px 16px 0;text-align:center}
+.story-title{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-bottom:4px}
+.story-sub{font-size:12px;color:var(--t3);line-height:1.6;max-width:320px;margin:0 auto 20px}
+
+/* Risk dashboard */
+.story-section{padding:0 16px 6px}
+.story-sec-lbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;margin-top:18px}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.risk-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:12px 13px;position:relative;overflow:hidden}
+.risk-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.risk-card.rc-red::before{background:var(--red)}
+.risk-card.rc-amber::before{background:var(--amber)}
+.risk-card.rc-green::before{background:var(--green)}
+.risk-card.rc-blue::before{background:var(--blue)}
+.risk-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0}
+.risk-status{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;margin-bottom:4px}
+.risk-label{font-size:12px;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
+.risk-detail{font-size:10px;color:var(--t3);line-height:1.5}
+.rc-red .risk-status{color:var(--red)}
+.rc-red .risk-dot{background:var(--red)}
+.rc-amber .risk-status{color:var(--amber)}
+.rc-amber .risk-dot{background:var(--amber)}
+.rc-green .risk-status{color:var(--green)}
+.rc-green .risk-dot{background:var(--green)}
+.rc-blue .risk-status{color:var(--blue)}
+.rc-blue .risk-dot{background:var(--blue)}
+
+/* Narrative sections */
+.story-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);padding:16px;margin-bottom:10px}
+.story-card-title{font-size:13px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.story-card-title-icon{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.story-why-item{border-bottom:1px solid var(--bd);padding:12px 0;margin:0}
+.story-why-item:last-child{border-bottom:none;padding-bottom:0}
+.story-why-lede{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:5px;line-height:1.4}
+.story-why-body{font-size:12px;color:var(--t2);line-height:1.7}
+.story-gene-chip{display:inline-block;font-family:'SF Mono',SFMono-Regular,'Fira Code',monospace;font-size:9px;background:var(--sf2);border:1px solid var(--bd);border-radius:4px;padding:1px 5px;color:var(--t3);margin:0 2px}
+
+/* Timeline */
+.story-tl{position:relative;padding-left:26px}
+.story-tl::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--bd)}
+.story-tl-item{position:relative;margin-bottom:14px}
+.story-tl-dot{position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid;flex-shrink:0;background:var(--bg)}
+.story-tl-dot.tl-red{border-color:var(--red);background:var(--red-d)}
+.story-tl-dot.tl-amber{border-color:var(--amber);background:var(--amb-d)}
+.story-tl-dot.tl-green{border-color:var(--green);background:var(--grn-d)}
+.story-tl-dot.tl-blue{border-color:var(--blue);background:var(--blu-d)}
+.story-tl-date{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.story-tl-event{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px;line-height:1.3}
+.story-tl-why{font-size:11px;color:var(--t3);line-height:1.6;background:var(--sf2);border-radius:var(--r-s);padding:8px 10px;margin-top:5px}
+.story-tl-why strong{color:var(--t2)}
+
+/* Risk map SVG */
+.story-map-wrap{padding:0 0 4px;overflow-x:auto}
+.story-map{min-width:340px;width:100%;height:auto}
+
+/* Action plan */
+.action-timeframe{margin-bottom:12px}
+.action-tf-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;padding:4px 10px;border-radius:20px;display:inline-block}
+.action-tf-today{background:rgba(224,90,90,.12);color:var(--red)}
+.action-tf-week{background:rgba(201,168,76,.12);color:var(--amber)}
+.action-tf-month{background:rgba(91,139,212,.12);color:var(--blue)}
+.action-tf-quarter{background:rgba(90,173,139,.12);color:var(--green)}
+.action-tf-year{background:rgba(155,122,219,.12);color:var(--purple)}
+.action-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}
+.action-item:last-child{border-bottom:none}
+.action-bullet{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.action-text{font-size:12px;color:var(--t2);line-height:1.55}
+.action-text strong{color:var(--t1)}
+
+/* Doctor questions */
+.dq-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.dq-item:last-child{border-bottom:none}
+.dq-num{width:20px;height:20px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t3);flex-shrink:0;margin-top:1px}
+.dq-q{font-size:12px;font-style:italic;color:var(--t1);font-weight:600;margin-bottom:2px;line-height:1.4}
+.dq-why{font-size:11px;color:var(--t3);line-height:1.5}
+
+/* Story footer */
+.story-print-note{text-align:center;padding:12px 16px 28px;font-size:11px;color:var(--t4);line-height:1.6}
+.story-print-note a{color:var(--blue);text-decoration:underline;cursor:pointer}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1712,6 +1795,7 @@ function route(){
   if(pid==='research'){renderResearch(parts[1]||'chad');return;}
   if(pid==='goals'){renderGoals(parts[1]||'chad');return;}
   if(pid==='emergency'){renderEmergency(parts[1]||null);return;}
+  if(pid==='story'){renderStory(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2746,7 +2830,8 @@ function renderMore(p){
     {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`},
     {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`},
     {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`},
-    {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'}
+    {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
+    ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -4688,6 +4773,314 @@ function renderEmergency(pid){
 function emrgSaveContact(pid){
   const contacts=[0,1,2].map(i=>(document.getElementById('ec-'+pid+'-'+i)||{value:''}).value||'');
   lw(pid,'emrg-contacts',contacts);
+}
+
+/* ══════════════════════════════════════
+   QUINN'S COMPLETE HEALTH STORY — P21
+══════════════════════════════════════ */
+function renderStory(pid){
+  const p=PERSONS[pid]||QUINN;
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+
+  /* ── Section 1: Risk Dashboard ── */
+  const risks=[
+    {cls:'rc-red',  status:'ACTIVE',    label:'Behçet\'s Disease',   detail:'HLA-B*51 homozygous · ICBD score 4 · vasculitis confirmed · on prednisone 18mg'},
+    {cls:'rc-red',  status:'CRITICAL',  label:'Testosterone 211',    detail:'Normal 300–1000 ng/dL · prednisone HPG suppression · affects energy, mood, drive'},
+    {cls:'rc-red',  status:'ACTIVE',    label:'Gut / BAM',           detail:'TI scarring + bile acid malabsorption · FUT2 non-secretor · morning diarrhea pattern'},
+    {cls:'rc-amber',status:'ON TREATMENT',label:'Mental Health',     detail:'MDD diagnosed 2/5/26 · Fluoxetine 30mg · CYP2D6 unknown · transferring to Mangata'},
+    {cls:'rc-amber',status:'MONITOR',   label:'Cardiovascular',      detail:'9p21 bilateral · LDL 142 + ApoB 103 at age 17 · EF recovered to 52% post-myocarditis'},
+    {cls:'rc-amber',status:'PENDING',   label:'APOE Status',         detail:'Dad is ε3/ε4 · 50% Quinn inherited ε4 · not yet tested · changes prevention strategy'},
+    {cls:'rc-green',status:'FAVORABLE', label:'Cognition',           detail:'Likely COMT Val/Met (balanced dopamine) · OXTR GG from dad · no ε4 confirmed yet'},
+    {cls:'rc-green',status:'FAVORABLE', label:'Metabolism',          detail:'FTO protection from dad · TCF7L2 protection · low diabetes risk · good insulin sensitivity'},
+  ];
+  let riskGrid=`<div class="risk-grid">`;
+  risks.forEach(r=>{
+    riskGrid+=`<div class="risk-card ${r.cls}">
+      <div class="risk-status"><span class="risk-dot"></span>${r.status}</div>
+      <div class="risk-label">${r.label}</div>
+      <div class="risk-detail">${r.detail}</div>
+    </div>`;
+  });
+  riskGrid+=`</div>`;
+
+  /* ── Section 2: Why Your Body Does What It Does ── */
+  const whyItems=[
+    {
+      lede:'Your energy crashes are a triple hit — any one of these alone causes fatigue. You may have all three.',
+      body:`<strong>1. Testosterone at 211 ng/dL</strong> — critically low for a 17-year-old. Prednisone suppresses the HPG axis (hypothalamic-pituitary-gonadal). Low T causes fatigue, low motivation, cognitive fog, and mood instability. This is reversible as you taper.<br><br><strong>2. B12 absorption impaired</strong> — your <span class="story-gene-chip">FUT2 AA</span> non-secretor status (100% from both parents) means your gut lining lacks fucosylated glycans that support B12 absorption. Serum B12 can look normal while your cells are actually starving. The real tests are MMA and homocysteine — neither has been checked.<br><br><strong>3. Chronic low-grade inflammation</strong> — <span class="story-gene-chip">IL-6 CC</span> from dad means you're a high-producer of IL-6. Even when Behçet's appears controlled on 18mg prednisone, inflammatory signaling costs energy. CRP 0.5 is good but doesn't capture everything.`
+    },
+    {
+      lede:'Your gut issues aren\'t IBS. They\'re immunogenetic — and the chain is traceable.',
+      body:`<span class="story-gene-chip">FUT2 AA</span> non-secretor → your gut lining lacks protective fucosylated glycans → reduced <em>Bifidobacterium</em> colonization → altered bile acid metabolism → osmotic diarrhea (worst in the morning).<br><br>Then layer on <span class="story-gene-chip">HLA-B*51/B*51</span> Behçet's GI involvement → terminal ileal ulceration confirmed on colonoscopy → <strong>permanent TI scarring</strong> → bile acids not reabsorbed → they hit the colon → more diarrhea.<br><br>Lomotil was masking this, not treating it. <strong>Cholestyramine 4g before breakfast</strong> directly binds the bile acids causing the problem. It's never been tried. This is the single most actionable GI intervention right now.`
+    },
+    {
+      lede:'Prozac may feel like it\'s not fully working — and there\'s a biological reason that has nothing to do with willpower.',
+      body:`SSRIs work on serotonin reuptake. But <strong>90% of serotonin is produced in the gut</strong>, by enterochromaffin cells that depend on a healthy microbiome to function.<br><br>Your <span class="story-gene-chip">FUT2 AA</span> disrupts gut flora → reduces serotonin production capacity → Behçet's GI inflammation compounds this → less serotonin substrate available → Prozac is trying to optimize a system that's underproducing upstream.<br><br>Additionally, <span class="story-gene-chip">CYP2D6</span> status is unknown. Fluoxetine is primarily metabolized by CYP2D6. If you're a poor metabolizer, drug levels are higher than expected. If ultra-rapid, it clears too fast. Nebula WGS will resolve this — but it means the current dose may not be calibrated correctly.`
+    },
+    {
+      lede:'Your motivation and drive issues have at least two overlapping biological causes — this isn\'t a character issue.',
+      body:`<strong>Testosterone at 211 ng/dL</strong> is the clearest driver. T is the primary biological substrate for motivation, drive, competitive energy, and reward-seeking. At 211, you're at about 70% of the minimum normal for your age. Every 17-year-old male should be at 400–1000. This alone explains a significant portion of the motivational flatness.<br><br><span class="story-gene-chip">COMT Met</span> allele from Brigitte means you have slower dopamine clearance — higher baseline dopamine but more stress-sensitive, and SSRIs can paradoxically blunt dopamine through serotonin-dopamine crosstalk.<br><br>The combination of low T + SSRI effects on dopamine + chronic illness context is not one problem. It's three converging on the same symptom.`
+    },
+    {
+      lede:'Your chronically low blood pressure and orthostatic dizziness aren\'t a mystery — they\'re three genetic and pharmacological causes stacking.',
+      body:`<span class="story-gene-chip">DBH TT</span> from Brigitte — dopamine beta-hydroxylase converts dopamine to norepinephrine. TT = reduced conversion. Low norepinephrine = chronically low vascular tone = low baseline BP (65–100 systolic).<br><br><span class="story-gene-chip">NOS3 CT</span> — reduced nitric oxide synthase function, which normally helps regulate vasodilation. Another structural cause of low BP.<br><br>Then enalapril — an ACE inhibitor prescribed post-myocarditis — further lowers BP. If your EF has fully recovered to normal, the enalapril may be doing more harm than good for your orthostatic symptoms. This is the reassessment conversation to have with cardiology.`
+    },
+  ];
+  let whyHtml=``;
+  whyItems.forEach(w=>{
+    whyHtml+=`<div class="story-why-item">
+      <div class="story-why-lede">${w.lede}</div>
+      <div class="story-why-body">${w.body}</div>
+    </div>`;
+  });
+
+  /* ── Section 3: Timeline ── */
+  const timeline=[
+    {dot:'tl-blue', date:'July 2008',   event:'Quinn Joseph Byars born',
+     why:`<strong>Genetic inheritance complete at conception.</strong> HLA-B*51 from both Chad and Brigitte — homozygous from day one. NAT2 slow acetylator from Brigitte. FUT2 non-secretor from both parents. The biological setup for Behçet's was present before any symptoms.`},
+    {dot:'tl-amber',date:'Childhood',   event:'Recurrent oral ulcers begin',
+     why:`<strong>HLA-B*51/B*51 expressing early.</strong> Recurrent aphthous stomatitis in childhood is often the first Behçet's manifestation in carriers — dismissed as "canker sores" for years. With a homozygous B*51 profile, early mucosal ulceration is the expected phenotype. This was Behçet's before anyone knew what to call it.`},
+    {dot:'tl-red',  date:'2023–2024',   event:'Genital ulcer episodes — ICBD criteria met',
+     why:`<strong>Diagnostic threshold crossed.</strong> Oral ulcers (2 pts) + genital ulcers with scarring (2 pts) = ICBD score 4. Behçet's diagnosis is formally met by international criteria. The diagnosis was a documentation problem, not a clinical uncertainty.`},
+    {dot:'tl-red',  date:'September 2025', event:'EBV cytokine storm — EF drops to 33%, ferritin 7,105',
+     why:`<strong>The genetic perfect storm.</strong> EBV triggered uncontrolled immune activation: <span class="story-gene-chip">UNC13D VUS</span> means NK cells couldn't clear EBV-infected cells → <span class="story-gene-chip">TNF-α AG</span> + <span class="story-gene-chip">IL-6 CC</span> cascaded into cytokine storm → cardiotoxic → EF dropped to 33%. Ferritin 7,105 ng/mL (normal &lt;200) confirmed macrophage activation syndrome pattern. This was a predictable outcome of the specific combination of variants Quinn carries.`},
+    {dot:'tl-amber',date:'October–December 2025', event:'Prednisone initiated, cardiac recovery',
+     why:`<strong>FKBP5 CT working in your favor.</strong> The same glucocorticoid receptor sensitivity variant (from Brigitte) that makes Quinn more stress-reactive also makes prednisone unusually effective at low doses. EF recovered from 33% to 52% by December 2025 MRI — because the damage was immune-mediated, not ischemic. Healthy underlying myocardium, inflamed by cytokines, can heal.`},
+    {dot:'tl-red',  date:'February 5, 2026', event:'MDD diagnosed — Fluoxetine 30mg started',
+     why:`<strong>Biology, not circumstance alone.</strong> The depression has multiple biological substrates: testosterone crashing (HPG suppression from prednisone), chronic illness, months of ICU recovery, isolation from school. But <span class="story-gene-chip">COMT Met</span> (higher stress sensitivity) and <span class="story-gene-chip">DBH TT</span> (low norepinephrine baseline) create a neurochemical floor that makes depression more likely and harder to lift.`},
+    {dot:'tl-amber',date:'April 2026',   event:'Labs: Testosterone 211, LDL 142, Vit D 26.5',
+     why:`<strong>The biology on paper.</strong> Three abnormal values, each with a genetic explanation. Testosterone 211 = prednisone HPG suppression (expected, reversible). LDL 142 = bilateral 9p21 inheritance (diet is the primary intervention). Vitamin D 26.5 = GC GT + VDR AG predicted this exactly (5000 IU/day to reach 50–60 ng/mL). CRP 0.5 = inflammation controlled on 18mg.`},
+    {dot:'tl-green',date:'Now — April 2026', event:'Current state: recovering, stabilizing, understanding',
+     why:`<strong>The full picture is now visible.</strong> Every symptom connects to a variant. Every reaction has a mechanism. The path forward is clear: taper prednisone carefully, get cardiac MRI, trial cholestyramine, check cortisol, test CYP2D6, recheck testosterone as taper progresses, start the methylfolate/B12/VitD protocol. The biology is on your side when you know how to work with it.`},
+  ];
+  let tlHtml=`<div class="story-tl">`;
+  timeline.forEach(t=>{
+    tlHtml+=`<div class="story-tl-item">
+      <div class="story-tl-dot ${t.dot}"></div>
+      <div class="story-tl-date">${t.date}</div>
+      <div class="story-tl-event">${t.event}</div>
+      <div class="story-tl-why">${t.why}</div>
+    </div>`;
+  });
+  tlHtml+=`</div>`;
+
+  /* ── Section 4: Risk Map SVG ── */
+  const riskMap=`<svg class="story-map" viewBox="0 0 360 310" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#4A5568"/>
+    </marker>
+    <marker id="arr-r" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#E05A5A"/>
+    </marker>
+    <marker id="arr-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#C9A84C"/>
+    </marker>
+  </defs>
+  <!-- Nodes -->
+  <!-- Row 1: Root causes -->
+  <rect x="4" y="4" width="96" height="34" rx="7" fill="#2d1a1a" stroke="#E05A5A" stroke-width="1.5"/>
+  <text x="52" y="17" text-anchor="middle" fill="#E05A5A" font-size="8" font-weight="700">HLA-B*51/B*51</text>
+  <text x="52" y="29" text-anchor="middle" fill="#E05A5A" font-size="7">Behçet's disease</text>
+
+  <rect x="132" y="4" width="96" height="34" rx="7" fill="#1a1a2d" stroke="#9B7ADB" stroke-width="1.5"/>
+  <text x="180" y="17" text-anchor="middle" fill="#9B7ADB" font-size="8" font-weight="700">FUT2 AA</text>
+  <text x="180" y="29" text-anchor="middle" fill="#9B7ADB" font-size="7">Non-secretor</text>
+
+  <rect x="260" y="4" width="96" height="34" rx="7" fill="#1a2318" stroke="#5AAD8B" stroke-width="1.5"/>
+  <text x="308" y="17" text-anchor="middle" fill="#5AAD8B" font-size="8" font-weight="700">Prednisone</text>
+  <text x="308" y="29" text-anchor="middle" fill="#5AAD8B" font-size="7">HPG suppression</text>
+
+  <!-- Row 2: Intermediate effects -->
+  <rect x="4" y="80" width="96" height="34" rx="7" fill="#2d1a1a" stroke="#E05A5A" stroke-width="1"/>
+  <text x="52" y="93" text-anchor="middle" fill="#E05A5A" font-size="7.5" font-weight="600">GI inflammation</text>
+  <text x="52" y="105" text-anchor="middle" fill="#E05A5A" font-size="6.5">TI scarring + BAM</text>
+
+  <rect x="132" y="80" width="96" height="34" rx="7" fill="#1a1a2d" stroke="#9B7ADB" stroke-width="1"/>
+  <text x="180" y="93" text-anchor="middle" fill="#9B7ADB" font-size="7.5" font-weight="600">Dysbiosis</text>
+  <text x="180" y="105" text-anchor="middle" fill="#9B7ADB" font-size="6.5">↓ Bifidobacterium</text>
+
+  <rect x="260" y="80" width="96" height="34" rx="7" fill="#1a2318" stroke="#5AAD8B" stroke-width="1"/>
+  <text x="308" y="93" text-anchor="middle" fill="#5AAD8B" font-size="7.5" font-weight="600">Testosterone 211</text>
+  <text x="308" y="105" text-anchor="middle" fill="#5AAD8B" font-size="6.5">HPG axis suppressed</text>
+
+  <!-- Row 3: Second-order -->
+  <rect x="4" y="156" width="96" height="34" rx="7" fill="#2d1f1a" stroke="#C9A84C" stroke-width="1"/>
+  <text x="52" y="169" text-anchor="middle" fill="#C9A84C" font-size="7.5" font-weight="600">Nutrient depletion</text>
+  <text x="52" y="181" text-anchor="middle" fill="#C9A84C" font-size="6.5">B12 + folate + iron</text>
+
+  <rect x="132" y="156" width="96" height="34" rx="7" fill="#1a1a2d" stroke="#9B7ADB" stroke-width="1"/>
+  <text x="180" y="169" text-anchor="middle" fill="#9B7ADB" font-size="7.5" font-weight="600">↓ Serotonin substrate</text>
+  <text x="180" y="181" text-anchor="middle" fill="#9B7ADB" font-size="6.5">90% made in gut</text>
+
+  <rect x="260" y="156" width="96" height="34" rx="7" fill="#1a2318" stroke="#5AAD8B" stroke-width="1"/>
+  <text x="308" y="169" text-anchor="middle" fill="#5AAD8B" font-size="7.5" font-weight="600">Low motivation</text>
+  <text x="308" y="181" text-anchor="middle" fill="#5AAD8B" font-size="6.5">Drive + mood instability</text>
+
+  <!-- Row 4: Outcomes -->
+  <rect x="68" y="232" width="224" height="36" rx="8" fill="#1e1e2e" stroke="#5B8BD4" stroke-width="1.5"/>
+  <text x="180" y="246" text-anchor="middle" fill="#5B8BD4" font-size="8" font-weight="700">Fatigue · Cognitive fog · Low mood</text>
+  <text x="180" y="259" text-anchor="middle" fill="#5B8BD4" font-size="7">Depression + Prozac underperformance</text>
+
+  <!-- Arrows row 1→2 -->
+  <line x1="52" y1="38" x2="52" y2="76" stroke="#E05A5A" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr-r)"/>
+  <line x1="180" y1="38" x2="180" y2="76" stroke="#9B7ADB" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+  <line x1="308" y1="38" x2="308" y2="76" stroke="#5AAD8B" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+
+  <!-- Arrows row 2→3 -->
+  <line x1="52" y1="114" x2="52" y2="152" stroke="#E05A5A" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr-r)"/>
+  <line x1="180" y1="114" x2="180" y2="152" stroke="#9B7ADB" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+  <line x1="308" y1="114" x2="308" y2="152" stroke="#5AAD8B" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+
+  <!-- Arrows row 3→outcome -->
+  <line x1="52" y1="190" x2="130" y2="232" stroke="#C9A84C" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr-a)"/>
+  <line x1="180" y1="190" x2="180" y2="228" stroke="#9B7ADB" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+  <line x1="308" y1="190" x2="230" y2="232" stroke="#5AAD8B" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+
+  <!-- Cross-path: BD → serotonin -->
+  <path d="M100,97 Q116,132 132,173" fill="none" stroke="#E05A5A" stroke-width="1" stroke-dasharray="2,3" marker-end="url(#arr-r)" opacity=".6"/>
+</svg>`;
+
+  /* ── Section 5: Action Plan ── */
+  const actions=[
+    {tf:'TODAY',     cls:'action-tf-today',  bullet:'var(--red)',
+     items:[
+       '<strong>Lomotil refill</strong> — out, needed now',
+       '<strong>Ask for cholestyramine trial</strong> — 4g before breakfast, BAM never treated',
+       '<strong>Morning cortisol order</strong> — never tested despite months of prednisone',
+       '<strong>Discuss testosterone 211</strong> — low for age 17, track as taper progresses',
+       '<strong>Enalapril reassessment</strong> — if EF confirmed recovered, BP 65–100 is too low',
+     ]},
+    {tf:'THIS WEEK',  cls:'action-tf-week',   bullet:'var(--amber)',
+     items:[
+       '<strong>Start methylcobalamin 1000mcg sublingual</strong> — FUT2 non-secretor, bypass absorption issue',
+       '<strong>Start methylfolate 800mcg</strong> — MTHFR compound, not folic acid',
+       '<strong>Vitamin D3 5000 IU/day</strong> — current 26.5, need 50–60 for BD immune regulation',
+       '<strong>Stop NovaFerrum</strong> — ferritin 217, replete, worsening diarrhea',
+       '<strong>Add probiotic with B. longum</strong> — FUT2 non-secretor needs supplemental bifido',
+     ]},
+    {tf:'THIS MONTH', cls:'action-tf-month',  bullet:'var(--blue)',
+     items:[
+       '<strong>Schedule cardiac MRI + MR Enterography together</strong> — one session, two answers',
+       '<strong>Follow up on cortisol result</strong> → ACTH stim if low',
+       '<strong>Lab recheck</strong>: MMA, homocysteine, Vit D, testosterone',
+       '<strong>Endocrinology referral</strong> — testosterone 211 at 17 warrants specialist input',
+       '<strong>Rheumatology follow-up</strong> — Otezla (apremilast) conversation, BD steroid-sparing plan',
+     ]},
+    {tf:'THIS QUARTER',cls:'action-tf-quarter',bullet:'var(--green)',
+     items:[
+       '<strong>Annual dermatology</strong> — MC1R compound inherited from Chad, full-body dermoscopy',
+       '<strong>Ophthalmology</strong> — Behçet\'s uveitis screening, silent anterior chamber disease',
+       '<strong>CYP2D6 testing via Nebula WGS</strong> — optimize fluoxetine dosing',
+       '<strong>ESR + CRP quarterly</strong> — BD activity markers, track alongside taper',
+       '<strong>Cardiac cardiology follow-up</strong> — EF, enalapril decision, clearance for exercise',
+     ]},
+    {tf:'THIS YEAR',  cls:'action-tf-year',   bullet:'var(--purple)',
+     items:[
+       '<strong>APOE status testing</strong> — dad is ε3/ε4, 50% chance Quinn carries ε4, changes prevention strategy starting now',
+       '<strong>Pharmacogenomic panel</strong> (Genomind or GeneSight) — CYP2D6 + full psych PGx to optimize Prozac',
+       '<strong>Full colonoscopy follow-up</strong> — TI healing assessment, BD GI activity',
+       '<strong>Annual derm + ophthalmology</strong> — establish as routine',
+       '<strong>Consider 23andMe or clinical WGS</strong> for Quinn\'s own full dataset',
+     ]},
+  ];
+  let actHtml=``;
+  actions.forEach(a=>{
+    actHtml+=`<div class="action-timeframe">
+      <div class="action-tf-label ${a.cls}">${a.tf}</div>`;
+    a.items.forEach(item=>{
+      actHtml+=`<div class="action-item">
+        <div class="action-bullet" style="background:${a.bullet}"></div>
+        <div class="action-text">${item}</div>
+      </div>`;
+    });
+    actHtml+=`</div>`;
+  });
+
+  /* ── Section 6: Doctor Questions ── */
+  const questions=[
+    {q:'"Has anyone checked my FUT2 secretor status and connected it to my gut symptoms?"',
+     why:'FUT2 AA non-secretor status directly explains the gut dysbiosis and bile acid pattern — and it changes treatment. Most GI doctors haven\'t ordered this.'},
+    {q:'"Has anyone run fecal calprotectin to check for subclinical gut inflammation?"',
+     why:'Calprotectin measures neutrophil activity in the gut lining — it\'s a more sensitive marker for BD GI involvement than CRP alone. If elevated, it supports escalating GI-directed therapy.'},
+    {q:'"Has my APOE status been tested given my father\'s Alzheimer\'s risk profile?"',
+     why:'If Quinn carries one APOE ε4 allele (50% chance), the prevention window starts now — exercise protocol, DHA, sleep optimization, amyloid clearance. This changes management at age 17.'},
+    {q:'"Has pharmacogenomic testing been done to optimize my Prozac dose?"',
+     why:'CYP2D6 status is unknown. It\'s the primary enzyme metabolizing fluoxetine. Without knowing if Quinn is a poor, normal, or ultra-rapid metabolizer, dosing is essentially a guess.'},
+    {q:'"Is my testosterone being tracked longitudinally, not just as a one-off?"',
+     why:'211 ng/dL may be prednisone-suppressed (HPG axis). As the taper progresses, testosterone should recover. If it doesn\'t, hypogonadism needs its own evaluation. Serial testing establishes the trajectory.'},
+    {q:'"Are Behçet\'s biomarkers — ESR, CRP, fecal calprotectin — being monitored on a schedule?"',
+     why:'BD can smolder silently between flares. Quarterly inflammatory markers should be the standard, not just when symptomatic. This is how you catch escalation before it reaches crisis.'},
+    {q:'"Has HPA axis function been formally tested given the duration of prednisone use?"',
+     why:'Morning cortisol has never been checked despite months of prednisone. Below a certain dose threshold, adrenal suppression becomes symptomatic — fatigue, hypotension, GI symptoms. The taper plan should be guided by cortisol testing, not just clinical impression.'},
+    {q:'"Should I see endocrinology specifically for the testosterone + HPA axis picture?"',
+     why:'Two endocrine systems are potentially affected: HPG axis (testosterone) and HPA axis (cortisol). A single specialist who can evaluate both is more efficient than sequential subspecialty referrals.'},
+  ];
+  let dqHtml=``;
+  questions.forEach((q,i)=>{
+    dqHtml+=`<div class="dq-item">
+      <div class="dq-num">${i+1}</div>
+      <div>
+        <div class="dq-q">${q.q}</div>
+        <div class="dq-why">${q.why}</div>
+      </div>
+    </div>`;
+  });
+
+  /* ── Assemble ── */
+  const h=`<div class="view">
+  <div style="padding:8px 16px 0">
+    <button class="back-btn" onclick="nav('quinn/more')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+  </div>
+  <div class="story-hdr">
+    <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Quinn Byars · April 2026</div>
+    <div class="story-title">Your Complete Health Story</div>
+    <div class="story-sub">Why your body does what it does — every symptom, every mechanism, every action. The page you show every new doctor.</div>
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">1 — Quinn at a Glance</div>
+    ${riskGrid}
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">2 — Why Your Body Reacts the Way It Does</div>
+    <div class="story-card">${whyHtml}</div>
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">3 — What Happened and Why</div>
+    <div class="story-card" style="padding:16px 16px 8px">${tlHtml}</div>
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">4 — Your Risk Map</div>
+    <div class="story-card" style="padding:12px 8px 8px">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;padding:0 8px">How your genetic variants chain into symptoms — read top to bottom</div>
+      <div class="story-map-wrap">${riskMap}</div>
+    </div>
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">5 — Your Action Plan Right Now</div>
+    <div class="story-card">${actHtml}</div>
+  </div>
+
+  <div class="story-section">
+    <div class="story-sec-lbl">6 — Questions Your Doctors Should Be Asking</div>
+    <div class="story-card">${dqHtml}</div>
+  </div>
+
+  <div class="story-print-note">
+    This is Quinn's complete genomic health narrative as of April 2026.<br>
+    <span onclick="window.print()" style="color:var(--blue);cursor:pointer;text-decoration:underline">Print this page</span> to share with any new provider.
+    <br><br>Not a substitute for clinical care. All decisions should involve a licensed provider.
+  </div>
+  </div>`;
+
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
 }
 
 /* ── Show/hide FAB based on current view ── */
