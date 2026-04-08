@@ -909,6 +909,36 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .slp-apoe-banner{background:linear-gradient(135deg,var(--pur-d),var(--sf));border:1px solid var(--pur-b);border-radius:var(--r-m);padding:14px;margin:12px 0;font-size:13px;color:var(--t1)}
 .slp-apoe-title{font-weight:700;color:var(--purple);margin-bottom:4px}
 
+/* ══════════════════════════════════════
+   P16 — MENTAL HEALTH MODULE
+══════════════════════════════════════ */
+.mh-wrap{padding:0 16px 40px}
+.mh-checkin{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.mh-checkin-title{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:14px}
+.mh-slider-row{margin-bottom:12px}
+.mh-slider-row label{font-size:12px;color:var(--t3);font-weight:600;display:flex;justify-content:space-between;margin-bottom:5px}
+.mh-slider-row label span{color:var(--t1);font-size:14px;font-weight:700}
+.mh-slider-row input[type=range]{width:100%;accent-color:var(--purple)}
+.mh-save-btn{background:var(--purple);color:#fff;border:none;border-radius:var(--r-s);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:4px}
+.mh-entry-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:8px 0}
+.mh-entry-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.mh-entry-date{font-size:12px;color:var(--t3)}
+.mh-entry-del{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:0}
+.mh-entry-del:hover{color:var(--red)}
+.mh-entry-bars{display:flex;gap:12px;flex-wrap:wrap}
+.mh-bar-item{flex:1;min-width:80px}
+.mh-bar-lbl{font-size:11px;color:var(--t3);margin-bottom:3px;font-weight:600}
+.mh-bar-track{background:var(--sf3);border-radius:10px;height:6px;overflow:hidden}
+.mh-bar-fill{height:100%;border-radius:10px;transition:width .3s}
+.mh-bar-val{font-size:13px;font-weight:700;margin-top:2px}
+.mh-gene-card{background:var(--sf);border:1px solid var(--pur-b);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.mh-gene-title{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:10px}
+.mh-gene-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.mh-gene-row:last-child{border-bottom:none}
+.mh-gene-meaning{font-size:12px;color:var(--t3);text-align:right;max-width:60%}
+.mh-insight{background:var(--pur-d);border:1px solid var(--pur-b);border-radius:var(--r-s);padding:12px 14px;margin:10px 0;font-size:13px;color:var(--t2);line-height:1.5}
+.mh-sugg{border-left:3px solid var(--purple);padding:8px 12px;margin:6px 0;font-size:13px;color:var(--t2)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1566,6 +1596,7 @@ function route(){
   if(pid==='food'){renderFood(parts[1]||'chad');return;}
   if(pid==='exercise'){renderExercise(parts[1]||'chad');return;}
   if(pid==='sleep'){renderSleep(parts[1]||'chad');return;}
+  if(pid==='mental'){renderMental(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2580,7 +2611,8 @@ function renderMore(p){
     {icon:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 1 2-2v-4M9 21H5a2 2 0 0 0-2-2v-4m0 0h18"/>',t:'Interaction Checker',s:'Drug-drug and gene-drug alerts',fn:`nav('interactions/${p.id}')`},
     {icon:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',t:'Food & Nutrition Log',s:'Genetic food interactions per meal',fn:`nav('food/${p.id}')`},
     {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`},
-    {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`}
+    {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`},
+    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -3908,6 +3940,126 @@ function slpRender(pid){
         <div class="slp-card-meta">${dt}</div>
       </div>
       <button class="slp-del" onclick="slpDelete('${pid}',${e.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   P16 — MENTAL HEALTH MODULE
+══════════════════════════════════════ */
+const MH_PROFILES={
+  quinn:{
+    genes:[
+      {g:'COMT Met (from Brigitte)',m:'Slower dopamine clearance — higher baseline but more stress-sensitive; SSRI response enhanced'},
+      {g:'BDNF Val66Met',m:'Lower activity-dependent BDNF — exercise directly compensates; 30 min cardio = acute BDNF boost'},
+      {g:'HTR2A',m:'Serotonin receptor variant — affects fluoxetine binding and mood stability'},
+      {g:'FKBP5 CT',m:'Stress response more reactive — cortisol rises faster and clears slower after stressors'},
+      {g:'DBH TT',m:'Low norepinephrine baseline — fatigue and low motivation are biological, not character'}
+    ],
+    suggestions:[
+      'Exercise as BDNF boost — 30 min moderate cardio raises BDNF acutely; this is your fastest mood lever',
+      'Sleep consistency — 6 clock gene variants mean your mood tracks your circadian timing closely',
+      'Green tea (EGCG) — COMT inhibitor; gently increases dopamine and norepinephrine',
+      'Minimize acute stress spikes — FKBP5 CT means your cortisol response is amplified; buffer inputs',
+      'Be honest with Joel and Crowley — they cannot help with what they cannot see'
+    ],
+    insight:'Your mood tends to track with energy and physical state — driven by testosterone/DBH biology rather than purely situational factors. When energy is low, mood follows. Recovery is expected as prednisone tapers and testosterone normalizes.'
+  },
+  chad:{
+    genes:[
+      {g:'COMT Val/Met',m:'Balanced dopamine clearance — neither extreme sensitivity nor reduced reward; intermediate stress response'},
+      {g:'APOE ε3/ε4',m:'Mood affected by sleep quality — amyloid accumulation from poor sleep has direct cognitive and mood effects'},
+      {g:'BDNF Val66Met',m:'Moderate BDNF response — exercise reliably boosts both BDNF and mood'},
+      {g:'IL-6 CC',m:'Chronic neuroinflammation — IL-6 crosses BBB and directly elevates depressive symptom risk'}
+    ],
+    suggestions:[
+      'Exercise for APOE4 mood — the 45% Alzheimer risk reduction mechanism also improves mood via BDNF and AMPK',
+      'Sleep 7-8 hrs — APOE4 mood and cognition both degrade measurably below 7 hrs',
+      'Omega-3 DHA 2g — reduces neuroinflammation from IL-6 CC; evidence-based for mood in APOE4 carriers',
+      'Mediterranean diet — IL-6 CC is a direct target of anti-inflammatory diet; less inflammation = better baseline mood',
+      'Social connection — longevity literature shows social depth is physiologically protective, not optional'
+    ],
+    insight:'Your mood is most closely tied to sleep quality, exercise consistency, and social engagement. APOE4 carriers show stronger mood-sleep correlations than the general population — a bad sleep week is a bad mood week.'
+  }
+};
+
+function renderMental(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  const prof=MH_PROFILES[pid]||MH_PROFILES.chad;
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Mental Health</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="mh-wrap">
+    <div class="ix-section-lbl">Daily Check-in</div>
+    <div class="mh-checkin">
+      <div class="mh-slider-row"><label>Mood <span id="mh-mood-lbl-${pid}">7</span>/10</label><input type="range" min="1" max="10" value="7" id="mh-mood-${pid}" oninput="document.getElementById('mh-mood-lbl-${pid}').textContent=this.value"></div>
+      <div class="mh-slider-row"><label>Anxiety <span id="mh-anx-lbl-${pid}">4</span>/10</label><input type="range" min="1" max="10" value="4" id="mh-anx-${pid}" oninput="document.getElementById('mh-anx-lbl-${pid}').textContent=this.value"></div>
+      <div class="mh-slider-row"><label>Energy <span id="mh-eng-lbl-${pid}">6</span>/10</label><input type="range" min="1" max="10" value="6" id="mh-eng-${pid}" oninput="document.getElementById('mh-eng-lbl-${pid}').textContent=this.value"></div>
+      <button class="mh-save-btn" onclick="mhSave('${pid}')">Log Check-in</button>
+    </div>
+    <div class="ix-section-lbl">Genetic Context</div>
+    <div class="mh-gene-card">
+      <div class="mh-gene-title">Your neuropsychiatric variants</div>
+      ${prof.genes.map(g=>`<div class="mh-gene-row"><span style="font-weight:600">${g.g}</span><span class="mh-gene-meaning">${g.m}</span></div>`).join('')}
+    </div>
+    <div class="ix-section-lbl">Gene-Informed Suggestions</div>
+    ${prof.suggestions.map(s=>`<div class="mh-sugg">• ${s}</div>`).join('')}
+    <div class="ix-section-lbl">Log</div>
+    <div id="mh-insight-${pid}"></div>
+    <div id="mh-list-${pid}"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  mhRender(pid);
+  window.scrollTo(0,0);
+}
+
+function mhSave(pid){
+  const mood=parseInt(document.getElementById('mh-mood-'+pid).value)||7;
+  const anx=parseInt(document.getElementById('mh-anx-'+pid).value)||4;
+  const eng=parseInt(document.getElementById('mh-eng-'+pid).value)||6;
+  const entries=ls(pid,'mental',[]);
+  entries.unshift({id:Date.now(),mood,anx,eng,ts:new Date().toISOString()});
+  lw(pid,'mental',entries);
+  mhRender(pid);
+}
+
+function mhDelete(pid,id){
+  const entries=ls(pid,'mental',[]).filter(e=>e.id!==id);
+  lw(pid,'mental',entries);
+  mhRender(pid);
+}
+
+function mhRender(pid){
+  const prof=MH_PROFILES[pid]||MH_PROFILES.chad;
+  const entries=ls(pid,'mental',[]);
+  const insightEl=document.getElementById('mh-insight-'+pid);
+  if(insightEl&&entries.length>=3){
+    insightEl.innerHTML=`<div class="mh-insight"><b>Pattern insight:</b> ${prof.insight}</div>`;
+  }else if(insightEl){
+    insightEl.innerHTML=entries.length?`<div style="color:var(--t3);font-size:13px;padding:4px 0">Log ${3-entries.length} more check-in${entries.length===2?'':'s'} to see pattern insights.</div>`:'';
+  }
+  const listEl=document.getElementById('mh-list-'+pid);
+  if(!listEl)return;
+  if(!entries.length){listEl.innerHTML='<div style="color:var(--t3);font-size:14px;padding:16px 0">No check-ins logged yet.</div>';return;}
+  listEl.innerHTML=entries.slice(0,20).map(e=>{
+    const dt=new Date(e.ts).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    const moodCol=e.mood>=7?'var(--green)':e.mood>=4?'var(--amber)':'var(--red)';
+    const anxCol=e.anx<=3?'var(--green)':e.anx<=6?'var(--amber)':'var(--red)';
+    const engCol=e.eng>=7?'var(--green)':e.eng>=4?'var(--amber)':'var(--red)';
+    return `<div class="mh-entry-card">
+      <div class="mh-entry-top"><span class="mh-entry-date">${dt}</span><button class="mh-entry-del" onclick="mhDelete('${pid}',${e.id})">×</button></div>
+      <div class="mh-entry-bars">
+        <div class="mh-bar-item"><div class="mh-bar-lbl">Mood</div><div class="mh-bar-track"><div class="mh-bar-fill" style="width:${e.mood*10}%;background:${moodCol}"></div></div><div class="mh-bar-val" style="color:${moodCol}">${e.mood}/10</div></div>
+        <div class="mh-bar-item"><div class="mh-bar-lbl">Anxiety</div><div class="mh-bar-track"><div class="mh-bar-fill" style="width:${e.anx*10}%;background:${anxCol}"></div></div><div class="mh-bar-val" style="color:${anxCol}">${e.anx}/10</div></div>
+        <div class="mh-bar-item"><div class="mh-bar-lbl">Energy</div><div class="mh-bar-track"><div class="mh-bar-fill" style="width:${e.eng*10}%;background:${engCol}"></div></div><div class="mh-bar-val" style="color:${engCol}">${e.eng}/10</div></div>
+      </div>
     </div>`;
   }).join('');
 }
