@@ -3,26 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Brigitte Byars - Genome Profile</title>
+<title>Brigitte Byars u2014 Genome Profile</title>
 <style>
+/* ══════════ TOKENS ══════════ */
 :root {
-  --bg: #0B0F19; --surface: #141925; --surface-border: #1E2535; --surface-hover: #1A2233; --surface-active: #212B3D;
-  --text-1: #E8ECF4; --text-2: #7A8599; --text-3: #4A5568; --text-4: #2D3748;
-  --red: #E05A5A; --red-dim: rgba(224,90,90,.08); --red-border: rgba(224,90,90,.25);
-  --purple: #9B7ADB; --purple-dim: rgba(155,122,219,.08); --purple-border: rgba(155,122,219,.25);
-  --orange: #D4855A; --amber: #C9A84C; --amber-dim: rgba(201,168,76,.08); --amber-border: rgba(201,168,76,.25);
-  --green: #5AAD8B; --green-dim: rgba(90,173,139,.08); --green-border: rgba(90,173,139,.25);
-  --blue: #5B8BD4; --blue-dim: rgba(91,139,212,.08); --blue-border: rgba(91,139,212,.25);
-  --radius-s: 8px; --radius-m: 12px; --radius-l: 16px;
-  --ease: cubic-bezier(.4,0,.2,1); --spring: cubic-bezier(.34,1.56,.64,1); --expo: cubic-bezier(.16,1,.3,1);
+  --bg: #0B0F19;
+  --surface: #141925;
+  --surface-border: #1E2535;
+  --surface-hover: #1A2233;
+  --surface-active: #212B3D;
+  --text-1: #E8ECF4;
+  --text-2: #7A8599;
+  --text-3: #4A5568;
+  --text-4: #2D3748;
+  --white: #fff;
+  --black: #000;
+
+  --red: #E05A5A;
+  --red-dim: rgba(224,90,90,.08);
+  --red-border: rgba(224,90,90,.25);
+  --purple: #9B7ADB;
+  --purple-dim: rgba(155,122,219,.08);
+  --purple-border: rgba(155,122,219,.25);
+  --orange: #D4855A;
+  --orange-dim: rgba(212,133,90,.08);
+  --orange-border: rgba(212,133,90,.25);
+  --amber: #C9A84C;
+  --amber-dim: rgba(201,168,76,.08);
+  --amber-border: rgba(201,168,76,.25);
+  --green: #5AAD8B;
+  --green-dim: rgba(90,173,139,.08);
+  --green-border: rgba(90,173,139,.25);
+  --blue: #5B8BD4;
+  --blue-dim: rgba(91,139,212,.08);
+  --blue-border: rgba(91,139,212,.25);
+  --cyan: #5BA8C9;
+  --cyan-dim: rgba(91,168,201,.08);
+  --cyan-border: rgba(91,168,201,.25);
+
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 20px;
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+  --expo: cubic-bezier(.16,1,.3,1);
 }
+
+/* ══════════ RESET ══════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',system-ui,sans-serif;
+  background:var(--bg);color:var(--text-1);min-height:100vh;min-height:100dvh;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  -webkit-tap-highlight-color:transparent;
+}
 button{font:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input{font:inherit;border:none;background:none;color:inherit;outline:none}
 a{color:inherit;text-decoration:none}
 
-#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s var(--ease),visibility .5s}
+/* ══════════ LOADING ══════════ */
+#loader{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .5s var(--ease),visibility .5s;
+}
 #loader.done{opacity:0;visibility:hidden;pointer-events:none}
 .dna-svg{width:60px;height:120px;margin-bottom:24px}
 .dna-strand{fill:none;stroke-width:2;stroke-linecap:round;opacity:.6}
@@ -35,92 +82,256 @@ a{color:inherit;text-decoration:none}
 .load-count{font-size:28px;font-weight:700;color:var(--text-2);margin-top:8px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 @media(prefers-reduced-motion:reduce){.dna-strand,.dna-rung{animation:none;opacity:.5}}
 
+/* ══════════ APP ══════════ */
 #app{opacity:0;transition:opacity .4s var(--ease);max-width:430px;margin:0 auto;padding-bottom:56px}
 #app.show{opacity:1}
+
+/* ══════════ SCREENS ══════════ */
 .scr{display:none;min-height:calc(100vh - 56px);min-height:calc(100dvh - 56px)}
 .scr.on{display:block;animation:fadeIn .3s var(--expo) forwards}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
+/* ══════════ HEADER ══════════ */
 .hdr{padding:48px 20px 8px}
-.back-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--text-3);cursor:pointer;transition:color .15s;margin-bottom:12px}
-.back-link:hover{color:var(--text-2)}
-.back-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-.hdr-name{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--text-1)}
-.hdr-sub{font-size:11px;font-weight:500;color:var(--text-3);margin-top:2px;letter-spacing:.04em}
-.hdr-stats{display:flex;gap:20px;margin-top:16px;flex-wrap:wrap}
+.hdr-name{font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--text-1)}
+.hdr-sub{font-size:12px;font-weight:500;color:var(--text-3);margin-top:2px;letter-spacing:.04em}
+.hdr-stats{display:flex;gap:20px;margin-top:16px}
 .hdr-stat{display:flex;flex-direction:column}
-.hdr-stat-v{font-size:15px;font-weight:700;color:var(--text-2);letter-spacing:-.01em}
+.hdr-stat-v{font-size:17px;font-weight:700;color:var(--text-2);letter-spacing:-.01em}
 .hdr-stat-l{font-size:9px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-top:1px}
 
+/* ══════════ CATEGORY GRID ══════════ */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:20px 16px 16px}
-.cat-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-l);padding:18px 16px 16px;cursor:pointer;transition:background .15s var(--ease),transform .15s var(--spring);position:relative;overflow:hidden;min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
+.cat-card{
+  background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-l);
+  padding:18px 16px 16px;cursor:pointer;transition:background .15s var(--ease),transform .15s var(--spring);
+  position:relative;overflow:hidden;min-height:100px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
 .cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
 .cat-card:active{transform:scale(.97);background:var(--surface-active)}
 .cat-card:hover{background:var(--surface-hover)}
 .cat-name{font-size:13px;font-weight:600;color:var(--text-1);letter-spacing:-.01em}
-.cat-sub{font-size:10px;font-weight:600;letter-spacing:.04em;margin-top:8px}
-.c-red::before{background:var(--red)}.c-red .cat-sub{color:var(--red)}
-.c-green::before{background:var(--green)}.c-green .cat-sub{color:var(--green)}
-.c-purple::before{background:var(--purple)}.c-purple .cat-sub{color:var(--purple)}
-.c-blue::before{background:var(--blue)}.c-blue .cat-sub{color:var(--blue)}
+.cat-score{font-size:32px;font-weight:800;letter-spacing:-.04em;margin-top:6px;line-height:1}
+.cat-status{font-size:10px;font-weight:600;letter-spacing:.04em;margin-top:6px}
 
+.c-cv::before{background:var(--red)}.c-cv .cat-score,.c-cv .cat-status{color:var(--red)}
+.c-nr::before{background:var(--purple)}.c-nr .cat-score,.c-nr .cat-status{color:var(--purple)}
+.c-ca::before{background:var(--orange)}.c-ca .cat-score,.c-ca .cat-status{color:var(--orange)}
+.c-dr::before{background:var(--amber)}.c-dr .cat-score,.c-dr .cat-status{color:var(--amber)}
+.c-mt::before{background:var(--green)}.c-mt .cat-score,.c-mt .cat-status{color:var(--green)}
+.c-lg::before{background:var(--blue)}.c-lg .cat-score,.c-lg .cat-status{color:var(--blue)}
+
+/* ══════════ SECTION HEADERS ══════════ */
 .sec{padding:20px 20px 10px;display:flex;align-items:baseline;justify-content:space-between}
 .sec-t{font-size:15px;font-weight:700;letter-spacing:-.01em}
 .sec-s{font-size:11px;font-weight:500;color:var(--text-3)}
 
-.finding{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin:0 16px 8px;cursor:pointer;transition:background .15s var(--ease);position:relative;overflow:hidden}
+/* ══════════ CATEGORY DETAIL ══════════ */
+.detail{padding:0 16px 24px}
+.detail-back{display:inline-flex;align-items:center;gap:4px;padding:14px 0 6px;font-size:12px;font-weight:600;color:var(--text-3);cursor:pointer;transition:color .15s}
+.detail-back:hover{color:var(--text-2)}
+.detail-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.detail-title{font-size:20px;font-weight:700;letter-spacing:-.02em;padding:8px 0 20px}
+
+/* GAUGE */
+.gauge-box{display:flex;justify-content:center;padding:4px 0 28px}
+.gauge-track{fill:none;stroke:var(--surface-border);stroke-width:8}
+.gauge-arc{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.2s var(--expo)}
+.gauge-glow{fill:none;stroke-width:12;stroke-linecap:round;opacity:.15;filter:blur(6px);transition:stroke-dashoffset 1.2s var(--expo)}
+.gauge-val{font-size:36px;font-weight:800;fill:var(--text-1);letter-spacing:-.04em}
+.gauge-lbl{font-size:10px;font-weight:600;fill:var(--text-3);text-transform:uppercase;letter-spacing:.1em}
+.gauge-avg{fill:none;stroke:var(--text-4);stroke-width:2;stroke-dasharray:3 5}
+
+/* FINDINGS */
+.finding{
+  background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);
+  padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:background .15s var(--ease);
+  position:relative;overflow:hidden;
+}
 .finding::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
 .finding:active{background:var(--surface-active)}
-.finding-gene{font-family:'SF Mono',SFMono-Regular,monospace;font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.02em}
+.finding-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.finding-gene{font-family:'SF Mono',SFMono-Regular,'Cascadia Code','Fira Code',monospace;font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.02em}
 .finding-name{font-size:13px;font-weight:600;color:var(--text-1);margin-top:4px;line-height:1.35}
 .finding-line{font-size:12px;color:var(--text-2);margin-top:3px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .finding-expand{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
 .finding-expand.open{max-height:600px}
 .finding-detail{padding:10px 0 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.finding-detail b{color:var(--text-1);font-weight:600}
 .f-red::before{background:var(--red)}.f-red .finding-gene{color:var(--red)}
 .f-amber::before{background:var(--amber)}.f-amber .finding-gene{color:var(--amber)}
 .f-green::before{background:var(--green)}.f-green .finding-gene{color:var(--green)}
 .f-purple::before{background:var(--purple)}.f-purple .finding-gene{color:var(--purple)}
 
-.summary-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:16px;margin:0 16px 8px;font-size:12px;color:var(--text-2);line-height:1.7}
-.actions{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:16px;margin:0 16px 8px}
+/* ACTIONS */
+.actions{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:16px;margin-top:16px}
 .actions-title{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
 .action-item{display:flex;gap:10px;font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:8px}
 .action-item:last-child{margin-bottom:0}
 .action-num{font-size:11px;font-weight:700;color:var(--text-3);min-width:16px}
 
-.chk{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--surface-border)}
+/* ══════════ BOTTOM NAV ══════════ */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:900;
+  background:rgba(11,15,25,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--surface-border);
+  display:flex;justify-content:space-around;
+  max-width:430px;margin:0 auto;
+  padding:0 0 env(safe-area-inset-bottom,0);
+}
+.nav-btn{
+  padding:12px 8px 10px;font-size:11px;font-weight:600;color:var(--text-3);
+  position:relative;transition:color .15s var(--ease);letter-spacing:.01em;
+  min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;
+}
+.nav-btn.on{color:var(--text-1)}
+.nav-btn.on::after{content:'';position:absolute;top:0;left:25%;right:25%;height:2px;background:var(--text-1);border-radius:0 0 2px 2px}
+
+/* ══════════ TRACKING ══════════ */
+.track-sec{padding:0 16px 16px}
+.input-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px}
+.input-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.input-card-t{font-size:13px;font-weight:600}
+.input-card-gene{font-size:9px;font-weight:600;color:var(--text-3);padding:2px 6px;border:1px solid var(--surface-border);border-radius:4px;letter-spacing:.04em}
+.input-card-gene.g-red{color:var(--red);border-color:var(--red-border)}
+.input-card-gene.g-green{color:var(--green);border-color:var(--green-border)}
+.input-row{display:flex;gap:8px;align-items:center}
+.input-f{
+  flex:1;background:var(--surface-hover);border:1px solid var(--surface-border);border-radius:var(--radius-s);
+  padding:10px 12px;font-size:13px;font-weight:500;color:var(--text-1);transition:border-color .15s;
+  min-height:44px;-moz-appearance:textfield;
+}
+.input-f:focus{border-color:var(--text-3)}
+.input-f::placeholder{color:var(--text-4)}
+.input-f[type=date]{color-scheme:dark}
+.input-f[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.input-u{font-size:10px;font-weight:600;color:var(--text-3);min-width:32px}
+.btn{
+  padding:10px 14px;font-size:12px;font-weight:700;border-radius:var(--radius-s);
+  background:var(--surface-hover);border:1px solid var(--surface-border);color:var(--text-2);
+  transition:background .15s,transform .1s var(--spring);min-height:44px;white-space:nowrap;
+}
+.btn:active{transform:scale(.96);background:var(--surface-active)}
+.btn-p{background:var(--green-dim);border-color:var(--green-border);color:var(--green)}
+.spark{height:36px;display:flex;align-items:flex-end;gap:2px;margin-top:8px}
+.spark-b{flex:1;border-radius:2px 2px 0 0;min-width:3px;max-width:10px;transition:height .3s var(--ease)}
+.opt-range{font-size:9px;color:var(--text-3);margin-top:4px;font-weight:500}
+
+/* STATUS */
+.st{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px}
+.st-r{background:var(--red)}.st-a{background:var(--amber)}.st-g{background:var(--green)}
+
+/* MEDS */
+.med{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px}
+.med-status{width:4px;min-height:32px;border-radius:2px;flex-shrink:0;margin-top:2px}
+.med-body{flex:1;min-width:0}
+.med-n{font-size:13px;font-weight:600}
+.med-d{font-size:11px;color:var(--text-3);margin-top:2px}
+.med-w{font-size:11px;color:var(--text-2);margin-top:4px;line-height:1.4}
+.med-x{font-size:16px;color:var(--text-4);padding:4px 8px;cursor:pointer;transition:color .15s}
+.med-x:hover{color:var(--text-2)}
+
+/* VISITS */
+.visit{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px}
+.visit-dt{font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:.06em}
+.visit-doc{font-size:13px;font-weight:600;margin-top:2px}
+.visit-note{font-size:12px;color:var(--text-2);margin-top:4px;line-height:1.4}
+
+/* PROTOCOL */
+.chk{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--surface-border)}
 .chk:last-child{border-bottom:none}
-.chk-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--text-4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;flex-shrink:0;margin-top:1px}
+.chk-box{
+  width:20px;height:20px;border-radius:6px;border:2px solid var(--text-4);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s var(--spring);flex-shrink:0;
+}
 .chk-box.on{background:var(--green);border-color:var(--green)}
 .chk-box svg{width:12px;height:12px;stroke:var(--bg);stroke-width:3;fill:none;opacity:0;transition:opacity .15s}
 .chk-box.on svg{opacity:1}
 .chk-lbl{font-size:12px;font-weight:500;color:var(--text-2);transition:opacity .2s}
 .chk-lbl.off{opacity:.35;text-decoration:line-through}
-.chk-reason{font-size:10px;color:var(--text-3);margin-top:1px}
 
-.more-item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:background .15s}
+/* SCHEDULE */
+.sched{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px}
+.sched-q{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.sched-i{font-size:12px;color:var(--text-2);line-height:1.6;padding-left:10px;border-left:2px solid var(--surface-border);margin-bottom:4px}
+
+/* DOCTOR */
+.doc{background:var(--white);color:var(--black);border-radius:var(--radius-xl);margin:16px;padding:24px 20px}
+.doc-hdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--red);padding-bottom:12px;margin-bottom:16px}
+.doc-name{font-size:17px;font-weight:800;color:#111}
+.doc-sub{font-size:10px;color:#666;margin-top:2px}
+.doc-badge{font-size:9px;font-weight:800;color:var(--white);background:#C0392B;padding:3px 8px;border-radius:4px;letter-spacing:.06em}
+.doc-sec{margin-bottom:14px}
+.doc-sec-t{font-size:9px;font-weight:700;color:#C0392B;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.doc-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:11px}
+.doc-row-l{color:#888;font-weight:500}
+.doc-row-v{font-weight:600;color:#222;text-align:right;max-width:55%}
+.doc-row-v.alert{color:#C0392B;font-weight:700}
+.doc-alert{background:#FEF5F5;border:1px solid #F5D5D5;border-radius:var(--radius-s);padding:12px;margin-top:12px}
+.doc-alert-t{font-size:9px;font-weight:800;color:#C0392B;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.doc-alert-i{font-size:10px;color:#7A2020;line-height:1.5;margin-bottom:2px}
+.doc-print{text-align:center;margin-top:14px}
+.doc-print button{background:#111;color:#fff;padding:10px 24px;border-radius:var(--radius-s);font-size:12px;font-weight:700}
+
+/* MORE */
+.more-item{
+  display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--surface-border);
+  border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:background .15s;
+}
 .more-item:active{background:var(--surface-active)}
 .more-icon{width:40px;height:40px;border-radius:var(--radius-s);background:var(--surface-hover);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .more-icon svg{width:20px;height:20px;stroke:var(--text-2);fill:none;stroke-width:2}
 .more-t{font-size:13px;font-weight:600}
 .more-s{font-size:11px;color:var(--text-3);margin-top:1px}
 
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(11,15,25,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--surface-border);display:flex;justify-content:space-around;max-width:430px;margin:0 auto;padding:0 0 env(safe-area-inset-bottom,0)}
-.nav-btn{padding:12px 8px 10px;font-size:11px;font-weight:600;color:var(--text-3);position:relative;transition:color .15s var(--ease);letter-spacing:.01em;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
-.nav-btn.on{color:var(--text-1)}
-.nav-btn.on::after{content:'';position:absolute;top:0;left:25%;right:25%;height:2px;background:var(--text-1);border-radius:0 0 2px 2px}
+/* FAMILY */
+.fhx{background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px;margin-bottom:8px}
+.fhx-rel{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em}
+.fhx-cond{font-size:13px;font-weight:600;margin-top:3px}
+.fhx-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:6px;margin-right:4px}
+.fhx-hi{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+.fhx-md{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-border)}
 
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--surface-border);border-radius:2px}
+/* EXPLORE */
+#explore-box{width:100%;height:calc(100vh - 120px);height:calc(100dvh - 120px)}
+#explore-box svg{width:100%;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:8px 16px}
+.legend-c{font-size:9px;font-weight:600;color:var(--text-3);display:flex;align-items:center;gap:4px}
+.legend-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+
+/* NEURO */
+.neuro-box{padding:18px;background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-l);margin-bottom:12px}
+.neuro-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.neuro-sub{font-size:11px;color:var(--text-3)}
+.neuro-body{font-size:12px;color:var(--text-2);line-height:1.6;margin-top:10px}
+.neuro-body b{color:var(--text-1);font-weight:600}
+.neuro-cite{font-size:9px;color:var(--text-4);margin-top:6px;line-height:1.5}
+.neuro-quinn{margin-top:10px;padding:10px 12px;background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:var(--radius-s);font-size:11px;color:var(--text-2);line-height:1.5}
+.neuro-quinn b{color:var(--purple)}
+.neuro-profile{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:16px 0;text-align:center}
+.neuro-chip{background:var(--surface-hover);border-radius:var(--radius-s);padding:10px 4px}
+.neuro-chip-v{font-family:'SF Mono',SFMono-Regular,monospace;font-size:11px;font-weight:700;color:var(--purple)}
+.neuro-chip-l{font-size:8px;color:var(--text-3);margin-top:2px}
+.neuro-score{text-align:center;padding:16px 0}
+.neuro-score-v{font-size:40px;font-weight:800;color:var(--purple);letter-spacing:-.04em}
+.neuro-score-v span{font-size:18px;color:var(--text-4)}
+.neuro-score-l{font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+
+/* ══════════ PRINT ══════════ */
 @media print{
-  .nav,#loader,.back-link,.more-item{display:none!important}
+  .nav,#loader,.detail-back,.btn,.more-item,input{display:none!important}
   body{background:#fff!important;color:#111!important}
-  #app{opacity:1!important;max-width:100%!important}
-  .scr{display:block!important;min-height:auto!important;page-break-inside:avoid}
-  .cat-card,.finding,.summary-card,.actions{background:#f9f9f9!important;border-color:#ddd!important;color:#222!important}
-  .cat-name,.finding-name,.sec-t,.hdr-name,.actions-title{color:#111!important}
-  .finding-expand{max-height:none!important}
+  .scr{display:block!important;page-break-after:always}
+  .doc{box-shadow:none;margin:0;border-radius:0}
+  .cat-card,.finding,.input-card,.med,.visit,.fhx,.sched,.neuro-box,.actions{background:#f9f9f9!important;border-color:#ddd!important;color:#222!important}
+  .cat-name,.finding-name,.input-card-t,.med-n,.visit-doc,.fhx-cond,.sec-t,.hdr-name,.neuro-title{color:#111!important}
 }
+
+/* ══════════ SCROLLBAR ══════════ */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface-border);border-radius:2px}
 </style>
 </head>
 <body>
@@ -144,197 +355,227 @@ a{color:inherit;text-decoration:none}
 
 <div class="scr on" id="s-overview">
   <div class="hdr">
-    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Family Hub</a>
     <div class="hdr-name">Brigitte Byars</div>
-    <div class="hdr-sub">Mother  --  614,452 SNPs Analyzed</div>
+    <div class="hdr-sub">Mother &middot; 614,452 SNPs Analyzed</div>
     <div class="hdr-stats">
       <div class="hdr-stat"><div class="hdr-stat-v">614K</div><div class="hdr-stat-l">SNPs</div></div>
       <div class="hdr-stat"><div class="hdr-stat-v">B*51</div><div class="hdr-stat-l">Carrier</div></div>
       <div class="hdr-stat"><div class="hdr-stat-v">COMT AA</div><div class="hdr-stat-l">Met/Met</div></div>
-      <div class="hdr-stat"><div class="hdr-stat-v">Central EU</div><div class="hdr-stat-l">Ancestry</div></div>
     </div>
   </div>
   <div class="cat-grid">
-    <div class="cat-card c-red" onclick="showTab('genetics')"><div class="cat-name">What She Gave Quinn</div><div class="cat-sub">6 key variants</div></div>
-    <div class="cat-card c-green" onclick="showTab('genetics')"><div class="cat-name">Her Health Profile</div><div class="cat-sub">Protective + Risk</div></div>
-    <div class="cat-card c-purple" onclick="showTab('ancestry')"><div class="cat-name">Ancestry</div><div class="cat-sub">Central European</div></div>
-    <div class="cat-card c-blue" onclick="showTab('plan')"><div class="cat-name">Supplement Plan</div><div class="cat-sub">5 daily</div></div>
+    <div class="cat-card c-cv" onclick="openCat('cv')"><div class="cat-name">Cardiovascular</div><div class="cat-score">68</div><div class="cat-status">Elevated</div></div>
+    <div class="cat-card c-nr" onclick="openCat('nr')"><div class="cat-name">Neurological</div><div class="cat-score">35</div><div class="cat-status">Favorable</div></div>
+    <div class="cat-card c-ca" onclick="openCat('ca')"><div class="cat-name">Cancer Risk</div><div class="cat-score">55</div><div class="cat-status">Monitor</div></div>
+    <div class="cat-card c-dr" onclick="openCat('dr')"><div class="cat-name">Drug Response</div><div class="cat-score">3</div><div class="cat-status">Alerts</div></div>
+    <div class="cat-card c-mt" onclick="openCat('mt')"><div class="cat-name">Metabolism</div><div class="cat-score">48</div><div class="cat-status">Moderate</div></div>
+    <div class="cat-card c-lg" onclick="openCat('lg')"><div class="cat-name">What She Gave Quinn</div><div class="cat-score">6</div><div class="cat-status">Key Variants</div></div>
   </div>
 </div>
+
+<div class="scr" id="s-detail"><div class="detail" id="detail-c"></div></div>
 
 <div class="scr" id="s-genetics">
-  <div class="hdr">
-    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Family Hub</a>
-    <div class="hdr-name">Genetics</div>
-    <div class="hdr-sub">Brigitte Byars</div>
-  </div>
-  <div class="sec"><div class="sec-t">What Brigitte Gave Quinn</div><div class="sec-s">6 variants</div></div>
-  <div id="gave-quinn"></div>
-  <div class="sec"><div class="sec-t">Her Health -- Protective</div><div class="sec-s">Low risk</div></div>
-  <div id="health-protect"></div>
-  <div class="sec"><div class="sec-t">Her Health -- Risk</div><div class="sec-s">Monitor</div></div>
-  <div id="health-risk"></div>
-  <div class="sec"><div class="sec-t">Drug Response</div></div>
-  <div id="drug-resp"></div>
+  <div class="sec"><div class="sec-t">Genome Map</div><div class="sec-s">Brigitte's variants</div></div>
+  <div id="explore-box"></div>
+  <div class="legend" id="legend-box"></div>
 </div>
 
-<div class="scr" id="s-ancestry">
-  <div class="hdr">
-    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Family Hub</a>
-    <div class="hdr-name">Ancestry</div>
-    <div class="hdr-sub">Brigitte Byars</div>
+<div class="scr" id="s-tracking">
+  <div class="sec"><div class="sec-t">Health Tracking</div><div class="sec-s">Brigitte-specific</div></div>
+  <div class="track-sec" id="track-tabs" style="display:flex;gap:6px;padding:0 16px 12px">
+    <button class="btn btn-p" onclick="showTrack('labs')" id="tt-labs">Labs</button>
+    <button class="btn" onclick="showTrack('meds')" id="tt-meds">Supplements</button>
+    <button class="btn" onclick="showTrack('protocol')" id="tt-protocol">Protocol</button>
   </div>
-  <div class="sec"><div class="sec-t">Population Signal</div></div>
-  <div id="pop-signal"></div>
-  <div class="sec"><div class="sec-t">Ancestry Summary</div></div>
-  <div class="summary-card">Central European / Alpine / Austrian signal. SLC24A5 European, ABCC11 dry earwax (Central European marker), partial lactase persistence. B*51 traces to Anatolian Farmer admixture ~7,500 years ago via Alpine migration route.</div>
+  <div id="track-labs" class="track-sec"></div>
+  <div id="track-meds" class="track-sec" style="display:none"></div>
+  <div id="track-protocol" class="track-sec" style="display:none"></div>
 </div>
 
-<div class="scr" id="s-plan">
-  <div class="hdr">
-    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Family Hub</a>
-    <div class="hdr-name">Plan</div>
-    <div class="hdr-sub">Brigitte Byars</div>
+<div class="scr" id="s-doctor">
+  <div class="sec"><div class="sec-t">Clinical Summary</div><div class="sec-s">Pharmacogenomic profile</div></div>
+  <div class="doc">
+    <div class="doc-hdr"><div><div class="doc-name">Brigitte Byars</div><div class="doc-sub">Pharmacogenomic Profile &middot; 614,452 SNPs</div></div><div class="doc-badge">PGx</div></div>
+    <div class="doc-sec"><div class="doc-sec-t">Pharmacogenomics</div>
+      <div class="doc-row"><span class="doc-row-l">CYP2C9</span><span class="doc-row-v">*1/*2 Intermediate</span></div>
+      <div class="doc-row"><span class="doc-row-l">CYP2C19</span><span class="doc-row-v">*1/*2 Intermediate</span></div>
+      <div class="doc-row"><span class="doc-row-l">CYP1A2</span><span class="doc-row-v">CC Slow Metabolizer</span></div>
+      <div class="doc-row"><span class="doc-row-l">NAT2</span><span class="doc-row-v alert">Slow Acetylator</span></div>
+      <div class="doc-row"><span class="doc-row-l">COMT</span><span class="doc-row-v">AA Met/Met (Worrier)</span></div>
+    </div>
+    <div class="doc-sec"><div class="doc-sec-t">Genetic Risks</div>
+      <div class="doc-row"><span class="doc-row-l">CAD (9p21)</span><span class="doc-row-v alert">3/3 alleles bilateral</span></div>
+      <div class="doc-row"><span class="doc-row-l">AFib (PITX2)</span><span class="doc-row-v alert">CT carrier</span></div>
+      <div class="doc-row"><span class="doc-row-l">Alzheimer (APOE)</span><span class="doc-row-v">&epsilon;3/&epsilon;3 No risk</span></div>
+      <div class="doc-row"><span class="doc-row-l">Cancer (TP53)</span><span class="doc-row-v">CG heterozygous</span></div>
+      <div class="doc-row"><span class="doc-row-l">HLA-B*51</span><span class="doc-row-v">Heterozygous carrier</span></div>
+    </div>
+    <div class="doc-alert"><div class="doc-alert-t">Key Alerts</div>
+      <div class="doc-alert-i">NAT2 slow acetylator: avoid dapsone, isoniazid. Caused Quinn's hemolysis.</div>
+      <div class="doc-alert-i">CYP1A2 CC: SLOW caffeine metabolizer. Limit to 1 cup/day.</div>
+      <div class="doc-alert-i">COMT AA: stress-sensitive. Prioritize stress management.</div>
+      <div class="doc-alert-i">DBH TT: low norepinephrine. Monitor blood pressure.</div>
+    </div>
+    <div class="doc-print"><button onclick="window.print()">Print Card</button></div>
   </div>
-  <div class="sec"><div class="sec-t">Daily Supplements</div><div class="sec-s" id="chk-prog">0/5</div></div>
-  <div style="padding:0 16px 8px" id="supps"></div>
-  <div class="sec"><div class="sec-t">Priority Actions</div></div>
-  <div id="priority-actions"></div>
-  <div class="sec"><div class="sec-t">Exercise and Lifestyle</div></div>
-  <div class="summary-card">ACTN3 CT = mixed endurance/power. PITX2 AFib cap at 5-6 hrs/week. COMT AA = sensitive to stress -- prioritize yoga, meditation, zone 2. FKBP5 CT = enhanced cortisol sensitivity -- morning light, sleep hygiene critical.</div>
-  <div class="sec"><div class="sec-t">Navigation</div></div>
-  <div style="padding:0 16px 16px">
-    <div class="more-item" onclick="location.href='index.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="more-t">Family Hub</div><div class="more-s">All family members</div></div></div>
-    <div class="more-item" onclick="location.href='chad-brainmap.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="more-t">Chad's Genome</div><div class="more-s">Father -- 631K SNPs</div></div></div>
-    <div class="more-item" onclick="location.href='quinn.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="more-t">Quinn's Dashboard</div><div class="more-s">Clinical case, active patient</div></div></div>
-    <div class="more-item" onclick="location.href='behcets.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="more-t">Behcet's Intelligence</div><div class="more-s">Pathogenesis, trials, treatment</div></div></div>
-    <div class="more-item" onclick="window.print()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div><div class="more-t">Export PDF</div><div class="more-s">Print-optimized layout</div></div></div>
+</div>
+
+<div class="scr" id="s-more">
+  <div class="sec"><div class="sec-t">More</div></div>
+  <div style="padding:0 16px">
+    <div class="more-item" onclick="showTab('genetics')"><div class="more-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-2.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-2.93 7.07l-2.83-2.83M6.76 6.76L3.93 3.93"/></svg></div><div><div class="more-t">Genome Map</div><div class="more-s">Brigitte's variant network</div></div></div>
+    <div class="more-item" onclick="location.href='index.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="more-t">Family Hub</div><div class="more-s">All family profiles</div></div></div>
+    <div class="more-item" onclick="location.href='chad-brainmap.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="more-t">Chad's Genome</div><div class="more-s">Father, 614K SNPs</div></div></div>
+    <div class="more-item" onclick="location.href='quinn.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="more-t">Quinn's Dashboard</div><div class="more-s">Clinical case</div></div></div>
+    <div class="more-item" onclick="window.print()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div><div class="more-t">Export PDF</div><div class="more-s">Print-optimized</div></div></div>
   </div>
 </div>
 
 </div>
 
 <nav class="nav" role="navigation" aria-label="Main navigation">
-  <button class="nav-btn on" onclick="showTab('overview')" aria-label="Overview">Overview</button>
-  <button class="nav-btn" onclick="showTab('genetics')" aria-label="Genetics">Genetics</button>
-  <button class="nav-btn" onclick="showTab('ancestry')" aria-label="Ancestry">Ancestry</button>
-  <button class="nav-btn" onclick="showTab('plan')" aria-label="Plan">Plan</button>
+  <button class="nav-btn on" onclick="showTab('overview')">Overview</button>
+  <button class="nav-btn" onclick="showTab('genetics')">Genetics</button>
+  <button class="nav-btn" onclick="showTab('tracking')">Tracking</button>
+  <button class="nav-btn" onclick="showTab('doctor')">Doctor</button>
+  <button class="nav-btn" onclick="showTab('more')">More</button>
 </nav>
 
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
-var GAVE=[
-  {g:'rs1051792 = AG',c:'f-red',n:'HLA-B*51',l:'Obligate carrier. One of Quinn\'s two B*51 copies came from mom.'},
-  {g:'rs601338 = AA',c:'f-amber',n:'FUT2 Non-Secretor',l:'Both parents AA. Quinn 100% non-secretor. Altered gut microbiome, norovirus resistant, B12 transport impaired.'},
-  {g:'rs1799853 = CT',c:'f-amber',n:'CYP2C9 *2',l:'Quinn inherited CYP2C9*2 from BOTH parents. Bilateral intermediate metabolizer.'},
-  {g:'rs4244285 = AG',c:'f-amber',n:'CYP2C19*2',l:'Carrier. Combined with Chad\'s, Quinn has bilateral CYP2C19 intermediate.'},
-  {g:'rs4680 = AA',c:'f-purple',n:'COMT AA (Met/Met)',l:'Worrier genotype. Slow dopamine clearance. Quinn guaranteed at least one Met allele. Higher stress sensitivity, better working memory.'},
-  {g:'rs1611115 = TT',c:'f-amber',n:'DBH TT',l:'Low dopamine beta-hydroxylase. Low norepinephrine production. Explains Quinn\'s chronic hypotension.'}
-];
-var PROTECT=[
-  {g:'APOE e3/e3',c:'f-green',n:'APOE e3/e3',l:'No Alzheimer\'s risk allele. Quinn\'s e4 came from Chad.'},
-  {g:'Factor V CC',c:'f-green',n:'Factor V CC',l:'No Leiden. Normal clotting.'},
-  {g:'FTO TT',c:'f-green',n:'FTO TT',l:'No obesity risk. Normal metabolism.'}
-];
-var RISK=[
-  {g:'9p21 x3',c:'f-red',n:'9p21 x3',l:'All three CAD variants. Bilateral with Chad.'},
-  {g:'PITX2 CT',c:'f-red',n:'PITX2 CT',l:'AFib risk. Bilateral with Chad.'},
-  {g:'TP53 CG',c:'f-amber',n:'TP53 CG',l:'Modified p53 apoptotic function.'},
-  {g:'DIO1 AC + DIO2 CT',c:'f-amber',n:'DIO1 AC + DIO2 CT',l:'Thyroid conversion variants. Check TSH, free T3/T4.'},
-  {g:'FKBP5 CT',c:'f-amber',n:'FKBP5 CT',l:'Enhanced glucocorticoid receptor sensitivity. Stress response.'},
-  {g:'TT + AA',c:'f-red',n:'NAT2 slow acetylator',l:'TT at rs1801280, AA at rs1208. Explains Quinn\'s dapsone hemolysis.'}
-];
-var DRUG=[
-  {g:'CYP1A2 CC',c:'f-amber',n:'CYP1A2 CC',l:'SLOW caffeine metabolizer (opposite of Chad\'s ultra-rapid).'},
-  {g:'FAAH AC',c:'f-purple',n:'FAAH AC',l:'Reduced FAAH activity. Elevated endocannabinoid tone. Quinn inherited this.'}
-];
-var POP=[
-  {g:'SLC24A5 AA',c:'f-green',n:'SLC24A5 AA',l:'European pigmentation.'},
-  {g:'OCA2 AG',c:'f-purple',n:'OCA2 AG',l:'One blue eye allele. Quinn\'s blue eyes came from Brigitte\'s A allele.'},
-  {g:'ABCC11 CC',c:'f-green',n:'ABCC11 CC',l:'Dry earwax. East Asian/Central European signal.'},
-  {g:'LCT AG',c:'f-amber',n:'LCT AG',l:'Partial lactase persistence.'},
-  {g:'MC1R AG',c:'f-amber',n:'MC1R AG',l:'One Celtic variant (less than Chad\'s 4).'}
-];
-var SUPPS=[
-  {id:'mb',l:'Methylcobalamin 1000-2000mcg',r:'FUT2 non-secretor'},
-  {id:'pb',l:'Probiotic B. longum BB536 + L. rhamnosus GG',r:'FUT2 gut'},
-  {id:'vd',l:'Vitamin D3 2000 IU + K2',r:'moderate VDR'},
-  {id:'om',l:'Omega-3 EPA+DHA',r:'FADS1'},
-  {id:'mg',l:'Magnesium 400mg',r:'COMT AA stress support'}
-];
-var ACTIONS=[
-  'Rhythm Health labs -- comprehensive baseline needed',
-  'Genetic counseling for cancer panel (TP53 CG + family history aunt breast CA 33)',
-  'Blood pressure monitoring (DBH TT)',
-  'B12 monitoring with MMA (FUT2 non-secretor)',
-  'Thyroid panel -- TSH, free T3, free T4 (DIO1 + DIO2 variants)'
-];
+const C={
+cv:{title:'Cardiovascular',color:'var(--red)',hex:'#E05A5A',score:68,
+  findings:[
+    {g:'AG AG CG',c:'f-red',n:'9p21 CAD Risk \u2014 All Three',l:'Same as Chad. Bilateral. Father-in-law: stent 62, CABG 75.',d:'All three 9p21 loci heterozygous. Combined with Chad carrying the same = Quinn guaranteed risk at every locus. Mediterranean diet eliminates MI risk at >80% adherence.'},
+    {g:'CT',c:'f-red',n:'PITX2 AFib',l:'Same as Chad. Both parents carry. Chad\'s sister has PAF.',d:'PITX2 bilateral. Alcohol >3/week multiplicative. Annual EKG recommended.'},
+    {g:'TT',c:'f-amber',n:'DBH \u2014 Low Norepinephrine',l:'Low dopamine-to-norepinephrine conversion. Chronic low BP.',d:'DBH TT = reduced DBH enzyme activity. Lower norepinephrine production. Explains Brigitte\'s lower blood pressure and contributed to Quinn\'s chronic hypotension (65-100 systolic).'}
+  ],
+  deep:[
+    {g:'CC',c:'f-green',n:'Factor V Leiden',l:'No clotting risk.'},
+    {g:'CT',c:'f-amber',n:'NOS3 eNOS',l:'Reduced nitric oxide synthase. Moderate vascular function.'}
+  ],
+  actions:['Blood pressure monitoring (DBH TT baseline)','Mediterranean diet (9p21 bilateral with Chad)','Annual EKG (PITX2 AFib risk)']
+},
+nr:{title:'Neurological',color:'var(--purple)',hex:'#9B7ADB',score:35,
+  findings:[
+    {g:'\u03B53/\u03B53',c:'f-green',n:'APOE \u2014 No Alzheimer\'s Risk',l:'Both copies \u03B53. No \u03B54. Major protective advantage over Chad.',d:'Quinn\'s APOE \u03B54 came from Chad, not Brigitte. Brigitte has no increased Alzheimer\'s risk from APOE. This is the single biggest longevity advantage in her profile.'},
+    {g:'AA',c:'f-purple',n:'COMT Met/Met \u2014 Worrier Genotype',l:'Slow dopamine clearance. Higher baseline cognition but stress-sensitive.',d:'COMT AA = lowest enzyme activity. Highest prefrontal dopamine. Better working memory and attention, but more stress-sensitive. Quinn guaranteed at least one Met from Brigitte. Stress management (yoga, meditation) genetically indicated.'},
+    {g:'CT',c:'f-amber',n:'FKBP5 \u2014 Enhanced Cortisol Sensitivity',l:'Stronger HPA axis stress response. Morning light + sleep critical.',d:'FKBP5 CT = enhanced glucocorticoid receptor sensitivity. Faster cortisol binding. This also explains why prednisone works well at lower doses in Quinn (if inherited).'}
+  ],
+  deep:[
+    {g:'CT',c:'f-amber',n:'CRHR1 Stress Response',l:'Corticotropin-releasing hormone receptor variant.'},
+    {g:'6 genes',c:'f-amber',n:'Circadian Clock Cluster',l:'PER2, PER3, ADA + bilateral CRY1, CLOCK, NPAS2.'}
+  ],
+  actions:['Stress management priority (COMT AA + FKBP5 CT)','Morning sunlight exposure (circadian gene compensation)','Meditation/yoga genetically indicated for COMT worrier']
+},
+ca:{title:'Cancer Risk',color:'var(--orange)',hex:'#D4855A',score:55,
+  findings:[
+    {g:'CG',c:'f-amber',n:'TP53 Codon 72',l:'Modified p53 apoptotic function. Family: aunt breast cancer at 33.',d:'TP53 heterozygous. Combined with aunt\'s early breast cancer (age 33), genetic counseling and enhanced cancer screening recommended. Consider BRCA full sequencing.'},
+    {g:'AG',c:'f-amber',n:'FGFR2 Breast Cancer',l:'Heterozygous risk allele. Same as Chad carries.',d:'Both parents carry FGFR2 AG. Moderate breast cancer risk elevation.'},
+    {g:'AG',c:'f-amber',n:'MC1R Single Variant',l:'One Celtic variant (less than Chad\'s 4). Moderate skin risk.',d:'AG heterozygous. Lower melanoma risk than Chad\'s compound but still warrants sun protection and periodic derm checks.'}
+  ],
+  deep:[
+    {g:'AG',c:'f-amber',n:'LSP1 Breast',l:'Heterozygous breast cancer susceptibility locus.'},
+    {g:'AG',c:'f-amber',n:'RAD51L1',l:'DNA repair variant. Breast cancer modifier.'}
+  ],
+  actions:['Genetic counseling for cancer panel (TP53 + family history)','Annual mammogram starting at 40 (or earlier per counselor)','Annual skin check (MC1R AG)']
+},
+dr:{title:'Drug Response',color:'var(--amber)',hex:'#C9A84C',score:40,
+  findings:[
+    {g:'TT / AA',c:'f-red',n:'NAT2 Slow Acetylator',l:'Explains Quinn\'s dapsone hemolysis. Avoid dapsone, isoniazid, sulfonamides.',d:'NAT2 rs1801280 TT + rs1208 AA = clear slow acetylator phenotype. Quinn inherited these alleles. Dapsone hydroxylamine accumulated causing oxidative hemolytic anemia in Belize. Also means Brigitte herself should avoid these drugs.'},
+    {g:'CC',c:'f-amber',n:'CYP1A2 \u2014 Slow Caffeine',l:'Opposite of Chad (ultra-rapid). One cup max. Cardiovascular risk above that.',d:'CYP1A2 CC = slow metabolizer. Caffeine stays in system longer. >2 cups/day associated with increased MI risk in slow metabolizers. Quinn is intermediate (AC from dad fast + mom slow).'},
+    {g:'AC',c:'f-purple',n:'FAAH \u2014 Endocannabinoid',l:'Reduced FAAH activity. Elevated anandamide. Quinn inherited this.',d:'FAAH rs324420 AC. A allele reduces FAAH enzyme = slower breakdown of endogenous cannabinoids. Higher natural endocannabinoid tone. Quinn may carry this, explaining enhanced cannabinoid sensitivity.'}
+  ],
+  deep:[
+    {g:'CT',c:'f-amber',n:'CYP2C9 *2',l:'Intermediate metabolizer. Same as Chad. Bilateral to Quinn.'},
+    {g:'AG',c:'f-amber',n:'CYP2C19 *2',l:'Carrier. Combined with Chad = Quinn bilateral.'}
+  ],
+  actions:['Avoid dapsone, isoniazid, sulfonamides (NAT2 slow)','Limit caffeine to 1 cup/day (CYP1A2 CC)','Carry drug alert card']
+},
+mt:{title:'Metabolism',color:'var(--green)',hex:'#5AAD8B',score:48,
+  findings:[
+    {g:'AA',c:'f-amber',n:'FUT2 Non-Secretor',l:'Same as Chad. Quinn 100%. Altered gut microbiome, B12 impaired.',d:'Both parents AA non-secretor. Quinn is guaranteed AA. Impaired B12 cellular transport. Serum B12 falsely normal. Must check MMA + homocysteine.'},
+    {g:'AC + CT',c:'f-amber',n:'DIO1 + DIO2 Thyroid',l:'Thyroid hormone conversion variants. Check TSH, free T3/T4.',d:'DIO1 AC + DIO2 CT = modified T4-to-T3 conversion. May have slightly lower active thyroid hormone (T3) despite normal TSH. Thyroid panel recommended.'},
+    {g:'CT',c:'f-amber',n:'VDR BsmI',l:'Moderate vitamin D receptor expression. Supplement 2000 IU daily.',d:'Less severe than Chad\'s VDR + GC combination, but still warrants supplementation. Target 40-50 ng/mL.'}
+  ],
+  deep:[
+    {g:'TT',c:'f-green',n:'FTO \u2014 No Obesity Risk',l:'Normal metabolism. Both parents TT.'},
+    {g:'AG',c:'f-amber',n:'FADS1 Omega-3',l:'Moderate conversion efficiency. Supplement preformed DHA.'}
+  ],
+  actions:['Thyroid panel: TSH, free T3, free T4 (DIO1 + DIO2)','B12 monitoring with MMA (FUT2 non-secretor)','Vitamin D3 2000 IU + K2 daily']
+},
+lg:{title:'What She Gave Quinn',color:'var(--blue)',hex:'#5B8BD4',score:60,
+  findings:[
+    {g:'B*51',c:'f-red',n:'HLA-B*51 \u2014 Obligate Carrier',l:'One of Quinn\'s two B*51 copies came from Brigitte.',d:'Brigitte is heterozygous B*51 carrier (AG at rs1051792). Combined with Chad\'s B*51, Quinn became homozygous — the strongest genetic driver of Behcet\'s disease.'},
+    {g:'AA',c:'f-purple',n:'COMT Met/Met',l:'Quinn guaranteed at least one Met allele. Stress sensitivity.',d:'Brigitte AA (Met/Met). Chad AG (Val/Met). Quinn is either Val/Met or Met/Met — either way has at least one Met copy. This affects dopamine clearance, stress response, and pain sensitivity.'},
+    {g:'TT',c:'f-amber',n:'DBH \u2014 Low Norepinephrine',l:'Explains Quinn\'s chronic hypotension. Enalapril compounds this.',d:'DBH converts dopamine to norepinephrine. TT = reduced conversion. Quinn\'s BP 65-100 systolic is partly genetic from Brigitte, not just illness. Enalapril (antihypertensive) on top of this is questionable.'}
+  ],
+  deep:[
+    {g:'TT/AA',c:'f-red',n:'NAT2 Slow Acetylator',l:'Caused Quinn\'s dapsone hemolysis in Belize. Predictable from genetics.'},
+    {g:'AC',c:'f-purple',n:'FAAH Endocannabinoid',l:'Elevated endocannabinoid tone. Quinn may have inherited this.'},
+    {g:'CT',c:'f-amber',n:'FKBP5 Enhanced GR Sensitivity',l:'Why prednisone works well at low doses in Quinn.'}
+  ],
+  actions:['Brigitte is the genetic key to Quinn\'s case','NAT2 + B*51 + COMT + DBH = 4 of Quinn\'s biggest clinical drivers','Nebula WGS will resolve which alleles Quinn actually inherited']
+}
+};
 
-(function(){var n=0,t=614452,el=document.getElementById('lc');
-function s(){n=Math.min(t,n+Math.floor(Math.random()*38000)+16000);el.textContent=n.toLocaleString();
-if(n<t)requestAnimationFrame(s);else{el.textContent='614,452';setTimeout(function(){document.getElementById('loader').classList.add('done');document.getElementById('app').classList.add('show')},500)}}
+(function(){let n=0;const t=614452;const el=document.getElementById('lc');
+function s(){n=Math.min(t,n+Math.floor(Math.random()*42000)+18000);el.textContent=n.toLocaleString();
+if(n<t)requestAnimationFrame(s);else{el.textContent='614,452';setTimeout(()=>{document.getElementById('loader').classList.add('done');document.getElementById('app').classList.add('show')},500)}}
 setTimeout(s,200)})();
 
-var tabs=['overview','genetics','ancestry','plan'];
+const tabs=['overview','genetics','tracking','doctor','more'];
 function showTab(id){
-  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('on')});
   document.getElementById('s-'+id).classList.add('on');
-  document.querySelectorAll('.nav-btn').forEach(function(b,i){b.classList.toggle('on',tabs[i]===id)});
-  if(id==='genetics')renderGenetics();
-  if(id==='ancestry')renderAncestry();
-  if(id==='plan')renderPlan();
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>{b.classList.toggle('on',tabs[i]===id)});
+  if(id==='genetics')initD3();if(id==='tracking')initLabs();
   window.scrollTo(0,0);
 }
 
-function fHTML(f){
-  var id='f'+Math.random().toString(36).slice(2,8);
-  return '<div class="finding '+f.c+'" onclick="var e=document.getElementById(\''+id+'\');if(e)e.classList.toggle(\'open\')">'
-    +'<div class="finding-gene">'+f.g+'</div>'
-    +'<div class="finding-name">'+f.n+'</div>'
-    +'<div class="finding-line">'+f.l+'</div>'
-    +'<div class="finding-expand" id="'+id+'"><div class="finding-detail">'+f.l+'</div></div>'
-    +'</div>';
+function gaugeSVG(score,color,size){
+  size=size||160;const r=size/2-14;const circ=2*Math.PI*r;const pct=Math.min(score,100)/100;const avg=.5;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="meter" aria-valuenow="${score}"><circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-track"/><circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-avg" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-avg)}" transform="rotate(-90 ${size/2} ${size/2})"/><circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-glow" stroke="${color}" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-pct)}" transform="rotate(-90 ${size/2} ${size/2})"/><circle cx="${size/2}" cy="${size/2}" r="${r}" class="gauge-arc" stroke="${color}" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-pct)}" transform="rotate(-90 ${size/2} ${size/2})"/><text x="${size/2}" y="${size/2-2}" text-anchor="middle" class="gauge-val">${score}</text><text x="${size/2}" y="${size/2+16}" text-anchor="middle" class="gauge-lbl">risk score</text></svg>`;
 }
+function openCat(k){const d=C[k];if(!d)return;let h=`<div class="detail-back" onclick="showTab('overview')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</div><div class="detail-title">${d.title}</div><div class="gauge-box">${gaugeSVG(d.score,d.hex)}</div><div class="sec" style="padding-left:0"><div class="sec-t">Key Findings</div></div>`;d.findings.forEach(f=>{h+=findingHTML(f)});if(d.deep&&d.deep.length){h+=`<div class="sec" style="padding-left:0;padding-top:16px;cursor:pointer" onclick="let e=this.nextElementSibling;e.style.display=e.style.display==='none'?'block':'none';this.querySelector('.sec-s').textContent=e.style.display==='none'?'Show':'Hide'"><div class="sec-t">Clinical Detail</div><div class="sec-s">Show</div></div><div style="display:none">`;d.deep.forEach(f=>{h+=findingHTML(f)});h+=`</div>`}if(d.actions){h+=`<div class="actions"><div class="actions-title">Recommended Actions</div>`;d.actions.forEach((a,i)=>{h+=`<div class="action-item"><div class="action-num">${i+1}.</div><div>${a}</div></div>`});h+=`</div>`}document.getElementById('detail-c').innerHTML=h;document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('s-detail').classList.add('on');document.querySelectorAll('.nav-btn').forEach((b,i)=>{b.classList.toggle('on',i===0)});window.scrollTo(0,0)}
+function findingHTML(f){const id='f'+Math.random().toString(36).slice(2,8);return `<div class="finding ${f.c}" onclick="let e=document.getElementById('${id}');if(e)e.classList.toggle('open')"><div class="finding-top"><div class="finding-gene">${f.g}</div></div><div class="finding-name">${f.n}</div><div class="finding-line">${f.l}</div>${f.d?`<div class="finding-expand" id="${id}"><div class="finding-detail">${f.d}</div></div>`:''}</div>`}
 
-var gInit=false;
-function renderGenetics(){
-  if(gInit)return;gInit=true;
-  document.getElementById('gave-quinn').innerHTML=GAVE.map(fHTML).join('');
-  document.getElementById('health-protect').innerHTML=PROTECT.map(fHTML).join('');
-  document.getElementById('health-risk').innerHTML=RISK.map(fHTML).join('');
-  document.getElementById('drug-resp').innerHTML=DRUG.map(fHTML).join('');
-}
-var aInit=false;
-function renderAncestry(){
-  if(aInit)return;aInit=true;
-  document.getElementById('pop-signal').innerHTML=POP.map(fHTML).join('');
-}
-var pInit=false;
-function renderPlan(){
-  if(pInit)return;pInit=true;
-  var today=new Date().toISOString().slice(0,10);
-  var checks=JSON.parse(localStorage.getItem('brig-chk-'+today)||'{}');
-  var h='<div style="background:var(--surface);border:1px solid var(--surface-border);border-radius:var(--radius-m);padding:14px 16px">';
-  SUPPS.forEach(function(p){var on=checks[p.id]||false;
-    h+='<div class="chk"><div class="chk-box'+(on?' on':'')+'" onclick="togChk(\''+p.id+'\',this)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="chk-lbl'+(on?' off':'')+'">'+p.l+'</div><div class="chk-reason">'+p.r+'</div></div></div>';
-  });
-  h+='</div>';
-  document.getElementById('supps').innerHTML=h;
-  document.getElementById('chk-prog').textContent=Object.values(checks).filter(Boolean).length+'/'+SUPPS.length;
-  var a='<div class="actions" style="margin:0 16px 8px"><div class="actions-title">Priority Actions</div>';
-  ACTIONS.forEach(function(x,i){a+='<div class="action-item"><div class="action-num">'+(i+1)+'.</div><div>'+x+'</div></div>'});
-  a+='</div>';
-  document.getElementById('priority-actions').innerHTML=a;
-}
-function togChk(id,el){
-  var today=new Date().toISOString().slice(0,10);
-  var c=JSON.parse(localStorage.getItem('brig-chk-'+today)||'{}');
-  c[id]=!c[id];localStorage.setItem('brig-chk-'+today,JSON.stringify(c));
-  el.classList.toggle('on');
-  var lbl=el.parentElement.nextElementSibling;
-  if(!lbl)lbl=el.nextElementSibling;
-  if(lbl){var lb=lbl.querySelector?lbl.querySelector('.chk-lbl'):null;if(lb)lb.classList.toggle('off');else if(lbl.classList)lbl.classList.toggle('off')}
-  document.getElementById('chk-prog').textContent=Object.values(c).filter(Boolean).length+'/'+SUPPS.length;
-}
+const LABS=[
+  {k:'vitd',n:'Vitamin D',u:'ng/mL',lo:40,hi:60,pop:100,gene:'VDR CT',gc:''},
+  {k:'b12',n:'Vitamin B12',u:'pg/mL',lo:500,hi:1200,pop:900,gene:'FUT2',gc:'g-red'},
+  {k:'tsh',n:'TSH',u:'mIU/L',lo:0.5,hi:2.5,pop:4.5,gene:'DIO1+DIO2',gc:'g-red'},
+  {k:'bp',n:'Systolic BP',u:'mmHg',lo:100,hi:130,pop:140,gene:'DBH TT',gc:'g-red'},
+  {k:'ldl',n:'LDL Cholesterol',u:'mg/dL',lo:0,hi:100,pop:130,gene:'9p21',gc:'g-red'}
+];
+const PID='brigitte';
+function ls(k,d){try{const v=localStorage.getItem(PID+'-'+k);return v?JSON.parse(v):d}catch(e){return d}}
+function lw(k,v){try{localStorage.setItem(PID+'-'+k,JSON.stringify(v))}catch(e){}}
+function initLabs(){const c=document.getElementById('track-labs');if(!c)return;c.innerHTML='';LABS.forEach(lab=>{const hist=ls('l-'+lab.k,[]);const last=hist.length?hist[hist.length-1]:null;let sc='',sv='No data';if(last){const v=last.v;sc=v>lab.hi?'st-r':v<lab.lo?'st-a':'st-g';sv=v+' '+lab.u}let h=`<div class="input-card"><div class="input-card-top"><div><div class="input-card-t"><span class="st ${sc}"></span>${lab.n}</div>`;if(last)h+=`<div style="font-size:10px;color:var(--text-3);margin-top:1px">${sv} \u00B7 ${last.d}</div>`;h+=`</div>${lab.gene?`<div class="input-card-gene ${lab.gc}">${lab.gene}</div>`:''}</div><div class="input-row"><input class="input-f" type="number" id="lv-${lab.k}" placeholder="Value" step="any"><div class="input-u">${lab.u}</div><input class="input-f" type="date" id="ld-${lab.k}" style="max-width:130px"><button class="btn" onclick="saveLab('${lab.k}')">Save</button></div><div class="opt-range">Optimal: ${lab.lo}${lab.hi<999?'\u2013'+lab.hi:'+'} ${lab.u}</div><div class="spark" id="sp-${lab.k}"></div></div>`;c.innerHTML+=h;const de=document.getElementById('ld-'+lab.k);if(de)de.valueAsDate=new Date();renderSpark(lab.k,hist,lab.hi)})}
+function saveLab(k){const v=parseFloat(document.getElementById('lv-'+k).value);const d=document.getElementById('ld-'+k).value;if(!v||!d)return;const h=ls('l-'+k,[]);h.push({v,d});h.sort((a,b)=>a.d.localeCompare(b.d));lw('l-'+k,h);document.getElementById('lv-'+k).value='';initLabs()}
+function renderSpark(k,h,hi){const el=document.getElementById('sp-'+k);if(!el||!h.length)return;const mx=Math.max(...h.map(x=>x.v))*1.2||100;el.innerHTML=h.slice(-14).map(x=>{const p=Math.max(5,x.v/mx*100);const c=x.v>hi?'var(--red)':'var(--green)';return`<div class="spark-b" style="height:${p}%;background:${c}"></div>`}).join('')}
+function showTrack(t){['labs','meds','protocol'].forEach(x=>{const el=document.getElementById('track-'+x);if(el)el.style.display=x===t?'':'none';const tb=document.getElementById('tt-'+x);if(tb){tb.classList.toggle('btn-p',x===t);if(x!==t)tb.classList.remove('btn-p')}});if(t==='labs')initLabs();if(t==='meds')renderMeds();if(t==='protocol')initProto()}
+
+const PGX={'methylcobalamin':{s:'var(--green)',w:'FUT2 non-secretor. 1000-2000mcg daily.',g:'FUT2'},'vitamin d3':{s:'var(--green)',w:'VDR CT. 2000 IU + K2 daily.',g:'VDR'},'omega-3':{s:'var(--green)',w:'FADS1 AG. Preformed DHA preferred.',g:'FADS1'},'magnesium':{s:'var(--green)',w:'COMT AA stress support. 400mg glycinate.',g:'COMT'},'probiotic':{s:'var(--green)',w:'FUT2 non-secretor. B. longum BB536 + L. rhamnosus GG.',g:'FUT2'}};
+function initMeds(){document.getElementById('track-meds').innerHTML=`<div class="input-row" style="margin-bottom:12px"><input class="input-f" id="med-in" type="text" placeholder="Add supplement..."><button class="btn btn-p" onclick="addMed()">Add</button></div><div id="med-list"></div>`;renderMeds()}
+function addMed(){const i=document.getElementById('med-in');const n=i.value.trim();if(!n)return;const m=ls('meds',[]);m.push({n,d:new Date().toISOString().slice(0,10)});lw('meds',m);i.value='';renderMeds()}
+function removeMed(i){const m=ls('meds',[]);m.splice(i,1);lw('meds',m);renderMeds()}
+function renderMeds(){if(!document.getElementById('med-list')){initMeds();return}const m=ls('meds',[]);const el=document.getElementById('med-list');if(!m.length){el.innerHTML='<div style="text-align:center;color:var(--text-4);font-size:12px;padding:24px">No supplements added</div>';return}el.innerHTML=m.map((x,i)=>{const k=x.n.toLowerCase();const p=PGX[k]||{s:'var(--text-3)',w:'No specific genetic data.',g:'General'};return`<div class="med"><div class="med-status" style="background:${p.s}"></div><div class="med-body"><div class="med-n">${x.n}</div><div class="med-d">${x.d} \u00B7 ${p.g}</div><div class="med-w">${p.w}</div></div><div class="med-x" onclick="removeMed(${i})">\u00D7</div></div>`}).join('')}
+
+const PROTO=[{id:'mb',l:'Methylcobalamin 1000mcg (FUT2)'},{id:'pb',l:'Probiotic BB536 + GG (FUT2 gut)'},{id:'vd',l:'Vitamin D3 2000 IU + K2'},{id:'om',l:'Omega-3 EPA+DHA (FADS1)'},{id:'mg',l:'Magnesium 400mg (COMT stress)'}];
+function initProto(){const c=document.getElementById('track-protocol');const today=new Date().toISOString().slice(0,10);const checks=ls('chk-'+today,{});let h=`<div class="input-card"><div class="input-card-top"><div class="input-card-t">Daily Supplements</div><div class="sec-s" id="chk-prog">${Object.values(checks).filter(Boolean).length}/${PROTO.length}</div></div>`;PROTO.forEach(p=>{const on=checks[p.id]||false;h+=`<div class="chk"><div class="chk-box${on?' on':''}" onclick="togChk('${p.id}',this)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="chk-lbl${on?' off':''}">${p.l}</div></div>`});h+=`</div>`;c.innerHTML=h}
+function togChk(id,el){const today=new Date().toISOString().slice(0,10);const c=ls('chk-'+today,{});c[id]=!c[id];lw('chk-'+today,c);el.classList.toggle('on');el.nextElementSibling.classList.toggle('off');document.getElementById('chk-prog').textContent=Object.values(c).filter(Boolean).length+'/'+PROTO.length}
+
+let d3init=false;
+function initD3(){if(d3init)return;d3init=true;const box=document.getElementById('explore-box');const w=box.clientWidth,h=box.clientHeight||500;const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${w} ${h}`);
+const cats={'Protective':{c:'#5AAD8B',n:['APOE e3/e3','Factor V CC','FTO TT','MTHFR WT']},'Cardiovascular':{c:'#E05A5A',n:['9p21 x3','PITX2 CT','DBH TT','NOS3 CT']},'Cancer':{c:'#D4855A',n:['TP53 CG','FGFR2 AG','MC1R AG','LSP1','RAD51L1']},'Neuro':{c:'#9B7ADB',n:['COMT AA','FKBP5 CT','CRHR1','CRY1','CLOCK','PER2','PER3']},'Drug':{c:'#C9A84C',n:['NAT2 slow','CYP1A2 CC','CYP2C9*2','CYP2C19*2','FAAH AC']},'Quinn Impact':{c:'#5B8BD4',n:['B*51','COMT Met','DBH TT','NAT2 slow','FAAH','FKBP5']}};
+const nodes=[],links=[];let id=0;const ctr={id:id++,n:'Brigitte',g:'c',r:16,c:'#E8ECF4'};nodes.push(ctr);
+for(const[cat,data]of Object.entries(cats)){const hub={id:id++,n:cat,g:cat,r:10,c:data.c,hub:1};nodes.push(hub);links.push({source:ctr.id,target:hub.id});data.n.forEach(nm=>{const nd={id:id++,n:nm,g:cat,r:4,c:data.c};nodes.push(nd);links.push({source:hub.id,target:nd.id})})}
+const sim=d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id).distance(d=>d.source.hub||d.target.hub?70:35)).force('charge',d3.forceManyBody().strength(-40)).force('center',d3.forceCenter(w/2,h/2)).force('collision',d3.forceCollide().radius(d=>d.r+2));
+const link=svg.selectAll('line').data(links).join('line').attr('stroke','rgba(255,255,255,.04)').attr('stroke-width',1);const node=svg.selectAll('circle').data(nodes).join('circle').attr('r',d=>d.r).attr('fill',d=>d.c).attr('opacity',d=>d.hub?.7:.4).style('cursor','pointer');const label=svg.selectAll('text').data(nodes.filter(d=>d.hub||d.n==='Brigitte')).join('text').text(d=>d.n).attr('text-anchor','middle').attr('dy',d=>d.r+12).attr('font-size','9px').attr('fill','rgba(255,255,255,.35)').attr('font-weight','600');
+node.append('title').text(d=>d.n);sim.on('tick',()=>{link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);node.attr('cx',d=>d.x).attr('cy',d=>d.y);label.attr('x',d=>d.x).attr('y',d=>d.y)});
+node.call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
+const leg=document.getElementById('legend-box');for(const[cat,data]of Object.entries(cats)){leg.innerHTML+=`<div class="legend-c"><span class="legend-dot" style="background:${data.c}"></span>${cat}</div>`}}
 </script>
 </body>
 </html>
