@@ -599,6 +599,49 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .cmp-tile-sub{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
 
 /* ══════════════════════════════════════
+   ONBOARDING FLOW — P10
+══════════════════════════════════════ */
+.ob-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;
+  transition:opacity .5s var(--ease),visibility .5s;
+}
+.ob-overlay.done{opacity:0;visibility:hidden;pointer-events:none}
+.ob-logo{margin-bottom:28px}
+.ob-logo-mark{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.ob-logo-mark svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.ob-logo-name{font-size:17px;font-weight:800;letter-spacing:-.04em}
+.ob-logo-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.ob-headline{font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:1.2;margin-bottom:10px}
+.ob-body{font-size:13px;color:var(--t2);line-height:1.7;max-width:320px;margin:0 auto 28px}
+.ob-drop{
+  width:100%;max-width:340px;min-height:120px;
+  border:2px dashed var(--bd2);border-radius:var(--r-l);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 16px;cursor:pointer;margin-bottom:16px;
+  transition:border-color .2s,background .2s;
+  position:relative;
+}
+.ob-drop.drag-over{border-color:var(--blue);background:var(--blu-d)}
+.ob-drop-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+.ob-drop-label{font-size:13px;font-weight:600;color:var(--t2)}
+.ob-drop-sub{font-size:11px;color:var(--t3);margin-top:4px}
+.ob-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ob-skip{font-size:12px;color:var(--t3);cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-top:4px}
+.ob-skip:hover{color:var(--t2)}
+.ob-processing{display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.ob-processing.active{display:flex}
+.ob-proc-title{font-size:15px;font-weight:700;letter-spacing:-.02em}
+.ob-proc-bar{width:260px;height:4px;background:var(--bd);border-radius:2px;overflow:hidden;margin-top:4px}
+.ob-proc-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:2px;width:0%;transition:width .3s var(--ease)}
+.ob-proc-msg{font-size:12px;color:var(--t3);min-height:18px;transition:opacity .3s}
+.ob-steps{display:flex;gap:6px;margin-top:16px;justify-content:center}
+.ob-step{width:6px;height:6px;border-radius:50%;background:var(--bd);transition:background .3s}
+.ob-step.done{background:var(--blue)}
+
+/* ══════════════════════════════════════
    ANCESTRY STORY — P8
 ══════════════════════════════════════ */
 .anc-hdr{padding:52px 20px 0;text-align:center}
@@ -757,6 +800,51 @@ body.is-doctor #nav .nb.on::after{background:#111}
 </div>
 
 <nav id="nav" role="navigation" aria-label="Main navigation"></nav>
+
+<!-- ── Onboarding Overlay ── -->
+<div class="ob-overlay" id="ob-overlay">
+  <div class="ob-logo">
+    <div class="ob-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+    </div>
+    <div class="ob-logo-name">Byars Genomics</div>
+    <div class="ob-logo-sub">Family Precision Medicine</div>
+  </div>
+  <!-- Step 1: Welcome -->
+  <div id="ob-step1">
+    <div class="ob-headline">Your DNA,<br>finally explained.</div>
+    <div class="ob-body">Upload your 23andMe or Ancestry raw data and we'll map your genetic risks, medication safety, and family inheritance — all in one place.</div>
+    <div class="ob-drop" id="ob-drop">
+      <div class="ob-drop-icon">🧬</div>
+      <div class="ob-drop-label">Drop your raw DNA file here</div>
+      <div class="ob-drop-sub">.txt · .zip · .vcf · .csv · 23andMe or Ancestry</div>
+      <input type="file" id="ob-file" accept=".txt,.zip,.vcf,.csv,.gz" onchange="obFileSelected()">
+    </div>
+    <div class="ob-skip" onclick="obSkip()">I already have a family profile — skip setup</div>
+  </div>
+  <!-- Step 2: Processing -->
+  <div class="ob-processing" id="ob-step2">
+    <div class="dna-svg" style="width:40px;height:80px;margin-bottom:8px">
+      <svg viewBox="0 0 56 112" width="40" height="80">
+        <path class="dna-strand dna-s1" d="M14,8 Q42,28 14,48 Q42,68 14,88 Q42,108 14,112"/>
+        <path class="dna-strand dna-s2" d="M42,8 Q14,28 42,48 Q14,68 42,88 Q14,108 42,112"/>
+        <line class="dna-rung" x1="20" y1="19" x2="36" y2="19"/>
+        <line class="dna-rung" x1="20" y1="48" x2="36" y2="48"/>
+        <line class="dna-rung" x1="20" y1="78" x2="36" y2="78"/>
+      </svg>
+    </div>
+    <div class="ob-proc-title" id="ob-proc-title">Reading your DNA…</div>
+    <div class="ob-proc-bar"><div class="ob-proc-fill" id="ob-proc-fill"></div></div>
+    <div class="ob-proc-msg" id="ob-proc-msg">Initializing…</div>
+    <div class="ob-steps">
+      <div class="ob-step" id="obs-0"></div>
+      <div class="ob-step" id="obs-1"></div>
+      <div class="ob-step" id="obs-2"></div>
+      <div class="ob-step" id="obs-3"></div>
+      <div class="ob-step" id="obs-4"></div>
+    </div>
+  </div>
+</div>
 
 <div class="chat-overlay" id="chat-overlay" onclick="closeChat()"></div>
 <button class="chat-fab" id="chat-fab" aria-label="Health assistant">
@@ -1314,8 +1402,87 @@ function startLoader(){
   setTimeout(()=>{
     document.getElementById('loader').classList.add('done');
     document.getElementById('app').classList.add('show');
-    route();
+    const visited=localStorage.getItem('byars-visited');
+    if(!visited){
+      showOnboarding();
+    } else {
+      route();
+    }
   },1700);
+}
+
+/* ══════════════════════════════════════
+   ONBOARDING FLOW — P10
+══════════════════════════════════════ */
+function showOnboarding(){
+  const ob=document.getElementById('ob-overlay');
+  ob.style.display='flex';
+  // Drag-and-drop wiring
+  const drop=document.getElementById('ob-drop');
+  drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over');});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
+  drop.addEventListener('drop',e=>{
+    e.preventDefault();
+    drop.classList.remove('drag-over');
+    const file=e.dataTransfer.files[0];
+    if(file) obRunProcessing(file.name);
+  });
+}
+
+function obFileSelected(){
+  const f=document.getElementById('ob-file');
+  if(f.files&&f.files[0]) obRunProcessing(f.files[0].name);
+}
+
+function obSkip(){
+  obComplete();
+}
+
+function obRunProcessing(filename){
+  document.getElementById('ob-step1').style.display='none';
+  document.getElementById('ob-step2').classList.add('active');
+  const steps=[
+    {msg:`Parsing ${filename||'genome file'}…`,pct:8},
+    {msg:'Reading chromosomes 1–22…',pct:22},
+    {msg:'Identifying 631,455 variants…',pct:45},
+    {msg:'Mapping pharmacogenomics…',pct:62},
+    {msg:'Calculating disease risks…',pct:78},
+    {msg:'Building your family profile…',pct:91},
+    {msg:'All done — welcome to your genome.',pct:100},
+  ];
+  const fill=document.getElementById('ob-proc-fill');
+  const msg=document.getElementById('ob-proc-msg');
+  const title=document.getElementById('ob-proc-title');
+  let i=0;
+  // Animate variant counter in title
+  let count=0;const target=631455;
+  const counterInterval=setInterval(()=>{
+    count=Math.min(count+Math.floor(Math.random()*18000+8000),target);
+    title.textContent=`${count.toLocaleString()} variants analyzed…`;
+    if(count>=target){clearInterval(counterInterval);title.textContent='631,455 variants analyzed.';}
+  },120);
+  function nextStep(){
+    if(i>=steps.length){
+      clearInterval(counterInterval);
+      setTimeout(obComplete,700);
+      return;
+    }
+    const s=steps[i];
+    msg.textContent=s.msg;
+    fill.style.width=s.pct+'%';
+    const stepEl=document.getElementById('obs-'+i);
+    if(stepEl) stepEl.classList.add('done');
+    i++;
+    setTimeout(nextStep, i===steps.length?900:580+Math.random()*300);
+  }
+  nextStep();
+}
+
+function obComplete(){
+  localStorage.setItem('byars-visited','1');
+  const ob=document.getElementById('ob-overlay');
+  ob.classList.add('done');
+  route();
 }
 
 /* ══════════════════════════════════════
