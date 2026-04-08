@@ -827,6 +827,47 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .food-suggest-chip{background:var(--sf2);border:1px solid var(--bd);border-radius:16px;padding:5px 11px;font-size:12px;color:var(--t2);cursor:pointer;transition:background .15s}
 .food-suggest-chip:hover{background:var(--sf3);color:var(--t1)}
 
+/* ══════════════════════════════════════
+   P14 — EXERCISE OPTIMIZER
+══════════════════════════════════════ */
+.ex-wrap{padding:0 16px 40px}
+.ex-profile-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.ex-profile-title{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px}
+.ex-profile-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.ex-profile-row:last-child{border-bottom:none}
+.ex-profile-gene{color:var(--blue);font-size:12px;font-weight:600}
+.ex-today-card{background:linear-gradient(135deg,var(--sf2),var(--sf));border:1px solid var(--bd);border-radius:var(--r-m);padding:18px;margin:12px 0}
+.ex-today-day{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.ex-today-title{font-size:20px;font-weight:700;margin-bottom:6px}
+.ex-today-sub{font-size:13px;color:var(--t2)}
+.ex-zone2{background:var(--grn-d);border:1px solid var(--grn-b);border-radius:var(--r-s);padding:10px 14px;margin:8px 0;font-size:13px;color:var(--green)}
+.ex-zone2 b{color:var(--green)}
+.ex-log-form{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.ex-log-form-title{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:12px}
+.ex-log-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.ex-type-btn{background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s}
+.ex-type-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.ex-dur-inp{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:8px 12px;color:var(--t1);font-size:14px;width:90px;outline:none}
+.ex-effort-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ex-effort-row label{font-size:12px;color:var(--t3);white-space:nowrap}
+.ex-effort-row input[type=range]{flex:1;accent-color:var(--blue)}
+.ex-save-btn{background:var(--blue);color:#fff;border:none;border-radius:var(--r-s);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.ex-workout-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:8px 0;display:flex;gap:12px;align-items:flex-start}
+.ex-type-icon{width:38px;height:38px;border-radius:var(--r-s);background:var(--blu-d);border:1px solid var(--blu-b);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ex-wcard-body{flex:1}
+.ex-wcard-title{font-size:15px;font-weight:600;margin-bottom:2px}
+.ex-wcard-meta{font-size:12px;color:var(--t3);margin-bottom:4px}
+.ex-align-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px}
+.ex-align-badge.great{background:var(--grn-b);color:var(--green)}
+.ex-align-badge.good{background:var(--amb-b);color:var(--amber)}
+.ex-align-badge.rest{background:var(--red-b);color:var(--red)}
+.ex-del{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:0 4px}
+.ex-del:hover{color:var(--red)}
+.ex-weekly{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0;display:flex;gap:16px;flex-wrap:wrap}
+.ex-stat{text-align:center;flex:1;min-width:80px}
+.ex-stat-val{font-size:24px;font-weight:700;color:var(--blue)}
+.ex-stat-lbl{font-size:11px;color:var(--t3);margin-top:2px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1482,6 +1523,7 @@ function route(){
   if(pid==='ancestry'){renderAncestry();return;}
   if(pid==='interactions'){renderInteractions(parts[1]||'chad');return;}
   if(pid==='food'){renderFood(parts[1]||'chad');return;}
+  if(pid==='exercise'){renderExercise(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2494,7 +2536,8 @@ function renderMore(p){
     {icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',t:'Doctor Card',s:'Printable clinical report',fn:`nav('${p.id}/doctor')`},
     {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'},
     {icon:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 1 2-2v-4M9 21H5a2 2 0 0 0-2-2v-4m0 0h18"/>',t:'Interaction Checker',s:'Drug-drug and gene-drug alerts',fn:`nav('interactions/${p.id}')`},
-    {icon:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',t:'Food & Nutrition Log',s:'Genetic food interactions per meal',fn:`nav('food/${p.id}')`}
+    {icon:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',t:'Food & Nutrition Log',s:'Genetic food interactions per meal',fn:`nav('food/${p.id}')`},
+    {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -3508,6 +3551,164 @@ function foodRender(pid){
         <div class="food-card-meta">${dtStr}</div>
       </div>
       <button class="food-del" onclick="foodDelete('${pid}',${e.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   P14 — EXERCISE OPTIMIZER
+══════════════════════════════════════ */
+const EX_PROFILES={
+  chad:{
+    age:63,
+    actn3:'RR — Power bias, but endurance still very beneficial',
+    ppargc1a:'GA — Moderate mitochondrial biogenesis response',
+    adrb2:'Gly16 — Standard beta-2 response to aerobic exercise',
+    ace:'ID — Mixed endurance/power; both training types effective',
+    target:300,targetLabel:'5 hrs/week',
+    caveat:null,
+    zone2:[97,115],
+    tips:'APOE4 protocol: 5+ hrs/week cuts Alzheimer\'s risk 45%. Aerobic base is your priority. FOXO3 AMPK activation requires sustained moderate effort, not brief high-intensity bursts.'
+  },
+  quinn:{
+    age:17,
+    actn3:'Unknown — pending WGS; likely mixed given parent profiles',
+    ppargc1a:'Unknown — pending WGS',
+    adrb2:'Unknown — pending WGS',
+    ace:'Unknown — pending WGS',
+    target:120,targetLabel:'2 hrs/week (building)',
+    caveat:'Post-myocarditis protocol: walking and swimming first. No high-intensity until cardiac MRI clearance. Build gradually over 12 weeks.',
+    zone2:[121,141],
+    tips:'Post-myocarditis cardiac rehab: start with 20-30 min walks. Swimming is ideal — low-impact, whole-body, inherently zone 2. Build to 2 hrs/week before adding intensity. Exercise is anti-inflammatory — directly counteracts TNF-α and IL-6.'
+  }
+};
+
+const EX_TYPES={cardio:'🏃',strength:'🏋️',flexibility:'🧘',walk:'🚶'};
+
+const EX_DAYS=['recovery','strength','cardio','strength','cardio','strength','cardio'];
+
+let _exType={};
+
+function renderExercise(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  const prof=EX_PROFILES[pid]||EX_PROFILES.chad;
+  const dow=new Date().getDay();
+  const todayRec=EX_DAYS[dow];
+  const todayLabel={recovery:'Recovery / Rest Day',strength:'Strength Training',cardio:'Cardio / Zone 2'}[todayRec]||'Active Recovery';
+  _exType[pid]='cardio';
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Exercise Optimizer</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="ex-wrap">
+    <div class="ix-section-lbl">Genetic Exercise Profile</div>
+    <div class="ex-profile-card">
+      <div class="ex-profile-row"><span>ACTN3</span><span class="ex-profile-gene">${prof.actn3}</span></div>
+      <div class="ex-profile-row"><span>PPARGC1A</span><span class="ex-profile-gene">${prof.ppargc1a}</span></div>
+      <div class="ex-profile-row"><span>ADRB2</span><span class="ex-profile-gene">${prof.adrb2}</span></div>
+      <div class="ex-profile-row"><span>ACE</span><span class="ex-profile-gene">${prof.ace}</span></div>
+      <div class="ex-profile-row"><span>Weekly target</span><span style="font-weight:700;color:var(--green)">${prof.targetLabel}</span></div>
+    </div>
+    ${prof.tips?`<div style="background:var(--blu-d);border:1px solid var(--blu-b);border-radius:var(--r-s);padding:12px;font-size:13px;color:var(--t2);margin:8px 0">${prof.tips}</div>`:''}
+    ${prof.caveat?`<div style="background:var(--amb-d);border:1px solid var(--amb-b);border-radius:var(--r-s);padding:12px;font-size:13px;color:var(--amber);margin:8px 0">⚠ ${prof.caveat}</div>`:''}
+    <div class="ix-section-lbl">Today's Recommendation</div>
+    <div class="ex-today-card">
+      <div class="ex-today-day">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dow]}</div>
+      <div class="ex-today-title">${todayLabel}</div>
+      <div class="ex-today-sub">${todayRec==='recovery'?'Active rest: gentle walk, stretching, or nothing. Let your body repair.':todayRec==='strength'?'Resistance training: compound movements, progressive overload.':'Aerobic work in Zone 2. Sustained moderate effort builds mitochondria.'}</div>
+    </div>
+    <div class="ex-zone2">Zone 2 target: <b>${prof.zone2[0]}–${prof.zone2[1]} bpm</b> &nbsp;·&nbsp; (220 − ${prof.age}) × 0.60–0.70</div>
+    <div class="ix-section-lbl">Log Workout</div>
+    <div class="ex-log-form">
+      <div class="ex-log-form-title">Type</div>
+      <div class="ex-log-row" id="ex-type-row-${pid}">
+        ${Object.entries(EX_TYPES).map(([k,ic])=>`<button class="ex-type-btn${k==='cardio'?' on':''}" onclick="exSetType('${pid}','${k}',this)">${ic} ${k}</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+        <div><div style="font-size:12px;color:var(--t3);margin-bottom:4px">Duration (min)</div><input class="ex-dur-inp" type="number" id="ex-dur-${pid}" placeholder="30" min="1" max="300"></div>
+      </div>
+      <div class="ex-effort-row"><label>Effort 1–10: <b id="ex-eff-lbl-${pid}">5</b></label><input type="range" min="1" max="10" value="5" oninput="document.getElementById('ex-eff-lbl-${pid}').textContent=this.value" id="ex-eff-${pid}"></div>
+      <button class="ex-save-btn" onclick="exSave('${pid}')">Save Workout</button>
+    </div>
+    <div class="ix-section-lbl">This Week</div>
+    <div id="ex-weekly-${pid}"></div>
+    <div id="ex-list-${pid}"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  exRender(pid);
+  window.scrollTo(0,0);
+}
+
+function exSetType(pid,type,btn){
+  _exType[pid]=type;
+  document.querySelectorAll(`#ex-type-row-${pid} .ex-type-btn`).forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function exSave(pid){
+  const dur=parseInt(document.getElementById('ex-dur-'+pid).value)||0;
+  if(!dur)return;
+  const eff=parseInt(document.getElementById('ex-eff-'+pid).value)||5;
+  const type=_exType[pid]||'cardio';
+  const workouts=ls(pid,'workouts',[]);
+  workouts.unshift({id:Date.now(),type,dur,eff,ts:new Date().toISOString()});
+  lw(pid,'workouts',workouts);
+  document.getElementById('ex-dur-'+pid).value='';
+  document.getElementById('ex-eff-'+pid).value=5;
+  document.getElementById('ex-eff-lbl-'+pid).textContent='5';
+  exRender(pid);
+}
+
+function exDelete(pid,id){
+  const workouts=ls(pid,'workouts',[]).filter(w=>w.id!==id);
+  lw(pid,'workouts',workouts);
+  exRender(pid);
+}
+
+function exAlignBadge(type,eff,pid){
+  const prof=EX_PROFILES[pid]||EX_PROFILES.chad;
+  if(prof.caveat&&eff>6)return{cls:'rest',lbl:'High intensity — caution'};
+  if(eff<=4)return{cls:'rest',lbl:'Rest recommended'};
+  if((type==='cardio'||type==='walk')&&eff>=5&&eff<=7)return{cls:'great',lbl:'Perfectly aligned'};
+  if(type==='strength'&&eff>=6&&eff<=8)return{cls:'great',lbl:'Perfectly aligned'};
+  return{cls:'good',lbl:'Good'};
+}
+
+function exRender(pid){
+  const prof=EX_PROFILES[pid]||EX_PROFILES.chad;
+  const workouts=ls(pid,'workouts',[]);
+  // weekly stats
+  const weekStart=new Date();weekStart.setDate(weekStart.getDate()-weekStart.getDay());weekStart.setHours(0,0,0,0);
+  const thisWeek=workouts.filter(w=>new Date(w.ts)>=weekStart);
+  const totalMin=thisWeek.reduce((a,w)=>a+w.dur,0);
+  const sessions=thisWeek.length;
+  const pct=Math.min(100,Math.round(totalMin/prof.target*100));
+  const weekEl=document.getElementById('ex-weekly-'+pid);
+  if(weekEl)weekEl.innerHTML=`<div class="ex-weekly">
+    <div class="ex-stat"><div class="ex-stat-val">${totalMin}</div><div class="ex-stat-lbl">minutes</div></div>
+    <div class="ex-stat"><div class="ex-stat-val">${sessions}</div><div class="ex-stat-lbl">sessions</div></div>
+    <div class="ex-stat"><div class="ex-stat-val">${pct}%</div><div class="ex-stat-lbl">of ${prof.targetLabel}</div></div>
+  </div>`;
+  const listEl=document.getElementById('ex-list-'+pid);
+  if(!listEl)return;
+  if(!workouts.length){listEl.innerHTML='<div style="color:var(--t3);font-size:14px;padding:16px 0">No workouts logged yet.</div>';return;}
+  listEl.innerHTML=workouts.slice(0,20).map(w=>{
+    const ab=exAlignBadge(w.type,w.eff,pid);
+    const dt=new Date(w.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    return `<div class="ex-workout-card">
+      <div class="ex-type-icon">${EX_TYPES[w.type]||'💪'}</div>
+      <div class="ex-wcard-body">
+        <div class="ex-wcard-title">${w.dur} min ${w.type} · effort ${w.eff}/10</div>
+        <div class="ex-wcard-meta">${dt}</div>
+        <span class="ex-align-badge ${ab.cls}">${ab.lbl}</span>
+      </div>
+      <button class="ex-del" onclick="exDelete('${pid}',${w.id})">×</button>
     </div>`;
   }).join('');
 }
