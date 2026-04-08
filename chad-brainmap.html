@@ -440,8 +440,12 @@ a{color:inherit;text-decoration:none}
     <div class="more-item" onclick="showTab('genetics')"><div class="more-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-2.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-2.93 7.07l-2.83-2.83M6.76 6.76L3.93 3.93"/></svg></div><div><div class="more-t">Genome Map</div><div class="more-s">D3 force graph, 171 nodes</div></div></div>
     <div class="more-item" onclick="showNeuro()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.5-1.5 4.5-3 6-1 1-1 2-1 3h-6c0-1 0-2-1-3-1.5-1.5-3-3.5-3-6a7 7 0 0 1 7-7z"/><path d="M9 18h6m-5 3h4"/></svg></div><div><div class="more-t">Neuroplasticity</div><div class="more-s">Father-son brain optimization</div></div></div>
     <div class="more-item" onclick="showFamily()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="more-t">Family History</div><div class="more-s">Genetic risk amplification</div></div></div>
+    <div class="more-item" onclick="showLifespan()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><div><div class="more-t">Lifespan Estimator</div><div class="more-s">Genetic baseline vs protocol</div></div></div>
+    <div class="more-item" onclick="showAncestry()"><div class="more-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><div class="more-t">Ancestry</div><div class="more-s">Haplogroups, Neanderthal, migration</div></div></div>
+    <div class="more-item" onclick="showScreening()"><div class="more-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="more-t">Screening Timeline</div><div class="more-s">When to test what, by decade</div></div></div>
     <div class="more-item" onclick="location.href='quinn.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="more-t">Quinn's Dashboard</div><div class="more-s">Clinical case, active patient</div></div></div>
     <div class="more-item" onclick="location.href='behcets.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="more-t">Behcet's Intelligence</div><div class="more-s">Pathogenesis, trials, treatment</div></div></div>
+    <div class="more-item" onclick="location.href='index.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="more-t">Family Hub</div><div class="more-s">All family profiles</div></div></div>
     <div class="more-item" onclick="window.print()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div><div class="more-t">Export PDF</div><div class="more-s">Print-optimized layout</div></div></div>
   </div>
 </div>
@@ -778,6 +782,113 @@ function initD3(){
   node.call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
   const leg=document.getElementById('legend-box');
   for(const[cat,data]of Object.entries(cats)){leg.innerHTML+=`<div class="legend-c"><span class="legend-dot" style="background:${data.c}"></span>${cat}</div>`}
+}
+
+/* ══════════ LIFESPAN ESTIMATOR ══════════ */
+function showLifespan(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  let old=document.getElementById('s-lifespan');if(old)old.remove();
+  const d=document.createElement('div');d.className='scr on';d.id='s-lifespan';
+  d.innerHTML=`<div style="padding:0 16px 24px">
+    <div class="detail-back" onclick="showTab('more')"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><polyline points="15 18 9 12 15 6"/></svg> Back</div>
+    <div class="detail-title">Lifespan Estimator</div>
+    <div class="gauge-box">${gaugeSVG(87,'#5B8BD4',180)}</div>
+    <div style="text-align:center;font-size:11px;color:var(--text-3);margin:-16px 0 24px">Estimated with full protocol adherence (years)</div>
+
+    <div class="finding f-red"><div class="finding-top"><div class="finding-gene">-5y</div></div><div class="finding-name">APOE e3/e4 — Alzheimer's Risk</div><div class="finding-line">2-3x risk. Father developed dementia. Exercise + sleep partially compensate.</div></div>
+    <div class="finding f-red"><div class="finding-top"><div class="finding-gene">-3y</div></div><div class="finding-name">9p21 x3 — Coronary Artery Disease</div><div class="finding-line">Father: stent 62, CABG 75. Mediterranean diet >80% eliminates MI risk.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">-2y</div></div><div class="finding-name">MC1R x4 — Melanoma Risk</div><div class="finding-line">91st percentile. Manageable with annual dermoscopy + SPF 50+.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">-1y</div></div><div class="finding-name">IL-6 CC + TNF-alpha AA — Chronic Inflammation</div><div class="finding-line">Accelerates atherosclerosis and aging. Anti-inflammatory diet critical.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">-1y</div></div><div class="finding-name">FOXO3 TT — No Longevity Allele</div><div class="finding-line">Baseline aging rate. AMPK activation (exercise, fasting) compensates.</div></div>
+
+    <div style="padding:16px 0 8px"><div class="sec-t" style="color:var(--green)">Protective Factors</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+3y</div></div><div class="finding-name">ACTN3 TT — Endurance Phenotype</div><div class="finding-line">Built for sustained activity. Higher VO2max potential. Exercise compliance easier.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+2y</div></div><div class="finding-name">Health Literacy — Physician</div><div class="finding-line">MD with full genomic awareness. Screening compliance near-certain.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+2y</div></div><div class="finding-name">Mediterranean Diet — If Adherent</div><div class="finding-line">INTERHEART: eliminates 9p21 MI risk. Single biggest lifestyle lever.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+2y</div></div><div class="finding-name">Exercise 5-6 hrs/week</div><div class="finding-line">APOE4 risk reduction doubles non-carriers. FOXO3 activation via AMPK.</div></div>
+
+    <div class="actions" style="margin-top:16px"><div class="actions-title">Lifespan Math</div>
+      <div class="action-item"><div class="action-num">1.</div><div>Genetic baseline: 78-82 years (population + risk alleles)</div></div>
+      <div class="action-item"><div class="action-num">2.</div><div>Risk deductions: -12 years (APOE4, 9p21, MC1R, inflammation, FOXO3)</div></div>
+      <div class="action-item"><div class="action-num">3.</div><div>Protocol additions: +9 years (endurance, MD, diet, exercise)</div></div>
+      <div class="action-item"><div class="action-num">4.</div><div>Screening catch: +3 years (melanoma, CAD, AD caught early)</div></div>
+      <div class="action-item"><div class="action-num">5.</div><div><b>Estimated with full protocol: 85-90 years</b></div></div>
+      <div class="action-item"><div class="action-num">6.</div><div>Biggest threat: Alzheimer's 70s if unmanaged. Cardiac 60s if diet lapses.</div></div>
+    </div>
+  </div>`;
+  document.getElementById('app').appendChild(d);window.scrollTo(0,0);
+}
+
+/* ══════════ ANCESTRY ══════════ */
+function showAncestry(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  let old=document.getElementById('s-ancestry');if(old)old.remove();
+  const d=document.createElement('div');d.className='scr on';d.id='s-ancestry';
+  d.innerHTML=`<div style="padding:0 16px 24px">
+    <div class="detail-back" onclick="showTab('more')"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><polyline points="15 18 9 12 15 6"/></svg> Back</div>
+    <div class="detail-title">Ancestry</div>
+
+    <div class="finding f-purple"><div class="finding-top"><div class="finding-gene">MT-H1</div></div><div class="finding-name">Maternal Haplogroup H1</div><div class="finding-line">Most common European mtDNA. Post-glacial Franco-Cantabrian refugia ~13,000 ya.</div></div>
+    <div class="finding f-purple"><div class="finding-top"><div class="finding-gene">R1b</div></div><div class="finding-name">Paternal Haplogroup R1b (predicted)</div><div class="finding-line">Most common Western European Y-DNA. Pontic Steppe ~5,000 ya. Needs WGS.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">~0.8%</div></div><div class="finding-name">Neanderthal DNA</div><div class="finding-line">Below European average (1.5-2.1%). 5 archaic alleles, all pigmentation.</div></div>
+
+    <div style="padding:16px 0 8px"><div class="sec-t">Ancestry-Informative Markers</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">AA</div></div><div class="finding-name">SLC24A5 — European Pigmentation</div><div class="finding-line">Homozygous European light-skin allele.</div></div>
+    <div class="finding f-purple"><div class="finding-top"><div class="finding-gene">AA</div></div><div class="finding-name">HERC2/OCA2 — Blue Eyes</div><div class="finding-line">Homozygous at HERC2. Blue eyes from Western Hunter-Gatherer ancestry.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">CT</div></div><div class="finding-name">LCT — Lactase Persistence</div><div class="finding-line">Full lactose tolerance. Steppe/Yamnaya ancestry marker.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">GG</div></div><div class="finding-name">ABCC11 — Wet Earwax</div><div class="finding-line">Western European/Celtic marker.</div></div>
+    <div class="finding f-red"><div class="finding-top"><div class="finding-gene">CT x4</div></div><div class="finding-name">MC1R — Celtic/Atlantic</div><div class="finding-line">R151C "Celtic variant" + 3 more. Strong Irish/British signal.</div></div>
+
+    <div class="actions" style="margin-top:16px"><div class="actions-title">Three-Way Ancestry Model</div>
+      <div class="action-item"><div class="action-num">WHG</div><div>Western Hunter-Gatherer: blue eyes, dark hair</div></div>
+      <div class="action-item"><div class="action-num">EEF</div><div>Early European Farmer: HLA-B*51 (Anatolian origin), light skin</div></div>
+      <div class="action-item"><div class="action-num">Steppe</div><div>Yamnaya: R1b Y-haplogroup, lactase persistence, height</div></div>
+    </div>
+  </div>`;
+  document.getElementById('app').appendChild(d);window.scrollTo(0,0);
+}
+
+/* ══════════ SCREENING TIMELINE ══════════ */
+function showScreening(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  let old=document.getElementById('s-screening');if(old)old.remove();
+  const d=document.createElement('div');d.className='scr on';d.id='s-screening';
+  d.innerHTML=`<div style="padding:0 16px 24px">
+    <div class="detail-back" onclick="showTab('more')"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><polyline points="15 18 9 12 15 6"/></svg> Back</div>
+    <div class="detail-title">Screening Timeline</div>
+
+    <div class="input-card"><div class="input-card-t" style="margin-bottom:10px;color:var(--red)">Now (2026)</div>
+      <div class="sched-i" style="border-left:2px solid var(--red);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">CAC score — baseline coronary calcium (9p21 x3 + father CABG)</div>
+      <div class="sched-i" style="border-left:2px solid var(--red);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Full-body derm exam with dermoscopy (MC1R x4 compound)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Lipid panel + ApoB (Quinn LDL 142, family risk)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Homocysteine + MMA (MTHFR compound + FUT2)</div>
+    </div>
+
+    <div class="input-card"><div class="input-card-t" style="margin-bottom:10px;color:var(--amber)">Annual</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Dermoscopy (melanoma, MC1R compound)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">EKG + echocardiogram (PITX2 AFib)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Lipid panel + Vitamin D + B12/MMA</div>
+      <div class="sched-i" style="border-left:2px solid var(--green);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Comprehensive metabolic panel + CBC</div>
+    </div>
+
+    <div class="input-card"><div class="input-card-t" style="margin-bottom:10px">Age 45+</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">PSA screening (8q24 prostate risk allele)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Colonoscopy (standard + family cancer history)</div>
+    </div>
+
+    <div class="input-card"><div class="input-card-t" style="margin-bottom:10px">Age 50+</div>
+      <div class="sched-i" style="border-left:2px solid var(--red);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Cognitive baseline testing (APOE e3/e4 + father dementia)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Repeat CAC score (compare to baseline)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Amyloid PET if cognitive changes (lecanemab eligibility)</div>
+    </div>
+
+    <div class="input-card"><div class="input-card-t" style="margin-bottom:10px">Age 60+</div>
+      <div class="sched-i" style="border-left:2px solid var(--red);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Annual cognitive monitoring (APOE e4, father CAD+dementia at this age)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">Cardiac stress test (father stent at 62)</div>
+      <div class="sched-i" style="border-left:2px solid var(--amber);padding-left:10px;margin-bottom:4px;font-size:12px;color:var(--text-2)">DEXA scan (bone density baseline)</div>
+    </div>
+  </div>`;
+  document.getElementById('app').appendChild(d);window.scrollTo(0,0);
 }
 </script>
 </body>

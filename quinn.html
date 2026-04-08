@@ -391,12 +391,14 @@ a{color:inherit;text-decoration:none}
   <div class="sec"><div class="sec-t">Health Tracking</div><div class="sec-s">Quinn-specific</div></div>
   <div class="track-sec" id="track-tabs" style="display:flex;gap:6px;padding:0 16px 12px">
     <button class="btn btn-p" onclick="showTrack('labs')" id="tt-labs">Labs</button>
-    <button class="btn" onclick="showTrack('meds')" id="tt-meds">Medications</button>
+    <button class="btn" onclick="showTrack('meds')" id="tt-meds">Meds</button>
     <button class="btn" onclick="showTrack('protocol')" id="tt-protocol">Protocol</button>
+    <button class="btn" onclick="showTrack('journal')" id="tt-journal">Journal</button>
   </div>
   <div id="track-labs" class="track-sec"></div>
   <div id="track-meds" class="track-sec" style="display:none"></div>
   <div id="track-protocol" class="track-sec" style="display:none"></div>
+  <div id="track-journal" class="track-sec" style="display:none"></div>
 </div>
 
 <!-- DOCTOR -->
@@ -439,6 +441,8 @@ a{color:inherit;text-decoration:none}
 <div class="scr" id="s-more">
   <div class="sec"><div class="sec-t">More</div></div>
   <div style="padding:0 16px">
+    <div class="more-item" onclick="showLifespan()"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div><div><div class="more-t">Lifespan Estimator</div><div class="more-s">Genetic baseline vs protocol</div></div></div>
+    <div class="more-item" onclick="showTimeline()"><div class="more-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/><line x1="14" y1="5" x2="20" y2="5"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="14" y1="19" x2="20" y2="19"/></svg></div><div><div class="more-t">7-Phase Timeline</div><div class="more-s">Sept 2025 through now</div></div></div>
     <div class="more-item" onclick="showTab('genetics')"><div class="more-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-2.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-2.93 7.07l-2.83-2.83M6.76 6.76L3.93 3.93"/></svg></div><div><div class="more-t">Inheritance Map</div><div class="more-s">D3 graph, what Quinn inherited</div></div></div>
     <div class="more-item" onclick="location.href='behcets.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="more-t">Behcet's Intelligence</div><div class="more-s">Pathogenesis, trials, treatment</div></div></div>
     <div class="more-item" onclick="location.href='index.html'"><div class="more-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="more-t">Family Hub</div><div class="more-s">All family profiles</div></div></div>
@@ -720,6 +724,110 @@ function initD3(){
   const leg=document.getElementById('legend-box');
   for(const[cat,data]of Object.entries(cats)){leg.innerHTML+=`<div class="legend-c"><span class="legend-dot" style="background:${data.c}"></span>${cat}</div>`}
 }
+
+/* ══════════ SYMPTOM JOURNAL ══════════ */
+function initJournal(){
+  const c=document.getElementById('track-journal');if(!c)return;
+  const entries=ls('journal',[]);
+  let h=`<div class="input-card"><div class="input-card-t" style="margin-bottom:10px">Log Symptom</div>
+    <div class="input-row" style="margin-bottom:8px"><select class="input-f" id="j-type" style="color:var(--text-1)"><option value="Oral ulcer">Oral ulcer</option><option value="Genital ulcer">Genital ulcer</option><option value="Diarrhea">Diarrhea</option><option value="Migraine">Migraine</option><option value="Joint pain">Joint pain</option><option value="Fatigue">Fatigue</option><option value="Nausea">Nausea</option><option value="Eye issue">Eye issue</option><option value="Skin">Skin</option><option value="Other">Other</option></select></div>
+    <div class="input-row" style="margin-bottom:8px"><input class="input-f" type="range" id="j-sev" min="1" max="10" value="5" style="padding:6px"><div class="input-u" id="j-sev-v" style="min-width:24px;text-align:center">5</div></div>
+    <div class="input-row" style="margin-bottom:8px"><input class="input-f" id="j-note" placeholder="Notes (optional)"></div>
+    <button class="btn btn-p" onclick="saveJournal()" style="width:100%">Save Entry</button>
+  </div>`;
+  if(entries.length){
+    h+=`<div style="padding:8px 0 4px"><div class="sec-t" style="font-size:13px">Recent Entries</div></div>`;
+    entries.slice(-20).reverse().forEach(e=>{
+      const sevColor=e.s>=7?'var(--red)':e.s>=4?'var(--amber)':'var(--green)';
+      h+=`<div class="finding" style="cursor:default"><div class="finding-top"><div class="finding-gene" style="color:${sevColor}">${e.s}/10</div></div><div class="finding-name">${e.t}</div><div class="finding-line">${e.d}${e.n?' \u2014 '+e.n:''}</div></div>`;
+    });
+  }
+  c.innerHTML=h;
+  const slider=document.getElementById('j-sev');
+  if(slider)slider.oninput=function(){document.getElementById('j-sev-v').textContent=this.value};
+}
+function saveJournal(){
+  const t=document.getElementById('j-type').value;
+  const s=+document.getElementById('j-sev').value;
+  const n=document.getElementById('j-note').value.trim();
+  const d=new Date().toISOString().slice(0,10);
+  const entries=ls('journal',[]);entries.push({t,s,n,d});lw('journal',entries);
+  initJournal();
+}
+
+/* ══════════ LIFESPAN ESTIMATOR ══════════ */
+function showLifespan(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  let old=document.getElementById('s-lifespan');if(old)old.remove();
+  const d=document.createElement('div');d.className='scr on';d.id='s-lifespan';
+  d.innerHTML=`<div style="padding:0 16px 24px">
+    <div class="detail-back" onclick="showTab('more')"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><polyline points="15 18 9 12 15 6"/></svg> Back</div>
+    <div class="detail-title">Lifespan Estimator</div>
+    <div class="gauge-box">${gaugeSVG(82,'#5AAD8B',180)}</div>
+    <div style="text-align:center;font-size:11px;color:var(--text-3);margin:-16px 0 24px">Estimated with disease control + protocol (years)</div>
+
+    <div class="finding f-red"><div class="finding-top"><div class="finding-gene">Active</div></div><div class="finding-name">Behcet's Disease — Chronic Vasculitis</div><div class="finding-line">B*51 homozygous. Steroid-dependent. Doesn't typically shorten lifespan dramatically when treated.</div></div>
+    <div class="finding f-red"><div class="finding-top"><div class="finding-gene">-4y</div></div><div class="finding-name">Cardiovascular — LDL 142 + 9p21 Bilateral</div><div class="finding-line">Atherogenic at 17. Father CABG. Mediterranean diet + lipid management starting NOW.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">-2y</div></div><div class="finding-name">Chronic Inflammation — TNF-alpha + IL-6</div><div class="finding-line">BD + high TNF + high IL-6 = accelerated atherosclerosis if uncontrolled. Anti-TNF protects heart too.</div></div>
+    <div class="finding f-amber"><div class="finding-top"><div class="finding-gene">-1y</div></div><div class="finding-name">UNC13D — Second Hit Risk</div><div class="finding-line">Another major viral trigger could cause repeat hyperinflammatory episode. Pattern now known = caught earlier.</div></div>
+
+    <div style="padding:16px 0 8px"><div class="sec-t" style="color:var(--green)">Protective Factors</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+5y</div></div><div class="finding-name">Age 17 — Decades of Head Start</div><div class="finding-line">You know your risk profile now. Most people learn this at 60. That's 40+ years of optimization.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+3y</div></div><div class="finding-name">Genomic Intelligence System</div><div class="finding-line">Full genome analyzed, drug interactions mapped, every doctor informed. No blind spots.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+2y</div></div><div class="finding-name">Disease Control — If Achieved</div><div class="finding-line">Otezla or anti-TNF achieving remission = inflammation controlled = cardiovascular protection.</div></div>
+    <div class="finding f-green"><div class="finding-top"><div class="finding-gene">+2y</div></div><div class="finding-name">Dad Is an ER Doctor</div><div class="finding-line">Medical literacy, access, advocacy. Built this entire system. Catches things others miss.</div></div>
+
+    <div class="actions" style="margin-top:16px"><div class="actions-title">Lifespan Math</div>
+      <div class="action-item"><div class="action-num">1.</div><div>Baseline without BD: 78-82 years</div></div>
+      <div class="action-item"><div class="action-num">2.</div><div>BD + inflammation + cardiovascular: -7 years if unmanaged</div></div>
+      <div class="action-item"><div class="action-num">3.</div><div>Early knowledge + protocol + disease control: +12 years back</div></div>
+      <div class="action-item"><div class="action-num">4.</div><div><b>Estimated with full management: 80-85 years</b></div></div>
+      <div class="action-item"><div class="action-num">5.</div><div>Biggest threat: uncontrolled inflammation accelerating atherosclerosis in 30s-40s</div></div>
+      <div class="action-item"><div class="action-num">6.</div><div>NOT the Behcet's itself. The inflammation it causes, if left unchecked.</div></div>
+    </div>
+  </div>`;
+  document.getElementById('app').appendChild(d);window.scrollTo(0,0);
+}
+
+/* ══════════ 7-PHASE TIMELINE ══════════ */
+function showTimeline(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  let old=document.getElementById('s-timeline');if(old)old.remove();
+  const d=document.createElement('div');d.className='scr on';d.id='s-timeline';
+  const phases=[
+    {p:'Phase 1',dt:'Sept 2025',c:'f-red',t:'The Crisis',l:'EBV reactivation. Ferritin 7,105. EF 33%. ICU admission. Etoposide. Near-fatal.'},
+    {p:'Phase 2',dt:'Oct 2025',c:'f-amber',t:'Recovery',l:'Steroid-dependent. Oral ulcers persist. EF recovering. Discharged but fragile.'},
+    {p:'Phase 3',dt:'Nov-Dec 2025',c:'f-amber',t:'Taper Failures',l:'Cannot get below 10mg prednisone. Ulcers recur. Cardiac MRI: EF 52%.'},
+    {p:'Phase 4',dt:'Jan 2026',c:'f-red',t:'Belize',l:'Family trip. Appendectomy. Dapsone started. Beginning of next crisis.'},
+    {p:'Phase 5',dt:'Feb-Mar 2026',c:'f-red',t:'Dapsone Hemolysis',l:'Hgb 12.6 to 8.2. NAT2 slow acetylator. Dapsone discontinued. CRP 133.'},
+    {p:'Phase 6',dt:'Mar 2026',c:'f-amber',t:'Portland Re-evaluation',l:'Rheumatology, GI, Heme-Onc. Genetics referral. New providers onboarded.'},
+    {p:'Phase 7',dt:'Apr 2026',c:'f-purple',t:'Current',l:'Prednisone 18mg. Fluoxetine tapering. MRE pending. Cortisol spit test ordered. Otezla planned. Building this system.'}
+  ];
+  let h=`<div style="padding:0 16px 24px"><div class="detail-back" onclick="showTab('more')"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><polyline points="15 18 9 12 15 6"/></svg> Back</div><div class="detail-title">Clinical Timeline</div>`;
+  phases.forEach(p=>{
+    const id='t'+Math.random().toString(36).slice(2,8);
+    h+=`<div class="finding ${p.c}" onclick="let e=document.getElementById('${id}');if(e)e.classList.toggle('open')"><div class="finding-top"><div class="finding-gene">${p.dt}</div></div><div class="finding-name">${p.p}: ${p.t}</div><div class="finding-line">${p.l}</div></div>`;
+  });
+  h+=`<div class="actions" style="margin-top:16px"><div class="actions-title">What's Next</div>
+    <div class="action-item"><div class="action-num">1.</div><div>Cortisol spit test results (HPA axis answer)</div></div>
+    <div class="action-item"><div class="action-num">2.</div><div>MR Enterography (active vs scarred, strictures)</div></div>
+    <div class="action-item"><div class="action-num">3.</div><div>Cardiac MRI (clearance for activity)</div></div>
+    <div class="action-item"><div class="action-num">4.</div><div>Otezla trial (steroid-sparing)</div></div>
+    <div class="action-item"><div class="action-num">5.</div><div>Nebula WGS (ERAP1, deep UNC13D, CYP2D6)</div></div>
+  </div></div>`;
+  d.innerHTML=h;
+  document.getElementById('app').appendChild(d);window.scrollTo(0,0);
+}
+
+/* Update showTrack to include journal */
+const origShowTrack=showTrack;
+showTrack=function(t){
+  ['labs','meds','protocol','journal'].forEach(x=>{
+    const el=document.getElementById('track-'+x);if(el)el.style.display=x===t?'':'none';
+    const tb=document.getElementById('tt-'+x);if(tb){tb.classList.toggle('btn-p',x===t);if(x!==t)tb.classList.remove('btn-p')}
+  });
+  if(t==='labs')initLabs();if(t==='meds')renderMeds();if(t==='protocol')initProto();if(t==='journal')initJournal();
+};
 </script>
 </body>
 </html>
