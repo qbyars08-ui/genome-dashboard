@@ -1008,6 +1008,48 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .goal-del{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:0 4px}
 .goal-del:hover{color:var(--red)}
 
+/* ══════════════════════════════════════
+   P20 — EMERGENCY INFO PAGE
+══════════════════════════════════════ */
+.emrg-bg{background:#C0392B;min-height:100vh;color:#fff;padding:0 0 40px}
+.emrg-header{background:#A93226;padding:16px;display:flex;align-items:center;gap:12px;border-bottom:2px solid rgba(255,255,255,.2)}
+.emrg-header-title{font-size:20px;font-weight:800;letter-spacing:.02em}
+.emrg-header-sub{font-size:13px;opacity:.8;margin-top:2px}
+.emrg-back{background:rgba(255,255,255,.2);border:none;border-radius:var(--r-s);padding:8px 14px;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.emrg-wrap{padding:0 16px}
+.emrg-name-block{padding:20px 0 8px;border-bottom:2px solid rgba(255,255,255,.3);margin-bottom:16px}
+.emrg-name{font-size:28px;font-weight:800;line-height:1.1}
+.emrg-dob{font-size:16px;opacity:.85;margin-top:4px}
+.emrg-section{margin:16px 0}
+.emrg-section-title{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.emrg-allergy-box{background:#A93226;border:3px solid #fff;border-radius:var(--r-m);padding:16px;margin-bottom:8px}
+.emrg-allergy-title{font-size:20px;font-weight:800;margin-bottom:10px}
+.emrg-allergy-item{font-size:16px;font-weight:700;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.3);line-height:1.4}
+.emrg-allergy-item:last-child{border-bottom:none}
+.emrg-med-list{list-style:none;padding:0}
+.emrg-med-list li{font-size:16px;font-weight:600;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.2)}
+.emrg-med-list li:last-child{border-bottom:none}
+.emrg-condition-item{font-size:15px;font-weight:600;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.2);line-height:1.4}
+.emrg-condition-item:last-child{border-bottom:none}
+.emrg-pgx-item{font-size:14px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.2)}
+.emrg-pgx-item b{font-size:15px}
+.emrg-pgx-item:last-child{border-bottom:none}
+.emrg-contact-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.emrg-contact-inp{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:var(--r-s);padding:9px 12px;color:#fff;font-size:14px;outline:none}
+.emrg-contact-inp::placeholder{color:rgba(255,255,255,.5)}
+.emrg-contact-inp:focus{border-color:#fff}
+.emrg-contact-save{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:var(--r-s);padding:9px 14px;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.emrg-close-btn{display:block;width:calc(100% - 32px);margin:24px 16px 8px;background:#fff;color:#C0392B;border:none;border-radius:var(--r-m);padding:16px;font-size:18px;font-weight:800;cursor:pointer;text-align:center}
+.emrg-picker{background:var(--bg);min-height:100vh;padding:0 16px 40px}
+.emrg-picker-title{font-size:20px;font-weight:700;padding:20px 0 4px}
+.emrg-picker-sub{font-size:14px;color:var(--t2);margin-bottom:16px}
+.emrg-picker-card{background:var(--sf);border:2px solid var(--red);border-radius:var(--r-m);padding:16px;margin:10px 0;cursor:pointer;display:flex;align-items:center;gap:14px;transition:background .15s}
+.emrg-picker-card:hover{background:var(--sf2)}
+.emrg-picker-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.emrg-picker-name{font-size:16px;font-weight:700}
+.emrg-picker-sub2{font-size:12px;color:var(--t3)}
+.emrg-btn{display:inline-block;background:#C0392B;color:#fff;border:none;border-radius:var(--r-s);padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;margin:4px 0}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1669,6 +1711,7 @@ function route(){
   if(pid==='tree'){renderFamilyTree();return;}
   if(pid==='research'){renderResearch(parts[1]||'chad');return;}
   if(pid==='goals'){renderGoals(parts[1]||'chad');return;}
+  if(pid==='emergency'){renderEmergency(parts[1]||null);return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -1817,6 +1860,14 @@ function renderHome(){
       <div class="cmp-tile-sub">Variant inheritance map · who passed what to whom</div>
     </div>
     <div class="mc-arrow">›</div>
+  </div>
+  <div class="cmp-tile" onclick="nav('emergency')" style="border-color:#C0392B;background:rgba(192,57,43,.08)">
+    <div class="cmp-tile-icon" style="font-size:22px">🆘</div>
+    <div class="cmp-tile-txt">
+      <div class="cmp-tile-title" style="color:#E05A5A">Emergency Info</div>
+      <div class="cmp-tile-sub">Allergies · Meds · Drug alerts — readable in 3 seconds</div>
+    </div>
+    <div class="mc-arrow" style="color:#E05A5A">›</div>
   </div>
   <div class="hub-updates">
     <div class="sec-lbl">Latest Updates</div>
@@ -2694,7 +2745,8 @@ function renderMore(p){
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`},
     {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`},
     {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`},
-    {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`}
+    {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`},
+    {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -2705,7 +2757,8 @@ function renderMore(p){
     });
   }
   items.forEach(item=>{
-    h+=`<div class="more-item" onclick="${item.fn}"><div class="more-ic"><svg viewBox="0 0 24 24">${item.icon}</svg></div><div><div class="more-t">${item.t}</div><div class="more-s">${item.s}</div></div></div>`;
+    const st=item.style?` style="${item.style}"`:'';
+    h+=`<div class="more-item" onclick="${item.fn}"${st}><div class="more-ic"><svg viewBox="0 0 24 24">${item.icon}</svg></div><div><div class="more-t">${item.t}</div><div class="more-s">${item.s}</div></div></div>`;
   });
   h+=`</div>`;
   return h;
@@ -4492,6 +4545,149 @@ function goalsDeleteCustom(pid,gid){
   const custom=ls(pid,'goals-custom',[]).filter(g=>g.id!==gid);
   lw(pid,'goals-custom',custom);
   goalsRender(pid);
+}
+
+/* ══════════════════════════════════════
+   P20 — EMERGENCY INFO PAGE
+══════════════════════════════════════ */
+const EMERGENCY_DATA={
+  quinn:{
+    name:'Quinn Joseph Byars',
+    dob:'July 22, 2008 (Age 17)',
+    blood:'Unknown (pending)',
+    allergies:[
+      {drug:'DAPSONE',reason:'NAT2 slow acetylator — caused hemolytic anemia (Hgb 12.6→8.2 in Belize). NEVER give.'},
+      {drug:'COLCHICINE',reason:'ABCB1 reduced P-gp transporter — caused CNS accumulation and severe neurotoxicity. NEVER give.'},
+      {drug:'SULFONAMIDES',reason:'NAT2 slow acetylator — same pathway as dapsone. High hemolysis risk.'}
+    ],
+    meds:[
+      'Prednisone 18mg daily (tapering)',
+      'Fluoxetine (Prozac) 30mg daily',
+      'Enalapril 2.5mg twice daily',
+      'Topiramate (dose per chart)',
+      'Famotidine (Pepcid) 20mg'
+    ],
+    conditions:[
+      'Behçet\'s Disease — HLA-B*51 homozygous (B*51/B*51) — ICBD criteria met',
+      'Post-myocarditis (EBV Sept 2025) — EF recovered 33%→52% by Dec 2025',
+      'BD-related GI disease — terminal ileal scarring, bile acid malabsorption',
+      'Major Depressive Disorder — active treatment'
+    ],
+    pgx:[
+      {gene:'CYP2C9 bilateral intermediate',alert:'Reduce NSAIDs 25% — bilateral *1/*2 from both parents'},
+      {gene:'CYP2D6 unknown',alert:'Fluoxetine clearance unclear — monitor closely; WGS pending'},
+      {gene:'FKBP5 CT',alert:'Enhanced steroid sensitivity — effective at lower prednisone doses'},
+      {gene:'CYP2C19 bilateral',alert:'Intermediate metabolizer — reduced prodrug activation'}
+    ]
+  },
+  chad:{
+    name:'Chad Byars, M.D.',
+    dob:'Est. 1962 (Age ~63)',
+    blood:'Unknown',
+    allergies:[],
+    meds:[
+      'Rosuvastatin (dose per chart)',
+      'Enalapril (dose per chart)',
+      'Aspirin 81mg daily'
+    ],
+    conditions:[
+      'APOE ε3/ε4 — elevated Alzheimer\'s risk, lifestyle-managed',
+      '9p21 ×3 — bilateral CAD genetic risk (father: stent 62, CABG 75)',
+      'MC1R ×4 compound — 91st percentile melanoma risk',
+      'PITX2 CT — AFib genetic risk'
+    ],
+    pgx:[
+      {gene:'CYP2C9 *1/*2',alert:'Warfarin: use IWPC algorithm — intermediate metabolizer, standard dose will overdose'},
+      {gene:'CYP2C19 *1/*2',alert:'NO clopidogrel — inadequate activation; use prasugrel or ticagrelor'},
+      {gene:'SLCO1B1 CT',alert:'Statin myopathy risk at high doses — rosuvastatin preferred, max 20mg'},
+      {gene:'CYP1A2 ultra-rapid',alert:'Caffeine clears fast — no CV concern from moderate intake'}
+    ]
+  }
+};
+
+function renderEmergency(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+
+  // No pid — show picker
+  if(!pid||!EMERGENCY_DATA[pid]){
+    const h=`<div class="emrg-picker">
+      <div class="emrg-picker-title">Emergency Info</div>
+      <div class="emrg-picker-sub">Select a family member to view their emergency card</div>
+      ${Object.entries(EMERGENCY_DATA).map(([id,d])=>{
+        const p=PERSONS[id];
+        return `<div class="emrg-picker-card" onclick="nav('emergency/${id}')">
+          <div class="emrg-picker-av" style="background:${hexAlpha(p.color,0.15)};color:${p.color}">${p.initials}</div>
+          <div><div class="emrg-picker-name">${d.name}</div><div class="emrg-picker-sub2">${d.dob}</div></div>
+        </div>`;
+      }).join('')}
+      <button class="emrg-back" style="margin-top:16px;background:var(--sf3);color:var(--t2)" onclick="nav('home')">← Back to Home</button>
+    </div>`;
+    document.getElementById('content').innerHTML=h;
+    window.scrollTo(0,0);
+    return;
+  }
+
+  const d=EMERGENCY_DATA[pid];
+  const contacts=ls(pid,'emrg-contacts',['','','']);
+
+  const h=`<div class="emrg-bg">
+    <div class="emrg-header">
+      <button class="emrg-back" onclick="nav('${pid}/more')">← Back</button>
+      <div>
+        <div class="emrg-header-title">⚕ EMERGENCY MEDICAL INFO</div>
+        <div class="emrg-header-sub">Show this screen to first responders</div>
+      </div>
+    </div>
+    <div class="emrg-wrap">
+      <div class="emrg-name-block">
+        <div class="emrg-name">${d.name}</div>
+        <div class="emrg-dob">DOB: ${d.dob} &nbsp;·&nbsp; Blood type: ${d.blood}</div>
+      </div>
+
+      <div class="emrg-section">
+        <div class="emrg-section-title">⛔ Drug Allergies / Reactions</div>
+        <div class="emrg-allergy-box">
+          <div class="emrg-allergy-title">⛔ DO NOT GIVE:</div>
+          ${d.allergies.length
+            ? d.allergies.map(a=>`<div class="emrg-allergy-item"><b>${a.drug}</b> — ${a.reason}</div>`).join('')
+            : '<div class="emrg-allergy-item">No documented drug allergies on file</div>'}
+        </div>
+      </div>
+
+      <div class="emrg-section">
+        <div class="emrg-section-title">Current Medications</div>
+        <ul class="emrg-med-list">${d.meds.map(m=>`<li>• ${m}</li>`).join('')}</ul>
+      </div>
+
+      <div class="emrg-section">
+        <div class="emrg-section-title">Medical Conditions</div>
+        ${d.conditions.map(c=>`<div class="emrg-condition-item">• ${c}</div>`).join('')}
+      </div>
+
+      <div class="emrg-section">
+        <div class="emrg-section-title">Drug Metabolism Alerts (Pharmacogenomics)</div>
+        ${d.pgx.map(g=>`<div class="emrg-pgx-item"><b>${g.gene}:</b> ${g.alert}</div>`).join('')}
+      </div>
+
+      <div class="emrg-section">
+        <div class="emrg-section-title">Emergency Contacts</div>
+        ${[0,1,2].map(i=>`<div class="emrg-contact-row">
+          <input class="emrg-contact-inp" id="ec-${pid}-${i}" placeholder="Name — Phone" value="${contacts[i]||''}" onblur="emrgSaveContact('${pid}')">
+        </div>`).join('')}
+        <button class="emrg-contact-save" onclick="emrgSaveContact('${pid}')">Save Contacts</button>
+      </div>
+    </div>
+    <button class="emrg-close-btn" onclick="nav('${pid}/more')">CLOSE EMERGENCY CARD</button>
+  </div>`;
+
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+
+function emrgSaveContact(pid){
+  const contacts=[0,1,2].map(i=>(document.getElementById('ec-'+pid+'-'+i)||{value:''}).value||'');
+  lw(pid,'emrg-contacts',contacts);
 }
 
 /* ── Show/hide FAB based on current view ── */
