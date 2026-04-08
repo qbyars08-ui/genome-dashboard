@@ -463,6 +463,65 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .ls-cite b{color:var(--t3)}
 
 /* ══════════════════════════════════════
+   CONVERSATIONAL LOG INPUT
+══════════════════════════════════════ */
+.clog-wrap{padding:12px 16px 4px}
+.clog-row{display:flex;gap:8px;align-items:flex-end}
+.clog-inp{
+  flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);
+  padding:12px 14px;font-size:13px;font-weight:500;color:var(--t1);min-height:44px;
+  resize:none;overflow:hidden;line-height:1.5;transition:border-color .25s;font-family:inherit;
+}
+.clog-inp:focus{border-color:var(--blue);outline:none}
+.clog-inp::placeholder{color:var(--t4)}
+.clog-send{
+  width:44px;height:44px;border-radius:var(--r-m);background:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s,transform .15s var(--spring);
+}
+.clog-send:active{opacity:.8;transform:scale(.93)}
+.clog-send svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.clog-chips{display:flex;gap:6px;padding:8px 16px 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.clog-chips::-webkit-scrollbar{display:none}
+.cchip{
+  padding:6px 12px;font-size:11px;font-weight:600;border-radius:20px;background:var(--sf);
+  border:1px solid var(--bd);color:var(--t3);white-space:nowrap;transition:all .15s;min-height:32px;
+}
+.cchip:active{transform:scale(.95)}
+.cchip.lab{border-color:var(--blu-b);color:var(--blue);background:var(--blu-d)}
+.cchip.med{border-color:var(--grn-b);color:var(--green);background:var(--grn-d)}
+.cchip.visit{border-color:var(--pur-b);color:var(--purple);background:var(--pur-d)}
+.cchip.note{border-color:var(--amb-b);color:var(--amber);background:var(--amb-d)}
+.clog-fb{font-size:11px;color:var(--green);padding:0 16px 8px;min-height:18px;transition:opacity .3s}
+
+/* ══════════════════════════════════════
+   JOURNAL TIMELINE
+══════════════════════════════════════ */
+.jrnl-empty{text-align:center;padding:48px 24px;color:var(--t3);font-size:13px;line-height:1.65}
+.jrnl-date-group{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:12px 0 6px}
+.jrnl-entry{
+  background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);
+  padding:13px 38px 13px 16px;margin-bottom:8px;position:relative;overflow:hidden;
+}
+.jrnl-entry::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.jrnl-entry.t-lab::before{background:var(--blue)}
+.jrnl-entry.t-med::before{background:var(--green)}
+.jrnl-entry.t-visit::before{background:var(--purple)}
+.jrnl-entry.t-symptom::before{background:var(--amber)}
+.jrnl-entry.t-note::before{background:var(--t3)}
+.jrnl-meta{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.jrnl-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.04em;text-transform:uppercase}
+.jrnl-badge.t-lab{background:var(--blu-d);color:var(--blue);border:1px solid var(--blu-b)}
+.jrnl-badge.t-med{background:var(--grn-d);color:var(--green);border:1px solid var(--grn-b)}
+.jrnl-badge.t-visit{background:var(--pur-d);color:var(--purple);border:1px solid var(--pur-b)}
+.jrnl-badge.t-symptom{background:var(--amb-d);color:var(--amber);border:1px solid var(--amb-b)}
+.jrnl-badge.t-note{background:rgba(255,255,255,.04);color:var(--t3);border:1px solid var(--bd)}
+.jrnl-time{font-size:10px;color:var(--t4)}
+.jrnl-text{font-size:13px;color:var(--t1);font-weight:500;line-height:1.5}
+.jrnl-parsed{font-size:11px;color:var(--t3);margin-top:3px}
+.jrnl-del{position:absolute;top:10px;right:10px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--t4);cursor:pointer;transition:color .15s;border-radius:4px}
+.jrnl-del:hover{color:var(--t2);background:var(--sf2)}
+
+/* ══════════════════════════════════════
    PRINT
 ══════════════════════════════════════ */
 @media print{
@@ -1361,16 +1420,31 @@ function initD3(p){
    RENDER — TRACKING
 ══════════════════════════════════════ */
 function renderTracking(p){
-  return `<div class="track-hdr"><div class="track-t">Log your latest results</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Your personalized health plan</div></div>
+  return `<div class="clog-wrap">
+    <div class="clog-row">
+      <textarea class="clog-inp" id="clog-${p.id}" rows="1" placeholder="Log anything — 'My LDL was 142 today' or 'Started methylfolate 800mcg'" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitLog('${p.id}')}"></textarea>
+      <button class="clog-send" onclick="submitLog('${p.id}')"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+    <div class="clog-chips">
+      <button class="cchip lab" onclick="setLogChip('${p.id}','Lab Result — ')">+ Lab result</button>
+      <button class="cchip med" onclick="setLogChip('${p.id}','Started ')">+ Medication</button>
+      <button class="cchip visit" onclick="setLogChip('${p.id}','Saw Dr. ')">+ Doctor visit</button>
+      <button class="cchip note" onclick="setLogChip('${p.id}','')">+ Note</button>
+    </div>
+    <div class="clog-fb" id="clog-fb-${p.id}"></div>
+  </div>
+  <div class="track-hdr" style="padding-top:4px"><div class="track-t">Your health log</div></div>
   <div class="track-tabs">
     <button class="tbtn on" id="tt-labs" onclick="showTrackTab('${p.id}','labs',this)">Labs</button>
     <button class="tbtn" id="tt-meds" onclick="showTrackTab('${p.id}','meds',this)">Medications</button>
     <button class="tbtn" id="tt-proto" onclick="showTrackTab('${p.id}','proto',this)">Protocol</button>
+    <button class="tbtn" id="tt-journal" onclick="showTrackTab('${p.id}','journal',this)">Journal</button>
   </div>
   <div class="track-body">
     <div id="tb-labs" class="pad"></div>
     <div id="tb-meds" class="pad" style="display:none"></div>
     <div id="tb-proto" class="pad" style="display:none"></div>
+    <div id="tb-journal" class="pad" style="display:none"></div>
   </div>`;
 }
 
@@ -1381,13 +1455,134 @@ function initTrack(p){
 }
 
 function showTrackTab(pid,t,btn){
-  ['labs','meds','proto'].forEach(x=>{
+  ['labs','meds','proto','journal'].forEach(x=>{
     const el=document.getElementById('tb-'+x);if(el)el.style.display=x===t?'':'none';
     const tb=document.getElementById('tt-'+x);if(tb)tb.classList.toggle('on',x===t);
   });
   if(t==='labs')renderLabs(PERSONS[pid]);
   if(t==='meds')renderMeds(PERSONS[pid]);
   if(t==='proto')renderProto(PERSONS[pid]);
+  if(t==='journal')renderJournal(PERSONS[pid]);
+}
+
+/* ══════════════════════════════════════
+   CONVERSATIONAL LOG + JOURNAL
+══════════════════════════════════════ */
+const LAB_PATTERNS=[
+  {re:/(?:my\s+)?ldl\s*(?:cholesterol)?\s*(?:was|is|came\s+back(?:\s+at)?|came\s+in(?:\s+at)?|is\s+now|:)?\s*([\d.]+)/i,k:'ldl',n:'LDL Cholesterol',u:'mg/dL'},
+  {re:/(?:my\s+)?hdl\s*(?:cholesterol)?\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'hdl',n:'HDL Cholesterol',u:'mg/dL'},
+  {re:/(?:my\s+)?(?:vitamin\s+d|vit\.?\s*d|vitd)\s*(?:was|is|came\s+back(?:\s+at)?|level)?\s*([\d.]+)/i,k:'vitd',n:'Vitamin D',u:'ng/mL'},
+  {re:/(?:my\s+)?testosterone\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'testo',n:'Testosterone',u:'ng/dL'},
+  {re:/(?:my\s+)?ferritin\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'ferritin',n:'Ferritin',u:'ng/mL'},
+  {re:/(?:my\s+)?(?:b-?12|vitamin\s+b-?12)\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'b12',n:'Vitamin B12',u:'pg/mL'},
+  {re:/(?:my\s+)?(?:hba1c|a1c|hemoglobin\s+a1c)\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'a1c',n:'HbA1c',u:'%'},
+  {re:/(?:my\s+)?(?:crp|c-reactive\s+protein)\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'crp',n:'CRP',u:'mg/L'},
+  {re:/(?:my\s+)?(?:homocysteine|hcy)\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'hcy',n:'Homocysteine',u:'µmol/L'},
+  {re:/(?:my\s+)?(?:apob|apo\s*b)\s*(?:was|is|came\s+back(?:\s+at)?)?\s*([\d.]+)/i,k:'apob',n:'ApoB',u:'mg/dL'},
+  {re:/weight\s+([\d.]+)\s*(?:lbs?|pounds?)?/i,k:'weight',n:'Weight',u:'lbs'},
+  {re:/(?:blood\s+pressure|bp)\s+([\d]+)\s*[\/\-]\s*([\d]+)/i,k:'bp',n:'Blood Pressure',u:'mmHg',isBP:true},
+];
+
+function parseHealthLog(text){
+  const today=new Date().toISOString().slice(0,10);
+  const lower=text.toLowerCase().trim();
+  // Try lab patterns
+  for(const p of LAB_PATTERNS){
+    const m=text.match(p.re);
+    if(m){
+      const v=p.isBP?m[1]+'/'+m[2]:parseFloat(m[1]);
+      return {type:'lab',parsed:{k:p.k,n:p.n,v,u:p.u},date:extractDate(text)||today};
+    }
+  }
+  // Visit patterns
+  if(/(?:saw|visited|appointment|dr\.|doctor|went\s+to)/i.test(lower))
+    return {type:'visit',parsed:null,date:extractDate(text)||today};
+  // Med patterns
+  if(/(?:started?|began|taking|now\s+on|added|stopped?|discontinued|increased|decreased)\s+\w/i.test(lower))
+    return {type:'med',parsed:null,date:extractDate(text)||today};
+  // Symptom patterns
+  if(/(?:feeling|feel|symptom|tired|fatigue|pain|dizzy|nausea|headache|ache)/i.test(lower))
+    return {type:'symptom',parsed:null,date:extractDate(text)||today};
+  return {type:'note',parsed:null,date:extractDate(text)||today};
+}
+
+function extractDate(text){
+  const m=text.match(/(\d{4}-\d{2}-\d{2})/);if(m)return m[1];
+  const today=new Date();
+  if(/\btoday\b/i.test(text))return today.toISOString().slice(0,10);
+  if(/\byesterday\b/i.test(text)){const y=new Date(today);y.setDate(y.getDate()-1);return y.toISOString().slice(0,10);}
+  return null;
+}
+
+function setLogChip(pid,prefix){
+  const inp=document.getElementById('clog-'+pid);if(!inp)return;
+  inp.value=prefix;inp.focus();
+  inp.style.height='auto';inp.style.height=inp.scrollHeight+'px';
+}
+
+function submitLog(pid){
+  const inp=document.getElementById('clog-'+pid);if(!inp)return;
+  const text=inp.value.trim();if(!text)return;
+  const parsed=parseHealthLog(text);
+  // Save to journal
+  const journal=ls(pid,'journal',[]);
+  const entry={id:Date.now(),type:parsed.type,text,parsed:parsed.parsed,date:parsed.date,ts:Date.now()};
+  journal.unshift(entry);
+  lw(pid,'journal',journal);
+  // Also save to lab tracker if it's a lab
+  if(parsed.type==='lab'&&parsed.parsed&&parsed.parsed.k&&!parsed.parsed.isBP){
+    const hist=ls(pid,'l-'+parsed.parsed.k,[]);
+    hist.push({v:parseFloat(parsed.parsed.v),d:parsed.date});
+    hist.sort((a,b)=>a.d.localeCompare(b.d));
+    lw(pid,'l-'+parsed.parsed.k,hist);
+  }
+  // Show feedback
+  const fb=document.getElementById('clog-fb-'+pid);
+  if(fb){
+    const labels={lab:'Lab result saved',med:'Medication logged',visit:'Visit recorded',symptom:'Symptom noted',note:'Note saved'};
+    fb.textContent=labels[parsed.type]||'Saved';
+    fb.style.opacity='1';
+    setTimeout(()=>{fb.style.opacity='0';},2000);
+  }
+  inp.value='';inp.style.height='auto';
+  // If journal tab is open, refresh it
+  const jt=document.getElementById('tb-journal');
+  if(jt&&jt.style.display!=='none')renderJournal(PERSONS[pid]);
+}
+
+function renderJournal(p){
+  const c=document.getElementById('tb-journal');if(!c)return;
+  const journal=ls(p.id,'journal',[]);
+  if(!journal.length){
+    c.innerHTML='<div class="jrnl-empty">Nothing logged yet.<br><span style="font-size:11px;color:var(--t4)">Type anything above — "My LDL was 142 today" or "Saw Dr. Tung, discussed cholestyramine"</span></div>';
+    return;
+  }
+  // Group by date
+  const byDate={};
+  journal.forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
+  const dates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
+  c.innerHTML=dates.map(d=>{
+    const label=d===new Date().toISOString().slice(0,10)?'Today':
+                 d===new Date(Date.now()-86400000).toISOString().slice(0,10)?'Yesterday':
+                 new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return `<div class="jrnl-date-group">${label}</div>`+
+      byDate[d].map((e,i)=>{
+        const idx=journal.indexOf(e);
+        return `<div class="jrnl-entry t-${e.type}">
+          <div class="jrnl-meta"><span class="jrnl-badge t-${e.type}">${e.type}</span><span class="jrnl-time">${new Date(e.ts).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</span></div>
+          <div class="jrnl-text">${e.text}</div>
+          ${e.parsed?`<div class="jrnl-parsed">Logged: ${e.parsed.n} = ${e.parsed.v} ${e.parsed.u}</div>`:''}
+          <div class="jrnl-del" onclick="deleteJournalEntry('${p.id}',${idx})">×</div>
+        </div>`;
+      }).join('');
+  }).join('');
+}
+
+function deleteJournalEntry(pid,idx){
+  const journal=ls(pid,'journal',[]);
+  journal.splice(idx,1);
+  lw(pid,'journal',journal);
+  renderJournal(PERSONS[pid]);
 }
 
 function renderLabs(p){
