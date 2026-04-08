@@ -939,6 +939,24 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .mh-insight{background:var(--pur-d);border:1px solid var(--pur-b);border-radius:var(--r-s);padding:12px 14px;margin:10px 0;font-size:13px;color:var(--t2);line-height:1.5}
 .mh-sugg{border-left:3px solid var(--purple);padding:8px 12px;margin:6px 0;font-size:13px;color:var(--t2)}
 
+/* ══════════════════════════════════════
+   P17 — FAMILY TREE VISUALIZATION
+══════════════════════════════════════ */
+.tree-wrap{padding:0 16px 40px}
+.tree-svg-container{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);margin:12px 0;padding:8px}
+.tree-svg-container svg{display:block;margin:0 auto}
+.tree-legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.tree-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2)}
+.tree-legend-dot{width:10px;height:10px;border-radius:50%}
+.tree-variant-list{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0}
+.tree-variant-title{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px}
+.tree-variant-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.tree-variant-row:last-child{border-bottom:none}
+.tree-var-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tree-var-name{font-weight:600;min-width:80px}
+.tree-var-path{color:var(--t3);flex:1}
+.tree-var-predicted{font-size:10px;font-style:italic;color:var(--amber)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1597,6 +1615,7 @@ function route(){
   if(pid==='exercise'){renderExercise(parts[1]||'chad');return;}
   if(pid==='sleep'){renderSleep(parts[1]||'chad');return;}
   if(pid==='mental'){renderMental(parts[1]||'chad');return;}
+  if(pid==='tree'){renderFamilyTree();return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -1735,6 +1754,14 @@ function renderHome(){
     <div class="cmp-tile-txt">
       <div class="cmp-tile-title">Compare Family Members</div>
       <div class="cmp-tile-sub">Side-by-side genetic diff · shared risks · family patterns</div>
+    </div>
+    <div class="mc-arrow">›</div>
+  </div>
+  <div class="cmp-tile" onclick="nav('tree')">
+    <div class="cmp-tile-icon">🌳</div>
+    <div class="cmp-tile-txt">
+      <div class="cmp-tile-title">Family Tree</div>
+      <div class="cmp-tile-sub">Variant inheritance map · who passed what to whom</div>
     </div>
     <div class="mc-arrow">›</div>
   </div>
@@ -4062,6 +4089,115 @@ function mhRender(pid){
       </div>
     </div>`;
   }).join('');
+}
+
+/* ══════════════════════════════════════
+   P17 — FAMILY TREE VISUALIZATION
+══════════════════════════════════════ */
+function renderFamilyTree(){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+
+  // Node positions: x,y center
+  const nodes=[
+    {id:'peggy',  x:80,  y:60,  label:'Peggy',   initials:'P',  color:'#5AAD8B', clickable:false, note:'Chad\'s aunt'},
+    {id:'chadpar',x:280, y:60,  label:'Chad\'s Parents', initials:'?', color:'#4A5568', clickable:false, note:'Deceased'},
+    {id:'brigpar',x:430, y:60,  label:'Brigitte\'s Parents', initials:'?', color:'#4A5568', clickable:false, note:''},
+    {id:'chad',   x:220, y:180, label:'Chad',     initials:'CB', color:'#5B8BD4', clickable:true},
+    {id:'brigitte',x:390,y:180, label:'Brigitte', initials:'BB', color:'#9B7ADB', clickable:true},
+    {id:'quinn',  x:260, y:300, label:'Quinn',    initials:'QB', color:'#E05A5A', clickable:true},
+    {id:'brother',x:400, y:300, label:'Brother',  initials:'B',  color:'#C9A84C', clickable:true, note:'Kit ordered'}
+  ];
+
+  // Flow lines: from→to, label, color, predicted
+  const flows=[
+    {f:'peggy', t:'chad',    lbl:'MT-H1, MC1R',               c:'#5AAD8B', pred:false, ly:120},
+    {f:'chad',  t:'quinn',   lbl:'HLA-B*51, TNF-α, 9p21, APOE ε4', c:'#5B8BD4', pred:false, ly:240},
+    {f:'brigitte',t:'quinn', lbl:'HLA-B*51, NAT2, CYP2C9, COMT Met, DBH TT', c:'#9B7ADB', pred:false, ly:260},
+    {f:'chad',  t:'brother', lbl:'HLA-B*51, 9p21, TNF-α',     c:'#5B8BD4', pred:true,  ly:240},
+    {f:'brigitte',t:'brother',lbl:'HLA-B*51, NAT2 slow',       c:'#9B7ADB', pred:true,  ly:260}
+  ];
+
+  // Build SVG
+  const W=520, H=380;
+  const nodeMap={};
+  nodes.forEach(n=>nodeMap[n.id]=n);
+
+  let lines='';
+  flows.forEach(fl=>{
+    const fn=nodeMap[fl.f], tn=nodeMap[fl.t];
+    if(!fn||!tn)return;
+    const dash=fl.pred?'stroke-dasharray="6,4"':'';
+    lines+=`<line x1="${fn.x}" y1="${fn.y+24}" x2="${tn.x}" y2="${tn.y-24}" stroke="${fl.c}" stroke-width="1.5" opacity=".7" ${dash}/>`;
+    const mx=(fn.x+tn.x)/2+8, my=fl.ly;
+    const predTxt=fl.pred?' (predicted)':'';
+    lines+=`<text x="${mx}" y="${my}" font-size="8" fill="${fl.c}" font-family="system-ui" opacity=".9">${fl.lbl}${predTxt}</text>`;
+  });
+
+  // Marriage line chad-brigitte
+  lines+=`<line x1="${nodeMap.chad.x+24}" y1="${nodeMap.chad.y}" x2="${nodeMap.brigitte.x-24}" y2="${nodeMap.brigitte.y}" stroke="var(--bd2)" stroke-width="1.5"/>`;
+
+  let circles='';
+  nodes.forEach(n=>{
+    const r=24;
+    const dashCircle=n.clickable===false?'stroke-dasharray="4,3"':'';
+    const cursor=n.clickable?'cursor:pointer':'';
+    const onclick=n.clickable?`onclick="nav('${n.id}')"` :'';
+    circles+=`<g ${onclick} style="${cursor}">
+      <circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${hexAlpha(n.color,0.12)}" stroke="${n.color}" stroke-width="2" ${dashCircle}/>
+      <text x="${n.x}" y="${n.y+5}" text-anchor="middle" font-size="11" font-weight="700" fill="${n.color}" font-family="system-ui">${n.initials}</text>
+      <text x="${n.x}" y="${n.y+r+14}" text-anchor="middle" font-size="10" fill="var(--t2)" font-family="system-ui">${n.label}</text>
+      ${n.note?`<text x="${n.x}" y="${n.y+r+24}" text-anchor="middle" font-size="8" fill="var(--t3)" font-family="system-ui">${n.note}</text>`:''}
+    </g>`;
+  });
+
+  const variantList=[
+    {name:'HLA-B*51',path:'Chad → Quinn + Brother (predicted); Brigitte → Quinn + Brother (predicted)',c:'#9B7ADB',pred:false},
+    {name:'9p21 ×3',path:'Chad → Quinn; Chad → Brother (predicted)',c:'#E05A5A',pred:false},
+    {name:'TNF-α AG',path:'Chad → Quinn; Chad → Brother (predicted)',c:'#E05A5A',pred:false},
+    {name:'APOE ε4',path:'Chad → Quinn',c:'#5B8BD4',pred:false},
+    {name:'PITX2 CT',path:'Chad → Quinn + Brother (predicted); Brigitte → Quinn + Brother (predicted)',c:'#E05A5A',pred:false},
+    {name:'MC1R ×4',path:'Chad (from Peggy) → Quinn + Brother (predicted)',c:'#5AAD8B',pred:false},
+    {name:'NAT2 slow',path:'Brigitte → Quinn; Brigitte → Brother (predicted)',c:'#C9A84C',pred:false},
+    {name:'COMT Met',path:'Brigitte → Quinn; Brigitte → Brother (predicted)',c:'#9B7ADB',pred:false},
+    {name:'DBH TT',path:'Brigitte → Quinn',c:'#9B7ADB',pred:false},
+    {name:'MTHFR A1298C',path:'Brigitte → Quinn; compound with Chad C677T',c:'#C9A84C',pred:false},
+    {name:'MT-H1',path:'Peggy → Chad (maternal line)',c:'#5AAD8B',pred:false}
+  ];
+
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('home')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Family Tree</div>
+      <div class="page-hdr-sub">Variant inheritance map</div>
+    </div>
+  </div>
+  <div class="tree-wrap">
+    <div class="tree-legend">
+      <div class="tree-legend-item"><div class="tree-legend-dot" style="background:#E05A5A"></div>Cardiovascular</div>
+      <div class="tree-legend-item"><div class="tree-legend-dot" style="background:#9B7ADB"></div>Immune / BD</div>
+      <div class="tree-legend-item"><div class="tree-legend-dot" style="background:#C9A84C"></div>Drug metabolism</div>
+      <div class="tree-legend-item"><div class="tree-legend-dot" style="background:#5B8BD4"></div>Longevity / Neuro</div>
+      <div class="tree-legend-item"><div class="tree-legend-dot" style="background:#5AAD8B"></div>Mitochondrial / Cancer</div>
+    </div>
+    <div class="tree-svg-container">
+      <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+        ${lines}${circles}
+        <text x="10" y="${H-8}" font-size="8" fill="var(--t3)" font-family="system-ui">Dashed outline = predicted · Dashed line = predicted inheritance · Tap person to open profile</text>
+      </svg>
+    </div>
+    <div class="tree-variant-list">
+      <div class="tree-variant-title">Key variant inheritance</div>
+      ${variantList.map(v=>`<div class="tree-variant-row">
+        <div class="tree-var-dot" style="background:${v.c}"></div>
+        <div class="tree-var-name">${v.name}</div>
+        <div class="tree-var-path">${v.path}</div>
+      </div>`).join('')}
+    </div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
 }
 
 /* ── Show/hide FAB based on current view ── */
