@@ -853,9 +853,21 @@ const BROTHER = {
 };
 
 /* ══════════════════════════════════════
+   DATA — PEGGY
+══════════════════════════════════════ */
+const PEGGY = {
+  id:'peggy', name:'Peggy B. Rome', sub:'Nanny Peg · Chad\'s Maternal Aunt · Deceased',
+  dob:'Deceased', initials:'PR', color:'#9B7ADB',
+  stats:[
+    {v:'MT-H1',l:'Haplogroup'},{v:'23andMe',l:'Ancestry'},{v:'Lung CA',l:'COD'},{v:'~85%',l:'NW Euro'}
+  ],
+  deceased: true
+};
+
+/* ══════════════════════════════════════
    PERSONS MAP
 ══════════════════════════════════════ */
-const PERSONS = {chad:CHAD, quinn:QUINN, brigitte:BRIGITTE, brother:BROTHER};
+const PERSONS = {chad:CHAD, quinn:QUINN, brigitte:BRIGITTE, brother:BROTHER, peggy:PEGGY};
 
 /* ══════════════════════════════════════
    STORAGE HELPERS (person-scoped)
@@ -874,6 +886,7 @@ function route(){
   const tab=parts[1]||'overview';
   document.body.classList.remove('is-doctor');
   if(pid==='home'||!PERSONS[pid]){renderHome();return;}
+  if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
 window.addEventListener('hashchange',route);
@@ -908,7 +921,8 @@ function renderHome(){
     {p:CHAD,  status:'23 variants · PGx critical'},
     {p:QUINN, status:'B*51/B*51 · Active Behcet\'s investigation'},
     {p:BRIGITTE, status:'614K SNPs · B*51 carrier · COMT AA'},
-    {p:BROTHER, status:'75% B*51 probability · Predicted inheritance mapped'}
+    {p:BROTHER, status:'75% B*51 probability · Predicted inheritance mapped'},
+    {p:PEGGY, status:'MT-H1 shared · Lung cancer · Chad\'s maternal aunt'}
   ];
   let h=`<div class="view">
   <div class="hub-hdr">
