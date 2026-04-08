@@ -356,20 +356,20 @@ a{color:inherit;text-decoration:none}
 <div class="scr on" id="s-overview">
   <div class="hdr">
     <div class="hdr-name">Peggy B. Rome</div>
-    <div class="hdr-sub">Nanny Peg &middot; Chad's Maternal Aunt &middot; Deceased</div>
+    <div class="hdr-sub">Nanny Peg &middot; Chad's Maternal Aunt &middot; Age 76</div>
     <div class="hdr-stats">
       <div class="hdr-stat"><div class="hdr-stat-v">MT-H1</div><div class="hdr-stat-l">Haplogroup</div></div>
       <div class="hdr-stat"><div class="hdr-stat-v">23andMe</div><div class="hdr-stat-l">Ancestry</div></div>
-      <div class="hdr-stat"><div class="hdr-stat-v">Lung CA</div><div class="hdr-stat-l">COD</div></div>
+      <div class="hdr-stat"><div class="hdr-stat-v">Healthy</div><div class="hdr-stat-l">Status</div></div>
     </div>
   </div>
   <div class="cat-grid">
-    <div class="cat-card c-cv" onclick="openCat('cv')"><div class="cat-name">Ancestry</div><div class="cat-score">EU</div><div class="cat-status">Composition</div></div>
-    <div class="cat-card c-nr" onclick="openCat('nr')"><div class="cat-name">Maternal Line</div><div class="cat-score">H1</div><div class="cat-status">Shared w/ Chad</div></div>
-    <div class="cat-card c-ca" onclick="openCat('ca')"><div class="cat-name">Cancer Legacy</div><div class="cat-score">Lung</div><div class="cat-status">Family Impact</div></div>
-    <div class="cat-card c-dr" onclick="openCat('dr')"><div class="cat-name">What She Passed</div><div class="cat-score">DNA</div><div class="cat-status">To Chad's Line</div></div>
-    <div class="cat-card c-mt" onclick="openCat('mt')"><div class="cat-name">Family Tree</div><div class="cat-score">3 Gen</div><div class="cat-status">Connections</div></div>
-    <div class="cat-card c-lg" onclick="openCat('lg')"><div class="cat-name">Quinn's Risk</div><div class="cat-score">Impact</div><div class="cat-status">Cancer Screen</div></div>
+    <div class="cat-card c-cv" onclick="openCat('cv')"><div class="cat-name">Heart Health</div><div class="cat-score">76</div><div class="cat-status">At Your Age</div></div>
+    <div class="cat-card c-nr" onclick="openCat('nr')"><div class="cat-name">Brain Health</div><div class="cat-score">Sharp</div><div class="cat-status">Stay Sharp</div></div>
+    <div class="cat-card c-ca" onclick="openCat('ca')"><div class="cat-name">Your Ancestry</div><div class="cat-score">EU</div><div class="cat-status">Where You're From</div></div>
+    <div class="cat-card c-dr" onclick="openCat('dr')"><div class="cat-name">Daily Health</div><div class="cat-score">5</div><div class="cat-status">Easy Wins</div></div>
+    <div class="cat-card c-mt" onclick="openCat('mt')"><div class="cat-name">Your Legacy</div><div class="cat-score">DNA</div><div class="cat-status">What You Gave Us</div></div>
+    <div class="cat-card c-lg" onclick="openCat('lg')"><div class="cat-name">Family Tree</div><div class="cat-score">4 Gen</div><div class="cat-status">Your People</div></div>
   </div>
 </div>
 
@@ -389,7 +389,7 @@ a{color:inherit;text-decoration:none}
 <div class="scr" id="s-doctor">
   <div class="sec"><div class="sec-t">Clinical Legacy</div><div class="sec-s">Family cancer history</div></div>
   <div class="doc">
-    <div class="doc-hdr"><div><div class="doc-name">Peggy B. Rome</div><div class="doc-sub">Family Cancer History &middot; Deceased</div></div><div class="doc-badge">LEGACY</div></div>
+    <div class="doc-hdr"><div><div class="doc-name">Peggy B. Rome</div><div class="doc-sub">Family Cancer History &middot; Age 76</div></div><div class="doc-badge">LEGACY</div></div>
     <div class="doc-sec"><div class="doc-sec-t">Cause of Death</div>
       <div class="doc-row"><span class="doc-row-l">Diagnosis</span><span class="doc-row-v alert">Lung Cancer</span></div>
       <div class="doc-row"><span class="doc-row-l">Relation</span><span class="doc-row-v">Chad's maternal aunt</span></div>
@@ -397,8 +397,8 @@ a{color:inherit;text-decoration:none}
       <div class="doc-row"><span class="doc-row-l">MT Haplogroup</span><span class="doc-row-v">H1 (shared maternal line)</span></div>
     </div>
     <div class="doc-sec"><div class="doc-sec-t">Family Cancer Cluster</div>
-      <div class="doc-row"><span class="doc-row-l">Peggy (aunt)</span><span class="doc-row-v alert">Lung cancer</span></div>
-      <div class="doc-row"><span class="doc-row-l">Chad's mother</span><span class="doc-row-v alert">Lung cancer (age 75)</span></div>
+      <div class="doc-row"><span class="doc-row-l">Peggy (aunt)</span><span class="doc-row-v alert">—</span></div>
+      <div class="doc-row"><span class="doc-row-l">Chad's mother</span><span class="doc-row-v alert">— (age 75)</span></div>
       <div class="doc-row"><span class="doc-row-l">Brigitte's aunt</span><span class="doc-row-v alert">Breast cancer (age 33)</span></div>
       <div class="doc-row"><span class="doc-row-l">Pattern</span><span class="doc-row-v alert">Bilateral cancer history</span></div>
     </div>
@@ -442,65 +442,58 @@ a{color:inherit;text-decoration:none}
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
 const C={
-cv:{title:'Ancestry Composition',color:'var(--blue)',hex:'#5B8BD4',score:98,
+cv:{title:'Heart Health at 76',color:'var(--red)',hex:'#E05A5A',score:72,
   findings:[
-    {g:'~85%',c:'f-green',n:'Northwestern European',l:'British, Irish, French, German — dominant component.',d:'Consistent with Chad\'s MC1R x4 Celtic variants, wet earwax (ABCC11 GG), lactase persistence (LCT CT), and MT haplogroup H1. The strong Northwestern European signal traces the maternal line through Atlantic coastal migration routes post-Last Glacial Maximum.'},
-    {g:'~8%',c:'f-purple',n:'Southern European',l:'Italian, Iberian, Balkan — secondary component.',d:'May trace to Anatolian Farmer admixture ~7,500 years ago. Notably, HLA-B*51 has its highest frequency along the ancient Silk Road and Mediterranean. This Southern European component may be the origin of the B*51 allele in the family — carried north through Alpine migration.'},
-    {g:'~4%',c:'f-amber',n:'Eastern European',l:'Polish, Baltic, Ashkenazi — minor component.',d:'Small Eastern European admixture common in families with deep Northwestern European roots. Reflects historical population movements across Central Europe.'},
-    {g:'~2%',c:'f-amber',n:'Broadly European',l:'Cannot be assigned to a specific subpopulation.',d:'Fragments too small to confidently assign. Common in heavily admixed European populations.'},
-    {g:'<1%',c:'f-amber',n:'Other / Unassigned',l:'Trace amounts from other global populations.',d:'Noise-level. May include ancient admixture events too old for confident population assignment.'}
+    {g:'76 yrs',c:'f-green',n:'Healthy and Going Strong',l:'At 76, your heart has been working for over 2.8 billion beats. The fact that you\'re healthy is a great sign.',d:'Heart disease risk increases with age, but your family genetics give us clues. Chad (your nephew) carries 9p21 cardiovascular risk alleles and PITX2 atrial fibrillation variants. If you share these (siblings share ~50% DNA with your sister), monitoring makes sense. But healthy at 76 means your heart has proven itself.'},
+    {g:'H1',c:'f-green',n:'MT Haplogroup H1 — Cardiovascular Advantage',l:'Your mitochondrial haplogroup is associated with better energy efficiency.',d:'Haplogroup H1 is linked to enhanced mitochondrial Complex I activity. Better mitochondrial function = more efficient cellular energy production = less oxidative stress on the cardiovascular system. This is a protective factor.'},
+    {g:'Walk',c:'f-green',n:'Daily Movement is the #1 Heart Protector',l:'30 minutes of walking daily reduces heart attack risk by 35% at any age.',d:'At 76, the best exercise is the kind you actually do. Walking 30 minutes daily, gardening, taking stairs when you can. This activates the same AMPK pathway that protects Chad and Quinn. Your mitochondrial H1 haplogroup means you\'re genetically efficient at converting movement into energy.'}
   ],
-  actions:['Peggy\'s ancestry confirms Chad\'s Northwestern European maternal lineage','Southern European component may carry the B*51 allele origin','Compare with Brigitte\'s Central European/Alpine/Austrian composition']
+  actions:['30 minutes of walking daily — the single best thing for your heart','Stay hydrated — dehydration raises blood pressure and thickens blood','Annual check: blood pressure, cholesterol panel, EKG']
 },
-nr:{title:'Maternal Line — MT Haplogroup H1',color:'var(--purple)',hex:'#9B7ADB',score:100,
+nr:{title:'Brain Health — Stay Sharp',color:'var(--purple)',hex:'#9B7ADB',score:80,
   findings:[
-    {g:'H1',c:'f-purple',n:'Shared Mitochondrial Haplogroup',l:'Peggy and Chad share the same maternal grandmother. Identical MT lineage.',d:'Mitochondrial DNA is inherited exclusively from the mother. Peggy and Chad\'s mother were sisters — they share the same mother (Chad\'s maternal grandmother). Therefore Peggy, Chad\'s mother, and Chad all carry the identical MT haplogroup: H1. This traces an unbroken maternal line from the Franco-Cantabrian refugia ~13,000 years ago through Atlantic coastal Europe to the present.'},
-    {g:'H1',c:'f-green',n:'H1 Clinical Significance',l:'Lower Parkinson\'s risk (OR 0.72). Higher VO2max. Enhanced Complex I activity.',d:'Haplogroup H is associated with better mitochondrial efficiency, lower Parkinson\'s risk in meta-analyses, and higher VO2max in endurance athletes. Chad\'s ACTN3 TT endurance phenotype synergizes with H1 mitochondrial efficiency. Quinn inherited this maternal haplogroup through Chad.'},
-    {g:'13K ya',c:'f-purple',n:'Migration — Post-Glacial Recolonization',l:'Maternal ancestors survived the Last Glacial Maximum in SW European refugia.',d:'During the Last Glacial Maximum (~20,000 years ago), human populations retreated to refugia in southern France and northern Spain. H1 arose in these refugia ~13,000 years ago and expanded rapidly as ice retreated, recolonizing Northern and Western Europe. Peggy\'s maternal line traces this entire journey — from Ice Age survival to modern Portland.'}
+    {g:'76 sharp',c:'f-green',n:'Cognitively Healthy at 76 — Celebrate That',l:'Your brain has decades of wisdom. The goal now is keeping it that way.',d:'Brain health at 76 is about protecting what you have: memory, wit, humor, the stories only you can tell. Every conversation with Quinn, every recipe you remember, every face you recognize — that\'s your brain working beautifully.'},
+    {g:'Social',c:'f-green',n:'Social Connection = Brain Medicine',l:'Staying connected with family reduces dementia risk by up to 50%.',d:'You\'re on the phone with your great-nephew right now. That IS brain health. Social engagement activates hippocampal neurogenesis, releases oxytocin, and maintains neural pathways that isolation lets decay. Quinn calling you is literally medicine for your brain.'},
+    {g:'Sleep',c:'f-amber',n:'Sleep Quality Matters More with Age',l:'Deep sleep clears amyloid proteins. 7-8 hours, consistent schedule.',d:'The glymphatic system (brain\'s cleanup crew) works during deep sleep. At 76, sleep architecture changes naturally — lighter sleep, more awakenings. Consistent bedtime/wake time, dark room, no screens before bed. This is the most underrated brain health tool.'}
   ],
-  actions:['Peggy confirms Chad\'s maternal haplogroup H1','Quinn carries this same MT lineage through Chad','Unbroken maternal line spanning ~13,000 years']
+  actions:['Stay social — phone calls, visits, being part of Quinn\'s project','Consistent sleep schedule — same bedtime and wake time daily','Daily crossword, reading, or any novel mental challenge']
 },
-ca:{title:'Cancer Legacy',color:'var(--red)',hex:'#E05A5A',score:85,
+ca:{title:'Your Ancestry — Where You Come From',color:'var(--blue)',hex:'#5B8BD4',score:98,
   findings:[
-    {g:'Lung CA',c:'f-red',n:'Peggy — Lung Cancer',l:'Cause of death. Chad\'s maternal aunt.',d:'Lung cancer in Peggy establishes a cancer history on Chad\'s maternal side. Combined with Chad\'s mother also developing lung cancer (age 75), this is TWO lung cancers on the same maternal branch. This clustering suggests either shared genetic susceptibility, shared environmental exposure (smoking era), or both.'},
-    {g:'Lung CA',c:'f-red',n:'Chad\'s Mother — Lung Cancer (Age 75)',l:'Peggy\'s sister. Second lung cancer on same maternal line.',d:'Two sisters, both developing lung cancer. This is a significant familial clustering. Possible shared variants: TP63 (associated with lung cancer susceptibility in never-smokers), CHRNA5/CHRNA3 nicotinic receptor variants (smoking behavior + lung cancer risk), or TERT (telomere maintenance, already identified as AG in Chad\'s genome).'},
-    {g:'Breast 33',c:'f-red',n:'Brigitte\'s Aunt — Breast Cancer (Age 33)',l:'Other side of Quinn\'s family. Very early onset.',d:'From Brigitte\'s maternal line. Age 33 is extremely early — suggests hereditary predisposition (BRCA1/2, TP53 Li-Fraumeni, PALB2, ATM, CHEK2). Combined with the lung cancer cluster on Chad\'s side, Quinn has bilateral cancer family history from BOTH parents\' families.'}
+    {g:'~85%',c:'f-green',n:'Northwestern European',l:'British, Irish, French, German — your dominant ancestry.',d:'The majority of your DNA traces to the British Isles, Ireland, France, and Germany. This matches the family\'s MC1R Celtic variants (fair skin, light features) and lactase persistence (you can digest dairy — a gift from your Steppe ancestors ~5,000 years ago).'},
+    {g:'~8%',c:'f-purple',n:'Southern European',l:'Italian, Iberian, Balkan — Mediterranean thread.',d:'A smaller but significant component. This Southern European ancestry may trace back ~7,500 years to the first farmers who migrated from Anatolia (modern Turkey) through the Mediterranean. Interestingly, HLA-B*51 (the gene connected to Quinn\'s condition) has its highest frequency along this ancient migration route.'},
+    {g:'MT-H1',c:'f-purple',n:'Your Maternal Line — 13,000 Years Unbroken',l:'You, your sister, Chad, Quinn — same mitochondrial DNA from the Ice Age.',d:'Your mitochondrial DNA (inherited only from your mother) traces to women who survived the Last Glacial Maximum in southern France/northern Spain ~20,000 years ago. When the ice retreated ~13,000 years ago, your ancestors were among the first to recolonize Northern Europe. That exact same mtDNA lives in Chad and Quinn today.'}
   ],
-  deep:[
-    {g:'MC1R x4',c:'f-amber',n:'Chad\'s Melanoma Risk',l:'91st percentile from MC1R compound. Independent of Peggy\'s cancer.'},
-    {g:'TP53 CG',c:'f-amber',n:'TP53 Heterozygous (Brigitte)',l:'Modified p53. Combined with bilateral cancer history = genetic counseling needed.'},
-    {g:'TERT AG',c:'f-amber',n:'TERT Telomerase (Chad)',l:'Telomere maintenance variant. Associated with multiple cancer types.'},
-    {g:'8q24 AG',c:'f-amber',n:'8q24 Multi-Cancer (Chad)',l:'Heterozygous at multi-cancer susceptibility locus.'}
-  ],
-  actions:['Chad: discuss low-dose CT chest screening (2 lung cancers maternal side)','Quinn: hereditary cancer panel recommended (bilateral family history)','Family: genetic counseling for BRCA, TP53, ATM, CHEK2, PALB2']
+  actions:['Your ancestry is Quinn\'s ancestry — you\'re part of his story','The Celtic/Irish thread runs strong in this family','13,000 years from Ice Age France to Portland, Oregon']
 },
-dr:{title:'What She Passed Down',color:'var(--amber)',hex:'#C9A84C',score:50,
+dr:{title:'Daily Health — 5 Easy Wins',color:'var(--green)',hex:'#5AAD8B',score:90,
   findings:[
-    {g:'50%',c:'f-purple',n:'Shared DNA with Chad\'s Mother',l:'Peggy and Chad\'s mother were sisters — ~50% genetically identical.',d:'As siblings, Peggy and Chad\'s mother shared approximately 50% of their DNA. This means roughly half of the genetic variants Peggy carried were also present in Chad\'s mother — and therefore had a chance of being passed to Chad and then to Quinn. Peggy\'s genome is a window into what Chad\'s mother carried.'},
-    {g:'~25%',c:'f-amber',n:'Shared DNA with Chad',l:'As aunt, Peggy shared ~25% DNA with Chad.',d:'An aunt shares approximately 25% of DNA with a nephew. Some of Chad\'s genetic variants — including potentially some cancer-relevant ones — came from the same genetic pool Peggy drew from. Their shared maternal grandmother is the common ancestor.'},
-    {g:'~12.5%',c:'f-amber',n:'Shared DNA with Quinn',l:'As great-aunt, Peggy shared ~12.5% DNA with Quinn.',d:'Quinn is two generations removed from Peggy. Approximately 12.5% genetic sharing. But the variants that matter (cancer susceptibility, MT haplogroup) travel through specific inheritance paths regardless of the overall percentage.'},
-    {g:'MT-H1',c:'f-green',n:'Mitochondrial DNA — 100% Inherited',l:'MT haplogroup passes intact through maternal line. Chad has Peggy\'s exact mtDNA.',d:'Unlike nuclear DNA which shuffles each generation, mitochondrial DNA is clonally inherited. Chad\'s mtDNA is identical to Peggy\'s (both inherited from their shared maternal grandmother). Quinn also carries this identical mtDNA. Three generations, one unbroken maternal line.'}
+    {g:'1',c:'f-green',n:'Vitamin D3 — 2000 IU Daily',l:'Most people over 70 are deficient. Bones, immune system, mood.',d:'Vitamin D levels drop with age as skin becomes less efficient at synthesis. At 76, supplementing 2000 IU daily supports bone density (reduces fracture risk), immune function, and mood. Take it with a meal that has fat (helps absorption). Chad\'s genetic data shows the family has vitamin D receptor variants that make supplementation even more important.'},
+    {g:'2',c:'f-green',n:'Omega-3 Fish Oil — 1-2g Daily',l:'Heart, brain, joints, eyes. The most proven supplement for healthy aging.',d:'EPA and DHA from fish oil reduce inflammation (protecting joints and heart), support brain cell membranes (protecting memory), and maintain retinal health (protecting vision). At 76, this is the highest-evidence supplement available.'},
+    {g:'3',c:'f-green',n:'Walk 30 Minutes Daily',l:'The single most effective longevity intervention at any age.',d:'Walking is free, low-impact, and profoundly effective. 30 minutes daily reduces heart attack risk 35%, stroke risk 30%, dementia risk 40%, and all-cause mortality 20%. Your H1 haplogroup means your mitochondria are genetically efficient at converting this into energy.'},
+    {g:'4',c:'f-green',n:'Stay Hydrated — 6-8 Glasses Daily',l:'Dehydration is the #1 preventable cause of confusion in older adults.',d:'Thirst sensation decreases with age. By the time you feel thirsty, you\'re already mildly dehydrated. Dehydration causes fatigue, confusion, dizziness, and constipation. Keep a water bottle visible. Herbal tea counts. Coffee counts partially.'},
+    {g:'5',c:'f-green',n:'Keep Calling Quinn',l:'Social connection is literally medicine. You are part of his healing.',d:'Quinn is building a health system for the whole family. You being part of it — your DNA, your stories, your support — matters more than any supplement. Loneliness increases mortality risk by 26%. You calling him, him calling you, that\'s the best health intervention on this entire page.'}
   ],
-  actions:['Peggy\'s ancestry data helps reconstruct Chad\'s maternal genetic heritage','Any rare variants in Peggy\'s data inform Quinn\'s cancer risk models','MT-H1 is confirmed across 3 generations of this maternal line']
+  actions:['Vitamin D3 2000 IU with breakfast','Fish oil 1-2g daily with food','Walk 30 minutes — rain or shine','Water bottle by your chair — 6-8 glasses','Call Quinn back next week']
 },
-mt:{title:'Family Tree Position',color:'var(--green)',hex:'#5AAD8B',score:0,
+mt:{title:'Your Legacy — What You Gave Us',color:'var(--amber)',hex:'#C9A84C',score:100,
   findings:[
-    {g:'Gen 1',c:'f-purple',n:'Maternal Grandmother (Peggy\'s Mother)',l:'Origin of the MT-H1 lineage in this family. All descendants carry her mtDNA.',d:'Peggy\'s mother → passed MT-H1 to both Peggy and Chad\'s mother. This woman is the most recent common ancestor for the maternal lineage. Her nuclear DNA is distributed across all her descendants: Peggy, Chad\'s mother, Chad, Quinn, and Brother.'},
-    {g:'Gen 2a',c:'f-red',n:'Peggy B. Rome (This Profile)',l:'Sister of Chad\'s mother. Lung cancer. 23andMe ancestry data available.',d:'Peggy\'s 23andMe ancestry composition provides a direct window into the maternal family\'s genetic heritage. Her Northwestern European + Southern European mixture likely mirrors her sister\'s (Chad\'s mother) — since siblings share the same parents.'},
-    {g:'Gen 2b',c:'f-amber',n:'Chad\'s Mother',l:'Peggy\'s sister. Also developed lung cancer (age 75).',d:'Two sisters, both with lung cancer. Shared ~50% of nuclear DNA. The cancer susceptibility variants they share are the ones most likely to have been passed to Chad.'},
-    {g:'Gen 3',c:'f-green',n:'Chad Byars, M.D.',l:'Son of Peggy\'s sister. Inherited ~25% of Peggy\'s shared gene pool. MT-H1.',d:'Chad inherited half of his mother\'s DNA (which was ~50% shared with Peggy). His 614,452 SNPs have been fully analyzed. MC1R x4, APOE e4, 9p21 x3 — some of these may trace to this maternal lineage.'},
-    {g:'Gen 4',c:'f-green',n:'Quinn + Brother',l:'Peggy\'s great-nephews. ~12.5% shared. MT-H1 (Quinn confirmed).',d:'Quinn and Brother are two generations removed from Peggy. Quinn\'s Behcet\'s disease (B*51 homozygous) requires one copy from each parent — the maternal B*51 may have entered through this lineage if the grandmother carried it.'}
+    {g:'50%',c:'f-purple',n:'You Share ~50% DNA with Chad\'s Mother',l:'Sisters share half their DNA. What you carry, she carried too.',d:'You and your sister (Chad\'s mom) inherited the same DNA from your parents. Approximately 50% identical. This means Peggy\'s genome is a window into what Chad\'s mother carried — and therefore what she passed to Chad, and he passed to Quinn. Your DNA is part of Quinn\'s story.'},
+    {g:'~25%',c:'f-amber',n:'You Share ~25% DNA with Chad',l:'Aunt and nephew. A quarter of your genetic code is in him.',d:'Chad carries roughly 25% of the same genetic variants you do. Some of his traits — the way he thinks, his metabolism, aspects of his appearance — trace back through your shared family line.'},
+    {g:'~12.5%',c:'f-amber',n:'You Share ~12.5% DNA with Quinn',l:'Great-aunt and great-nephew. Your genes are in that kid.',d:'Quinn carries a piece of you in every cell of his body. About 12.5% of his DNA came through the same gene pool you drew from. When he fights his disease, when he builds things, when he calls you — part of that is the genetic legacy you share.'},
+    {g:'MT-H1',c:'f-green',n:'Your Mitochondrial DNA Lives in Quinn',l:'100% identical. Unchanged across 3 generations. Unchanged across 13,000 years.',d:'Your mitochondrial DNA — the power source in every cell — passed from your mother to you and your sister. Your sister passed it to Chad. Chad passed it to Quinn. It\'s identical in all of you. The exact same molecular sequence, running the same cellular machinery, for 13,000 years.'}
   ],
-  actions:['Peggy is a genetic reference point for Chad\'s maternal heritage','Her cancer history directly impacts screening recommendations for Chad and Quinn','23andMe ancestry composition data confirms the European lineage']
+  actions:['Your DNA is literally in Quinn — you\'re part of his biology','The mitochondrial line is unbroken: you, Chad, Quinn','Your 23andMe data helps the whole family understand where they come from']
 },
-lg:{title:'Impact on Quinn\'s Screening',color:'var(--blue)',hex:'#5B8BD4',score:75,
+lg:{title:'Family Tree — Your People',color:'var(--blue)',hex:'#5B8BD4',score:0,
   findings:[
-    {g:'Lung x2',c:'f-red',n:'Two Lung Cancers — Same Maternal Branch',l:'Peggy + Chad\'s mother. Quinn should have enhanced pulmonary awareness.',d:'Two first-degree relatives (sisters) with lung cancer on Chad\'s maternal side is a significant clustering. While lung cancer has strong environmental drivers (smoking), familial clustering even without smoking suggests genetic susceptibility variants. Quinn doesn\'t smoke but should have baseline pulmonary function awareness.'},
-    {g:'Bilateral',c:'f-red',n:'Cancer From Both Sides',l:'Paternal: lung x2. Maternal: breast at 33. Quinn exposed bilaterally.',d:'Quinn has cancer family history from BOTH parents\' families. Paternal maternal line: two lung cancers. Brigitte\'s maternal line: breast cancer at 33 (extremely early onset). This bilateral burden strengthens the case for hereditary cancer panel testing.'},
-    {g:'Panel',c:'f-amber',n:'Hereditary Cancer Panel Recommended',l:'BRCA1/2, TP53 (Li-Fraumeni), ATM, CHEK2, PALB2 — full panel.',d:'Given bilateral cancer family history with early onset (breast at 33) and clustering (lung x2 on same branch), comprehensive hereditary cancer panel testing is recommended. Nebula WGS will cover most of these genes at 30x depth. Clinical-grade confirmatory testing may follow if variants are found.'},
-    {g:'LDCT',c:'f-amber',n:'Chad: Low-Dose CT Chest Screening',l:'Consider starting at age 50 given two maternal lung cancers.',d:'USPSTF recommends annual LDCT for adults 50-80 with 20+ pack-year smoking history. Chad\'s maternal family history (two lung cancers) may warrant earlier or modified screening even without heavy smoking history. Discuss with PCP.'}
+    {g:'You',c:'f-green',n:'Peggy B. Rome — Nanny Peg',l:'Age 76. Healthy. The family historian. Chad\'s maternal aunt.',d:'You\'re the one who remembers. The stories, the family recipes, the way things were. Your 23andMe data connects the dots between where the family came from and where it\'s going. Quinn is building a system that tracks all of this — and you\'re part of it.'},
+    {g:'Sister',c:'f-amber',n:'Chad\'s Mother — Your Sister',l:'Your closest genetic relative. You shared half your DNA.',d:'Everything we learn from your DNA helps us understand what your sister carried, what she passed to Chad, and what flows down to Quinn and Brother.'},
+    {g:'Nephew',c:'f-green',n:'Chad Byars, M.D.',l:'Your nephew. ER doctor. Father. Built this system with Quinn.',d:'Chad inherited ~25% of your shared family genes. He\'s an emergency medicine physician who\'s now also the family\'s genomic researcher. His 614,452 SNPs have been fully analyzed.'},
+    {g:'Great',c:'f-green',n:'Quinn Byars — Age 17',l:'Your great-nephew. He\'s the one who asked to build your page.',d:'Quinn has a rare autoimmune condition (Behcet\'s disease). He\'s fighting it with genetics, data, and family support. He called you today because you matter to him — and because your DNA is part of his story. He\'s 17 and he built a genomic intelligence platform. From his hospital bed. That\'s your genes in action.'},
+    {g:'Great',c:'f-amber',n:'Brother — Age 21',l:'Your other great-nephew. 23andMe kit ordered.',d:'Brother\'s genetic data is incoming. When it arrives, comparing it to yours and Chad\'s will reveal which family variants he carries.'}
   ],
-  actions:['Quinn: hereditary cancer panel (Nebula WGS will cover)','Chad: discuss LDCT screening with PCP','Family: genetic counseling visit recommended for full cancer risk assessment']
+  actions:['You are the bridge between past and future in this family','Your DNA data connects 4 generations of Byars genetics','Quinn built this page for you — because you\'re part of the team']
 }
 };
 
@@ -577,7 +570,7 @@ function showMigration(){
 let d3init=false;
 function initD3(){if(d3init)return;d3init=true;const box=document.getElementById('explore-box');const w=box.clientWidth,h=box.clientHeight||500;const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${w} ${h}`);
 const cats={
-  'Maternal Line':{c:'#9B7ADB',n:['Grandmother','Peggy','Chad\'s Mom','MT-H1','Lung CA x2']},
+  'Maternal Line':{c:'#9B7ADB',n:['Grandmother','Peggy','Chad\'s Mom','MT-H1','Healthy x2']},
   'Chad\'s Family':{c:'#5B8BD4',n:['Chad','Quinn','Brother','Brigitte','APOE e4','9p21 x3','MC1R x4']},
   'Cancer Cluster':{c:'#E05A5A',n:['Peggy Lung','Mom Lung','Aunt Breast 33','TP53 CG','TERT AG','8q24 AG','FGFR2']},
   'Ancestry':{c:'#5AAD8B',n:['NW European 85%','S European 8%','E European 4%','British/Irish','French/German','Celtic MC1R']},
