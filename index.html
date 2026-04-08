@@ -692,12 +692,47 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .chat-overlay.on{opacity:1;pointer-events:auto}
 
 @media print{
-  #loader,#nav,.print-btn,.back-btn,.doc-badge{display:none!important}
-  body,#app{background:#fff!important;color:#111!important;max-width:100%!important}
+  /* ── Hide all chrome ── */
+  #loader,#nav,.print-btn,.back-btn,.doc-badge,
+  .chat-fab,.chat-drawer,.chat-overlay{display:none!important}
+  /* ── Reset to white paper ── */
+  body,#app,#content,.doc-view{
+    background:#fff!important;color:#111!important;
+    max-width:100%!important;margin:0!important;padding:0!important;
+  }
   #app{opacity:1!important}
-  #content{padding-bottom:0}
-  *{animation:none!important;transition:none!important}
-  .doc-view{min-height:auto}
+  *{animation:none!important;transition:none!important;box-shadow:none!important}
+  /* ── Typography ── */
+  body{font-family:'Times New Roman',Times,serif;font-size:11pt;line-height:1.6}
+  /* ── Page breaks ── */
+  .doc-cover{page-break-after:always;min-height:95vh;display:flex;flex-direction:column;justify-content:center;padding:1in}
+  .doc-section{page-break-inside:avoid;margin-bottom:1.5em}
+  .doc-table-row{page-break-inside:avoid}
+  /* ── Cover page ── */
+  .doc-cover-title{font-size:28pt;font-weight:bold;color:#111;letter-spacing:-.02em;margin-bottom:6pt}
+  .doc-cover-sub{font-size:14pt;color:#444;margin-bottom:24pt}
+  .doc-cover-line{border-top:2pt solid #111;margin:16pt 0}
+  .doc-cover-meta{font-size:11pt;color:#333;line-height:2}
+  /* ── Section headers ── */
+  .doc-print-h1{font-size:16pt;font-weight:bold;border-bottom:1.5pt solid #111;padding-bottom:4pt;margin:20pt 0 8pt;color:#111}
+  .doc-print-h2{font-size:12pt;font-weight:bold;margin:12pt 0 4pt;color:#333;text-transform:uppercase;letter-spacing:.04em}
+  /* ── Tables ── */
+  .doc-print-table{width:100%;border-collapse:collapse;font-size:10pt;margin-bottom:12pt}
+  .doc-print-table th{background:#f0f0f0;border:1pt solid #999;padding:5pt 8pt;text-align:left;font-weight:bold}
+  .doc-print-table td{border:1pt solid #bbb;padding:4pt 8pt;vertical-align:top}
+  .doc-print-table tr:nth-child(even) td{background:#fafafa}
+  .td-alert{color:#C0392B;font-weight:bold}
+  .td-ok{color:#1a7a4a}
+  /* ── Boxes ── */
+  .doc-print-alert-box{border:1.5pt solid #C0392B;padding:8pt 12pt;margin-bottom:10pt;page-break-inside:avoid}
+  .doc-print-alert-box-title{font-weight:bold;color:#C0392B;font-size:11pt;margin-bottom:4pt}
+  .doc-print-ok-box{border:1.5pt solid #1a7a4a;padding:8pt 12pt;margin-bottom:10pt}
+  /* ── Disclaimer ── */
+  .doc-disclaimer{font-size:9pt;color:#666;border-top:1pt solid #ccc;padding-top:8pt;margin-top:20pt;font-style:italic}
+  /* ── Hide screen-only elements ── */
+  .screen-only{display:none!important}
+  /* ── Show print-only elements ── */
+  .print-only{display:block!important}
 }
 </style>
 </head>
@@ -2004,7 +2039,11 @@ function togProto(pid,id,el){
 function renderDoctor(p){
   const d=p.doctor;
   const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  let h=`<div class="doc-view">
+  const cats=p.cats||{};
+  const systemKeys=Object.keys(cats);
+
+  // ── Screen view (dark UI) ──────────────────────────────────────────────
+  let screen=`<div class="doc-view screen-only">
   <div class="doc-hdr">
     <div class="doc-facility">Byars Family Genomic Intelligence</div>
     <div class="doc-pname">${d.pname}</div>
@@ -2013,37 +2052,169 @@ function renderDoctor(p){
     <div class="doc-badge">${d.badge}</div>
   </div>
   <div class="doc-body">
-  <div style="font-size:11px;color:#6B7280;line-height:1.65;padding:14px 0 4px;border-bottom:1px solid #EAEAEA;margin-bottom:4px">This report was prepared to help your care team understand this patient's genetic background. Please share it with any physician who may prescribe medications or plan procedures. Genomic data should be interpreted alongside clinical context — not in isolation.</div>`;
+  <div style="font-size:11px;color:#6B7280;line-height:1.65;padding:14px 0 4px;border-bottom:1px solid #EAEAEA;margin-bottom:4px">This report was prepared to help your care team understand this patient's genetic background. Share with any physician who may prescribe medications or plan procedures. Genomic data should be interpreted alongside clinical context.</div>`;
 
-  // PGx section
-  h+=`<div class="doc-sec"><div class="doc-sec-t">Pharmacogenomics</div>`;
-  d.pgx.forEach(r=>{h+=`<div class="doc-row"><span class="doc-rl">${r.l}</span><span class="doc-rv${r.alert?' alert':''}">${r.v}</span></div>`;});
-  h+=`</div>`;
+  screen+=`<div class="doc-sec"><div class="doc-sec-t">Pharmacogenomics</div>`;
+  d.pgx.forEach(r=>{screen+=`<div class="doc-row"><span class="doc-rl">${r.l}</span><span class="doc-rv${r.alert?' alert':''}">${r.v}</span></div>`;});
+  screen+=`</div>`;
 
-  // Risk section
-  h+=`<div class="doc-sec"><div class="doc-sec-t">Genetic Risk Factors</div>`;
-  d.risk.forEach(r=>{h+=`<div class="doc-row"><span class="doc-rl">${r.l}</span><span class="doc-rv${r.alert?' alert':''}">${r.v}</span></div>`;});
-  h+=`</div>`;
+  screen+=`<div class="doc-sec"><div class="doc-sec-t">Genetic Risk Factors</div>`;
+  d.risk.forEach(r=>{screen+=`<div class="doc-row"><span class="doc-rl">${r.l}</span><span class="doc-rv${r.alert?' alert':''}">${r.v}</span></div>`;});
+  screen+=`</div>`;
 
-  // Alerts
   if(d.alerts&&d.alerts.length){
-    h+=`<div class="doc-sec"><div class="doc-sec-t">Critical Alerts</div><div class="doc-alert"><div class="doc-alert-t">Prescribing Cautions</div>`;
-    d.alerts.forEach(a=>{h+=`<div class="doc-alert-i">${a}</div>`;});
-    h+=`</div></div>`;
+    screen+=`<div class="doc-sec"><div class="doc-sec-t">Critical Alerts</div><div class="doc-alert"><div class="doc-alert-t">Prescribing Cautions</div>`;
+    d.alerts.forEach(a=>{screen+=`<div class="doc-alert-i">${a}</div>`;});
+    screen+=`</div></div>`;
   }
-
-  // Safe
   if(d.safe&&d.safe.length){
-    h+=`<div class="doc-sec"><div class="doc-ok"><div class="doc-ok-t">Known Safe</div>`;
-    d.safe.forEach(a=>{h+=`<div class="doc-ok-i">${a}</div>`;});
-    h+=`</div></div>`;
+    screen+=`<div class="doc-sec"><div class="doc-ok"><div class="doc-ok-t">Known Safe</div>`;
+    d.safe.forEach(a=>{screen+=`<div class="doc-ok-i">${a}</div>`;});
+    screen+=`</div></div>`;
+  }
+  screen+=`<div style="font-size:11px;color:#9CA3AF;line-height:1.65;padding:18px 0 0;border-top:1px solid #EAEAEA;margin-top:20px;font-style:italic">Genomic data is one piece of this patient's health picture. This report was generated from direct-to-consumer genotyping and whole-genome sequencing data.</div>
+  </div></div>`;
+
+  // ── Print view (white clinical layout) ────────────────────────────────
+  let print=`<div class="print-only" style="display:none">`;
+
+  // Cover page
+  print+=`<div class="doc-cover">
+    <div class="doc-cover-title">Genomic Intelligence Report</div>
+    <div class="doc-cover-sub">Byars Family Precision Medicine · Confidential</div>
+    <div class="doc-cover-line"></div>
+    <div class="doc-cover-meta">
+      <strong>Patient:</strong> ${d.pname}<br>
+      <strong>Clinical Context:</strong> ${d.dob}<br>
+      <strong>Report Date:</strong> ${today}<br>
+      <strong>Classification:</strong> ${d.badge}<br>
+      <strong>Prepared By:</strong> Byars Family Genomic Intelligence Platform<br>
+    </div>
+    <div class="doc-cover-line"></div>
+    <div style="font-size:10pt;color:#555;margin-top:16pt;line-height:1.7">
+      This report was prepared to support clinical decision-making. It summarizes genomic findings relevant to medication safety, disease risk, and preventive care. All findings should be interpreted in the context of the patient's full clinical picture by a licensed healthcare provider.
+    </div>
+  </div>`;
+
+  // Executive Summary
+  print+=`<div class="doc-section">
+    <div class="doc-print-h1">Executive Summary</div>`;
+  if(d.alerts&&d.alerts.length){
+    print+=`<div class="doc-print-alert-box">
+      <div class="doc-print-alert-box-title">⚠ Critical Prescribing Alerts (${d.alerts.length})</div>`;
+    d.alerts.forEach(a=>{print+=`<div style="margin-bottom:4pt;font-size:10pt">• ${a}</div>`;});
+    print+=`</div>`;
+  }
+  if(d.safe&&d.safe.length){
+    print+=`<div class="doc-print-ok-box">
+      <div style="font-weight:bold;color:#1a7a4a;margin-bottom:4pt">✓ Confirmed Safe / No Restriction</div>`;
+    d.safe.forEach(a=>{print+=`<div style="margin-bottom:3pt;font-size:10pt">• ${a}</div>`;});
+    print+=`</div>`;
+  }
+  print+=`</div>`;
+
+  // Pharmacogenomics Table
+  print+=`<div class="doc-section">
+    <div class="doc-print-h1">Pharmacogenomics</div>
+    <div class="doc-print-h2">Drug Metabolism Variants</div>
+    <table class="doc-print-table">
+      <thead><tr><th>Gene / Enzyme</th><th>Genotype / Status</th><th>Clinical Implication</th></tr></thead>
+      <tbody>`;
+  const pgxImplications={
+    'CYP2C9':'Intermediate metabolizer — NSAIDs and warfarin at reduced doses',
+    'CYP2C19':'Intermediate metabolizer — avoid clopidogrel; use prasugrel or ticagrelor',
+    'CYP1A2':'Ultra-rapid — caffeine, clozapine, fluvoxamine metabolized faster',
+    'SLCO1B1':'Reduced statin transport — start low, monitor CK for myopathy',
+    'DPYD':'Normal — standard 5-FU/capecitabine dosing safe',
+    'TPMT':'Normal — azathioprine and thiopurines safe at standard doses',
+    'NAT2':'See patient record for acetylation status',
+    'Factor V':'No Leiden mutation — baseline VTE risk',
+    'ABCB1':'Reduced P-glycoprotein at BBB — colchicine CNS penetration risk',
+    'UGT1A1':'See patient record',
+  };
+  d.pgx.forEach(r=>{
+    const impl=pgxImplications[r.l]||'See clinical notes';
+    print+=`<tr class="doc-table-row"><td>${r.l}</td><td class="${r.alert?'td-alert':''}">${r.v}</td><td>${impl}</td></tr>`;
+  });
+  print+=`</tbody></table></div>`;
+
+  // Genetic Risk Factors Table
+  print+=`<div class="doc-section">
+    <div class="doc-print-h1">Genetic Risk Factors</div>
+    <table class="doc-print-table">
+      <thead><tr><th>Condition / Gene</th><th>Genotype</th><th>Risk Level</th></tr></thead>
+      <tbody>`;
+  d.risk.forEach(r=>{
+    const level=r.alert?'<span class="td-alert">Elevated — action warranted</span>':'Noted — monitor';
+    print+=`<tr class="doc-table-row"><td>${r.l}</td><td>${r.v}</td><td>${level}</td></tr>`;
+  });
+  print+=`</tbody></table></div>`;
+
+  // System-level findings from cats
+  if(systemKeys.length){
+    print+=`<div class="doc-section"><div class="doc-print-h1">System-Level Findings</div>`;
+    systemKeys.forEach(k=>{
+      const cat=cats[k];
+      if(!cat||!cat.sum)return;
+      print+=`<div class="doc-print-h2">${cat.title||k}</div>
+        <div style="font-size:10pt;color:#333;line-height:1.65;margin-bottom:10pt">${cat.sum}</div>`;
+      if(cat.findings&&cat.findings.length){
+        print+=`<table class="doc-print-table"><thead><tr><th>Finding</th><th>Detail</th></tr></thead><tbody>`;
+        cat.findings.slice(0,6).forEach(f=>{
+          if(f.gene&&f.txt)print+=`<tr class="doc-table-row"><td style="font-family:monospace;font-size:9pt">${f.gene}</td><td>${f.txt}</td></tr>`;
+        });
+        print+=`</tbody></table>`;
+      }
+    });
+    print+=`</div>`;
   }
 
-  h+=`<div style="font-size:11px;color:#9CA3AF;line-height:1.65;padding:18px 0 0;border-top:1px solid #EAEAEA;margin-top:20px;font-style:italic">Genomic data is one piece of this patient's health picture. Your providers have clinical context that numbers alone can never capture. This report was generated from direct-to-consumer genotyping and whole-genome sequencing data.</div>
-  </div><!-- /doc-body -->
-  <button class="print-btn" onclick="window.print()">Print Clinical Report</button>
+  // Recommended Actions
+  print+=`<div class="doc-section">
+    <div class="doc-print-h1">Recommended Clinical Actions</div>`;
+  const recs=buildPrintRecs(p);
+  recs.forEach((r,i)=>{
+    print+=`<div style="margin-bottom:8pt;font-size:10pt"><strong>${i+1}. ${r.title}</strong> — ${r.detail}</div>`;
+  });
+  print+=`</div>`;
+
+  // Disclaimer
+  print+=`<div class="doc-disclaimer">
+    <strong>Disclaimer:</strong> This report was generated from direct-to-consumer genotyping data (23andMe, Ancestry) and whole-genome sequencing (Nebula Genomics). Genomic findings represent statistical associations, not diagnoses. All clinical decisions should be made by a licensed healthcare provider in the context of the patient's complete medical history. This report is not a substitute for clinical genetic counseling. Variants of uncertain significance (VUS) require ongoing literature monitoring and should not be used as sole diagnostic criteria.
   </div>`;
-  return h;
+
+  print+=`</div>`;// end print-only
+
+  // ── Shared print button ────────────────────────────────────────────────
+  const btn=`<button class="print-btn screen-only" onclick="window.print()">Print Clinical Report</button>`;
+
+  return screen+print+btn;
+}
+
+function buildPrintRecs(p){
+  const base=[
+    {title:'Medication Review',detail:'Review all current prescriptions against the pharmacogenomics table in this report before prescribing or adjusting doses.'},
+    {title:'Annual Dermatology',detail:'Full-body dermoscopy with photography. MC1R compound heterozygous status places this patient at the 91st percentile for melanoma risk.'},
+  ];
+  if(p.id==='chad'){
+    return [...base,
+      {title:'Coronary Calcium Score (CAC)',detail:'9p21 ×3 bilateral inheritance with positive family history (father: stent at 62, CABG at 75). CAC scan establishes cardiovascular baseline.'},
+      {title:'Annual EKG',detail:'PITX2 CT variant — AFib surveillance. Especially important with alcohol consumption or palpitations.'},
+      {title:'APOE ε4 Lifestyle Protocol',detail:'Exercise ≥5 hrs/week, sleep 7-8 hrs, DHA 2g/day. EXERT trial (JAMA 2025) showed 45% Alzheimer risk reduction in ε4 carriers with this protocol.'},
+      {title:'CYP2C9 Drug Dosing',detail:'Intermediate metabolizer — warfarin requires IWPC algorithm dosing; NSAIDs at reduced doses.'},
+      {title:'BRCA Sequencing',detail:'Consider full BRCA1/2 sequencing given family history (aunt breast cancer at 33).'},
+    ];
+  }
+  if(p.id==='quinn'){
+    return [...base,
+      {title:'Cardiac MRI',detail:'Confirm EF recovery from 33% (Sept 2025) baseline. Required before clearing high-intensity exercise and reassessing enalapril necessity.'},
+      {title:'Morning Cortisol',detail:'HPA axis suppression testing after prolonged prednisone course. Critical for taper management.'},
+      {title:'NAT2 Alert on All Records',detail:'Slow acetylator — dapsone and sulfonamides CONTRAINDICATED. Document in medication allergy/alert field.'},
+      {title:'ABCB1 Alert',detail:'Colchicine is CONTRAINDICATED — BBB penetration risk confirmed by prior adverse event (severe headache).'},
+      {title:'Rheumatology / BD Management',detail:'HLA-B*51 homozygous with ICBD criteria met. Transition from prednisone to steroid-sparing agent (apremilast or anti-TNF).'},
+    ];
+  }
+  return base;
 }
 
 /* ══════════════════════════════════════
