@@ -766,6 +766,40 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .ix-gene-txt{font-size:13px;color:var(--t2);line-height:1.5}
 .ix-empty{text-align:center;padding:32px;color:var(--t3);font-size:14px}
 
+/* ══════════════════════════════════════
+   P12 — SYMPTOM TRACKER
+══════════════════════════════════════ */
+.sym-log-btn{background:var(--blue);color:#fff;border:none;border-radius:var(--r-s);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;margin:12px 0}
+.sym-form{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0;display:none}
+.sym-form.open{display:block}
+.sym-form-row{margin-bottom:14px}
+.sym-form-row label{display:block;font-size:12px;color:var(--t3);margin-bottom:5px;font-weight:600}
+.sym-form-row input[type=text],.sym-form-row textarea{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:9px 12px;color:var(--t1);font-size:14px;outline:none}
+.sym-form-row input[type=text]:focus,.sym-form-row textarea:focus{border-color:var(--blue)}
+.sym-slider-row{display:flex;align-items:center;gap:10px}
+.sym-slider-row input[type=range]{flex:1;accent-color:var(--blue)}
+.sym-slider-val{font-size:16px;font-weight:700;min-width:24px;text-align:center}
+.sym-form-btns{display:flex;gap:8px;justify-content:flex-end}
+.sym-form-btns button{padding:9px 18px;border-radius:var(--r-s);border:none;font-size:14px;cursor:pointer}
+.sym-form-save{background:var(--blue);color:#fff;font-weight:600}
+.sym-form-cancel{background:var(--sf3);color:var(--t2)}
+.sym-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:8px 0;display:flex;gap:12px;align-items:flex-start}
+.sym-sev{width:36px;height:36px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.sym-sev.g{background:var(--grn-b);color:var(--green)}
+.sym-sev.a{background:var(--amb-b);color:var(--amber)}
+.sym-sev.r{background:var(--red-b);color:var(--red)}
+.sym-card-body{flex:1;min-width:0}
+.sym-card-name{font-size:15px;font-weight:600;margin-bottom:2px}
+.sym-card-meta{font-size:12px;color:var(--t3);margin-bottom:4px}
+.sym-card-notes{font-size:13px;color:var(--t2)}
+.sym-del{background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:0 4px;align-self:flex-start}
+.sym-del:hover{color:var(--red)}
+.sym-corr{background:var(--sf);border:1px solid var(--bd2);border-radius:var(--r-m);padding:16px;margin-top:20px}
+.sym-corr-title{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sym-corr-item{font-size:13px;color:var(--t2);padding:5px 0;border-bottom:1px solid var(--bd);line-height:1.5}
+.sym-corr-item:last-child{border-bottom:none}
+.sym-corr-item b{color:var(--t1)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1871,6 +1905,7 @@ function renderTracking(p){
     <button class="tbtn" id="tt-proto" onclick="showTrackTab('${p.id}','proto',this)">Protocol</button>
     <button class="tbtn" id="tt-wearables" onclick="showTrackTab('${p.id}','wearables',this)">Body</button>
     <button class="tbtn" id="tt-journal" onclick="showTrackTab('${p.id}','journal',this)">Journal</button>
+    <button class="tbtn" id="tt-symptoms" onclick="showTrackTab('${p.id}','symptoms',this)">Symptoms</button>
   </div>
   <div class="track-body">
     <div id="tb-labs" class="pad"></div>
@@ -1878,6 +1913,7 @@ function renderTracking(p){
     <div id="tb-proto" class="pad" style="display:none"></div>
     <div id="tb-wearables" class="pad" style="display:none"></div>
     <div id="tb-journal" class="pad" style="display:none"></div>
+    <div id="tb-symptoms" class="pad" style="display:none"></div>
   </div>`;
 }
 
@@ -1889,7 +1925,7 @@ function initTrack(p){
 }
 
 function showTrackTab(pid,t,btn){
-  ['labs','meds','proto','wearables','journal'].forEach(x=>{
+  ['labs','meds','proto','wearables','journal','symptoms'].forEach(x=>{
     const el=document.getElementById('tb-'+x);if(el)el.style.display=x===t?'':'none';
     const tb=document.getElementById('tt-'+x);if(tb)tb.classList.toggle('on',x===t);
   });
@@ -1898,6 +1934,7 @@ function showTrackTab(pid,t,btn){
   if(t==='proto')renderProto(PERSONS[pid]);
   if(t==='wearables')renderWearables(PERSONS[pid]);
   if(t==='journal')renderJournal(PERSONS[pid]);
+  if(t==='symptoms')renderSymptoms(PERSONS[pid]);
 }
 
 /* ══════════════════════════════════════
@@ -3208,6 +3245,102 @@ function ixRender(pid){
     gdaEl.innerHTML=alerts.length
       ? alerts.map(a=>`<div class="ix-gene-card"><span class="ix-gene-badge ${a.sev}">${a.gene}</span><div><div style="font-size:13px;font-weight:600;margin-bottom:3px">${a.drug}</div><div class="ix-gene-txt">${a.txt}</div></div></div>`).join('')
       : '<div class="ix-empty">No gene-drug alerts for this person.</div>';
+  }
+}
+
+/* ══════════════════════════════════════
+   P12 — SYMPTOM TRACKER
+══════════════════════════════════════ */
+const SYM_CORRELATIONS={
+  quinn:[
+    {kw:['fatigue','tired','exhausted','low energy'],title:'Fatigue correlations',items:['Testosterone 211 ng/dL (LOW) — HPG axis suppressed by prednisone','Vitamin D 26.5 ng/mL (LOW) — GC GT + VDR AG + CYP27B1','DBH TT — chronically low norepinephrine','Cortisol untested — possible HPA axis suppression on prednisone taper']},
+    {kw:['headache','head pain','migraine'],title:'Headache correlations',items:['ABCB1 reduced P-gp — drugs can cross BBB more easily (colchicine history)','Enalapril — BP runs low (65-100 systolic); orthostatic headache likely','Dehydration — common trigger with active GI disease','DBH TT — low norepinephrine affects cerebrovascular tone']},
+    {kw:['diarrhea','loose stool','gi','stomach','bowel'],title:'GI symptom correlations',items:['TI scarring (terminal ileal BD disease) — bile acid malabsorption (BAM)','Prednisone taper — GI mucosa more vulnerable below 20mg','Bile acid malabsorption — osmotic watery diarrhea, worst in morning','Cholestyramine never trialed — ask Dr. Tung; first-line for BAM']},
+    {kw:['mood','depression','sad','anxious','anxiety','mental'],title:'Mood correlations',items:['COMT Met (from Brigitte) — slower dopamine clearance, higher stress sensitivity','Testosterone 211 ng/dL — low T directly affects motivation and mood','BDNF Val66Met — lower baseline neuroplasticity; exercise is direct compensation','Chronic illness context — depression is expected response to what you have been through']}
+  ],
+  chad:[
+    {kw:['fatigue','tired','exhausted','low energy'],title:'Fatigue correlations',items:['APOE ε4 — increased sleep requirement for amyloid clearance; check sleep duration','Vitamin D — VDR CT; ensure 50-60 ng/mL range','FOXO3 TT — no longevity allele; AMPK activation via exercise compensates','IL-6 CC — chronic low-grade inflammation elevates fatigue baseline']},
+    {kw:['chest','heart','palpitation','arrhythmia','afib'],title:'Cardiac symptom correlations',items:['9p21 ×3 — bilateral CAD risk; chest symptoms require immediate evaluation','PITX2 CT — AFib risk; palpitations may indicate paroxysmal AFib','Call your doctor or go to the ER — do not monitor chest symptoms at home']}
+  ]
+};
+
+function renderSymptoms(p){
+  const el=document.getElementById('tb-symptoms');
+  if(!el)return;
+  el.innerHTML=`
+    <button class="sym-log-btn" onclick="symToggleForm('${p.id}')">+ Log Symptom</button>
+    <div class="sym-form" id="sym-form-${p.id}">
+      <div class="sym-form-row"><label>Symptom name</label><input type="text" id="sym-name-${p.id}" placeholder="e.g. fatigue, headache, diarrhea…"></div>
+      <div class="sym-form-row"><label>Severity (1–10) — <span id="sym-sev-lbl-${p.id}">5</span></label>
+        <div class="sym-slider-row"><input type="range" min="1" max="10" value="5" id="sym-sev-${p.id}" oninput="document.getElementById('sym-sev-lbl-${p.id}').textContent=this.value"></div>
+      </div>
+      <div class="sym-form-row"><label>Notes (optional)</label><textarea id="sym-notes-${p.id}" rows="2" placeholder="Any context…"></textarea></div>
+      <div class="sym-form-btns">
+        <button class="sym-form-cancel" onclick="symToggleForm('${p.id}')">Cancel</button>
+        <button class="sym-form-save" onclick="symSave('${p.id}')">Save</button>
+      </div>
+    </div>
+    <div id="sym-list-${p.id}"></div>
+    <div id="sym-corr-${p.id}"></div>`;
+  symRenderList(p.id);
+}
+
+function symToggleForm(pid){
+  const f=document.getElementById('sym-form-'+pid);
+  if(f)f.classList.toggle('open');
+}
+
+function symSave(pid){
+  const name=(document.getElementById('sym-name-'+pid).value||'').trim();
+  if(!name)return;
+  const sev=parseInt(document.getElementById('sym-sev-'+pid).value)||5;
+  const notes=(document.getElementById('sym-notes-'+pid).value||'').trim();
+  const entries=ls(pid,'symptoms',[]);
+  entries.unshift({id:Date.now(),name,sev,notes,ts:new Date().toISOString()});
+  lw(pid,'symptoms',entries);
+  document.getElementById('sym-name-'+pid).value='';
+  document.getElementById('sym-notes-'+pid).value='';
+  document.getElementById('sym-sev-'+pid).value=5;
+  document.getElementById('sym-sev-lbl-'+pid).textContent='5';
+  const f=document.getElementById('sym-form-'+pid);
+  if(f)f.classList.remove('open');
+  symRenderList(pid);
+}
+
+function symDelete(pid,id){
+  const entries=ls(pid,'symptoms',[]).filter(e=>e.id!==id);
+  lw(pid,'symptoms',entries);
+  symRenderList(pid);
+}
+
+function symRenderList(pid){
+  const listEl=document.getElementById('sym-list-'+pid);
+  const corrEl=document.getElementById('sym-corr-'+pid);
+  const entries=ls(pid,'symptoms',[]);
+  if(!listEl)return;
+  if(!entries.length){listEl.innerHTML='<div style="color:var(--t3);font-size:14px;padding:16px 0">No symptoms logged yet.</div>';if(corrEl)corrEl.innerHTML='';return;}
+  listEl.innerHTML=entries.map(e=>{
+    const sc=e.sev<=3?'g':e.sev<=6?'a':'r';
+    const dt=new Date(e.ts);
+    const dtStr=dt.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `<div class="sym-card">
+      <div class="sym-sev ${sc}">${e.sev}</div>
+      <div class="sym-card-body">
+        <div class="sym-card-name">${e.name}</div>
+        <div class="sym-card-meta">${dtStr}</div>
+        ${e.notes?`<div class="sym-card-notes">${e.notes}</div>`:''}
+      </div>
+      <button class="sym-del" onclick="symDelete('${pid}',${e.id})">×</button>
+    </div>`;
+  }).join('');
+  // correlations
+  if(corrEl){
+    const allNames=entries.map(e=>e.name.toLowerCase()).join(' ');
+    const corrs=(SYM_CORRELATIONS[pid]||[]).filter(c=>c.kw.some(k=>allNames.includes(k)));
+    corrEl.innerHTML=corrs.length?corrs.map(c=>`<div class="sym-corr">
+      <div class="sym-corr-title">🔬 Genetic context: ${c.title}</div>
+      ${c.items.map(i=>`<div class="sym-corr-item">• ${i}</div>`).join('')}
+    </div>`).join(''):'';
   }
 }
 
