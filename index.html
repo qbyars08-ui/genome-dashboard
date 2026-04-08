@@ -599,6 +599,26 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .cmp-tile-sub{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
 
 /* ══════════════════════════════════════
+   ANCESTRY STORY — P8
+══════════════════════════════════════ */
+.anc-hdr{padding:52px 20px 0;text-align:center}
+.anc-title{font-size:24px;font-weight:800;letter-spacing:-.04em;margin-bottom:6px}
+.anc-sub{font-size:12px;color:var(--t3);line-height:1.6;max-width:300px;margin:0 auto 20px}
+.anc-map-wrap{padding:0 16px 8px;position:relative}
+.anc-map{width:100%;height:auto;display:block;border-radius:var(--r-l);border:1px solid var(--bd);background:var(--sf)}
+.anc-haplo-bar{display:flex;gap:8px;padding:0 16px 20px;flex-wrap:wrap;justify-content:center}
+.anc-haplo{display:flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600}
+.anc-haplo-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.anc-chapters{padding:0 16px 24px}
+.anc-ch{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);padding:16px;margin-bottom:10px;position:relative;overflow:hidden}
+.anc-ch::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.anc-ch-num{font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.anc-ch-era{font-size:13px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.anc-ch-place{font-size:11px;color:var(--t3);margin-bottom:8px;font-style:italic}
+.anc-ch-body{font-size:12px;color:var(--t2);line-height:1.7}
+.anc-ch-gene{display:inline-block;font-family:'SF Mono',SFMono-Regular,'Fira Code',monospace;font-size:9px;background:var(--sf2);border:1px solid var(--bd);border-radius:4px;padding:2px 6px;color:var(--t3);margin-top:6px;margin-right:4px}
+
+/* ══════════════════════════════════════
    PRINT
 ══════════════════════════════════════ */
 /* ══════════════════════════════════════
@@ -1243,6 +1263,7 @@ function route(){
   document.body.classList.remove('is-doctor');
   if(pid==='home'||!PERSONS[pid]){renderHome();return;}
   if(pid==='compare'){renderCompare(parts[1]||null,parts[2]||null);return;}
+  if(pid==='ancestry'){renderAncestry();return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2037,6 +2058,14 @@ function renderMore(p){
     {icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',t:'Doctor Card',s:'Printable clinical report',fn:`nav('${p.id}/doctor')`},
     {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'}
   ];
+  if(p.id==='chad'){
+    items.splice(items.length-1,0,{
+      icon:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+      t:'Ancestry Story',
+      s:'East Africa → Celtic Britain · 8 chapters',
+      fn:`nav('ancestry')`
+    });
+  }
   items.forEach(item=>{
     h+=`<div class="more-item" onclick="${item.fn}"><div class="more-ic"><svg viewBox="0 0 24 24">${item.icon}</svg></div><div><div class="more-t">${item.t}</div><div class="more-s">${item.s}</div></div></div>`;
   });
@@ -2520,6 +2549,148 @@ function buildFamilySummary(pidA, pidB, sharedRisk, sharedGood, diffCount){
     s=`${names} share ${sharedRisk} risk variant${sharedRisk!==1?'s':''} and ${sharedGood} protective variant${sharedGood!==1?'s':''}. The ${diffCount} differing variants explain some of the health differences between them. Understanding shared variants is especially valuable for screening decisions — if one family member has acted on a shared finding, the other should too.`;
   }
   return s;
+}
+
+/* ══════════════════════════════════════
+   GENETIC ANCESTRY STORY — P8
+══════════════════════════════════════ */
+const ANCESTRY_CHAPTERS=[
+  {
+    num:'Chapter 1',era:'The Origin — 200,000 Years Ago',place:'East Africa · Great Rift Valley',
+    color:'#D4855A',
+    body:`Every human alive today traces their maternal line to a small population in East Africa. Your maternal haplogroup MT-H1 begins its journey here — a single woman whose mitochondria would eventually be carried into every corner of the inhabited world. The Great Rift Valley provided freshwater, game, and shelter. This is where your story begins.`,
+    genes:['MT-H1 (origin haplogroup)']
+  },
+  {
+    num:'Chapter 2',era:'Out of Africa — 70,000 Years Ago',place:'The Levant · Arabian Peninsula',
+    color:'#C9A84C',
+    body:`A small group — perhaps a few hundred people — crossed from Africa into the Arabian Peninsula during a period of lower sea levels and greener Sahara. Your maternal haplogroup MT-H is a descendant of the haplogroup R that made this crossing. This was the founding migration of all non-African humanity. The genetic bottleneck from this crossing is still visible in your DNA today.`,
+    genes:['MT-H precursor haplogroup R']
+  },
+  {
+    num:'Chapter 3',era:'Settling Europe — 45,000 Years Ago',place:'Western Eurasia · Caucasus',
+    color:'#9B7ADB',
+    body:`After the initial migration, populations spread through the Middle East and into Europe. The Haplogroup H line — your direct maternal ancestor — expanded dramatically during this period, eventually becoming the most common maternal haplogroup in Europe. Your ancestors were among the earliest anatomically modern humans to enter the European continent, likely via the Caucasus corridor.`,
+    genes:['MT-H expansion into Europe']
+  },
+  {
+    num:'Chapter 4',era:'Ice Age Refuge — 20,000 Years Ago',place:'Iberian Peninsula · Southwestern Europe',
+    color:'#5B8BD4',
+    body:`The Last Glacial Maximum pushed humans south. The Iberian Peninsula became a refugium — a genetic island where the MT-H1 lineage survived while ice sheets covered most of northern Europe. Your maternal ancestors spent thousands of years in this pocket of habitable climate. MT-H1 today is most concentrated in Iberia and Atlantic-facing Europe, a signature of this Ice Age refuge.`,
+    genes:['MT-H1 — Iberian refuge signature']
+  },
+  {
+    num:'Chapter 5',era:'Post-Glacial Recolonization — 12,000 Years Ago',place:'Western Europe · Atlantic Coast',
+    color:'#5AAD8B',
+    body:`As the glaciers retreated, your maternal ancestors moved north along the Atlantic coast. This is the ancestral population that would become Western European hunter-gatherers — the genetic substrate that underpins much of modern British and Irish ancestry. The HFE H63D iron storage variant your family carries traces to this Atlantic-coastal hunter-gatherer population.`,
+    genes:['HFE H63D — Atlantic coastal origin','MT-H1 northward expansion']
+  },
+  {
+    num:'Chapter 6',era:'The Neolithic Revolution — 7,000 Years Ago',place:'British Isles · Ireland',
+    color:'#5BA8C9',
+    body:`Farming spread from the Near East into Europe, and your ancestors were among those who adopted it — or were part of the farming peoples who migrated into Britain. The Neolithic expansion brought new variants into the population, but your MT-H1 lineage persisted through the transition. This is when the British Isles began to take the population shape they have today.`,
+    genes:['Neolithic admixture · MT-H1 persistence']
+  },
+  {
+    num:'Chapter 7',era:'The Celtic World — 2,500 Years Ago',place:'Celtic Britain · Ireland · Brittany',
+    color:'#E05A5A',
+    body:`The Iron Age Celtic cultures spread across Atlantic Europe, and your skin genetics tell this story directly. The MC1R R151C variant — the "Celtic redhead" allele — reached its highest frequency in the Celtic-speaking populations of Britain and Ireland. You carry this variant in compound heterozygosity with three other MC1R changes. Your skin and coloring are, literally, Celtic genetics made visible. The HLA-B*51 variant also circulated in Mediterranean-Celtic trade networks during this era.`,
+    genes:['MC1R R151C — Celtic redhead allele','MC1R ×4 compound heterozygous','HLA-B*51 Mediterranean entry']
+  },
+  {
+    num:'Chapter 8',era:'Your Family Today — 2026',place:'Portland, Oregon',
+    color:'#9B7ADB',
+    body:`Two hundred thousand years of migration, adaptation, and survival converge in Chad Byars. Your MT-H1 haplogroup survived the Ice Age in Iberia, colonized Celtic Britain, and crossed the Atlantic. The variants that protected your ancestors from plague (HFE H63D), gave them red-toned Celtic coloring (MC1R), and shaped their inflammatory responses (HLA-B*51, TNF-α) are now clinical data points — actionable information that your ancestors could never have imagined. The journey from East Africa to Portland, Oregon took 200,000 years. You are its current expression.`,
+    genes:['Full variant inheritance','MT-H1','MC1R ×4','HFE H63D','HLA-B*51','9p21 bilateral']
+  }
+];
+
+function renderAncestry(){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const map=buildAncestryMap();
+  let h=`<div class="view">
+  <div class="anc-hdr">
+    <div class="hub-wordmark" style="justify-content:center;margin-bottom:12px">
+      <div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div>
+    </div>
+    <div class="anc-title">Your Genetic Journey</div>
+    <div class="anc-sub">Chad Byars · 200,000 years of human migration, written in your DNA</div>
+  </div>
+  <div class="anc-map-wrap">${map}</div>
+  <div class="anc-haplo-bar">
+    <div class="anc-haplo"><div class="anc-haplo-dot" style="background:#D4855A"></div>MT-H1 Maternal</div>
+    <div class="anc-haplo"><div class="anc-haplo-dot" style="background:#E05A5A"></div>MC1R Celtic</div>
+    <div class="anc-haplo"><div class="anc-haplo-dot" style="background:#5AAD8B"></div>HFE Atlantic</div>
+    <div class="anc-haplo"><div class="anc-haplo-dot" style="background:#9B7ADB"></div>HLA-B*51 Med.</div>
+  </div>
+  <div class="anc-chapters">
+    <div class="sec-lbl" style="padding:0 0 12px">8-Chapter Migration Story</div>`;
+  ANCESTRY_CHAPTERS.forEach((ch,i)=>{
+    h+=`<div class="anc-ch" style="--ch-color:${ch.color}">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${ch.color}"></div>
+      <div class="anc-ch-num" style="color:${ch.color}">${ch.num}</div>
+      <div class="anc-ch-era">${ch.era}</div>
+      <div class="anc-ch-place">📍 ${ch.place}</div>
+      <div class="anc-ch-body">${ch.body}</div>
+      <div style="margin-top:8px">${ch.genes.map(g=>`<span class="anc-ch-gene">${g}</span>`).join('')}</div>
+    </div>`;
+  });
+  h+=`</div>
+  <div style="text-align:center;padding:0 16px 24px">
+    <button onclick="nav('chad/more')" style="font-size:12px;color:var(--t3);padding:8px 16px;border:1px solid var(--bd);border-radius:var(--r-m)">← Back to Chad</button>
+  </div>
+  </div>`;
+  document.getElementById('content').innerHTML=h;
+}
+
+function buildAncestryMap(){
+  // SVG world map outline (simplified) with migration path overlay
+  // Viewbox covers roughly -20 to 180 longitude, -40 to 70 latitude
+  // Points: East Africa → Levant → Caucasus → Iberia → British Isles
+  const stops=[
+    {x:195,y:195,label:'East Africa',color:'#D4855A',r:7},
+    {x:215,y:150,label:'Levant',color:'#C9A84C',r:5},
+    {x:228,y:120,label:'Caucasus',color:'#9B7ADB',r:5},
+    {x:148,y:105,label:'Iberia',color:'#5B8BD4',r:6},
+    {x:133,y:75,label:'Britain',color:'#E05A5A',r:7},
+  ];
+  const path=stops.map((s,i)=>i===0?`M${s.x},${s.y}`:`L${s.x},${s.y}`).join(' ');
+  const dots=stops.map((s,i)=>`
+    <circle cx="${s.x}" cy="${s.y}" r="${s.r}" fill="${s.color}" opacity=".9"/>
+    <circle cx="${s.x}" cy="${s.y}" r="${s.r+3}" fill="${s.color}" opacity=".2"/>
+    <text x="${s.x+(i<2?6:-6+(i===4?-40:0))}" y="${s.y+(i===0?16:-10)}" font-size="7" fill="${s.color}" font-family="system-ui" font-weight="700">${s.label}</text>
+  `).join('');
+  return `<svg class="anc-map" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg">
+  <rect width="380" height="260" fill="#1e2535" rx="14"/>
+  <!-- Continents simplified -->
+  <!-- Africa -->
+  <path d="M170,120 L195,115 L215,125 L220,155 L215,185 L205,210 L195,220 L185,215 L175,195 L165,175 L162,150 L165,130 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- Europe -->
+  <path d="M130,55 L160,50 L180,58 L195,70 L200,85 L185,95 L170,90 L155,98 L145,90 L135,95 L125,88 L118,75 L122,62 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- British Isles -->
+  <path d="M120,65 L130,60 L135,68 L130,78 L122,80 L116,72 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- Middle East -->
+  <path d="M195,100 L225,98 L235,115 L230,130 L215,132 L200,125 L195,112 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- Caucasus/central -->
+  <path d="M215,90 L250,88 L260,100 L250,110 L230,112 L218,105 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- Asia (partial) -->
+  <path d="M240,80 L320,75 L340,100 L330,130 L300,140 L270,130 L250,115 L245,95 Z" fill="#242f42" stroke="#2d3a4f" stroke-width="1"/>
+  <!-- Migration path dotted -->
+  <path d="${path}" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="5,4" opacity=".35"/>
+  <path d="${path}" fill="none" stroke="url(#migGrad)" stroke-width="2" stroke-dasharray="5,4" opacity=".7"/>
+  <defs>
+    <linearGradient id="migGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4855A"/>
+      <stop offset="50%" stop-color="#9B7ADB"/>
+      <stop offset="100%" stop-color="#E05A5A"/>
+    </linearGradient>
+  </defs>
+  ${dots}
+  <!-- Timeline label -->
+  <text x="12" y="248" font-size="8" fill="#4A5568" font-family="system-ui">200,000 BCE</text>
+  <text x="280" y="248" font-size="8" fill="#4A5568" font-family="system-ui">East Africa → Celtic Britain</text>
+</svg>`;
 }
 
 /* ── Show/hide FAB based on current view ── */
