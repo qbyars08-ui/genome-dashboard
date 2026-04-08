@@ -494,6 +494,20 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .clog-fb{font-size:11px;color:var(--green);padding:0 16px 8px;min-height:18px;transition:opacity .3s}
 
 /* ══════════════════════════════════════
+   WEARABLE DATA
+══════════════════════════════════════ */
+.wear-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 16px;margin-bottom:8px}
+.wear-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.wear-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.wear-icon{width:28px;height:28px;border-radius:8px;background:var(--sf2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wear-icon svg{width:14px;height:14px;stroke:var(--t2);fill:none;stroke-width:2;stroke-linecap:round}
+.wear-last{font-size:10px;color:var(--t3);margin-top:1px}
+.wear-target{font-size:9px;font-weight:700;color:var(--t3);padding:2px 7px;border:1px solid var(--bd);border-radius:4px}
+.wear-ctx{font-size:11px;color:var(--t2);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+.wear-ctx b{color:var(--t1)}
+.wear-dna{font-size:9px;font-weight:700;font-family:'SF Mono',SFMono-Regular,'Fira Code',monospace;color:var(--t3);margin-bottom:3px;letter-spacing:.04em;text-transform:uppercase}
+
+/* ══════════════════════════════════════
    JOURNAL TIMELINE
 ══════════════════════════════════════ */
 .jrnl-empty{text-align:center;padding:48px 24px;color:var(--t3);font-size:13px;line-height:1.65}
@@ -1436,14 +1450,16 @@ function renderTracking(p){
   <div class="track-hdr" style="padding-top:4px"><div class="track-t">Your health log</div></div>
   <div class="track-tabs">
     <button class="tbtn on" id="tt-labs" onclick="showTrackTab('${p.id}','labs',this)">Labs</button>
-    <button class="tbtn" id="tt-meds" onclick="showTrackTab('${p.id}','meds',this)">Medications</button>
+    <button class="tbtn" id="tt-meds" onclick="showTrackTab('${p.id}','meds',this)">Meds</button>
     <button class="tbtn" id="tt-proto" onclick="showTrackTab('${p.id}','proto',this)">Protocol</button>
+    <button class="tbtn" id="tt-wearables" onclick="showTrackTab('${p.id}','wearables',this)">Body</button>
     <button class="tbtn" id="tt-journal" onclick="showTrackTab('${p.id}','journal',this)">Journal</button>
   </div>
   <div class="track-body">
     <div id="tb-labs" class="pad"></div>
     <div id="tb-meds" class="pad" style="display:none"></div>
     <div id="tb-proto" class="pad" style="display:none"></div>
+    <div id="tb-wearables" class="pad" style="display:none"></div>
     <div id="tb-journal" class="pad" style="display:none"></div>
   </div>`;
 }
@@ -1452,17 +1468,120 @@ function initTrack(p){
   renderLabs(p);
   initMeds(p);
   initProto(p);
+  // wearables and journal render on first tab click
 }
 
 function showTrackTab(pid,t,btn){
-  ['labs','meds','proto','journal'].forEach(x=>{
+  ['labs','meds','proto','wearables','journal'].forEach(x=>{
     const el=document.getElementById('tb-'+x);if(el)el.style.display=x===t?'':'none';
     const tb=document.getElementById('tt-'+x);if(tb)tb.classList.toggle('on',x===t);
   });
   if(t==='labs')renderLabs(PERSONS[pid]);
   if(t==='meds')renderMeds(PERSONS[pid]);
   if(t==='proto')renderProto(PERSONS[pid]);
+  if(t==='wearables')renderWearables(PERSONS[pid]);
   if(t==='journal')renderJournal(PERSONS[pid]);
+}
+
+/* ══════════════════════════════════════
+   WEARABLE DATA
+══════════════════════════════════════ */
+function getWearableConfig(p){
+  const isCHAD=p.id==='chad', isQUINN=p.id==='quinn';
+  return [
+    {k:'rhr',n:'Resting Heart Rate',u:'bpm',target:'50–65',lo:40,hi:65,
+     gene:isCHAD?'ADRB1 β1-AR':isQUINN?'DBH TT — low norepinephrine':'autonomic tone',
+     ctx:isCHAD
+       ?'<b>Your DNA says:</b> Beta-1 adrenergic receptor variant affects how your heart responds to stress and exercise. Target RHR below 65 reflects the cardiovascular fitness your 9p21 protocol requires.'
+       :isQUINN
+       ?'<b>Your DNA says:</b> DBH TT means chronic low norepinephrine — your resting HR may run higher as compensation. Monitoring trends matters more than single readings here.'
+       :'Resting heart rate reflects cardiovascular fitness and autonomic tone.'},
+    {k:'hrv',n:'Heart Rate Variability',u:'ms',target:'>50',lo:50,hi:999,
+     gene:isCHAD?'ANS + APOE4':isQUINN?'ANS + BD':isQUINN?'autonomic':'autonomic tone',
+     ctx:isCHAD
+       ?'<b>Your DNA says:</b> HRV improvements from exercise directly correlate with APOE4 cognitive benefits in the U.S. POINTER data. Higher HRV = better brain resilience. This number is trackable and improvable.'
+       :isQUINN
+       ?'<b>Your DNA says:</b> BD flares suppress HRV. Stable HRV trending upward is one of the best signals that your immune system is calming down — more informative than CRP alone.'
+       :'Higher HRV reflects better autonomic balance and recovery.'},
+    {k:'sleep_hrs',n:'Sleep Last Night',u:'hours',target:'7–8',lo:7,hi:9,
+     gene:isCHAD?'APOE4 + amyloid clearance':isQUINN?'6 circadian clock genes':'circadian genes',
+     ctx:isCHAD
+       ?'<b>Your DNA says:</b> APOE4 carriers sleeping under 7 hours show 3× higher amyloid accumulation. This metric has a direct biological mechanism for you — it\'s not just general sleep advice.'
+       :isQUINN
+       ?'<b>Your DNA says:</b> You carry disrupted variants in 6 circadian genes (CRY1, CLOCK, NPAS2, PER2, PER3, ADA). Consistent timing matters as much as duration — a fixed wake time anchors everything.'
+       :'Sleep is when your brain clears metabolic waste. Duration and timing both matter.'},
+    {k:'steps',n:'Daily Steps',u:'steps',target:'8,000+',lo:8000,hi:999999,
+     gene:isCHAD?'9p21 + APOE4 exercise protocol':isQUINN?'9p21 bilateral + cardiac rehab':'ACTN3 + cardiovascular',
+     ctx:isCHAD
+       ?'<b>Your DNA says:</b> 8,000+ steps/day correlates with the exercise volume that offsets 9p21 CAD risk and APOE4 aging effects. Consistency over intensity — every day counts.'
+       :isQUINN
+       ?'<b>Your DNA says:</b> Walking is cardiac rehab post-myocarditis. Your 9p21 bilateral markers mean daily movement is also your cardiovascular prevention. Start where you are. Build slowly.'
+       :'Daily movement is a key longevity signal independent of structured exercise.'},
+    {k:'vo2max',n:'VO2 Max',u:'ml/kg/min',target:'40–50+',lo:40,hi:999,
+     gene:isCHAD?'PPARGC1A (PGC-1α) + FOXO3':isQUINN?'PPARGC1A + cardiac recovery':'PPARGC1A mitochondrial',
+     ctx:isCHAD
+       ?'<b>Your DNA says:</b> VO2 max is the single best predictor of longevity in the literature — better than cholesterol, blood pressure, or BMI. PPARGC1A drives mitochondrial biogenesis. Your training response is real and measurable.'
+       :isQUINN
+       ?'<b>Your DNA says:</b> VO2 max will recover as your EF stabilizes. Starting baseline now — even if it\'s low — gives you a recovery curve to track. The trajectory matters, not just the number.'
+       :'VO2 max is the strongest predictor of longevity across all age groups.'},
+  ];
+}
+
+function renderWearables(p){
+  const c=document.getElementById('tb-wearables');if(!c)return;
+  const metrics=getWearableConfig(p);
+  let h=`<div style="padding:8px 0 4px;font-size:11px;color:var(--t2);line-height:1.6">Your DNA says what to expect. Your body shows what\'s actually happening.</div>`;
+  metrics.forEach(m=>{
+    const hist=ls(p.id,'w-'+m.k,[]);
+    const last=hist.length?hist[hist.length-1]:null;
+    const sv=last?last.v+' '+m.u:'Not yet logged';
+    const sc=last?(m.k==='steps'?last.v>=m.lo?'st-g':'st-a':last.v>=m.lo&&last.v<=m.hi?'st-g':'st-r'):'';
+    const mx=hist.length?Math.max(...hist.map(x=>x.v))*1.2||100:100;
+    h+=`<div class="wear-card">
+      <div class="wear-top">
+        <div>
+          <div class="wear-name">${m.n}</div>
+          <div class="wear-last">${last?`<span class="st ${sc}"></span> ${sv} &middot; ${last.d}`:'No data yet'}</div>
+        </div>
+        <div class="wear-target">target ${m.target}</div>
+      </div>
+      <div class="wear-dna">${m.gene}</div>
+      <div class="inp-row">
+        <input class="inp" type="number" id="wv-${p.id}-${m.k}" placeholder="${m.u}" step="any">
+        <div class="inp-u">${m.u}</div>
+        <input class="inp" type="date" id="wd-${p.id}-${m.k}" style="max-width:126px">
+        <button class="ibtn p" onclick="saveWearable('${p.id}','${m.k}')">Save</button>
+      </div>
+      ${hist.length?`<div class="spark" id="wsp-${p.id}-${m.k}">${renderWearSpark(hist,m)}</div>`:''}
+      <div class="wear-ctx">${m.ctx}</div>
+    </div>`;
+  });
+  c.innerHTML=h;
+  metrics.forEach(m=>{
+    const de=document.getElementById('wd-'+p.id+'-'+m.k);if(de)de.valueAsDate=new Date();
+  });
+}
+
+function renderWearSpark(hist,m){
+  if(!hist.length)return'';
+  const vals=hist.slice(-14).map(x=>x.v);
+  const mx=Math.max(...vals)*1.2||100;
+  return vals.map(v=>{
+    const pct=Math.max(6,v/mx*100);
+    const good=m.k==='steps'?v>=m.lo:v>=m.lo&&v<=m.hi;
+    const cl=good?'var(--green)':'var(--amber)';
+    return `<div class="spark-b" style="height:${pct}%;background:${cl}"></div>`;
+  }).join('');
+}
+
+function saveWearable(pid,k){
+  const v=parseFloat(document.getElementById('wv-'+pid+'-'+k).value);
+  const d=document.getElementById('wd-'+pid+'-'+k).value;
+  if(!v||!d)return;
+  const h=ls(pid,'w-'+k,[]);h.push({v,d});h.sort((a,b)=>a.d.localeCompare(b.d));
+  lw(pid,'w-'+k,h);
+  document.getElementById('wv-'+pid+'-'+k).value='';
+  renderWearables(PERSONS[pid]);
 }
 
 /* ══════════════════════════════════════
