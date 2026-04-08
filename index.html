@@ -538,6 +538,76 @@ body.is-doctor #nav .nb.on::after{background:#111}
 /* ══════════════════════════════════════
    PRINT
 ══════════════════════════════════════ */
+/* ══════════════════════════════════════
+   AI HEALTH ASSISTANT CHAT
+══════════════════════════════════════ */
+.chat-fab{
+  position:fixed;bottom:70px;right:16px;width:48px;height:48px;
+  border-radius:50%;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);
+  display:none;align-items:center;justify-content:center;z-index:400;
+  box-shadow:0 4px 20px rgba(91,139,212,.35);transition:transform .2s var(--spring),opacity .2s;
+}
+.chat-fab:active{transform:scale(.9)}
+.chat-fab svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.chat-fab.visible{display:flex}
+.chat-drawer{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);
+  width:100%;max-width:430px;height:72vh;
+  background:var(--sf);border-radius:var(--r-xl) var(--r-xl) 0 0;
+  border:1px solid var(--bd);border-bottom:none;
+  z-index:600;display:flex;flex-direction:column;
+  transition:transform .35s var(--expo);box-shadow:0 -8px 40px rgba(0,0,0,.4);
+}
+.chat-drawer.open{transform:translateX(-50%) translateY(0)}
+.chat-dh{
+  padding:14px 16px 10px;border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.chat-dh-drag{width:36px;height:4px;border-radius:2px;background:var(--t4);margin:0 auto 12px}
+.chat-dh-title{font-size:14px;font-weight:700;letter-spacing:-.02em}
+.chat-dh-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.chat-close{width:30px;height:30px;border-radius:50%;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--t3)}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px 14px 8px;display:flex;flex-direction:column;gap:10px}
+.chat-msgs::-webkit-scrollbar{width:2px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--bd)}
+.chat-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;flex-shrink:0}
+.chat-chip{
+  font-size:11px;font-weight:500;padding:6px 12px;border-radius:20px;
+  background:var(--sf2);border:1px solid var(--bd);color:var(--t2);
+  transition:all .15s;min-height:32px;text-align:left;line-height:1.3;
+}
+.chat-chip:active{transform:scale(.96);background:var(--sf3)}
+.chat-bubble{max-width:82%;padding:10px 14px;border-radius:18px;font-size:13px;line-height:1.65;word-break:break-word}
+.chat-bubble.user{background:var(--blue);color:#fff;border-radius:18px 18px 4px 18px;align-self:flex-end}
+.chat-bubble.bot{background:var(--sf2);color:var(--t1);border:1px solid var(--bd);border-radius:18px 18px 18px 4px;align-self:flex-start}
+.chat-bubble.bot strong{color:var(--t1);font-weight:700}
+.chat-bubble.bot .chat-gene{
+  font-family:'SF Mono',SFMono-Regular,'Fira Code',monospace;font-size:10px;font-weight:600;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  padding:2px 6px;border-radius:4px;display:inline;letter-spacing:.04em;
+}
+.chat-typing{display:flex;gap:4px;align-items:center;padding:12px 14px}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:dot-pulse 1.4s ease-in-out infinite both}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+.chat-inp-row{display:flex;gap:8px;padding:10px 14px 16px;flex-shrink:0;border-top:1px solid var(--bd)}
+.chat-inp{
+  flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:22px;
+  padding:10px 16px;font-size:13px;color:var(--t1);font-family:inherit;
+  transition:border-color .25s;min-height:44px;
+}
+.chat-inp:focus{border-color:var(--blue);outline:none}
+.chat-inp::placeholder{color:var(--t4)}
+.chat-send{
+  width:44px;height:44px;border-radius:50%;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:opacity .15s,transform .15s var(--spring);
+}
+.chat-send:active{transform:scale(.9)}
+.chat-send svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+.chat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:590;opacity:0;pointer-events:none;transition:opacity .35s}
+.chat-overlay.on{opacity:1;pointer-events:auto}
+
 @media print{
   #loader,#nav,.print-btn,.back-btn,.doc-badge{display:none!important}
   body,#app{background:#fff!important;color:#111!important;max-width:100%!important}
@@ -569,6 +639,23 @@ body.is-doctor #nav .nb.on::after{background:#111}
 </div>
 
 <nav id="nav" role="navigation" aria-label="Main navigation"></nav>
+
+<div class="chat-overlay" id="chat-overlay" onclick="closeChat()"></div>
+<button class="chat-fab" id="chat-fab" aria-label="Health assistant">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<div class="chat-drawer" id="chat-drawer">
+  <div class="chat-dh">
+    <div><div class="chat-dh-drag"></div><div class="chat-dh-title" id="chat-title">Ask anything</div><div class="chat-dh-sub" id="chat-sub">Your genome, explained</div></div>
+    <button class="chat-close" onclick="closeChat()">×</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-chips" id="chat-chips"></div>
+  <div class="chat-inp-row">
+    <input class="chat-inp" id="chat-inp" placeholder="Ask about your genome..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" crossorigin="anonymous"></script>
 <script>
@@ -1116,6 +1203,7 @@ function startLoader(){
 ══════════════════════════════════════ */
 function renderHome(){
   document.getElementById('nav').style.display='none';
+  updateChatFab(null);
   const members=[
     {p:CHAD,  status:'Heart, mind, and cancer genetics · active monitoring'},
     {p:QUINN, status:'B*51/B*51 · Behçet\'s investigation · recovering strong'},
@@ -1185,6 +1273,7 @@ function renderPerson(p,tab){
   else body=renderMore(p);
   document.getElementById('content').innerHTML=`<div class="view">${renderHeader(p)}${body}</div>`;
   window.scrollTo(0,0);
+  updateChatFab(p.id);
   if(tab==='tracking')initTrack(p);
   if(tab==='genetics')initD3(p);
 }
@@ -1897,6 +1986,264 @@ function renderPending(p){
   </div></div>`;
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
+}
+
+/* ══════════════════════════════════════
+   AI HEALTH ASSISTANT — P6
+══════════════════════════════════════ */
+let _chatPid=null;
+const _chatHistory={};
+
+const CHAT_CHIPS={
+  chad:['What should I eat?','Is ibuprofen safe for me?','What\'s my biggest risk?','How do I protect my brain?','What supplements do I need?','Should I get a CAC score?'],
+  quinn:['Why did dapsone hurt me?','Will my heart fully recover?','What is Behçet\'s disease?','What supplements do I need?','What\'s my BD treatment path?','Is colchicine safe for me?'],
+  brigitte:['What did I pass to Quinn?','Is caffeine okay for me?','What\'s my heart risk?','Should I check my thyroid?'],
+  default:['What\'s my biggest risk?','What should I eat?','What supplements do I need?','Tell me about my medications']
+};
+
+function openChat(pid){
+  _chatPid=pid;
+  const p=PERSONS[pid];if(!p||p.pending)return;
+  document.getElementById('chat-title').textContent=p.name.split(' ')[0]+'\'s Health Assistant';
+  document.getElementById('chat-sub').textContent='Ask anything about your genome';
+  document.getElementById('chat-drawer').classList.add('open');
+  document.getElementById('chat-overlay').classList.add('on');
+  const msgsEl=document.getElementById('chat-msgs');
+  if(!_chatHistory[pid]){
+    _chatHistory[pid]=[];
+    msgsEl.innerHTML='';
+    addBotMsg(pid,'Hello! I\'m your personal genetic health assistant. I have your complete genome profile loaded — ask me anything about your variants, medications, diet, or what to do next. What\'s on your mind?');
+  }else{
+    msgsEl.innerHTML=_chatHistory[pid].map(m=>`<div class="chat-bubble ${m.role}">${m.html}</div>`).join('');
+    msgsEl.scrollTop=msgsEl.scrollHeight;
+  }
+  renderChatChips(pid);
+  setTimeout(()=>document.getElementById('chat-inp').focus(),300);
+}
+
+function closeChat(){
+  document.getElementById('chat-drawer').classList.remove('open');
+  document.getElementById('chat-overlay').classList.remove('on');
+}
+
+function renderChatChips(pid){
+  const chips=(CHAT_CHIPS[pid]||CHAT_CHIPS.default);
+  document.getElementById('chat-chips').innerHTML=chips.map(c=>
+    `<button class="chat-chip" onclick="askChip('${pid}',this.textContent)">${c}</button>`
+  ).join('');
+}
+
+function askChip(pid,text){
+  document.getElementById('chat-chips').innerHTML='';
+  document.getElementById('chat-inp').value=text;
+  sendChat();
+}
+
+function sendChat(){
+  const pid=_chatPid;if(!pid)return;
+  const inp=document.getElementById('chat-inp');
+  const text=inp.value.trim();if(!text)return;
+  inp.value='';
+  addUserMsg(pid,text);
+  // Typing indicator
+  const msgsEl=document.getElementById('chat-msgs');
+  const typing=document.createElement('div');
+  typing.className='chat-bubble bot';
+  typing.id='chat-typing';
+  typing.innerHTML='<div class="chat-typing"><span></span><span></span><span></span></div>';
+  msgsEl.appendChild(typing);
+  msgsEl.scrollTop=msgsEl.scrollHeight;
+  setTimeout(()=>{
+    const t=document.getElementById('chat-typing');if(t)t.remove();
+    const response=getChatResponse(PERSONS[pid],text);
+    addBotMsg(pid,response);
+  },600+Math.random()*400);
+}
+
+function addUserMsg(pid,text){
+  if(!_chatHistory[pid])_chatHistory[pid]=[];
+  const html=escHtml(text);
+  _chatHistory[pid].push({role:'user',html});
+  const el=document.createElement('div');
+  el.className='chat-bubble user';el.innerHTML=html;
+  document.getElementById('chat-msgs').appendChild(el);
+  document.getElementById('chat-msgs').scrollTop=99999;
+}
+
+function addBotMsg(pid,md){
+  if(!_chatHistory[pid])_chatHistory[pid]=[];
+  const html=mdToHtml(md);
+  _chatHistory[pid].push({role:'bot',html});
+  const el=document.createElement('div');
+  el.className='chat-bubble bot';el.innerHTML=html;
+  document.getElementById('chat-msgs').appendChild(el);
+  document.getElementById('chat-msgs').scrollTop=99999;
+}
+
+function escHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function mdToHtml(t){
+  return t
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`(.*?)`/g,'<span class="chat-gene">$1</span>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/^• /gm,'&bull; ')
+    .replace(/\n/g,'<br>');
+}
+
+/* ── Response engine ── */
+function getChatResponse(p,text){
+  if(!p)return'I need a profile loaded to answer that.';
+  const t=text.toLowerCase();
+
+  // Drug-specific lookup first
+  for(const[drug,info]of Object.entries(p.pgx||{})){
+    if(t.includes(drug.toLowerCase())){
+      const safe=info.s==='var(--green)';
+      return `**${drug.charAt(0).toUpperCase()+drug.slice(1)}** — ${safe?'Generally safe for you':'Use with caution'}\n\n${info.w}\n\n**Gene:** \`${info.g}\`\n\nAlways mention your genetics when starting any new medication.`;
+    }
+  }
+
+  if(/eat|diet|food|nutrition|mediterr|olive|salmon|fish\b/i.test(t)) return respondDiet(p);
+  if(/biggest|worst|main|most serious|top risk|primary concern|what.*risk|should.*worry/i.test(t)) return respondTopRisk(p);
+  if(/test|screen|scan|check|cac|mri|derm|colonoscopy|should i get/i.test(t)) return respondScreening(p);
+  if(/exercise|workout|run|cardio|gym|active|fitness|walk/i.test(t)) return respondExercise(p);
+  if(/sleep|rest|insomnia|tired|fatigue|how.*hours|bedtime/i.test(t)) return respondSleep(p);
+  if(/supplement|vitamin|protocol|methylfolate|omega|b12|d3|magnesium|coq10/i.test(t)) return respondProtocol(p);
+  if(/cancer|melanoma|tumor|skin|brca|oncol/i.test(t)) return respondCancer(p);
+  if(/heart|cardiac|cardio|coronary|statin|ldl|cholesterol|afib|blood pressure/i.test(t)) return respondHeart(p);
+  if(/brain|alzheimer|dementia|memory|cognitive|mental|apoe/i.test(t)) return respondBrain(p);
+  if(/medication|drug|prescription|safe to take|pill|med\b/i.test(t)) return respondMeds(p);
+  if(/behcet|bd|immune|autoimmune|hla|b51/i.test(t)) return respondBD(p);
+  if(/recover|recovery|heart.*recover|ef|ejection/i.test(t)) return respondRecovery(p);
+  if(/summary|overview|everything|tell me about|most important|where.*start/i.test(t)) return respondSummary(p);
+  if(/ancestry|heritage|origin|where.*from|migration|haplogroup/i.test(t)) return respondAncestry(p);
+  if(/hello|hi\b|hey|help|what can you|what do you know/i.test(t)) return respondGreeting(p);
+  if(/dapsone|colchicine/i.test(t)) return respondDangerousDrug(p,t);
+
+  return respondFallback(p,text);
+}
+
+function respondGreeting(p){
+  const cats=Object.values(p.cats||{});
+  const topCat=cats.sort((a,b)=>(b.score||0)-(a.score||0))[0];
+  return `I have your complete genetic profile loaded — ${p.stats?p.stats[0].v+' variants':'all findings'} analyzed.\n\nYour highest-priority area right now is **${topCat?topCat.title:'your health'}**.\n\nAsk me anything: medication safety, diet for your genotype, screening recommendations, what your variants mean, or where to focus first.`;
+}
+
+function respondDiet(p){
+  const isCHAD=p.id==='chad',isQUINN=p.id==='quinn';
+  if(isCHAD) return `Your **three most important diet decisions** based on your genome:\n\n**1. Mediterranean diet 80%+** — Your \`9p21 ×3\` variants carry significant CAD risk, but the INTERHEART study proved Mediterranean diet at this level eliminates it entirely. This is one of the strongest gene-diet interactions ever measured.\n\n**2. Omega-3 DHA 2g/day** — \`APOE ε3/ε4\` carriers clear DHA from the brain faster. Preformed DHA (fish, not flaxseed) keeps your brain levels where they need to be.\n\n**3. Minimize seed oils and processed foods** — \`IL-6 CC\` means you're the highest inflammatory cytokine producer. Every inflammatory meal has an outsized effect on your biological aging.`;
+  if(isQUINN) return `For your genetics and current situation:\n\n**Mediterranean diet now** — You inherited all three \`9p21\` CAD markers from both parents. Starting at 17 means decades of compounding protection. LDL 142 responds to diet before any medication is needed.\n\n**Anti-inflammatory focus** — \`TNF-α AG\` + \`IL-6\` means your immune system is inflammation-driven. The Mediterranean pattern directly suppresses these pathways.\n\n**No restrictions needed** — Your gut issues are from BD/BAM, not food intolerance. Once cholestyramine addresses the BAM, eating broadly is fine.`;
+  return `Based on your genetic profile, focus on an anti-inflammatory Mediterranean pattern — olive oil, fatty fish, nuts, vegetables, minimal processed foods. Your specific variants make this more impactful than for average people.`;
+}
+
+function respondTopRisk(p){
+  const cats=Object.values(p.cats||{}).filter(c=>typeof c.score==='number');
+  cats.sort((a,b)=>b.score-a.score);
+  const top3=cats.slice(0,3);
+  let r=`**Your top risks, ranked by genetic severity:**\n\n`;
+  top3.forEach((c,i)=>{
+    r+=`**${i+1}. ${c.title}** (score ${c.score})\n${c.sum.split('.')[0]}.\n\n`;
+  });
+  r+=`The most actionable thing you can do today: start on the highest-scoring category first. Ask me about any one of them.`;
+  return r;
+}
+
+function respondScreening(p){
+  const isCHAD=p.id==='chad',isQUINN=p.id==='quinn';
+  if(isCHAD) return `**Screening you need, based on your variants:**\n\n**Immediate:** CAC score (coronary calcium scan) — \`9p21 ×3\` makes this your cardiovascular baseline. One-time scan, tells you exactly where you stand.\n\n**Annual:** Full-body dermatology with dermoscopy — \`MC1R ×4\` puts you at the 91st percentile for melanoma. This single appointment every year is your most important cancer intervention.\n\n**Annual:** EKG — \`PITX2 CT\` AFib surveillance. Especially important if you notice palpitations.\n\n**Quarterly:** Lipid panel + ApoB, B12 + MMA, Vitamin D.`;
+  if(isQUINN) return `**What you need right now:**\n\n**Urgent:** Cardiac MRI to confirm EF has fully recovered. This changes your activity restrictions and enalapril decision.\n\n**Soon:** Morning cortisol — never been tested despite months of prednisone. HPA axis suppression explains a lot of your current symptoms.\n\n**8-week recheck:** Testosterone (HPG axis recovery), lipid panel, Vitamin D.\n\n**Ongoing:** CRP + ESR quarterly as BD activity markers.`;
+  return `Based on your genetic profile, discuss regular screening with your doctor for your highest-risk categories. Ask me to be specific about any area.`;
+}
+
+function respondExercise(p){
+  const isCHAD=p.id==='chad',isQUINN=p.id==='quinn';
+  if(isCHAD) return `Exercise is your single most powerful genetic intervention. Here's why:\n\n**APOE ε3/ε4:** The EXERT trial (JAMA 2025) showed carriers who exercise 5+ hours/week cut Alzheimer's risk by 45%. The benefit doubles compared to non-carriers — your genetics make exercise more important, not less.\n\n**FOXO3 TT:** You don't carry the longevity allele. Exercise activates AMPK, which compensates — this is the direct biological mechanism.\n\n**9p21 ×3:** Mediterranean diet + exercise together have additive effects on CAD risk reduction.\n\n**Target: 5-6 hours/week**, aerobic + resistance combined. This is a medical prescription, not a lifestyle suggestion.`;
+  if(isQUINN) return `Exercise is both cardiac rehab and immune therapy for you:\n\n**Post-myocarditis:** Gentle progressive exercise rebuilds cardiac capacity. The EF recovered to 52% — building from there requires gradual loading. Walking, swimming, then cycling before any high-intensity work.\n\n**BD/immune:** Exercise is anti-inflammatory. It directly suppresses \`TNF-α\` and \`IL-6\` — the exact molecules your variants overproduce.\n\n**Start:** 20-30 min walks daily. Build to 45-60 min at moderate intensity over 3 months. No competitive or high-intensity exercise until cardiac MRI confirms full recovery.`;
+  return `Regular aerobic exercise is the most broadly beneficial intervention based on your genetics. Aim for 5+ hours/week at moderate intensity.`;
+}
+
+function respondSleep(p){
+  const isCHAD=p.id==='chad',isQUINN=p.id==='quinn';
+  if(isCHAD) return `Sleep is non-negotiable for your \`APOE ε3/ε4\` genotype — here's the biology:\n\nDuring deep sleep, your brain activates the glymphatic system and clears amyloid-beta. APOE4 carriers sleeping under 7 hours show **3× higher amyloid accumulation** in imaging studies. This is measurable, not theoretical.\n\n**Target: 7-8 hours,** consistent schedule. Your \`CLOCK AG\` variant also makes circadian rhythm disruption more impactful — irregular sleep timing affects you more than most.\n\nThe practical prescription: fixed wake time (even weekends), no screens 60 min before bed, cool room. Think of it as your brain's weekly maintenance.`;
+  if(isQUINN) return `Sleep is especially complex for you — you carry disrupted variants in **6 circadian clock genes** (CRY1, CLOCK, NPAS2, PER2, PER3, ADA).\n\nTiming matters as much as duration. A consistent wake time within 30 minutes daily anchors your circadian rhythm regardless of when you fell asleep.\n\nYour \`FKBP5 CT\` also means your stress response is more reactive, and poor sleep amplifies it — creating a loop with BD activity.\n\n**Target: 7-8 hours, same wake time.** Morning light within 30 minutes of waking is the single most effective circadian anchor you have.`;
+  return `7-8 hours of consistent sleep is important for your genetic profile. Regular timing matters as much as duration.`;
+}
+
+function respondProtocol(p){
+  const proto=p.protocol||[];
+  let r=`**Your gene-informed supplement protocol:**\n\n`;
+  proto.forEach(pr=>{r+=`• **${pr.l}** — ${pr.r}\n`;});
+  r+=`\nAll of these are based on your specific variants — not generic wellness advice. The methylfolate especially: your \`MTHFR\` compound variant means folic acid (the synthetic form in most supplements) won't work. It has to be methylfolate.`;
+  return r;
+}
+
+function respondCancer(p){
+  const isCHAD=p.id==='chad';
+  if(isCHAD) return `Your cancer picture centers on **melanoma risk from \`MC1R ×4\`**:\n\nYou carry four MC1R variants in compound heterozygosity — R151C (Celtic), R160W, D84E, and R142H. This puts you at the **91st percentile** for melanoma risk, and the risk is UV-independent (meaning you can accumulate damage from incidental sun exposure, not just beach days).\n\n**What this means practically:**\n• Annual full-body dermoscopy with photography — non-negotiable\n• Daily SPF 50+, not just on sunny days\n• BRCA full sequencing is warranted given your family history (aunt diagnosed at 33, mother lung cancer 75)\n\nMelanoma caught at stage 1 is nearly 100% survivable. The annual appointment is the entire intervention.`;
+  return `Your cancer genetics include specific actionable screening recommendations. Ask about a specific cancer type for detailed guidance.`;
+}
+
+function respondHeart(p){
+  const isCHAD=p.id==='chad',isQUINN=p.id==='quinn';
+  if(isCHAD) return `Your cardiovascular picture has three layers:\n\n**1. \`9p21 ×3\` — CAD risk (most actionable)**\nYour father had a stent at 62 and CABG at 75. You carry all three same variants. The INTERHEART study showed Mediterranean diet at 80%+ adherence completely eliminates this risk. CAC score tells you whether calcification has already started.\n\n**2. \`PITX2 CT\` — AFib risk**\nAlcohol >3×/week is multiplicative with this risk. Annual EKG for surveillance.\n\n**3. \`IL-6 CC\` — Chronic inflammation**\nSilently accelerates atherosclerosis. Exercise and omega-3 are your primary levers here.`;
+  if(isQUINN) return `Your heart has been through something serious and come back remarkably well:\n\n**What happened:** EBV triggered a cytokine storm (TNF-α + IL-6 + IFN-γ) that was directly cardiotoxic. EF dropped to 33% in September 2025 and recovered to 52% by December. That's not just recovery — that's meaningful healing.\n\n**What's next:** Cardiac MRI to confirm full recovery and clear activity restrictions. Enalapril reassessment — if EF is confirmed recovered, the ACE inhibitor may be causing more orthostatic harm than cardiac benefit.\n\n**Long-term:** Your \`9p21 ×3\` bilateral inheritance means Mediterranean diet is your lifelong cardiovascular prescription, starting now.`;
+  return `Your cardiovascular genetics include several actionable variants. Ask me specifically about CAD risk, AFib, or your current heart health.`;
+}
+
+function respondBrain(p){
+  const isCHAD=p.id==='chad';
+  if(isCHAD) return `Your brain health is driven by \`APOE ε3/ε4\` — here's what that actually means:\n\n**What ε4 does:** Slows clearance of amyloid-beta, increases neuroinflammation, reduces synaptic plasticity. It's a risk factor — not a sentence. About 25% of people carry one copy.\n\n**What the research shows:** The U.S. POINTER trial (JAMA 2025) found that ε4 carriers who followed a lifestyle intervention cut their Alzheimer's risk by 45%. Your genetics make exercise *more* beneficial, not less.\n\n**Your four levers:**\n• Exercise 5+ hrs/week (most powerful)\n• Sleep 7-8 hours (amyloid clearance)\n• Omega-3 DHA 2g/day (neuroinflammation)\n• Mediterranean diet (APOE4-specific benefit)\n\nYou're eligible for lecanemab/donanemab prevention trials if MCI ever develops.`;
+  return `Brain health genetics vary by person. Ask about APOE, cognitive risk, or protective interventions for a specific answer.`;
+}
+
+function respondMeds(p){
+  const drugs=Object.keys(p.pgx||{});
+  const danger=drugs.filter(d=>(p.pgx[d].s||'').includes('red'));
+  const caution=drugs.filter(d=>(p.pgx[d].s||'').includes('amber'));
+  let r=`**Your medication profile at a glance:**\n\n`;
+  if(danger.length){r+=`**Avoid or use with extreme caution:**\n`;danger.forEach(d=>{r+=`• **${d}** — ${p.pgx[d].w.split('.')[0]}\n`;});r+=`\n`;}
+  if(caution.length){r+=`**Use with dose modification:**\n`;caution.forEach(d=>{r+=`• **${d}** — ${p.pgx[d].w.split('.')[0]}\n`;});}
+  r+=`\nAsk me about any specific drug by name for full details. Always mention your genetic variants to any new prescriber.`;
+  return r;
+}
+
+function respondBD(p){
+  if(p.id!=='quinn') return `Behçet's disease is a systemic vasculitis driven by HLA-B*51. Ask Quinn's assistant for specific guidance.`;
+  return `Behçet's disease (BD) is a systemic autoinflammatory condition — not a typical autoimmune disease. Here's your specific picture:\n\n**Your genetics:** \`HLA-B*51 homozygous\` — you carry two copies, one from each parent. This is the strongest known genetic risk factor for BD, and you have it on both chromosomes.\n\n**Why it's happening:** \`UNC13D VUS\` means your NK cells can find EBV-infected targets but can't complete the kill. EBV escalated to cytokine storm. \`TNF-α AG\` from Chad means you overproduce the exact cytokine that drives BD vasculitis.\n\n**Your treatment path:**\n• Current: prednisone (working, but can't stay on it)\n• Next: Otezla (apremilast) — PDE4 inhibitor, steroid-sparing\n• If Otezla fails: anti-TNF therapy (infliximab/adalimumab) directly targets the TNF-α your genome overproduces\n\nYour ICBD criteria are met. The diagnosis isn't in question — the goal is finding the right long-term steroid-sparing agent.`;
+}
+
+function respondRecovery(p){
+  if(p.id!=='quinn') return `Recovery depends on what you're recovering from. Ask me more specifically.`;
+  return `Your heart recovery is genuinely remarkable — and here's why it makes scientific sense:\n\n**What happened:** The September 2025 EBV cytokine storm caused EF to drop to 33%. By December MRI, it had recovered to 52%.\n\n**Why it recovered:** The damage was inflammatory/cardiotoxic, not ischemic. Your underlying myocardium was healthy — it was collateral damage from immune dysregulation, not primary cardiac disease. Healthy heart muscle can fully recover from this.\n\n**What full recovery looks like:** EF >55%, no wall motion abnormalities on MRI, normal exercise tolerance. You may be there already.\n\n**What confirms it:** Cardiac MRI — this is the definitive test. It will also guide the enalapril decision and clear you for increased physical activity.\n\nThe goal is to get that MRI scheduled alongside the MR Enterography.`;
+}
+
+function respondAncestry(p){
+  if(p.id==='chad') return `Your ancestry story connects to deep history:\n\n**Maternal haplogroup MT-H1** — the most common haplogroup in Western Europe today. Your maternal line traces through the Neolithic farming expansion ~7,000 years ago.\n\n**MC1R R151C Celtic** — the "Celtic redhead" variant. Your skin genetics point to ancestry in the British Isles and Atlantic coastal Europe.\n\n**HFE H63D** — a variant that reached high frequency during the Black Death in medieval Europe. Carrier status may have conferred protection against plague.\n\n**9p21 bilateral** — you and Brigitte both carry all three loci, suggesting this variant family entered the European gene pool during a population bottleneck.\n\nNavigate to the Ancestry tab (coming soon) for the full migration story — from East Africa to Celtic Britain in 8 chapters.`;
+  return `Ancestry information varies by family member. Ask Chad or check the Ancestry section for the full migration narrative.`;
+}
+
+function respondDangerousDrug(p,t){
+  if(p.id!=='quinn') return respondMeds(p);
+  if(/dapsone/i.test(t)) return `**DAPSONE — NEVER RESUME.**\n\nYour \`NAT2\` slow acetylator genotype (inherited from Brigitte) means dapsone's hydroxylamine metabolite accumulates in your red blood cells and causes oxidative hemolysis.\n\nThis is exactly what happened in Belize: Hgb dropped from 12.6 to 8.2 g/dL. That was a predictable pharmacogenomic reaction, not an unpredictable allergy.\n\nThis also means **sulfonamides** are high-risk for you, and standard-dose isoniazid (INH) is problematic. Any provider prescribing these drugs must know your NAT2 status. This goes on your medical alert card.`;
+  if(/colchicine/i.test(t)) return `**COLCHICINE — DO NOT USE.**\n\nYour \`ABCB1\` variant reduces P-glycoprotein transporter activity at the blood-brain barrier. Colchicine, which normally can't cross the BBB efficiently, accumulated in your CNS and caused the severe headaches you experienced.\n\nThe failure was a specific transporter variant — not drug intolerance in a general sense. But the outcome is the same: colchicine is not safe for you.\n\nFor BD flares that would normally be treated with colchicine, Otezla and anti-TNF therapy are your alternatives.`;
+  return respondMeds(p);
+}
+
+function respondFallback(p,text){
+  return `I don't have a specific answer for "${text}" in my knowledge base yet, but I do have your complete genetic profile.\n\nTry asking about:\n• **Diet** — what to eat for your genotype\n• **Medications** — safety check for any drug by name\n• **Screening** — what tests you need and when\n• **Supplements** — your gene-informed protocol\n• **Exercise or sleep** — specific recommendations\n• **Your biggest risk** — ranked with action items`;
+}
+
+/* ── Show/hide FAB based on current view ── */
+function updateChatFab(pid){
+  const fab=document.getElementById('chat-fab');
+  if(!fab)return;
+  if(pid&&PERSONS[pid]&&!PERSONS[pid].pending&&!PERSONS[pid].deceased){
+    fab.className='chat-fab visible';
+    fab.onclick=()=>openChat(pid);
+  }else{
+    fab.className='chat-fab';
+  }
 }
 </script>
 </body>
