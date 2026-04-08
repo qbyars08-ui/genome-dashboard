@@ -978,6 +978,36 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .res-expand-hint{font-size:11px;color:var(--t3);margin-top:6px}
 .res-relevant-banner{background:var(--amb-d);border:1px solid var(--amb-b);border-radius:var(--r-s);padding:8px 12px;font-size:12px;color:var(--amber);margin-bottom:12px}
 
+/* ══════════════════════════════════════
+   P19 — HEALTH GOALS
+══════════════════════════════════════ */
+.goals-wrap{padding:0 16px 40px}
+.goal-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:8px 0}
+.goal-card.complete{border-left:3px solid var(--green)}
+.goal-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.goal-name{font-size:15px;font-weight:600}
+.goal-check{font-size:20px}
+.goal-reason{font-size:12px;color:var(--blue);margin-bottom:8px}
+.goal-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.goal-bar-track{flex:1;background:var(--sf3);border-radius:10px;height:8px;overflow:hidden}
+.goal-bar-fill{height:100%;border-radius:10px;transition:width .4s var(--ease)}
+.goal-progress-pct{font-size:13px;font-weight:700;min-width:38px;text-align:right}
+.goal-values{font-size:12px;color:var(--t3);margin-bottom:8px}
+.goal-update-row{display:flex;gap:8px;margin-top:6px;display:none}
+.goal-update-row.open{display:flex}
+.goal-update-inp{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:7px 10px;color:var(--t1);font-size:13px;outline:none}
+.goal-update-inp:focus{border-color:var(--green)}
+.goal-update-btn{background:var(--green);color:#fff;border:none;border-radius:var(--r-s);padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
+.goal-upd-toggle{background:var(--sf3);border:none;border-radius:var(--r-s);padding:5px 12px;font-size:12px;color:var(--t2);cursor:pointer}
+.goal-add-form{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin:12px 0;display:none}
+.goal-add-form.open{display:block}
+.goal-add-btn{background:var(--green);color:#fff;border:none;border-radius:var(--r-s);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;margin:8px 0}
+.goal-add-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.goal-add-inp{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:8px 12px;color:var(--t1);font-size:13px;outline:none;flex:1;min-width:100px}
+.goal-add-inp:focus{border-color:var(--green)}
+.goal-del{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:0 4px}
+.goal-del:hover{color:var(--red)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1638,6 +1668,7 @@ function route(){
   if(pid==='mental'){renderMental(parts[1]||'chad');return;}
   if(pid==='tree'){renderFamilyTree();return;}
   if(pid==='research'){renderResearch(parts[1]||'chad');return;}
+  if(pid==='goals'){renderGoals(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2662,7 +2693,8 @@ function renderMore(p){
     {icon:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',t:'Exercise Optimizer',s:'Genetic training profile + workout log',fn:`nav('exercise/${p.id}')`},
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M21 8v6m3-3h-6"/>',t:'Sleep Optimizer',s:'Clock gene profile + sleep log',fn:`nav('sleep/${p.id}')`},
     {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`},
-    {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`}
+    {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`},
+    {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -4312,6 +4344,154 @@ function resRender(pid){
       <div class="res-expand-hint">Tap to ${isRel?'read full summary':'expand'}</div>
     </div>`;
   }).join('');
+}
+
+/* ══════════════════════════════════════
+   P19 — HEALTH GOALS
+══════════════════════════════════════ */
+const PRESET_GOALS={
+  quinn:[
+    {id:'g-ldl',name:'LDL Cholesterol',unit:'mg/dL',target:100,current:142,higher:false,reason:'Bilateral 9p21 CAD risk — LDL <100 is essential at age 17 with bilateral inheritance'},
+    {id:'g-testo',name:'Testosterone',unit:'ng/dL',target:400,current:211,higher:true,reason:'HPG axis recovery from prednisone suppression — target 400+ as taper completes'},
+    {id:'g-vitd',name:'Vitamin D',unit:'ng/mL',target:55,current:26.5,higher:true,reason:'VDR + GC + BD immune regulation — therapeutic range for immune modulation is 50-60'},
+    {id:'g-sleep',name:'Average Sleep',unit:'hrs/night',target:7.5,current:0,higher:true,reason:'6 clock gene variants (CRY1, CLOCK, NPAS2, PER2, PER3, ADA) — timing + duration both critical'},
+    {id:'g-crp',name:'CRP',unit:'mg/L',target:0.5,current:0.5,higher:false,reason:'BD activity marker — CRP <0.5 indicates controlled inflammation on current prednisone dose'}
+  ],
+  chad:[
+    {id:'g-exercise',name:'Exercise',unit:'hrs/week',target:5,current:0,higher:true,reason:'APOE4 protocol — 5+ hrs/week cuts Alzheimer\'s risk 45% (U.S. POINTER trial 2025)'},
+    {id:'g-sleep',name:'Average Sleep',unit:'hrs/night',target:7.5,current:0,higher:true,reason:'APOE4 amyloid clearance — below 7 hrs triples amyloid accumulation rate'},
+    {id:'g-ldl',name:'LDL Cholesterol',unit:'mg/dL',target:100,current:0,higher:false,reason:'9p21 ×3 bilateral + family history (father CABG 75) — LDL <100 is the target'},
+    {id:'g-derm',name:'Annual Dermatology',unit:'completed',target:1,current:0,higher:true,reason:'MC1R ×4 compound — annual dermoscopy catches melanoma at stage 1 (>95% survivable)'},
+    {id:'g-cac',name:'CAC Score',unit:'completed',target:1,current:0,higher:true,reason:'9p21 + family history — coronary calcium score is the definitive baseline assessment'}
+  ]
+};
+
+function renderGoals(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Health Goals</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="goals-wrap">
+    <div id="goals-list-${pid}"></div>
+    <div style="margin-top:16px">
+      <button class="goal-add-btn" onclick="goalsToggleAdd('${pid}')">+ Add Custom Goal</button>
+      <div class="goal-add-form" id="goal-add-form-${pid}">
+        <div class="goal-add-row">
+          <input class="goal-add-inp" id="ga-name-${pid}" placeholder="Goal name" style="flex:2">
+          <input class="goal-add-inp" id="ga-unit-${pid}" placeholder="Unit" style="flex:1;min-width:70px">
+        </div>
+        <div class="goal-add-row">
+          <input class="goal-add-inp" id="ga-target-${pid}" placeholder="Target value" type="number">
+          <input class="goal-add-inp" id="ga-current-${pid}" placeholder="Current value" type="number">
+          <select class="goal-add-inp" id="ga-higher-${pid}" style="flex:1">
+            <option value="true">Higher is better</option>
+            <option value="false">Lower is better</option>
+          </select>
+        </div>
+        <input class="goal-add-inp" id="ga-reason-${pid}" placeholder="Genetic reason (optional)" style="width:100%;margin-bottom:8px">
+        <div style="display:flex;gap:8px">
+          <button class="goal-add-btn" style="margin:0" onclick="goalsSaveCustom('${pid}')">Save Goal</button>
+          <button class="goal-upd-toggle" onclick="goalsToggleAdd('${pid}')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  goalsRender(pid);
+  window.scrollTo(0,0);
+}
+
+function goalsGetAll(pid){
+  const presets=(PRESET_GOALS[pid]||[]).map(g=>({...g}));
+  const custom=ls(pid,'goals-custom',[]);
+  const overrides=ls(pid,'goals-progress',{});
+  const all=[...presets,...custom];
+  all.forEach(g=>{if(overrides[g.id]!==undefined)g.current=overrides[g.id];});
+  return all;
+}
+
+function goalsRender(pid){
+  const el=document.getElementById('goals-list-'+pid);
+  if(!el)return;
+  const goals=goalsGetAll(pid);
+  if(!goals.length){el.innerHTML='<div style="color:var(--t3);font-size:14px;padding:16px 0">No goals set yet.</div>';return;}
+  el.innerHTML=goals.map(g=>{
+    const pct=g.target===0?0:g.higher
+      ?Math.min(100,Math.round(g.current/g.target*100))
+      :g.current===0?100:Math.min(100,Math.round((2*g.target-Math.min(g.current,2*g.target))/g.target*100));
+    const done=g.higher?(g.current>=g.target):(g.current>0&&g.current<=g.target);
+    const barColor=done?'var(--green)':pct>=60?'var(--amber)':'var(--blue)';
+    const isCustom=!PRESET_GOALS[pid]?.find(p=>p.id===g.id);
+    return `<div class="goal-card${done?' complete':''}">
+      <div class="goal-top">
+        <div class="goal-name">${g.name}${done?' ✓':''}</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="goal-upd-toggle" onclick="goalsToggleUpdate('${pid}','${g.id}')">Update</button>
+          ${isCustom?`<button class="goal-del" onclick="goalsDeleteCustom('${pid}','${g.id}')">×</button>`:''}
+        </div>
+      </div>
+      ${g.reason?`<div class="goal-reason">${g.reason}</div>`:''}
+      <div class="goal-progress-row">
+        <div class="goal-bar-track"><div class="goal-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+        <div class="goal-progress-pct" style="color:${barColor}">${pct}%</div>
+      </div>
+      <div class="goal-values">Current: <b>${g.current||'—'} ${g.unit}</b> &nbsp;·&nbsp; Target: <b>${g.target} ${g.unit}</b> &nbsp;·&nbsp; ${g.higher?'Higher':'Lower'} is better</div>
+      <div class="goal-update-row" id="gur-${pid}-${g.id}">
+        <input class="goal-update-inp" id="gui-${pid}-${g.id}" type="number" placeholder="New value…">
+        <button class="goal-update-btn" onclick="goalsSaveProgress('${pid}','${g.id}')">Save</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function goalsToggleUpdate(pid,gid){
+  const el=document.getElementById('gur-'+pid+'-'+gid);
+  if(el)el.classList.toggle('open');
+}
+
+function goalsSaveProgress(pid,gid){
+  const inp=document.getElementById('gui-'+pid+'-'+gid);
+  const val=parseFloat(inp.value);
+  if(isNaN(val))return;
+  const overrides=ls(pid,'goals-progress',{});
+  overrides[gid]=val;
+  lw(pid,'goals-progress',overrides);
+  const row=document.getElementById('gur-'+pid+'-'+gid);
+  if(row)row.classList.remove('open');
+  goalsRender(pid);
+}
+
+function goalsToggleAdd(pid){
+  const f=document.getElementById('goal-add-form-'+pid);
+  if(f)f.classList.toggle('open');
+}
+
+function goalsSaveCustom(pid){
+  const name=(document.getElementById('ga-name-'+pid).value||'').trim();
+  const unit=(document.getElementById('ga-unit-'+pid).value||'').trim();
+  const target=parseFloat(document.getElementById('ga-target-'+pid).value)||0;
+  const current=parseFloat(document.getElementById('ga-current-'+pid).value)||0;
+  const higher=document.getElementById('ga-higher-'+pid).value==='true';
+  const reason=(document.getElementById('ga-reason-'+pid).value||'').trim();
+  if(!name)return;
+  const custom=ls(pid,'goals-custom',[]);
+  custom.push({id:'gc-'+Date.now(),name,unit,target,current,higher,reason});
+  lw(pid,'goals-custom',custom);
+  goalsToggleAdd(pid);
+  goalsRender(pid);
+}
+
+function goalsDeleteCustom(pid,gid){
+  const custom=ls(pid,'goals-custom',[]).filter(g=>g.id!==gid);
+  lw(pid,'goals-custom',custom);
+  goalsRender(pid);
 }
 
 /* ── Show/hide FAB based on current view ── */
