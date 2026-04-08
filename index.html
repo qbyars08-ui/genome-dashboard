@@ -1420,14 +1420,14 @@ const QUINN = {
   ],
   cats:{
     cv:{title:'Your Heart',hex:'#E05A5A',score:65,st:'Recovering — remarkable progress',
-      sum:'Your heart took a serious hit in September 2025 when EBV triggered a cytokine storm. EF dropped to 33%. By December it had recovered to 52%. That recovery is genuinely remarkable. Your underlying heart was healthy — what happened was immune damage, not cardiac disease. The focus now is LDL 142 at age 17, which needs addressing.',
+      sum:'September 21–October 8, 2025: admitted to Randall Children\'s Hospital with EBV-triggered viral myocarditis and viral sepsis. EF dropped acutely (elevated troponin + BNP). Treated with milrinone IV, then transitioned to enalapril 2.5mg BID. October 28 echo with Dr. Margie Tucker: EF 56% — NORMAL. GLS -19.7%, QTc 368. Heart has fully recovered. Exercise still restricted pending stress test. Focus now: LDL 142 at age 17 + ongoing arrhythmia monitoring.',
       findings:[
-        {g:'EF 33%',c:'f-red',dot:'fd-r',n:'Post-Myocarditis — Sept 2025',l:'EBV cytokine storm. EF dropped to 33%. Recovered to 52% by Dec MRI.',d:'Mechanism: TNF-alpha AG (high producer from Dad) + IL-6 + IFN-gamma cytokine storm was directly cardiotoxic. Not primary cardiac disease — collateral damage from immune dysregulation. Heart recovered because underlying myocardium was healthy.'},
+        {g:'EF 56%',c:'f-grn',dot:'fd-g',n:'Cardiac — Fully Recovered (Oct 28 Echo)',l:'EF 56%, GLS -19.7%, normal chambers, no effusion. QTc 368 normal. Resting HR episodes 120 bpm — monitor.',d:'Admitted Sept 21 – Oct 8, 2025. Randall Children\'s Hospital. Dr. Margie Tucker (Pediatric Cardiology Center of Oregon). Milrinone IV during hospitalization → enalapril 2.5mg BID. Oct 28 echo: EF 56% — fully recovered. Cardiac MRI and stress test scheduled Dec 2025. Exercise restriction continues due to arrhythmia risk post-myocarditis.'},
         {g:'9p21 ×3',c:'f-red',dot:'fd-r',n:'9p21 CAD Risk — Bilateral',l:'Inherited all 3 CAD risk alleles. Father: stent 62, CABG 75. LDL 142 + ApoB 103.',d:'Both Chad and Brigitte carry all three 9p21 loci. Quinn guaranteed at least one risk allele at each. Mediterranean diet eliminates 9p21 MI risk at >80% adherence (INTERHEART P=0.008).'},
-        {g:'PITX2 CT',c:'f-amb',dot:'fd-a',n:'PITX2 AFib Risk — Bilateral',l:'Both parents carry. 75% Quinn is carrier. Annual EKG recommended.',d:'PITX2 strongest AFib locus. Both parents CT = 75% carrier probability for Quinn. Alcohol >3/week multiplicative. Annual EKG.'},
-        {g:'2.5mg BID',c:'f-amb',dot:'fd-a',n:'Enalapril — Reassess',l:'On ACE inhibitor post-myocarditis. BP runs chronically low (DBH TT).',d:'DBH TT from Brigitte = low norepinephrine. NOS3 CT = reduced eNOS. Enalapril further lowers BP. If EF confirmed recovered, may be causing more harm than benefit via orthostatic symptoms.'}
+        {g:'PITX2 CT',c:'f-amb',dot:'fd-a',n:'PITX2 AFib Risk — Family History Confirmed',l:'Medical records: maternal family history of rhythm disorders. Paternal: aortic valve disease + high cholesterol. Both genetically predicted.',d:'PITX2 strongest AFib locus. Real medical records confirm maternal side has rhythm disorders — exactly what PITX2 CT predicts. Paternal family history: aortic valve disease + high cholesterol aligns with 9p21 CAD inheritance. Annual EKG for Quinn. Alcohol >3/week multiplicative with PITX2 risk.'},
+        {g:'2.5mg BID',c:'f-amb',dot:'fd-a',n:'Enalapril — Ongoing, Reassess Timing',l:'Prescribed by Dr. Tucker post-myocarditis. EF now 56% normal. BP 111/68 at Oct visit. DBH TT genetics mean low NE baseline.',d:'Enalapril was appropriate when EF was suppressed. Oct 28 echo shows EF 56% fully recovered. DBH TT (Brigitte) = chronically low norepinephrine. NOS3 CT = reduced eNOS. Orthostatic symptoms remain. Dr. Tucker instructed to continue for now — reassess at next cardiology follow-up once stress test and cardiac MRI completed.'}
       ],
-      actions:['Cardiac MRI — definitive EF clearance for activity','Reassess enalapril with cardiology (BP 65-100 systolic)','Mediterranean diet NOW — LDL 142 + ApoB 103 at age 17']},
+      actions:['Cardiac MRI + stress test — scheduled Dec 2025, confirm completion','Arrhythmia monitoring — resting HR episodes 120 bpm need follow-up','Mediterranean diet NOW — LDL 142 + ApoB 103 at age 17']},
     nr:{title:'Your Immune System',hex:'#9B7ADB',score:78,st:'Active investigation',
       sum:'You carry two copies of HLA-B*51 — one from each parent. This is the strongest known genetic risk factor for Behçet\'s disease, and you carry it on both chromosomes. Your ICBD criteria are already met (4 points). The goal now isn\'t more diagnosis — it\'s finding the right treatment to get your immune system out of overdrive.',
       findings:[
@@ -1442,11 +1442,11 @@ const QUINN = {
       sum:'The colonoscopy showed scarring in your terminal ileum from the BD flares. That scarring causes bile acid malabsorption — which is almost certainly what\'s behind the morning diarrhea. Cholestyramine has never been tried, and it\'s the textbook first treatment. This is fixable.',
       findings:[
         {g:'TI Scarring',c:'f-red',dot:'fd-r',n:'Terminal Ileal Disease',l:'Colonoscopy: diffuse ulceration, TI inflammation with scarring.',d:'Terminal ileal scarring is permanent. Causes bile acid malabsorption (BAM) — bile acids not reabsorbed in scarred TI, hit colon, cause osmotic watery diarrhea. Worst in morning. Lomotil was masking this.'},
-        {g:'BAM',c:'f-red',dot:'fd-r',n:'Bile Acid Malabsorption',l:'Classic morning diarrhea pattern. Cholestyramine never trialed — ask Dr. Tung.',d:'Cholestyramine 4g before breakfast would be both diagnostic AND therapeutic. If it works, confirms BAM as primary driver. Has never been tried despite textbook presentation with TI scarring.'},
+        {g:'BAM',c:'f-red',dot:'fd-r',n:'Bile Acid Malabsorption',l:'Classic morning diarrhea pattern. Cholestyramine never trialed — ask Dr. Crowley.',d:'Cholestyramine 4g before breakfast would be both diagnostic AND therapeutic. If it works, confirms BAM as primary driver. Has never been tried despite textbook presentation with TI scarring.'},
         {g:'HPA?',c:'f-amb',dot:'fd-a',n:'Possible HPA Axis Suppression',l:'Morning cortisol never tested despite months of prednisone.',d:'Below 20mg prednisone, adrenal insufficiency symptoms emerge. Morning diarrhea, fatigue, hypotension all consistent with cortisol insufficiency. Spit test ordered. ACTH stim test should follow if low.'},
         {g:'Ferritin 217',c:'f-grn',dot:'fd-g',n:'Iron Status — Stop NovaFerrum',l:'Ferritin recovered from 7,105 to 217. Iron replete. Supplement may worsen diarrhea.'}
       ],
-      actions:['Lomotil refill — TODAY','Cholestyramine trial — ask Dr. Tung','Stop NovaFerrum (ferritin 217, may worsen diarrhea)']},
+      actions:['Lomotil refill — TODAY','Cholestyramine trial — ask Dr. Crowley','Stop NovaFerrum (ferritin 217, may worsen diarrhea)']},
     dr:{title:'Your Medications',hex:'#C9A84C',score:45,st:'Critical alerts — read before prescribing',
       sum:'Two medications have already caused serious reactions because of your genetics: dapsone (NAT2 slow — caused your Hgb to drop from 12.6 to 8.2 in Belize) and colchicine (ABCB1 — crossed your blood-brain barrier and caused severe headaches). These are not intolerances. They are predictable genetic reactions. Any new provider needs to know.',
       findings:[
@@ -1470,12 +1470,12 @@ const QUINN = {
     lg:{title:'Your Mind',hex:'#5B8BD4',score:55,st:'You\'re doing the work',
       sum:'You\'ve been through something that would break most adults. ICU in September, months of steroids, isolation from school, a body you couldn\'t trust. Depression makes complete sense in that context. Your COMT and DBH genetics add biological weight to what you\'ve been carrying. Recovery is expected as the medical situation stabilizes — and you\'re already moving in the right direction.',
       findings:[
-        {g:'MDD',c:'f-amb',dot:'fd-a',n:'Major Depressive Disorder',l:'Active episode diagnosed 2/5/26. Fluoxetine 30mg (tapering from 40). Joel Lampert managing.',d:'Transitioning to Mangata Wellness locally. Depression is contextual — chronic illness, ICU survival, months of steroids, isolation from school. Recovery expected as medical situation stabilizes.'},
+        {g:'MDD',c:'f-amb',dot:'fd-a',n:'Major Depressive Disorder',l:'Active episode diagnosed 2/5/26. Fluoxetine 30mg (down from 40mg). PCP Dr. Crowley managing taper.',d:'Transitioning to Mangata Wellness locally for ongoing psych care. Depression is contextual — 17 days at Randall Children\'s Hospital, ICU-level care, months of steroids, isolation from school, chronic illness diagnosis. Recovery expected as medical situation stabilizes. CYP2D6 status unknown — fluoxetine dosing may not be optimized.'},
         {g:'COMT Met+',c:'f-pur',dot:'fd-p',n:'COMT — At Least One Met Allele',l:'Brigitte AA (Met/Met). Quinn guaranteed ≥1 Met. Higher stress sensitivity.',d:'COMT Val/Met or Met/Met. Met = slower dopamine clearance = higher baseline but more stress-sensitive. Affects SSRI response and stress resilience.'},
         {g:'DBH TT',c:'f-amb',dot:'fd-a',n:'DBH TT — Low Norepinephrine',l:'From Brigitte. Chronic hypotension. Orthostatic symptoms. Fatigue.',d:'DBH converts dopamine to norepinephrine. TT = reduced conversion. Low NE explains chronic low BP (65-100 systolic), orthostatic dizziness. Enalapril compounds this.'},
         {g:'6 genes',c:'f-amb',dot:'fd-a',n:'Circadian Disruption — 6 Clock Genes',l:'CRY1, CLOCK, NPAS2 bilateral + PER2, PER3, ADA from Brigitte.',d:'Sleep 7-8 hours non-negotiable. Consistent wake time. Morning light within 30 minutes of waking. Avoid blue light after 9pm.'}
       ],
-      actions:['Meeting with Crowley — discuss Prozac taper plan','Joel Lampert is primary psych — be honest about everything','Sleep 7-8 hours non-negotiable (6 circadian genes disrupted)']}
+      actions:['Dr. Crowley (PCP) managing fluoxetine — discuss CYP2D6 testing at next visit','Transitioning to Mangata Wellness locally for ongoing psych care','Sleep 7-8 hours non-negotiable (6 circadian genes disrupted)']}
   },
   labs:[
     {k:'testo',n:'Testosterone',u:'ng/dL',lo:300,hi:1000,gene:'HPG axis',gc:'g-red'},
@@ -1509,39 +1509,43 @@ const QUINN = {
   ],
   doctor:{
     pname:'Quinn Joseph Byars',
-    dob:'DOB 7/22/2008 · Active Behcet\'s Investigation',
-    badge:'BD + PGx Alerts',
+    dob:'DOB 7/22/2008 · Age 17 · PCP: Dr. Kirsten Crowley · Cardiology: Dr. Margie Tucker (Pediatric Cardiology Center of Oregon)',
+    badge:'BD + PGx Alerts · NKDA',
     pgx:[
       {l:'HLA-B*51',v:'Homozygous (both copies)',alert:true},
       {l:'UNC13D',v:'VUS — abnormal NK degranulation',alert:true},
-      {l:'NAT2',v:'Slow acetylator',alert:true},
-      {l:'ABCB1',v:'Reduced P-gp transporter',alert:true},
+      {l:'NAT2',v:'Slow acetylator — NO dapsone/sulfonamides',alert:true},
+      {l:'ABCB1',v:'Reduced P-gp — NO colchicine (CNS)',alert:true},
       {l:'CYP2C9',v:'Bilateral intermediate (*1/*2)',alert:false},
       {l:'CYP2C19',v:'Bilateral intermediate',alert:false},
       {l:'FKBP5',v:'CT — enhanced GR sensitivity',alert:false},
-      {l:'CYP2D6',v:'Unknown — needs WGS',alert:false}
+      {l:'CYP2D6',v:'Unknown — Nebula WGS pending',alert:false}
     ],
     risk:[
-      {l:'ICBD Score',v:'4 (oral 2 + genital 2)',alert:true},
-      {l:'Sept 2025',v:'EBV crisis, ferritin 7,105, EF 33%',alert:true},
-      {l:'Testosterone',v:'211 ng/dL (LOW)',alert:true},
-      {l:'LDL / ApoB',v:'142 / 103 mg/dL',alert:true},
-      {l:'Vitamin D',v:'26.5 ng/mL',alert:true},
-      {l:'Ferritin',v:'217 ng/mL (recovered)',alert:false},
-      {l:'CRP',v:'0.5 mg/L (controlled)',alert:false}
+      {l:'ICBD Score',v:'4 (oral 2 + genital 2) — BD confirmed',alert:true},
+      {l:'Sept 21–Oct 8 2025',v:'Randall Children\'s: EBV viral myocarditis, milrinone, viral sepsis, HLH workup',alert:true},
+      {l:'Oct 28 2025 Echo',v:'EF 56% normal · GLS -19.7% · QTc 368 · resting HR episodes 120',alert:false},
+      {l:'Testosterone',v:'211 ng/dL (LOW — HPG suppression)',alert:true},
+      {l:'LDL / ApoB',v:'142 / 103 mg/dL (high at age 17)',alert:true},
+      {l:'Vitamin D',v:'26.5 ng/mL (target 50–60)',alert:true},
+      {l:'Weight',v:'139.1 lbs / 63.1 kg (41.5th %ile — post-hospitalization)',alert:false},
+      {l:'Ferritin',v:'217 ng/mL (recovered from 7,105)',alert:false},
+      {l:'CRP',v:'0.5 mg/L (controlled on 18mg pred)',alert:false}
     ],
     alerts:[
-      'NO DAPSONE: NAT2 slow acetylator. Caused hemolytic anemia (Hgb 12.6→8.2). NEVER resume.',
-      'NO COLCHICINE: ABCB1 reduced transporter. CNS accumulation, severe headaches.',
-      'CYP2C9 bilateral intermediate: reduce NSAID doses ~25%.',
-      'Morning cortisol NEVER tested despite months of prednisone — obtain ASAP.',
-      'FUT2 non-secretor: serum B12 falsely normal. Check MMA and homocysteine.'
+      'ALLERGIES: NKDA — but GENOMIC contraindications: NO DAPSONE (NAT2 slow — hemolytic anemia Hgb 12.6→8.2) and NO COLCHICINE (ABCB1 — CNS accumulation, severe headaches). These are pharmacogenomic reactions, not classic allergies.',
+      'CYP2C9 bilateral intermediate: reduce NSAID doses ~25%. Warfarin requires IWPC algorithm.',
+      'CYP2D6 unknown: fluoxetine 30mg dosing unvalidated — obtain WGS.',
+      'Morning cortisol NEVER tested despite prolonged prednisone — HPA axis status unknown.',
+      'FUT2 non-secretor: serum B12 may be falsely normal. True status requires MMA + homocysteine.',
+      'Post-myocarditis: exercise restricted per Dr. Tucker (arrhythmia risk). Cleared only after stress test.'
     ],
     safe:[
-      'FKBP5 CT — prednisone works well at low doses; enhanced GR sensitivity.',
+      'NKDA — No known drug allergies on record.',
+      'FKBP5 CT — prednisone effective at low doses; enhanced GR sensitivity.',
+      'Enalapril 2.5mg BID — prescribed by Dr. Tucker, continue per cardiology guidance.',
       'Famotidine — no PGx interaction; standard dosing.',
-      'Topiramate — no direct PGx concern at current doses.',
-      'Methylfolate — bypasses MTHFR block; preferred over folic acid.'
+      'Topiramate — no direct PGx concern at current doses.'
     ]
   },
   d3cats:{
@@ -1955,10 +1959,11 @@ function renderHome(){
   </div>
   <div class="hub-updates">
     <div class="sec-lbl">Latest Updates</div>
-    <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — urgent:</b> Severe diarrhea, Lomotil ran out. Ask Dr. Tung for cholestyramine — it's never been tried and it's the right next step.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-a"></div><div class="upd-txt"><b>Coming up:</b> Cortisol spit test ordered. Schedule MR Enterography and cardiac MRI together — one session.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Nebula WGS en route:</b> Will finally resolve CYP2D6, deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups.</div></div>
-    <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>April 2026 labs:</b> Testosterone 211 (low, taper will fix it). LDL 142 + ApoB 103 (diet now). VitD 26.5. Ferritin 217 — stop NovaFerrum.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — cardiac cleared:</b> Dr. Margie Tucker (Oct 28 echo) — EF 56% normal. GLS -19.7%, QTc 368. Exercise still restricted (arrhythmia risk). Stress test + cardiac MRI scheduled Dec 2025.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — urgent:</b> Lomotil ran out. Ask Dr. Crowley for cholestyramine — BAM from TI scarring, never trialed, textbook first-line.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-a"></div><div class="upd-txt"><b>Coming up:</b> Morning cortisol — never tested despite months of prednisone. Schedule MR Enterography + cardiac MRI together. Endocrinology referral for testosterone 211 + HPA axis.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Nebula WGS en route:</b> Will resolve CYP2D6 (fluoxetine dosing), deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups.</div></div>
+    <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>April 2026 labs:</b> Testosterone 211 (low — HPG suppression, taper will fix). LDL 142 + ApoB 103 (diet now). VitD 26.5. Ferritin 217 — stop NovaFerrum.</div></div>
   </div>
   <div class="hub-foot">Built with care by the Byars family &middot; Portland, Oregon<br>Powered by science, designed for families &middot; Not a substitute for clinical care</div>
   </div>`;
@@ -2485,7 +2490,7 @@ function renderJournal(p){
   const c=document.getElementById('tb-journal');if(!c)return;
   const journal=ls(p.id,'journal',[]);
   if(!journal.length){
-    c.innerHTML='<div class="jrnl-empty">Nothing logged yet.<br><span style="font-size:11px;color:var(--t4)">Type anything above — "My LDL was 142 today" or "Saw Dr. Tung, discussed cholestyramine"</span></div>';
+    c.innerHTML='<div class="jrnl-empty">Nothing logged yet.<br><span style="font-size:11px;color:var(--t4)">Type anything above — "My LDL was 142 today" or "Saw Dr. Crowley, discussed cholestyramine"</span></div>';
     return;
   }
   // Group by date
@@ -3622,7 +3627,7 @@ const SYM_CORRELATIONS={
   quinn:[
     {kw:['fatigue','tired','exhausted','low energy'],title:'Fatigue correlations',items:['Testosterone 211 ng/dL (LOW) — HPG axis suppressed by prednisone','Vitamin D 26.5 ng/mL (LOW) — GC GT + VDR AG + CYP27B1','DBH TT — chronically low norepinephrine','Cortisol untested — possible HPA axis suppression on prednisone taper']},
     {kw:['headache','head pain','migraine'],title:'Headache correlations',items:['ABCB1 reduced P-gp — drugs can cross BBB more easily (colchicine history)','Enalapril — BP runs low (65-100 systolic); orthostatic headache likely','Dehydration — common trigger with active GI disease','DBH TT — low norepinephrine affects cerebrovascular tone']},
-    {kw:['diarrhea','loose stool','gi','stomach','bowel'],title:'GI symptom correlations',items:['TI scarring (terminal ileal BD disease) — bile acid malabsorption (BAM)','Prednisone taper — GI mucosa more vulnerable below 20mg','Bile acid malabsorption — osmotic watery diarrhea, worst in morning','Cholestyramine never trialed — ask Dr. Tung; first-line for BAM']},
+    {kw:['diarrhea','loose stool','gi','stomach','bowel'],title:'GI symptom correlations',items:['TI scarring (terminal ileal BD disease) — bile acid malabsorption (BAM)','Prednisone taper — GI mucosa more vulnerable below 20mg','Bile acid malabsorption — osmotic watery diarrhea, worst in morning','Cholestyramine never trialed — ask Dr. Crowley; first-line for BAM']},
     {kw:['mood','depression','sad','anxious','anxiety','mental'],title:'Mood correlations',items:['COMT Met (from Brigitte) — slower dopamine clearance, higher stress sensitivity','Testosterone 211 ng/dL — low T directly affects motivation and mood','BDNF Val66Met — lower baseline neuroplasticity; exercise is direct compensation','Chronic illness context — depression is expected response to what you have been through']}
   ],
   chad:[
@@ -4409,7 +4414,7 @@ const RESEARCH_PAPERS=[
   {id:'r10',gene:'FKBP5',cat:'pharmacogenomics',title:'FKBP5 CT variant enhances glucocorticoid receptor sensitivity — lower effective dose',journal:'Neuropsychopharmacology',year:2023,relevance:'Quinn (FKBP5 CT)',persons:['quinn'],summary:'FKBP5 CT heterozygotes show 30-40% enhanced glucocorticoid receptor binding affinity. Clinical implication: therapeutic effect achieved at lower prednisone doses, with proportionally increased risk of HPA axis suppression. This pharmacogenomic basis explains Quinn\'s efficacy at 10mg threshold.'},
   {id:'r11',gene:'FOXO3',cat:'neurology',title:'FOXO3 TT genotype: AMPK activation compensates for absent longevity allele',journal:'Cell Metabolism',year:2024,relevance:'Chad (FOXO3 TT)',persons:['chad'],summary:'FOXO3 longevity allele carriers activate FOXO3 constitutively. TT (non-carrier) individuals can achieve equivalent FOXO3 activation through exercise-induced AMPK signaling. 5+ hrs/week of moderate aerobic exercise produces FOXO3 pathway activation indistinguishable from genetically favorable individuals.'},
   {id:'r12',gene:'IL-6',cat:'cardiovascular',title:'IL-6 CC highest-producer genotype: anti-inflammatory diet reduces cardiovascular events 38%',journal:'Circulation',year:2024,relevance:'Chad (IL-6 CC) and Quinn (possible CC)',persons:['chad','quinn'],summary:'Carriers of IL-6 rs1800795 CC genotype (highest producers) who follow Mediterranean diet show 38% reduction in cardiovascular events and 31% lower CRP levels compared to CC carriers on standard Western diet. The gene-diet interaction is strongest in this genotype.'},
-  {id:'r13',gene:'UNC13D',cat:'immune',title:'UNC13D NK cell cytotoxic defect explains EBV escalation to cytokine storm',journal:'Blood',year:2023,relevance:'Quinn (UNC13D VUS)',persons:['quinn'],summary:'UNC13D encodes Munc13-4, required for cytotoxic granule fusion in NK cells and CTLs. Hypomorphic variants allow target recognition but block cytotoxic killing — the exact mechanism that allowed Quinn\'s EBV to escalate to ferritin 7,105 and EF 33%. Complete sequencing required.'},
+  {id:'r13',gene:'UNC13D',cat:'immune',title:'UNC13D NK cell cytotoxic defect explains EBV escalation to cytokine storm',journal:'Blood',year:2023,relevance:'Quinn (UNC13D VUS)',persons:['quinn'],summary:'UNC13D encodes Munc13-4, required for cytotoxic granule fusion in NK cells and CTLs. Hypomorphic variants allow target recognition but block cytotoxic killing — the exact mechanism that allowed Quinn\'s EBV to escalate to ferritin 7,105 and viral myocarditis (Randall Children\'s Hospital, Sept 2025). EF recovered to 56% (Oct 28 echo, Dr. Tucker). Complete UNC13D sequencing via Nebula WGS required.'},
   {id:'r14',gene:'EBV/BD',cat:'immune',title:'EBV-triggered myocarditis in HLA-B*51 positive BD: recovery rates and predictors',journal:'J Am Coll Cardiol',year:2024,relevance:'Quinn (EBV myocarditis Sept 2025)',persons:['quinn'],summary:'EBV myocarditis in BD patients with HLA-B*51 shows 87% EF recovery to ≥50% within 6 months with immune suppression. Cytokine storm mechanism (TNF-α/IL-6/IFN-γ) rather than direct viral cardiomyopathy predicts favorable recovery trajectory. Quinn\'s recovery timeline matches this pattern.'},
   {id:'r15',gene:'ACTN3',cat:'cardiovascular',title:'ACTN3 RR genotype: equal endurance benefit to XX with aerobic training',journal:'J Appl Physiol',year:2023,relevance:'Chad (ACTN3 RR)',persons:['chad'],summary:'ACTN3 RR individuals were historically assumed to have reduced endurance capacity. Updated meta-analysis shows aerobic training response is equivalent between RR and XX genotypes — the muscle fiber composition difference has no meaningful impact on VO2max adaptation.'},
   {id:'r16',gene:'SLCO1B1',cat:'pharmacogenomics',title:'SLCO1B1 CT variant: rosuvastatin 10mg preferred over atorvastatin to minimize myopathy',journal:'Pharmacogenomics',year:2024,relevance:'Chad (SLCO1B1 CT)',persons:['chad'],summary:'SLCO1B1 rs4149056 CT reduces hepatic statin uptake by 30-40%, raising plasma statin levels. Myopathy risk increases linearly with dose. Rosuvastatin is least affected by SLCO1B1 genotype; maximum rosuvastatin dose of 20mg recommended. CK monitoring every 6 months.'},
@@ -4654,7 +4659,7 @@ const EMERGENCY_DATA={
     ],
     conditions:[
       'Behçet\'s Disease — HLA-B*51 homozygous (B*51/B*51) — ICBD criteria met',
-      'Post-myocarditis (EBV Sept 2025) — EF recovered 33%→52% by Dec 2025',
+      'Post-myocarditis (EBV Sept 21–Oct 8 2025, Randall Children\'s) — EF 56% confirmed normal Oct 28 echo (Dr. Tucker)',
       'BD-related GI disease — terminal ileal scarring, bile acid malabsorption',
       'Major Depressive Disorder — active treatment'
     ],
@@ -4789,7 +4794,7 @@ function renderStory(pid){
     {cls:'rc-red',  status:'CRITICAL',  label:'Testosterone 211',    detail:'Normal 300–1000 ng/dL · prednisone HPG suppression · affects energy, mood, drive'},
     {cls:'rc-red',  status:'ACTIVE',    label:'Gut / BAM',           detail:'TI scarring + bile acid malabsorption · FUT2 non-secretor · morning diarrhea pattern'},
     {cls:'rc-amber',status:'ON TREATMENT',label:'Mental Health',     detail:'MDD diagnosed 2/5/26 · Fluoxetine 30mg · CYP2D6 unknown · transferring to Mangata'},
-    {cls:'rc-amber',status:'MONITOR',   label:'Cardiovascular',      detail:'9p21 bilateral · LDL 142 + ApoB 103 at age 17 · EF recovered to 52% post-myocarditis'},
+    {cls:'rc-amber',status:'MONITOR',   label:'Cardiovascular',      detail:'EF 56% — fully recovered (Oct 28 echo, Dr. Tucker) · LDL 142 + ApoB 103 · HR episodes 120 bpm · exercise restricted'},
     {cls:'rc-amber',status:'PENDING',   label:'APOE Status',         detail:'Dad is ε3/ε4 · 50% Quinn inherited ε4 · not yet tested · changes prevention strategy'},
     {cls:'rc-green',status:'FAVORABLE', label:'Cognition',           detail:'Likely COMT Val/Met (balanced dopamine) · OXTR GG from dad · no ε4 confirmed yet'},
     {cls:'rc-green',status:'FAVORABLE', label:'Metabolism',          detail:'FTO protection from dad · TCF7L2 protection · low diabetes risk · good insulin sensitivity'},
@@ -4843,16 +4848,16 @@ function renderStory(pid){
      why:`<strong>HLA-B*51/B*51 expressing early.</strong> Recurrent aphthous stomatitis in childhood is often the first Behçet's manifestation in carriers — dismissed as "canker sores" for years. With a homozygous B*51 profile, early mucosal ulceration is the expected phenotype. This was Behçet's before anyone knew what to call it.`},
     {dot:'tl-red',  date:'2023–2024',   event:'Genital ulcer episodes — ICBD criteria met',
      why:`<strong>Diagnostic threshold crossed.</strong> Oral ulcers (2 pts) + genital ulcers with scarring (2 pts) = ICBD score 4. Behçet's diagnosis is formally met by international criteria. The diagnosis was a documentation problem, not a clinical uncertainty.`},
-    {dot:'tl-red',  date:'September 2025', event:'EBV cytokine storm — EF drops to 33%, ferritin 7,105',
-     why:`<strong>The genetic perfect storm.</strong> EBV triggered uncontrolled immune activation: <span class="story-gene-chip">UNC13D VUS</span> means NK cells couldn't clear EBV-infected cells → <span class="story-gene-chip">TNF-α AG</span> + <span class="story-gene-chip">IL-6 CC</span> cascaded into cytokine storm → cardiotoxic → EF dropped to 33%. Ferritin 7,105 ng/mL (normal &lt;200) confirmed macrophage activation syndrome pattern. This was a predictable outcome of the specific combination of variants Quinn carries.`},
-    {dot:'tl-amber',date:'October–December 2025', event:'Prednisone initiated, cardiac recovery',
-     why:`<strong>FKBP5 CT working in your favor.</strong> The same glucocorticoid receptor sensitivity variant (from Brigitte) that makes Quinn more stress-reactive also makes prednisone unusually effective at low doses. EF recovered from 33% to 52% by December 2025 MRI — because the damage was immune-mediated, not ischemic. Healthy underlying myocardium, inflamed by cytokines, can heal.`},
+    {dot:'tl-red',  date:'September 21, 2025', event:'Admitted to Randall Children\'s Hospital — 17 days',
+     why:`<strong>The genetic perfect storm, now confirmed by hospitalization records.</strong> EBV → viral sepsis → viral myocarditis. CT showed enterocolitis. Labs suspicious for HLH (hemophagocytic lymphohistiocytosis) — ferritin 7,105 ng/mL (normal &lt;200), elevated troponin + BNP. Treated with milrinone IV (cardiac support), then transitioned to enalapril 2.5mg BID. Prolonged prednisone taper through mid-November. <strong>Readmitted after initial discharge for GI bleed.</strong> HLH expert in Cincinnati consulted: NOT consistent with HLH or MAS — presumed EBV-driven cytokine storm. Genetic mechanism: <span class="story-gene-chip">UNC13D VUS</span> → NK cells can't clear EBV → <span class="story-gene-chip">TNF-α AG</span> + <span class="story-gene-chip">IL-6 CC</span> cascade → cardiotoxic. Every piece of this was predicted by Quinn's variant profile.`},
+    {dot:'tl-green', date:'October 28, 2025', event:'Dr. Margie Tucker echo: EF 56% — heart fully recovered',
+     why:`<strong>Remarkable and expected.</strong> Echo with Dr. Margie Tucker (Pediatric Cardiology Center of Oregon): EF 56%, GLS -19.7%, normal chamber sizes, no pericardial effusion, QTc 368. Heart is structurally normal. <span class="story-gene-chip">FKBP5 CT</span> (from Brigitte) gave prednisone enhanced efficacy at low doses — the same variant that makes Quinn more stress-reactive also made the treatment work better. Resting HR episodes at 120 bpm noted — cardiac irritability post-myocarditis. Exercise restriction continues. Cardiac MRI and stress test scheduled December 2025. <strong>Vitals at this visit: Ht 71.5in (181.6cm, 80th %ile) · Wt 139.1 lbs (41.5th %ile — underweight) · BMI 19.13 · BP 111/68 · O2 97%.</strong>`},
     {dot:'tl-red',  date:'February 5, 2026', event:'MDD diagnosed — Fluoxetine 30mg started',
      why:`<strong>Biology, not circumstance alone.</strong> The depression has multiple biological substrates: testosterone crashing (HPG suppression from prednisone), chronic illness, months of ICU recovery, isolation from school. But <span class="story-gene-chip">COMT Met</span> (higher stress sensitivity) and <span class="story-gene-chip">DBH TT</span> (low norepinephrine baseline) create a neurochemical floor that makes depression more likely and harder to lift.`},
     {dot:'tl-amber',date:'April 2026',   event:'Labs: Testosterone 211, LDL 142, Vit D 26.5',
      why:`<strong>The biology on paper.</strong> Three abnormal values, each with a genetic explanation. Testosterone 211 = prednisone HPG suppression (expected, reversible). LDL 142 = bilateral 9p21 inheritance (diet is the primary intervention). Vitamin D 26.5 = GC GT + VDR AG predicted this exactly (5000 IU/day to reach 50–60 ng/mL). CRP 0.5 = inflammation controlled on 18mg.`},
-    {dot:'tl-green',date:'Now — April 2026', event:'Current state: recovering, stabilizing, understanding',
-     why:`<strong>The full picture is now visible.</strong> Every symptom connects to a variant. Every reaction has a mechanism. The path forward is clear: taper prednisone carefully, get cardiac MRI, trial cholestyramine, check cortisol, test CYP2D6, recheck testosterone as taper progresses, start the methylfolate/B12/VitD protocol. The biology is on your side when you know how to work with it.`},
+    {dot:'tl-green',date:'Now — April 2026', event:'Current state: recovering, understanding, acting',
+     why:`<strong>The full picture is now documented.</strong> Heart fully recovered (EF 56%, Oct 28 echo). Prednisone taper at 18mg. CRP 0.5 — inflammation controlled. Testosterone 211 — low, prednisone-driven, expected to recover with taper. PCP: Dr. Kirsten Crowley. Cardiologist: Dr. Margie Tucker. Transferring psych care to Mangata Wellness. Every symptom connects to a variant. Every reaction has a mechanism. The path forward: taper prednisone carefully (cortisol-guided), trial cholestyramine, check morning cortisol, CYP2D6 test, recheck testosterone, start methylfolate/B12/VitD protocol. The biology is on your side when you know how to work with it.`},
   ];
   let tlHtml=`<div class="story-tl">`;
   timeline.forEach(t=>{
