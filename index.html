@@ -734,6 +734,38 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .chat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:590;opacity:0;pointer-events:none;transition:opacity .35s}
 .chat-overlay.on{opacity:1;pointer-events:auto}
 
+/* ══════════════════════════════════════
+   P11 — MEDICATION INTERACTION CHECKER
+══════════════════════════════════════ */
+.ix-wrap{padding:0 16px 40px}
+.ix-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.ix-chip{background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:5px 12px;font-size:13px;color:var(--t1);display:flex;align-items:center;gap:6px}
+.ix-chip-del{cursor:pointer;color:var(--t3);font-size:16px;line-height:1}
+.ix-chip-del:hover{color:var(--red)}
+.ix-add-row{display:flex;gap:8px;margin:12px 0}
+.ix-add-inp{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:10px 14px;color:var(--t1);font-size:14px;outline:none}
+.ix-add-inp:focus{border-color:var(--blue)}
+.ix-add-btn{background:var(--blue);color:#fff;border:none;border-radius:var(--r-s);padding:10px 18px;font-size:14px;cursor:pointer;white-space:nowrap}
+.ix-section-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin:20px 0 10px}
+.ix-table{width:100%;border-collapse:collapse}
+.ix-table th{text-align:left;font-size:11px;color:var(--t3);font-weight:600;padding:6px 10px;border-bottom:1px solid var(--bd)}
+.ix-table td{padding:10px 10px;border-bottom:1px solid var(--bd);font-size:13px;vertical-align:middle}
+.ix-table tr:last-child td{border-bottom:none}
+.ix-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.ix-dot.r{background:var(--red)}
+.ix-dot.a{background:var(--amber)}
+.ix-dot.g{background:var(--green)}
+.ix-sev-r{color:var(--red);font-weight:600;font-size:12px}
+.ix-sev-a{color:var(--amber);font-weight:600;font-size:12px}
+.ix-sev-g{color:var(--green);font-weight:600;font-size:12px}
+.ix-gene-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:8px 0;display:flex;gap:12px;align-items:flex-start}
+.ix-gene-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.ix-gene-badge.r{background:var(--red-b);color:var(--red)}
+.ix-gene-badge.a{background:var(--amb-b);color:var(--amber)}
+.ix-gene-badge.g{background:var(--grn-b);color:var(--green)}
+.ix-gene-txt{font-size:13px;color:var(--t2);line-height:1.5}
+.ix-empty{text-align:center;padding:32px;color:var(--t3);font-size:14px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1387,6 +1419,7 @@ function route(){
   if(pid==='home'||!PERSONS[pid]){renderHome();return;}
   if(pid==='compare'){renderCompare(parts[1]||null,parts[2]||null);return;}
   if(pid==='ancestry'){renderAncestry();return;}
+  if(pid==='interactions'){renderInteractions(parts[1]||'chad');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2394,7 +2427,8 @@ function renderMore(p){
     {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Your Longevity Plan',s:'How many years your protocol can add',fn:`nav('${p.id}/lifespan')`},
     {icon:'<circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-2.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-2.93 7.07l-2.83-2.83M6.76 6.76L3.93 3.93"/>',t:'Genetics / Explore',s:p.id==='quinn'?'Inheritance map':'Variant network',fn:`nav('${p.id}/genetics')`},
     {icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',t:'Doctor Card',s:'Printable clinical report',fn:`nav('${p.id}/doctor')`},
-    {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'}
+    {icon:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',t:'Export PDF',s:'Print-optimized layout',fn:'window.print()'},
+    {icon:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 1 2-2v-4M9 21H5a2 2 0 0 0-2-2v-4m0 0h18"/>',t:'Interaction Checker',s:'Drug-drug and gene-drug alerts',fn:`nav('interactions/${p.id}')`}
   ];
   if(p.id==='chad'){
     items.splice(items.length-1,0,{
@@ -3029,6 +3063,152 @@ function buildAncestryMap(){
   <text x="12" y="248" font-size="8" fill="#4A5568" font-family="system-ui">200,000 BCE</text>
   <text x="280" y="248" font-size="8" fill="#4A5568" font-family="system-ui">East Africa → Celtic Britain</text>
 </svg>`;
+}
+
+/* ══════════════════════════════════════
+   P11 — MEDICATION INTERACTION CHECKER
+══════════════════════════════════════ */
+const DRUG_INTERACTIONS=[
+  {a:'fluoxetine',b:'tramadol',sev:'r',txt:'Serotonin syndrome risk — avoid combination; use alternative analgesic'},
+  {a:'fluoxetine',b:'maoi',sev:'r',txt:'Serotonin syndrome — contraindicated; 14-day washout required'},
+  {a:'fluoxetine',b:'nsaid',sev:'a',txt:'Increased GI bleed risk — add PPI if combination required'},
+  {a:'prednisone',b:'nsaid',sev:'r',txt:'High GI bleed risk — combination strongly discouraged'},
+  {a:'prednisone',b:'live vaccine',sev:'r',txt:'Live vaccines contraindicated on immunosuppressive doses'},
+  {a:'warfarin',b:'nsaid',sev:'r',txt:'Bleeding risk — NSAIDs inhibit platelet function and may displace warfarin'},
+  {a:'statin',b:'colchicine',sev:'r',txt:'Myopathy/rhabdomyolysis — OATP1B1 competition; monitor CK closely'},
+  {a:'enalapril',b:'potassium',sev:'a',txt:'Hyperkalemia risk — ACE inhibitor reduces aldosterone; monitor K+'},
+  {a:'topiramate',b:'valproate',sev:'a',txt:'Hyperammonemia — combination inhibits urea cycle; monitor ammonia'},
+  {a:'metformin',b:'contrast dye',sev:'r',txt:'Lactic acidosis risk — hold metformin 48h before/after iodinated contrast'},
+  {a:'fluoxetine',b:'lithium',sev:'a',txt:'Serotonin toxicity — enhanced serotonergic effect; titrate carefully'},
+  {a:'prednisone',b:'insulin',sev:'a',txt:'Hyperglycemia — steroids antagonize insulin; monitor blood glucose'},
+  {a:'enalapril',b:'nsaid',sev:'a',txt:'Reduced antihypertensive effect + nephrotoxicity risk'},
+  {a:'topiramate',b:'oral contraceptive',sev:'a',txt:'Reduced OC efficacy — enzyme induction at higher topiramate doses'},
+  {a:'fluoxetine',b:'triptans',sev:'a',txt:'Serotonin syndrome — use with caution; monitor closely'},
+  {a:'warfarin',b:'fluoroquinolone',sev:'a',txt:'Increased INR — antibiotics disrupt vitamin K-producing gut flora'},
+  {a:'statin',b:'amiodarone',sev:'r',txt:'Myopathy risk — amiodarone inhibits CYP3A4; statin levels rise'},
+  {a:'prednisone',b:'aspirin',sev:'a',txt:'GI bleed risk — combined antiplatelet + steroid effect on mucosa'},
+  {a:'enalapril',b:'lithium',sev:'a',txt:'Lithium toxicity — ACE inhibitors reduce lithium clearance'},
+  {a:'metformin',b:'alcohol',sev:'a',txt:'Lactic acidosis — alcohol impairs lactate clearance; avoid binge drinking'},
+  {a:'topiramate',b:'alcohol',sev:'r',txt:'CNS depression — additive sedation; avoid combination'},
+  {a:'fluoxetine',b:'warfarin',sev:'a',txt:'Elevated INR — fluoxetine inhibits CYP2C9 warfarin metabolism'},
+  {a:'famotidine',b:'any',sev:'g',txt:'Generally safe — famotidine has minimal interaction potential'},
+  {a:'prednisone',b:'warfarin',sev:'a',txt:'Variable INR effect — steroids alter warfarin metabolism; monitor closely'},
+  {a:'statin',b:'grapefruit',sev:'a',txt:'Elevated statin levels — grapefruit inhibits CYP3A4 metabolism'}
+];
+
+const GENE_DRUG_ALERTS={
+  quinn:[
+    {gene:'CYP2D6 unknown',drug:'fluoxetine',sev:'a',txt:'Metabolism unclear — fluoxetine clearance unpredictable; monitor for side effects at 30mg dose'},
+    {gene:'CYP2C9 intermediate',drug:'NSAIDs / ibuprofen',sev:'a',txt:'Dose reduction recommended — bilateral CYP2C9 *1/*2; use 75% standard NSAID dose'},
+    {gene:'NAT2 slow',drug:'dapsone / sulfonamides',sev:'r',txt:'DANGER — slow acetylator caused hemolytic anemia (Hgb 12.6→8.2). Never resume dapsone.'},
+    {gene:'ABCB1 reduced',drug:'colchicine',sev:'r',txt:'CNS toxicity — reduced P-gp transporter allows colchicine BBB penetration; severe headaches documented'},
+    {gene:'FKBP5 CT',drug:'prednisone / steroids',sev:'g',txt:'Enhanced GR sensitivity — prednisone is more effective at lower doses; beneficial effect'}
+  ],
+  chad:[
+    {gene:'CYP2C9 *1/*2',drug:'warfarin',sev:'a',txt:'Use IWPC algorithm — intermediate metabolizer; standard warfarin dosing will overdose'},
+    {gene:'CYP2C19 *1/*2',drug:'clopidogrel',sev:'r',txt:'Avoid clopidogrel — inadequate prodrug activation; use prasugrel or ticagrelor instead'},
+    {gene:'SLCO1B1 CT',drug:'statins',sev:'a',txt:'Myopathy risk at high doses — reduced hepatic statin uptake; start rosuvastatin 10mg, titrate'},
+    {gene:'CYP2C9 *1/*2',drug:'NSAIDs',sev:'a',txt:'Reduce NSAID doses ~25% — intermediate CYP2C9 means slower clearance and higher exposure'}
+  ],
+  brigitte:[
+    {gene:'NAT2 slow',drug:'dapsone / sulfonamides / INH',sev:'r',txt:'Slow acetylator — same variant passed to Quinn; dapsone and sulfonamides carry hemolysis risk'},
+    {gene:'CYP2C9 *1/*2',drug:'NSAIDs / warfarin',sev:'a',txt:'Intermediate metabolizer — reduce NSAID doses; use IWPC algorithm for warfarin if needed'}
+  ]
+};
+
+const PERSON_MEDS={
+  quinn:['prednisone','fluoxetine','enalapril','topiramate','famotidine'],
+  chad:['rosuvastatin','enalapril','aspirin'],
+  brigitte:[],
+  brother:[],
+  peggy:[]
+};
+
+function renderInteractions(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const p=PERSONS[pid]||CHAD;
+  const storedMeds=ls(pid,'ix-meds',PERSON_MEDS[pid]||[]);
+  _ixMeds[pid]=[...storedMeds];
+  const h=`<div class="view">
+  <div class="page-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')">‹ Back</button>
+    <div class="page-hdr-txt">
+      <div class="page-hdr-title">Interaction Checker</div>
+      <div class="page-hdr-sub">${p.name}</div>
+    </div>
+  </div>
+  <div class="ix-wrap">
+    <div class="ix-section-lbl">Current Medications</div>
+    <div class="ix-chips" id="ix-chips-${pid}"></div>
+    <div class="ix-add-row">
+      <input class="ix-add-inp" id="ix-inp-${pid}" placeholder="Add medication…" onkeydown="if(event.key==='Enter')ixAddMed('${pid}')">
+      <button class="ix-add-btn" onclick="ixAddMed('${pid}')">Add</button>
+    </div>
+    <div class="ix-section-lbl">Drug–Drug Interactions</div>
+    <div id="ix-ddi-${pid}"></div>
+    <div class="ix-section-lbl">Gene–Drug Alerts</div>
+    <div id="ix-gda-${pid}"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  ixRender(pid);
+  window.scrollTo(0,0);
+}
+
+const _ixMeds={};
+
+function ixAddMed(pid){
+  const inp=document.getElementById('ix-inp-'+pid);
+  const val=(inp.value||'').trim().toLowerCase();
+  if(!val)return;
+  if(!_ixMeds[pid])_ixMeds[pid]=[];
+  if(!_ixMeds[pid].includes(val))_ixMeds[pid].push(val);
+  lw(pid,'ix-meds',_ixMeds[pid]);
+  inp.value='';
+  ixRender(pid);
+}
+
+function ixRemoveMed(pid,med){
+  _ixMeds[pid]=(_ixMeds[pid]||[]).filter(m=>m!==med);
+  lw(pid,'ix-meds',_ixMeds[pid]);
+  ixRender(pid);
+}
+
+function ixRender(pid){
+  const meds=_ixMeds[pid]||[];
+  // chips
+  const chipsEl=document.getElementById('ix-chips-'+pid);
+  if(chipsEl){
+    chipsEl.innerHTML=meds.length
+      ? meds.map(m=>`<div class="ix-chip">${m}<span class="ix-chip-del" onclick="ixRemoveMed('${pid}','${m}')">×</span></div>`).join('')
+      : '<span style="color:var(--t3);font-size:13px">No medications added yet</span>';
+  }
+  // drug-drug interactions
+  const ddiEl=document.getElementById('ix-ddi-'+pid);
+  if(ddiEl){
+    const hits=[];
+    DRUG_INTERACTIONS.forEach(ix=>{
+      const aMatch=meds.some(m=>m.includes(ix.a)||ix.a.includes(m));
+      const bMatch=meds.some(m=>m.includes(ix.b)||ix.b.includes(m))||ix.b==='any';
+      if(aMatch&&bMatch&&ix.b!=='any')hits.push(ix);
+      if(aMatch&&ix.b==='any')hits.push(ix);
+    });
+    if(hits.length){
+      ddiEl.innerHTML=`<table class="ix-table"><thead><tr><th>Drug A</th><th>Drug B</th><th>Severity</th><th>Warning</th></tr></thead><tbody>`
+        +hits.map(h=>`<tr><td>${h.a}</td><td>${h.b}</td><td><span class="ix-dot ${h.sev}" style="display:inline-block;margin-right:4px"></span><span class="ix-sev-${h.sev}">${h.sev==='r'?'Danger':h.sev==='a'?'Caution':'Safe'}</span></td><td>${h.txt}</td></tr>`).join('')
+        +`</tbody></table>`;
+    } else {
+      ddiEl.innerHTML=`<div class="ix-empty">No interactions found among current medications.</div>`;
+    }
+  }
+  // gene-drug alerts
+  const gdaEl=document.getElementById('ix-gda-'+pid);
+  if(gdaEl){
+    const alerts=GENE_DRUG_ALERTS[pid]||[];
+    gdaEl.innerHTML=alerts.length
+      ? alerts.map(a=>`<div class="ix-gene-card"><span class="ix-gene-badge ${a.sev}">${a.gene}</span><div><div style="font-size:13px;font-weight:600;margin-bottom:3px">${a.drug}</div><div class="ix-gene-txt">${a.txt}</div></div></div>`).join('')
+      : '<div class="ix-empty">No gene-drug alerts for this person.</div>';
+  }
 }
 
 /* ── Show/hide FAB based on current view ── */
