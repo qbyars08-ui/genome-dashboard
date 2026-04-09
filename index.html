@@ -1354,6 +1354,37 @@ body.is-provider .back-btn svg{stroke:#111}
 .trial-learn-btn{font-size:11px;font-weight:700;color:var(--blue);background:none;border:1px solid var(--blue);border-radius:var(--r-s);padding:5px 12px;cursor:pointer}
 .trials-disclaimer{font-size:10px;color:var(--t4);text-align:center;padding:12px 0;line-height:1.5}
 
+/* ── P30 Wearable Integration ── */
+.wear-view{padding:0 16px 80px}
+.wear-device-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.wear-device-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;text-align:center}
+.wear-device-card.connected{border-color:var(--green)}
+.wear-device-icon{width:44px;height:44px;border-radius:var(--r-m);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;margin:0 auto 8px;color:#fff}
+.wear-device-name{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.wear-device-status{font-size:10px;font-weight:600;margin-bottom:8px}
+.wear-device-status.connected{color:var(--green)}
+.wear-device-status.disconnected{color:var(--t3)}
+.wear-connect-btn{font-size:11px;font-weight:700;padding:6px 14px;border-radius:var(--r-s);cursor:pointer;border:none;width:100%}
+.wear-connect-btn.connected{background:var(--grn-b);color:var(--green)}
+.wear-connect-btn.disconnected{background:var(--sf2);color:var(--t1);border:1px solid var(--bd)}
+.wear-metrics{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.wear-metrics-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.wear-metrics-live{font-size:9px;background:var(--grn-b);color:var(--green);padding:2px 6px;border-radius:8px;font-weight:700}
+.wear-metric-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--bd)}
+.wear-metric-row:last-child{border-bottom:none}
+.wear-metric-label{font-size:12px;color:var(--t1);font-weight:600}
+.wear-metric-val{font-size:13px;font-weight:700;text-align:right}
+.wear-metric-note{font-size:10px;color:var(--t3);line-height:1.4;margin-top:2px;text-align:right;max-width:160px}
+.wear-context{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.wear-context-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.wear-context-item{padding:8px 0;border-bottom:1px solid var(--bd)}
+.wear-context-item:last-child{border-bottom:none}
+.wear-context-metric{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px}
+.wear-context-explain{font-size:11px;color:var(--t2);line-height:1.5}
+.wear-sync-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);font-size:14px;font-weight:600;color:var(--t1);cursor:pointer}
+.wear-logos{display:flex;gap:12px;justify-content:center;padding:12px 0;opacity:.4}
+.wear-logo-pill{font-size:10px;color:var(--t2);background:var(--sf2);border:1px solid var(--bd);padding:4px 10px;border-radius:10px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -2029,6 +2060,7 @@ function route(){
   if(pid==='brief'){renderBrief(parts[1]||'quinn');return;}
   if(pid==='upgrade'){renderUpgrade();return;}
   if(pid==='trials'){renderTrials(parts[1]||'quinn');return;}
+  if(pid==='wearable'){renderWearable(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3072,6 +3104,7 @@ function renderMore(p){
     {icon:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/>',t:'Daily Brief',s:'Personalized genomic morning summary',fn:`nav('brief/${p.id}')`},
     {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Upgrade',s:'Unlock all features — Personal & Family plans',fn:`nav('upgrade')`,style:'color:var(--amber)'},
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Clinical Trials',s:'Trials matched to your genetic profile',fn:`nav('trials/${p.id}')`},
+    {icon:'<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',t:'Wearable Data',s:'Apple Watch, Oura, Garmin — genetic context',fn:`nav('wearable/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6382,6 +6415,104 @@ function showTrialsToast(){
     document.body.appendChild(t);
   }
   t.textContent='Opening ClinicalTrials.gov…';t.style.opacity='1';
+  clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},2500);
+}
+
+/* ══════════════════════════════════════
+   P30 — WEARABLE DATA INTEGRATION SHELL
+══════════════════════════════════════ */
+const WEAR_DEVICES=[
+  {id:'apple',name:'Apple Watch',color:'#1c1c1e',initials:'AW',connected:'quinn'},
+  {id:'oura',name:'Oura Ring',color:'#2d2d2d',initials:'OR',connected:null},
+  {id:'garmin',name:'Garmin',color:'#007CC3',initials:'GR',connected:null},
+  {id:'fitbit',name:'Fitbit',color:'#00B0B9',initials:'FB',connected:null},
+  {id:'whoop',name:'Whoop',color:'#2b2b2b',initials:'WP',connected:null}
+];
+
+const WEAR_MOCK_QUINN={
+  metrics:[
+    {label:'Resting HR',val:'72 bpm',color:'var(--green)',note:'Episode at 120 bpm Mon — Dr. Tucker monitoring'},
+    {label:'HRV',val:'42 ms',color:'var(--amber)',note:'Low — DBH TT + low NE baseline (expected)'},
+    {label:'Sleep',val:'6.8 hrs',color:'var(--amber)',note:'Below 7.5hr APOE target'},
+    {label:'Steps',val:'4,200',color:'var(--amber)',note:'Below 8k — exercise restricted post-myocarditis'},
+    {label:'SpO2',val:'97%',color:'var(--green)',note:'Normal range'}
+  ],
+  context:[
+    {metric:'HRV + DBH TT',explain:'Low HRV is expected given your DBH TT genotype — low norepinephrine reduces heart rate variability at baseline. Target 42–55ms given your profile (not the standard 60+ ms).'},
+    {metric:'Sleep + APOE (unclear)',explain:'6.8 hrs is below your 7.5hr target. Insufficient deep sleep impairs glymphatic amyloid clearance. Even without confirmed APOE4, your family history makes this a priority.'},
+    {metric:'Steps + Post-Myocarditis',explain:'8,000 steps is your target once cardiac clearance is given. Current restriction to zone 2 only is appropriate — gradual progression per cardiology protocol.'},
+    {metric:'Resting HR + Behçet\'s',explain:'HR spikes during BD flares are common — inflammatory cytokines elevate sympathetic tone. Log flare days alongside HR data to identify your personal pattern.'}
+  ]
+};
+
+function renderWearable(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  document.getElementById('content').innerHTML=buildWearableHTML(p);
+  window.scrollTo(0,0);
+  updateChatFab(pid);
+}
+
+function buildWearableHTML(p){
+  const deviceCards=WEAR_DEVICES.map(d=>{
+    const isConn=d.connected===p.id;
+    return `<div class="wear-device-card${isConn?' connected':''}">
+      <div class="wear-device-icon" style="background:${d.color}">${d.initials}</div>
+      <div class="wear-device-name">${d.name}</div>
+      <div class="wear-device-status ${isConn?'connected':'disconnected'}">${isConn?'● Connected':'○ Not Connected'}</div>
+      <button class="wear-connect-btn ${isConn?'connected':'disconnected'}" onclick="showWearToast()">${isConn?'Synced':'Connect'}</button>
+    </div>`;
+  }).join('');
+  const mockData=WEAR_MOCK_QUINN;
+  const metricsHTML=mockData.metrics.map(m=>`<div class="wear-metric-row">
+    <div><div class="wear-metric-label">${m.label}</div></div>
+    <div><div class="wear-metric-val" style="color:${m.color}">${m.val}</div>
+    <div class="wear-metric-note">${m.note}</div></div>
+  </div>`).join('');
+  const contextHTML=mockData.context.map(c=>`<div class="wear-context-item">
+    <div class="wear-context-metric">${c.metric}</div>
+    <div class="wear-context-explain">${c.explain}</div>
+  </div>`).join('');
+  return `<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${p.id}')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Wearable Data</div>
+  </div>
+  <div class="wear-view">
+    <div class="wear-device-grid">${deviceCards}</div>
+    <div class="wear-metrics">
+      <div class="wear-metrics-title">
+        Apple Watch — Recent Data
+        <span class="wear-metrics-live">LIVE (simulated)</span>
+      </div>
+      ${metricsHTML}
+    </div>
+    <div class="wear-context">
+      <div class="wear-context-title">Genetic Context for Your Metrics</div>
+      ${contextHTML}
+    </div>
+    <div class="wear-sync-btn" onclick="showWearToast()">
+      <svg viewBox="0 0 24 24" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Sync Wearable Data
+    </div>
+    <div class="wear-logos">
+      <span class="wear-logo-pill">HealthKit</span>
+      <span class="wear-logo-pill">Google Fit</span>
+      <span class="wear-logo-pill">Garmin Connect</span>
+    </div>
+  </div></div>`;
+}
+
+function showWearToast(){
+  let t=document.getElementById('wear-toast');
+  if(!t){
+    t=document.createElement('div');t.id='wear-toast';
+    t.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--sf2);border:1px solid var(--bd);color:var(--t1);padding:12px 20px;border-radius:var(--r-m);font-size:13px;font-weight:600;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)';
+    document.body.appendChild(t);
+  }
+  t.textContent='Wearable sync coming in v2.0';t.style.opacity='1';
   clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},2500);
 }
 
