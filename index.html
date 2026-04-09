@@ -1385,6 +1385,33 @@ body.is-provider .back-btn svg{stroke:#111}
 .wear-logos{display:flex;gap:12px;justify-content:center;padding:12px 0;opacity:.4}
 .wear-logo-pill{font-size:10px;color:var(--t2);background:var(--sf2);border:1px solid var(--bd);padding:4px 10px;border-radius:10px}
 
+/* ── P31 Longitudinal Health Score ── */
+.hs-view{padding:0 16px 80px}
+.hs-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0 12px}
+.hs-ring-svg{display:block}
+.hs-ring-inner{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hs-score-container{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.hs-score-num{font-size:52px;font-weight:900;line-height:1;text-align:center}
+.hs-score-grade{font-size:16px;font-weight:700;text-align:center;margin-top:2px}
+.hs-score-label{font-size:11px;color:var(--t2);margin-top:4px;text-align:center}
+.hs-bars{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.hs-bars-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px}
+.hs-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hs-bar-row:last-child{margin-bottom:0}
+.hs-bar-label{font-size:11px;color:var(--t2);width:100px;flex-shrink:0}
+.hs-bar-track{flex:1;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden}
+.hs-bar-fill{height:100%;border-radius:3px;transition:width .6s var(--ease)}
+.hs-bar-pts{font-size:11px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.hs-actions{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.hs-actions-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.hs-action-item{font-size:12px;color:var(--t2);padding:5px 0;border-bottom:1px solid var(--bd);line-height:1.4}
+.hs-action-item:last-child{border-bottom:none}
+.hs-action-item::before{content:'→ ';color:var(--blue)}
+.hs-sparkline{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.hs-sparkline-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -2061,6 +2088,7 @@ function route(){
   if(pid==='upgrade'){renderUpgrade();return;}
   if(pid==='trials'){renderTrials(parts[1]||'quinn');return;}
   if(pid==='wearable'){renderWearable(parts[1]||'quinn');return;}
+  if(pid==='healthscore'){renderHealthScore(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3105,6 +3133,7 @@ function renderMore(p){
     {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Upgrade',s:'Unlock all features — Personal & Family plans',fn:`nav('upgrade')`,style:'color:var(--amber)'},
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Clinical Trials',s:'Trials matched to your genetic profile',fn:`nav('trials/${p.id}')`},
     {icon:'<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',t:'Wearable Data',s:'Apple Watch, Oura, Garmin — genetic context',fn:`nav('wearable/${p.id}')`},
+    {icon:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',t:'Health Score',s:'0–100 score tracking your genetic protocol',fn:`nav('healthscore/${p.id}')`,style:'color:var(--green)'},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6514,6 +6543,149 @@ function showWearToast(){
   }
   t.textContent='Wearable sync coming in v2.0';t.style.opacity='1';
   clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},2500);
+}
+
+/* ══════════════════════════════════════
+   P31 — LONGITUDINAL HEALTH SCORE
+══════════════════════════════════════ */
+const HS_DEFAULTS={quinn:42,chad:58};
+
+function calcHealthScore(pid){
+  const today=new Date();
+  const weekDates=Array.from({length:7},(_,i)=>{const d=new Date(today);d.setDate(d.getDate()-i);return d.toISOString().split('T')[0];});
+  const sleepEntries=ls(pid,'sleep',[]);
+  const workoutEntries=ls(pid,'workouts',[]);
+  const moodEntries=ls(pid,'mental',[]);
+  const goals=ls(pid,'goals',[]);
+  const sleepDays=weekDates.filter(dk=>sleepEntries.some(e=>e.date===dk)).length;
+  const workoutDays=weekDates.filter(dk=>workoutEntries.some(e=>e.date===dk)).length;
+  const moodDays=weekDates.filter(dk=>moodEntries.some(e=>e.date===dk)).length;
+  const takenDays=weekDates.filter(dk=>{const t=ls(pid,`taken-${dk}`,{});return Object.values(t).some(Boolean);}).length;
+  const doneGoals=goals.filter(g=>g.done).length;
+  const totalGoals=goals.length;
+  const sleepPts=Math.round((sleepDays/7)*20);
+  const workoutPts=Math.round((workoutDays/7)*20);
+  const moodPts=Math.round((moodDays/7)*20);
+  const suppPts=Math.round((takenDays/7)*20);
+  const goalPts=totalGoals?Math.round((doneGoals/totalGoals)*20):0;
+  const hasAnyData=sleepDays||workoutDays||moodDays||takenDays||totalGoals;
+  const total=hasAnyData?(sleepPts+workoutPts+moodPts+suppPts+goalPts):(HS_DEFAULTS[pid]||50);
+  return{total,sleepPts,workoutPts,moodPts,suppPts,goalPts,hasAnyData};
+}
+
+function hsGrade(n){
+  if(n>=90)return{letter:'A+',color:'var(--green)'};
+  if(n>=80)return{letter:'A',color:'var(--green)'};
+  if(n>=70)return{letter:'B+',color:'var(--blue)'};
+  if(n>=60)return{letter:'B',color:'var(--blue)'};
+  if(n>=50)return{letter:'C+',color:'var(--amber)'};
+  if(n>=40)return{letter:'C',color:'var(--amber)'};
+  if(n>=30)return{letter:'D',color:'var(--orange)'};
+  return{letter:'F',color:'var(--red)'};
+}
+
+function buildSparklineSVG(pid){
+  const today=new Date();
+  const scores=Array.from({length:7},(_,i)=>{
+    const d=new Date(today);d.setDate(d.getDate()-(6-i));
+    const dk=d.toISOString().split('T')[0];
+    const saved=ls(pid,`daily-score-${dk}`,null);
+    return saved!==null?saved:(HS_DEFAULTS[pid]||50);
+  });
+  const W=280,H=48,pad=6;
+  const minV=Math.min(...scores)-5,maxV=Math.max(...scores)+5;
+  const toX=i=>pad+(i/(scores.length-1))*(W-pad*2);
+  const toY=v=>H-pad-(((v-minV)/(maxV-minV||1))*(H-pad*2));
+  const pts=scores.map((s,i)=>`${toX(i)},${toY(s)}`).join(' ');
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const labels=scores.map((_,i)=>{
+    const d=new Date(today);d.setDate(d.getDate()-(6-i));
+    return `<text x="${toX(i)}" y="${H}" text-anchor="middle" fill="#4A5568" font-size="8">${days[d.getDay()]}</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H+4}" width="100%" style="display:block">
+    <polyline points="${pts}" fill="none" stroke="var(--green)" stroke-width="2" stroke-linejoin="round"/>
+    ${scores.map((s,i)=>`<circle cx="${toX(i)}" cy="${toY(s)}" r="3" fill="var(--green)" stroke="var(--sf)" stroke-width="1.5"/>`).join('')}
+    ${labels}
+  </svg>`;
+}
+
+function getHSActions(pid,score){
+  const all={
+    quinn:['Log tonight\'s sleep to earn sleep points','Mark your supplements taken in the Medication Schedule','Add a mood check-in in Mental Health','Log a 20-min walk in Exercise Optimizer','Update your health goals completion status'],
+    chad:['Log tonight\'s sleep — APOE4 amyloid clearance depends on it','Mark supplements taken (CoQ10, Omega-3, Methylfolate)','Log a 30-min walk — FOXO3 activation','Add a mood check-in','Review your health goals']
+  };
+  const actions=all[pid]||all.quinn;
+  return actions.slice(0,3);
+}
+
+function renderHealthScore(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  const sc=calcHealthScore(pid);
+  const todayKey=new Date().toISOString().split('T')[0];
+  lw(pid,`daily-score-${todayKey}`,sc.total);
+  const grade=hsGrade(sc.total);
+  const bars=[
+    {label:'Sleep',pts:sc.sleepPts,color:'var(--blue)'},
+    {label:'Exercise',pts:sc.workoutPts,color:'var(--green)'},
+    {label:'Mood',pts:sc.moodPts,color:'var(--purple)'},
+    {label:'Supplements',pts:sc.suppPts,color:'var(--amber)'},
+    {label:'Goals',pts:sc.goalPts,color:'var(--cyan)'}
+  ];
+  const barsHTML=bars.map(b=>`<div class="hs-bar-row">
+    <div class="hs-bar-label">${b.label}</div>
+    <div class="hs-bar-track"><div class="hs-bar-fill" style="width:${b.pts*5}%;background:${b.color}"></div></div>
+    <div class="hs-bar-pts" style="color:${b.color}">${b.pts}/20</div>
+  </div>`).join('');
+  const actions=getHSActions(pid,sc.total);
+  const actionsHTML=actions.map(a=>`<div class="hs-action-item">${a}</div>`).join('');
+  const sparkSVG=buildSparklineSVG(pid);
+  const R=54,cx=60,cy=60,circ=2*Math.PI*R;
+  const filled=(sc.total/100)*circ;
+  const scoreColor=grade.color.replace('var(--green)','#5AAD8B').replace('var(--blue)','#5B8BD4').replace('var(--amber)','#C9A84C').replace('var(--orange)','#D4855A').replace('var(--red)','#E05A5A');
+  const ringSVG=`<svg viewBox="0 0 120 120" width="160" height="160" class="hs-ring-svg">
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--sf2)" stroke-width="10"/>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${scoreColor}" stroke-width="10"
+      stroke-dasharray="${filled} ${circ-filled}" stroke-dashoffset="${circ/4}"
+      stroke-linecap="round" transform="rotate(-90 ${cx} ${cy})"/>
+    <text x="${cx}" y="${cy-6}" text-anchor="middle" fill="${scoreColor}" font-size="28" font-weight="900">${sc.total}</text>
+    <text x="${cx}" y="${cy+12}" text-anchor="middle" fill="${scoreColor}" font-size="14" font-weight="700">${grade.letter}</text>
+  </svg>`;
+  const noteText=sc.hasAnyData?`Based on this week's logged data`:`Default score — based on genetic risk profile. Start logging to see your real score.`;
+  const h=`<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${pid}')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Longitudinal Health Score</div>
+  </div>
+  <div class="hs-view">
+    <div class="hs-ring-wrap">
+      ${ringSVG}
+      <div class="hs-score-label">${noteText}</div>
+    </div>
+    <div class="hs-bars">
+      <div class="hs-bars-title">Score Breakdown (20 pts each)</div>
+      ${barsHTML}
+    </div>
+    <div class="hs-actions">
+      <div class="hs-actions-title">What would move your score today</div>
+      ${actionsHTML}
+    </div>
+    <div class="hs-sparkline">
+      <div class="hs-sparkline-title">7-Day Score Trend</div>
+      ${sparkSVG}
+    </div>
+    <div class="hs-log-btns">
+      <div class="hs-log-btn" onclick="nav('sleep/${pid}')">😴 Sleep</div>
+      <div class="hs-log-btn" onclick="nav('exercise/${pid}')">🏃 Exercise</div>
+      <div class="hs-log-btn" onclick="nav('mental/${pid}')">😐 Mood</div>
+      <div class="hs-log-btn" onclick="nav('schedule/${pid}')">💊 Supps</div>
+    </div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+  updateChatFab(pid);
 }
 
 /* ── Show/hide FAB based on current view ── */
