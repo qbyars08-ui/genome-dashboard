@@ -1133,6 +1133,31 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .story-print-note{text-align:center;padding:12px 16px 28px;font-size:11px;color:var(--t4);line-height:1.6}
 .story-print-note a{color:var(--blue);text-decoration:underline;cursor:pointer}
 
+/* ── P22 Biomarker Trends ── */
+.trends-view{padding:0 0 80px}
+.trends-chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
+.trends-chips::-webkit-scrollbar{display:none}
+.trend-chip{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--sf);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.trend-chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.trends-chart-wrap{padding:0 16px 8px}
+.trends-chart-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin-bottom:8px}
+.trends-chart-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.trends-chart-val{font-size:11px;color:var(--t2);margin-bottom:12px}
+.trends-svg-wrap{width:100%;overflow:hidden;border-radius:var(--r-s)}
+.trends-genetic-note{font-size:11px;color:var(--blue);line-height:1.5;margin-top:10px;padding:8px 10px;background:var(--blu-d);border-radius:var(--r-s)}
+.trends-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px;padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);font-size:14px;font-weight:600;color:var(--t1);cursor:pointer}
+.trends-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:flex-end}
+.trends-modal-inner{width:100%;background:var(--sf);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:24px 20px 40px}
+.trends-modal-title{font-size:16px;font-weight:700;margin-bottom:16px}
+.trends-field{margin-bottom:12px}
+.trends-field label{display:block;font-size:12px;color:var(--t2);margin-bottom:4px}
+.trends-field select,.trends-field input{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);color:var(--t1);padding:10px 12px;font-size:14px}
+.trends-modal-btns{display:flex;gap:10px;margin-top:16px}
+.trends-modal-btns button{flex:1;padding:12px;border-radius:var(--r-m);font-size:14px;font-weight:700;cursor:pointer;border:none}
+.trends-save-btn{background:var(--blue);color:#fff}
+.trends-cancel-btn{background:var(--sf2);color:var(--t1)}
+.no-data-msg{text-align:center;padding:40px 20px;color:var(--t3);font-size:13px}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1800,6 +1825,7 @@ function route(){
   if(pid==='goals'){renderGoals(parts[1]||'chad');return;}
   if(pid==='emergency'){renderEmergency(parts[1]||null);return;}
   if(pid==='story'){renderStory(parts[1]||'quinn');return;}
+  if(pid==='trends'){renderTrends(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2835,6 +2861,7 @@ function renderMore(p){
     {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',t:'Mental Health',s:'COMT · BDNF · daily mood check-in',fn:`nav('mental/${p.id}')`},
     {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`},
     {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`},
+    {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Biomarker Trends',s:'Lab values over time with genetic context',fn:`nav('trends/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -5086,6 +5113,168 @@ function renderStory(pid){
 
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
+}
+
+/* ══════════════════════════════════════
+   P22 — BIOMARKER TRENDS
+══════════════════════════════════════ */
+const TREND_LABS={
+  ldl:{label:'LDL',unit:'mg/dL',optimal:[0,100],caution:[100,130],color:'#5B8BD4',note:'Your 9p21 bilateral raises cardiovascular risk — LDL target is <100, not <130.'},
+  hdl:{label:'HDL',unit:'mg/dL',optimal:[60,120],caution:[40,60],color:'#5AAD8B',note:'Higher HDL is protective. Omega-3 and exercise help raise it.'},
+  testosterone:{label:'Testosterone',unit:'ng/dL',optimal:[400,900],caution:[200,400],color:'#9B7ADB',note:'Low testosterone linked to fatigue and inflammation. SHBG genetics affect free T levels.'},
+  vitd:{label:'Vitamin D',unit:'ng/mL',optimal:[50,80],caution:[30,50],color:'#C9A84C',note:'VDR variant reduces conversion efficiency — target 50–80 ng/mL, not just 30+.'},
+  crp:{label:'CRP',unit:'mg/L',optimal:[0,1],caution:[1,3],color:'#E05A5A',note:'CRP reflects systemic inflammation. Behçet\'s flares drive CRP up — track correlation with symptoms.'},
+  ferritin:{label:'Ferritin',unit:'ng/mL',optimal:[30,200],caution:[200,500],color:'#D4855A',note:'Your ferritin was critically elevated (7105) — now normalized (217). HFE variants increase iron absorption.'},
+  b12:{label:'B12',unit:'pg/mL',optimal:[400,900],caution:[200,400],color:'#5BA8C9',note:'Methylcobalamin form preferred due to MTHFR — standard cyanocobalamin less effective.'},
+  hba1c:{label:'HbA1c',unit:'%',optimal:[4,5.7],caution:[5.7,6.5],color:'#C9A84C',note:'Good metabolic protection from paternal side. Keep HbA1c under 5.7 with low-glycemic diet.'}
+};
+
+const QUINN_SEED=[
+  {date:'2025-09-01',key:'ferritin',value:7105},
+  {date:'2026-04-01',key:'ferritin',value:217},
+  {date:'2026-04-01',key:'ldl',value:142},
+  {date:'2026-04-01',key:'testosterone',value:211},
+  {date:'2026-04-01',key:'vitd',value:26.5},
+  {date:'2026-04-01',key:'crp',value:0.5}
+];
+
+function seedTrendsData(pid){
+  if(pid!=='quinn')return;
+  const existing=ls(pid,'lab-history',[]);
+  if(existing.length>0)return;
+  lw(pid,'lab-history',QUINN_SEED);
+}
+
+function renderTrends(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  seedTrendsData(pid);
+  document.body.classList.remove('is-doctor');
+  document.getElementById('nav').style.display='none';
+  const activeLab=window._trendsActiveLab||'ferritin';
+  document.getElementById('content').innerHTML=buildTrendsHTML(p,activeLab);
+  window.scrollTo(0,0);
+  updateChatFab(pid);
+}
+
+function buildTrendsHTML(p,activeLab){
+  const chips=Object.entries(TREND_LABS).map(([k,v])=>
+    `<button class="trend-chip${k===activeLab?' active':''}" onclick="switchTrendLab('${p.id}','${k}')">${v.label}</button>`
+  ).join('');
+  const chartHTML=buildTrendChart(p.id,activeLab);
+  return `<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${p.id}/tracking')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Tracking</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Biomarker Trends</div>
+  </div>
+  <div class="trends-view">
+    <div class="trends-chips">${chips}</div>
+    <div class="trends-chart-wrap">${chartHTML}</div>
+    <div class="trends-add-btn" onclick="openTrendsModal('${p.id}')">
+      <svg viewBox="0 0 24 24" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Log New Value
+    </div>
+  </div></div>`;
+}
+
+function buildTrendChart(pid,labKey){
+  const lab=TREND_LABS[labKey];
+  const allData=ls(pid,'lab-history',[]);
+  const data=allData.filter(d=>d.key===labKey).sort((a,b)=>a.date.localeCompare(b.date));
+  if(data.length===0){
+    return `<div class="trends-chart-card"><div class="trends-chart-title">${lab.label} (${lab.unit})</div>
+    <div class="no-data-msg">No data yet. Tap "Log New Value" to add your first reading.</div>
+    <div class="trends-genetic-note">${lab.note}</div></div>`;
+  }
+  const latest=data[data.length-1];
+  const latestColor=getTrendColor(latest.value,lab);
+  const svgContent=renderTrendSVG(data,lab);
+  return `<div class="trends-chart-card">
+    <div class="trends-chart-title">${lab.label}</div>
+    <div class="trends-chart-val" style="color:${latestColor}">Latest: ${latest.value} ${lab.unit} &nbsp;·&nbsp; ${formatTrendDate(latest.date)}</div>
+    <div class="trends-svg-wrap">${svgContent}</div>
+    <div class="trends-genetic-note">${lab.note}</div>
+  </div>`;
+}
+
+function getTrendColor(val,lab){
+  const [oLow,oHigh]=lab.optimal;
+  const [cLow,cHigh]=lab.caution||[null,null];
+  if(lab.label==='CRP'||lab.label==='LDL'||lab.label==='HbA1c'){
+    if(val<=oHigh)return'var(--green)';
+    if(val<=cHigh)return'var(--amber)';
+    return'var(--red)';
+  }
+  if(val>=oLow&&val<=oHigh)return'var(--green)';
+  if(val>=cLow&&val<=cHigh)return'var(--amber)';
+  return'var(--red)';
+}
+
+function renderTrendSVG(data,lab){
+  const W=320,H=130,PL=8,PR=8,PT=10,PB=24;
+  const vals=data.map(d=>d.value);
+  const allVals=[...vals,...lab.optimal,...(lab.caution||[])];
+  const minV=Math.min(...allVals)*0.9;
+  const maxV=Math.max(...allVals)*1.1;
+  const toX=i=>(i/(Math.max(data.length-1,1)))*(W-PL-PR)+PL;
+  const toY=v=>PT+(1-(v-minV)/(maxV-minV))*(H-PT-PB);
+  const [oLow,oHigh]=lab.optimal;
+  const ozY1=toY(oHigh),ozY2=toY(oLow);
+  const zoneFill=`<rect x="${PL}" y="${ozY1}" width="${W-PL-PR}" height="${ozY2-ozY1}" fill="rgba(90,173,139,.15)" rx="2"/>`;
+  const linePts=data.map((d,i)=>`${toX(i)},${toY(d.value)}`).join(' ');
+  const line=data.length>1?`<polyline points="${linePts}" fill="none" stroke="${lab.color}" stroke-width="2" stroke-linejoin="round"/>`:'';
+  const dots=data.map((d,i)=>{
+    const c=getTrendColor(d.value,lab).replace('var(--green)','#5AAD8B').replace('var(--amber)','#C9A84C').replace('var(--red)','#E05A5A');
+    return `<circle cx="${toX(i)}" cy="${toY(d.value)}" r="4" fill="${c}" stroke="var(--sf)" stroke-width="2"/>`;
+  }).join('');
+  const labels=data.map((d,i)=>`<text x="${toX(i)}" y="${H-6}" text-anchor="middle" fill="#4A5568" font-size="9">${formatTrendShort(d.date)}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">
+    ${zoneFill}${line}${dots}${labels}
+    <text x="${PL}" y="${ozY1-2}" fill="#5AAD8B" font-size="8">optimal</text>
+  </svg>`;
+}
+
+function formatTrendDate(d){const dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+function formatTrendShort(d){const dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+
+function switchTrendLab(pid,labKey){
+  window._trendsActiveLab=labKey;
+  renderTrends(pid);
+}
+
+function openTrendsModal(pid){
+  const labOpts=Object.entries(TREND_LABS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+  const modal=document.createElement('div');
+  modal.className='trends-modal';
+  modal.id='trends-modal';
+  modal.innerHTML=`<div class="trends-modal-inner">
+    <div class="trends-modal-title">Log New Lab Value</div>
+    <div class="trends-field"><label>Lab</label><select id="tm-lab">${labOpts}</select></div>
+    <div class="trends-field"><label>Value</label><input type="number" id="tm-val" placeholder="e.g. 95" step="0.1"></div>
+    <div class="trends-field"><label>Date</label><input type="date" id="tm-date" value="${new Date().toISOString().split('T')[0]}"></div>
+    <div class="trends-modal-btns">
+      <button class="trends-cancel-btn" onclick="closeTrendsModal()">Cancel</button>
+      <button class="trends-save-btn" onclick="saveTrendEntry('${pid}')">Save</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+function closeTrendsModal(){
+  const m=document.getElementById('trends-modal');
+  if(m)m.remove();
+}
+
+function saveTrendEntry(pid){
+  const key=document.getElementById('tm-lab').value;
+  const val=parseFloat(document.getElementById('tm-val').value);
+  const date=document.getElementById('tm-date').value;
+  if(!val||!date){alert('Please fill in all fields.');return;}
+  const history=ls(pid,'lab-history',[]);
+  lw(pid,'lab-history',[...history,{date,key,value:val}]);
+  window._trendsActiveLab=key;
+  closeTrendsModal();
+  renderTrends(pid);
 }
 
 /* ── Show/hide FAB based on current view ── */
