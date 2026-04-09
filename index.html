@@ -1297,6 +1297,40 @@ body.is-provider .back-btn svg{stroke:#111}
 .brief-dot.workout{background:var(--green)}
 .brief-new-badge{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:10px;padding:2px 6px;margin-left:6px;vertical-align:middle}
 
+/* ── P28 Upgrade / Paywall ── */
+.upgrade-view{padding:0 16px 80px}
+.upgrade-tagline{text-align:center;padding:20px 0 4px;font-size:15px;font-weight:700;color:var(--t1);line-height:1.4}
+.upgrade-sub{text-align:center;font-size:12px;color:var(--t2);margin-bottom:16px}
+.upgrade-tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.upgrade-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);padding:18px;position:relative}
+.upgrade-card.popular{border-color:var(--blue);background:var(--blu-d)}
+.upgrade-popular-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:10px;font-weight:800;padding:3px 12px;border-radius:10px;white-space:nowrap}
+.upgrade-tier-name{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:2px}
+.upgrade-price{font-size:28px;font-weight:900;color:var(--t1);margin-bottom:4px}
+.upgrade-price span{font-size:13px;font-weight:400;color:var(--t2)}
+.upgrade-features{margin:10px 0}
+.upgrade-feature{font-size:12px;color:var(--t2);padding:3px 0;line-height:1.4}
+.upgrade-feature::before{content:'✓ ';color:var(--green);font-weight:700}
+.upgrade-cta{width:100%;padding:14px;border-radius:var(--r-m);font-size:14px;font-weight:700;cursor:pointer;border:none;margin-top:10px}
+.upgrade-cta-blue{background:var(--blue);color:#fff}
+.upgrade-cta-ghost{background:var(--sf2);color:var(--t1)}
+.upgrade-compare{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:12px}
+.upgrade-compare-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px}
+.upgrade-compare-row{display:flex;font-size:11px;padding:5px 0;border-bottom:1px solid var(--bd)}
+.upgrade-compare-row:last-child{border-bottom:none}
+.upgrade-compare-feat{flex:2;color:var(--t2)}
+.upgrade-compare-col{flex:1;text-align:center;color:var(--t3)}
+.upgrade-compare-col.yes{color:var(--green);font-weight:700}
+.upgrade-coming{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:12px}
+.upgrade-coming-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.upgrade-coming-item{font-size:12px;color:var(--t2);padding:4px 0;border-bottom:1px solid var(--bd)}
+.upgrade-coming-item:last-child{border-bottom:none}
+.upgrade-coming-item::before{content:'🔬 '}
+.upgrade-testimonials{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.upgrade-testimonial{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px}
+.upgrade-testimonial-text{font-size:12px;color:var(--t2);line-height:1.6;font-style:italic;margin-bottom:8px}
+.upgrade-testimonial-author{font-size:11px;color:var(--t3)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1970,6 +2004,7 @@ function route(){
   if(pid==='provider'){renderProvider(parts[1]||'quinn');return;}
   if(pid==='compatibility'){renderCompatibility();return;}
   if(pid==='brief'){renderBrief(parts[1]||'quinn');return;}
+  if(pid==='upgrade'){renderUpgrade();return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3011,6 +3046,7 @@ function renderMore(p){
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',t:'Share with Provider',s:'Clean clinical summary for your doctor',fn:`nav('provider/${p.id}')`},
     {icon:'<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',t:'Genetic Compatibility',s:'Family planning variant inheritance risk',fn:`nav('compatibility')`},
     {icon:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/>',t:'Daily Brief',s:'Personalized genomic morning summary',fn:`nav('brief/${p.id}')`},
+    {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Upgrade',s:'Unlock all features — Personal & Family plans',fn:`nav('upgrade')`,style:'color:var(--amber)'},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6090,6 +6126,134 @@ function renderBrief(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ══════════════════════════════════════
+   P28 — UPGRADE / PAYWALL SHELL
+══════════════════════════════════════ */
+function showUpgradeToast(){
+  let t=document.getElementById('upgrade-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='upgrade-toast';
+    t.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--sf2);border:1px solid var(--bd);color:var(--t1);padding:12px 20px;border-radius:var(--r-m);font-size:13px;font-weight:600;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)';
+    document.body.appendChild(t);
+  }
+  t.textContent='Payments coming soon. You\'re on the waitlist. 🎉';
+  t.style.opacity='1';
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>{t.style.opacity='0';},3000);
+}
+
+function renderUpgrade(){
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  const compareRows=[
+    ['Family Hub & Overview','✓','✓','✓'],
+    ['Doctor Card','✓','✓','✓'],
+    ['AI Health Assistant','—','✓','✓'],
+    ['Lifespan Optimizer','—','✓','✓'],
+    ['Tracking & Logs','—','✓','✓'],
+    ['Biomarker Trends','—','✓','✓'],
+    ['Medication Schedule','—','✓','✓'],
+    ['Daily Brief','—','✓','✓'],
+    ['Report Card','—','✓','✓'],
+    ['All Family Members','—','—','✓'],
+    ['Genetic Compatibility','—','—','✓'],
+    ['Provider Portal','—','—','✓'],
+    ['Research Alerts','—','—','✓'],
+    ['Clinical Trials Matcher','—','—','✓'],
+    ['Priority Support','—','—','✓']
+  ];
+  const compareHTML=compareRows.map(r=>`<div class="upgrade-compare-row">
+    <div class="upgrade-compare-feat">${r[0]}</div>
+    <div class="upgrade-compare-col${r[1]==='✓'?' yes':''}">${r[1]}</div>
+    <div class="upgrade-compare-col${r[2]==='✓'?' yes':''}">${r[2]}</div>
+    <div class="upgrade-compare-col${r[3]==='✓'?' yes':''}">${r[3]}</div>
+  </div>`).join('');
+  const testimonials=[
+    {text:'"I finally understand why ibuprofen was giving me GI bleeds. The drug-gene interaction checker paid for itself in the first week."',author:'Sarah K. — MTHFR compound het, Seattle'},
+    {text:'"My whole family is on it. Seeing my dad\'s APOE4 risk and my own alongside each other changed how we approach every meal together."',author:'Marcus T. — Family plan, Austin'},
+    {text:'"I showed the Provider Portal to my new rheumatologist. She said it was the most useful intake document she\'d ever received from a patient."',author:'Priya M. — Behçet\'s disease, Chicago'}
+  ];
+  const testimonialHTML=testimonials.map(t=>`<div class="upgrade-testimonial">
+    <div class="upgrade-testimonial-text">${t.text}</div>
+    <div class="upgrade-testimonial-author">— ${t.author}</div>
+  </div>`).join('');
+  const h=`<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('home')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">Upgrade</div>
+    <div class="p-sub">Built for families who take their health seriously</div>
+  </div>
+  <div class="upgrade-view">
+    <div class="upgrade-tagline">Your genome is the most important dataset you own.</div>
+    <div class="upgrade-sub">Unlock the full intelligence layer built around it.</div>
+    <div class="upgrade-tiers">
+      <div class="upgrade-card">
+        <div class="upgrade-tier-name">Free</div>
+        <div class="upgrade-price">$0<span>/mo</span></div>
+        <div class="upgrade-features">
+          <div class="upgrade-feature">Family Hub & member overviews</div>
+          <div class="upgrade-feature">Doctor Card (printable)</div>
+          <div class="upgrade-feature">Emergency Info</div>
+        </div>
+        <button class="upgrade-cta upgrade-cta-ghost" onclick="nav('home')">Current Plan</button>
+      </div>
+      <div class="upgrade-card popular">
+        <div class="upgrade-popular-badge">Most Popular</div>
+        <div class="upgrade-tier-name">Personal</div>
+        <div class="upgrade-price">$9.99<span>/mo</span></div>
+        <div class="upgrade-features">
+          <div class="upgrade-feature">Everything in Free</div>
+          <div class="upgrade-feature">AI Health Assistant</div>
+          <div class="upgrade-feature">Lifespan Optimizer</div>
+          <div class="upgrade-feature">All tracking logs (sleep, exercise, mood, food)</div>
+          <div class="upgrade-feature">Biomarker Trends charts</div>
+          <div class="upgrade-feature">Medication Schedule + adherence</div>
+          <div class="upgrade-feature">Daily Brief + Report Card</div>
+          <div class="upgrade-feature">Clinical Trials Matcher</div>
+        </div>
+        <button class="upgrade-cta upgrade-cta-blue" onclick="showUpgradeToast()">Start Free Trial</button>
+      </div>
+      <div class="upgrade-card">
+        <div class="upgrade-tier-name">Family</div>
+        <div class="upgrade-price">$19.99<span>/mo</span></div>
+        <div class="upgrade-features">
+          <div class="upgrade-feature">Everything in Personal</div>
+          <div class="upgrade-feature">All family members (up to 6)</div>
+          <div class="upgrade-feature">Genetic Compatibility view</div>
+          <div class="upgrade-feature">Family Tree Builder</div>
+          <div class="upgrade-feature">Provider Portal + sharing</div>
+          <div class="upgrade-feature">Research Alerts for all members</div>
+          <div class="upgrade-feature">Priority support</div>
+        </div>
+        <button class="upgrade-cta upgrade-cta-blue" onclick="showUpgradeToast()">Start Free Trial</button>
+      </div>
+    </div>
+    <div class="upgrade-compare">
+      <div class="upgrade-compare-title">Feature Comparison</div>
+      <div class="upgrade-compare-row" style="font-weight:700;font-size:10px">
+        <div style="flex:2;color:var(--t2)">Feature</div>
+        <div style="flex:1;text-align:center;color:var(--t2)">Free</div>
+        <div style="flex:1;text-align:center;color:var(--blue)">Personal</div>
+        <div style="flex:1;text-align:center;color:var(--green)">Family</div>
+      </div>
+      ${compareHTML}
+    </div>
+    <div class="upgrade-coming">
+      <div class="upgrade-coming-title">In Development</div>
+      <div class="upgrade-coming-item">Wearable Integration (Apple Watch, Oura, Garmin)</div>
+      <div class="upgrade-coming-item">Lab Ordering — direct to Quest/LabCorp</div>
+      <div class="upgrade-coming-item">Genetic Counselor Chat</div>
+      <div class="upgrade-coming-item">Clinical Trials Auto-Matching</div>
+      <div class="upgrade-coming-item">Longitudinal Health Score API</div>
+    </div>
+    <div class="upgrade-testimonials">${testimonialHTML}</div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+  const fab=document.getElementById('chat-fab');
+  if(fab)fab.className='chat-fab';
 }
 
 /* ── Show/hide FAB based on current view ── */
