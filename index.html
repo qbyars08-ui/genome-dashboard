@@ -1158,6 +1158,37 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .trends-cancel-btn{background:var(--sf2);color:var(--t1)}
 .no-data-msg{text-align:center;padding:40px 20px;color:var(--t3);font-size:13px}
 
+/* ── P23 Medication Schedule ── */
+.sched-view{padding:0 0 80px}
+.sched-adherence{margin:12px 16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 16px}
+.sched-adh-label{font-size:11px;color:var(--t2);margin-bottom:6px}
+.sched-adh-row{display:flex;gap:6px;align-items:center}
+.sched-adh-bar{flex:1;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden}
+.sched-adh-fill{height:100%;border-radius:3px;background:var(--green);transition:width .5s var(--ease)}
+.sched-adh-pct{font-size:13px;font-weight:700;color:var(--green)}
+.sched-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;padding:0 8px}
+.sched-col-hdr{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;padding:10px 8px 6px;text-align:center}
+.sched-meds-col{padding:0 4px 12px}
+.sched-med-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);padding:10px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+.sched-med-card.taken{border-color:var(--green);background:var(--grn-d)}
+.sched-med-name{font-size:12px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:2px}
+.sched-med-dose{font-size:10px;color:var(--t2);margin-bottom:4px}
+.sched-med-note{font-size:9px;color:var(--blue);line-height:1.4;display:none}
+.sched-med-card:hover .sched-med-note,.sched-med-card.taken .sched-med-note{display:block}
+.sched-taken-dot{width:8px;height:8px;border-radius:50%;background:var(--bd);margin-top:4px;transition:background .2s}
+.sched-med-card.taken .sched-taken-dot{background:var(--green)}
+.sched-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 16px;padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);font-size:13px;font-weight:600;color:var(--t1);cursor:pointer}
+.sched-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:flex-end}
+.sched-modal-inner{width:100%;background:var(--sf);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:24px 20px 40px}
+.sched-modal-title{font-size:16px;font-weight:700;margin-bottom:16px}
+.sched-field{margin-bottom:12px}
+.sched-field label{display:block;font-size:12px;color:var(--t2);margin-bottom:4px}
+.sched-field input,.sched-field select,.sched-field textarea{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);color:var(--t1);padding:10px 12px;font-size:14px}
+.sched-modal-btns{display:flex;gap:10px;margin-top:16px}
+.sched-modal-btns button{flex:1;padding:12px;border-radius:var(--r-m);font-size:14px;font-weight:700;cursor:pointer;border:none}
+.sched-save-btn{background:var(--green);color:#fff}
+.sched-cancel-btn{background:var(--sf2);color:var(--t1)}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1826,6 +1857,7 @@ function route(){
   if(pid==='emergency'){renderEmergency(parts[1]||null);return;}
   if(pid==='story'){renderStory(parts[1]||'quinn');return;}
   if(pid==='trends'){renderTrends(parts[1]||'quinn');return;}
+  if(pid==='schedule'){renderSchedule(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2862,6 +2894,7 @@ function renderMore(p){
     {icon:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',t:'Research Alerts',s:'Latest papers matched to your variants',fn:`nav('research/${p.id}')`},
     {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Health Goals',s:'Genetic-driven targets with progress tracking',fn:`nav('goals/${p.id}')`},
     {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Biomarker Trends',s:'Lab values over time with genetic context',fn:`nav('trends/${p.id}')`},
+    {icon:'<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',t:'Medication Schedule',s:'Daily timing with genetic notes + adherence',fn:`nav('schedule/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -5275,6 +5308,158 @@ function saveTrendEntry(pid){
   window._trendsActiveLab=key;
   closeTrendsModal();
   renderTrends(pid);
+}
+
+/* ══════════════════════════════════════
+   P23 — MEDICATION SCHEDULE
+══════════════════════════════════════ */
+const SCHED_DEFAULTS={
+  quinn:[
+    {id:'q1',name:'Prednisone',dose:'18mg',timing:'morning',note:'Take with food — enhanced GR sensitivity (FKBP5)',takenKey:'prednisone'},
+    {id:'q2',name:'Fluoxetine',dose:'30mg',timing:'morning',note:'Morning dosing — serotonin timing optimization',takenKey:'fluoxetine'},
+    {id:'q3',name:'Enalapril',dose:'2.5mg AM',timing:'morning',note:'ACE inhibitor — post-myocarditis cardiac protection',takenKey:'enalapril-am'},
+    {id:'q4',name:'Enalapril',dose:'2.5mg PM',timing:'evening',note:'Evening dose for 24hr BP coverage',takenKey:'enalapril-pm'},
+    {id:'q5',name:'Topiramate',dose:'per Rx',timing:'evening',note:'Evening dosing reduces cognitive side effects',takenKey:'topiramate'},
+    {id:'q6',name:'Methylfolate',dose:'800mcg',timing:'morning',note:'Active folate bypasses MTHFR C677T variant',takenKey:'methylfolate'},
+    {id:'q7',name:'Methylcobalamin',dose:'1000mcg',timing:'morning',note:'Active B12 form — MTHFR requires methylated vitamins',takenKey:'methylcobalamin'},
+    {id:'q8',name:'Vit D3',dose:'5000 IU',timing:'morning',note:'Take with fat for absorption (VDR variant reduces conversion)',takenKey:'vitd3'},
+    {id:'q9',name:'Omega-3 DHA',dose:'2g',timing:'morning',note:'With meals for absorption — anti-inflammatory (9p21)',takenKey:'omega3'},
+    {id:'q10',name:'Magnesium',dose:'400mg',timing:'evening',note:'Evening — promotes sleep (6 clock gene variants)',takenKey:'magnesium'},
+    {id:'q11',name:'Famotidine',dose:'20mg',timing:'asneeded',note:'As needed — GI protection during flares',takenKey:'famotidine'}
+  ],
+  chad:[
+    {id:'c1',name:'Methylfolate',dose:'400mcg',timing:'morning',note:'Active folate — MTHFR support',takenKey:'methylfolate'},
+    {id:'c2',name:'Omega-3 DHA',dose:'2g',timing:'morning',note:'Anti-inflammatory — 9p21 cardiovascular protection',takenKey:'omega3'},
+    {id:'c3',name:'Vit D3',dose:'2000 IU',timing:'morning',note:'With fat for absorption (VDR variant)',takenKey:'vitd3'},
+    {id:'c4',name:'CoQ10',dose:'200mg',timing:'morning',note:'Mitochondrial support — APOE4 energy metabolism',takenKey:'coq10'},
+    {id:'c5',name:'Magnesium',dose:'400mg',timing:'evening',note:'Evening — promotes sleep, cardiovascular support',takenKey:'magnesium'}
+  ]
+};
+
+function getTodayKey(){return new Date().toISOString().split('T')[0];}
+
+function getSchedMeds(pid){
+  const custom=ls(pid,'schedule',[]);
+  const defaults=SCHED_DEFAULTS[pid]||[];
+  const customIds=new Set(custom.map(m=>m.id));
+  return [...defaults.filter(m=>!customIds.has(m.id)),...custom];
+}
+
+function isMedTaken(pid,takenKey){
+  const taken=ls(pid,`taken-${getTodayKey()}`,{});
+  return !!taken[takenKey];
+}
+
+function calcWeekAdherence(pid){
+  const meds=getSchedMeds(pid).filter(m=>m.timing!=='asneeded');
+  if(!meds.length)return 0;
+  let total=0,done=0;
+  for(let i=0;i<7;i++){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const dk=d.toISOString().split('T')[0];
+    const taken=ls(pid,`taken-${dk}`,{});
+    meds.forEach(m=>{total++;if(taken[m.takenKey])done++;});
+  }
+  return total?Math.round((done/total)*100):0;
+}
+
+function renderSchedule(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  document.body.classList.remove('is-doctor');
+  document.getElementById('nav').style.display='none';
+  document.getElementById('content').innerHTML=buildScheduleHTML(p);
+  window.scrollTo(0,0);
+  updateChatFab(pid);
+}
+
+function buildScheduleHTML(p){
+  const meds=getSchedMeds(p.id);
+  const pct=calcWeekAdherence(p.id);
+  const cols={morning:[],evening:[],asneeded:[]};
+  meds.forEach(m=>{
+    const t=m.timing==='afternoon'?'morning':m.timing;
+    if(cols[t])cols[t].push(m);else cols.morning.push(m);
+  });
+  const mkCol=(list,pid)=>list.map(m=>{
+    const taken=isMedTaken(pid,m.takenKey);
+    return `<div class="sched-med-card${taken?' taken':''}" onclick="toggleMedTaken('${pid}','${m.takenKey}')">
+      <div class="sched-med-name">${m.name}</div>
+      <div class="sched-med-dose">${m.dose}</div>
+      <div class="sched-med-note">${m.note}</div>
+      <div class="sched-taken-dot"></div>
+    </div>`;
+  }).join('');
+  return `<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${p.id}')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Medication Schedule</div>
+  </div>
+  <div class="sched-view">
+    <div class="sched-adherence">
+      <div class="sched-adh-label">7-day adherence (tap a card to mark taken)</div>
+      <div class="sched-adh-row">
+        <div class="sched-adh-bar"><div class="sched-adh-fill" style="width:${pct}%"></div></div>
+        <div class="sched-adh-pct">${pct}%</div>
+      </div>
+    </div>
+    <div class="sched-cols">
+      <div class="sched-col-hdr">Morning</div>
+      <div class="sched-col-hdr">Evening</div>
+      <div class="sched-col-hdr">As Needed</div>
+      <div class="sched-meds-col">${mkCol(cols.morning,p.id)}</div>
+      <div class="sched-meds-col">${mkCol(cols.evening,p.id)}</div>
+      <div class="sched-meds-col">${mkCol(cols.asneeded,p.id)}</div>
+    </div>
+    <div class="sched-add-btn" onclick="openSchedModal('${p.id}')">
+      <svg viewBox="0 0 24 24" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Medication
+    </div>
+  </div></div>`;
+}
+
+function toggleMedTaken(pid,takenKey){
+  const dk=getTodayKey();
+  const taken=ls(pid,`taken-${dk}`,{});
+  const updated={...taken,[takenKey]:!taken[takenKey]};
+  lw(pid,`taken-${dk}`,updated);
+  renderSchedule(pid);
+}
+
+function openSchedModal(pid){
+  const modal=document.createElement('div');
+  modal.className='sched-modal';modal.id='sched-modal';
+  modal.innerHTML=`<div class="sched-modal-inner">
+    <div class="sched-modal-title">Add Medication</div>
+    <div class="sched-field"><label>Name</label><input id="sm-name" placeholder="e.g. Metformin"></div>
+    <div class="sched-field"><label>Dose</label><input id="sm-dose" placeholder="e.g. 500mg"></div>
+    <div class="sched-field"><label>Timing</label><select id="sm-timing">
+      <option value="morning">Morning</option>
+      <option value="evening">Evening</option>
+      <option value="asneeded">As Needed</option>
+    </select></div>
+    <div class="sched-field"><label>Note (optional)</label><input id="sm-note" placeholder="Genetic reason or timing note"></div>
+    <div class="sched-modal-btns">
+      <button class="sched-cancel-btn" onclick="closeSchedModal()">Cancel</button>
+      <button class="sched-save-btn" onclick="saveSchedMed('${pid}')">Save</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+function closeSchedModal(){const m=document.getElementById('sched-modal');if(m)m.remove();}
+
+function saveSchedMed(pid){
+  const name=document.getElementById('sm-name').value.trim();
+  const dose=document.getElementById('sm-dose').value.trim();
+  const timing=document.getElementById('sm-timing').value;
+  const note=document.getElementById('sm-note').value.trim();
+  if(!name){alert('Please enter a medication name.');return;}
+  const custom=ls(pid,'schedule',[]);
+  const id='custom-'+Date.now();
+  lw(pid,'schedule',[...custom,{id,name,dose:dose||'per Rx',timing,note:note||'',takenKey:id}]);
+  closeSchedModal();
+  renderSchedule(pid);
 }
 
 /* ── Show/hide FAB based on current view ── */
