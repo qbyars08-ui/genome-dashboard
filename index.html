@@ -1246,6 +1246,32 @@ body.is-provider #content{background:#f8fafc}
 body.is-provider .back-btn,.is-provider .p-hdr{background:#f8fafc;color:#111}
 body.is-provider .back-btn svg{stroke:#111}
 
+/* ── P26 Genetic Compatibility ── */
+.compat-view{padding:0 16px 80px}
+.compat-selector{display:flex;gap:10px;margin:12px 0;align-items:center}
+.compat-select{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);color:var(--t1);padding:10px 12px;font-size:13px}
+.compat-x{font-size:18px;color:var(--t3);flex-shrink:0}
+.compat-summary{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:12px;text-align:center}
+.compat-summary-title{font-size:11px;color:var(--t2);margin-bottom:4px}
+.compat-summary-val{font-size:24px;font-weight:800;color:var(--t1)}
+.compat-row{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:8px}
+.compat-row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.compat-row-name{font-size:13px;font-weight:700;color:var(--t1)}
+.compat-risk-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px}
+.compat-risk-red{background:var(--red-b);color:var(--red)}
+.compat-risk-amber{background:var(--amb-b);color:var(--amber)}
+.compat-risk-green{background:var(--grn-b);color:var(--green)}
+.compat-genos{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.compat-geno{font-size:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:3px 8px;color:var(--t2)}
+.compat-prob{font-size:12px;color:var(--t1);margin-bottom:4px}
+.compat-rec{font-size:11px;color:var(--t2);line-height:1.4;font-style:italic}
+.compat-checklist{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-top:12px}
+.compat-check-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.compat-check-item{font-size:11px;color:var(--t2);padding:4px 0;border-bottom:1px solid var(--bd);line-height:1.4}
+.compat-check-item:last-child{border-bottom:none}
+.compat-check-item::before{content:'☐ ';color:var(--blue)}
+.compat-disclaimer{font-size:10px;color:var(--t4);text-align:center;padding:12px 0;line-height:1.5}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1917,6 +1943,7 @@ function route(){
   if(pid==='schedule'){renderSchedule(parts[1]||'quinn');return;}
   if(pid==='reportcard'){renderReportCard(parts[1]||'quinn');return;}
   if(pid==='provider'){renderProvider(parts[1]||'quinn');return;}
+  if(pid==='compatibility'){renderCompatibility();return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2956,6 +2983,7 @@ function renderMore(p){
     {icon:'<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',t:'Medication Schedule',s:'Daily timing with genetic notes + adherence',fn:`nav('schedule/${p.id}')`},
     {icon:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',t:'Genetic Report Card',s:'Letter grades across 8 health systems',fn:`nav('reportcard/${p.id}')`},
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',t:'Share with Provider',s:'Clean clinical summary for your doctor',fn:`nav('provider/${p.id}')`},
+    {icon:'<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',t:'Genetic Compatibility',s:'Family planning variant inheritance risk',fn:`nav('compatibility')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -5784,6 +5812,90 @@ function saveProvQuestion(pid,idx,val){
   const updated=[...questions];
   updated[idx]=val;
   lw(pid,'prov-questions',updated);
+}
+
+/* ══════════════════════════════════════
+   P26 — GENETIC COMPATIBILITY
+══════════════════════════════════════ */
+const COMPAT_VARIANTS=[
+  {name:'HLA-B*51',
+   calc:(a,b)=>{
+     if(a==='chad'&&b==='brigitte')return{pA:'B*51/B*51 (homozygous)',pB:'B*51/? (unknown — awaiting 23andMe)',prob:'50–100% carrier, 25–50% homozygous',risk:'high',rec:'Child has 50%+ chance of carrying B*51. Homozygous increases Behçet\'s risk 10×. Brigitte genotyping critical.'};
+     return{pA:'B*51/B*51',pB:'Unknown partner',prob:'50% carrier if partner negative',risk:'amber',rec:'Partner testing recommended before family planning.'};
+   }},
+  {name:'NAT2 Slow Acetylator',
+   calc:(a,b)=>{
+     if(a==='chad'&&b==='brigitte')return{pA:'Intermediate (est.)',pB:'Unknown',prob:'~25% child homozygous slow if both carriers',risk:'amber',rec:'Slow acetylators have increased risk of isoniazid toxicity and some cancers. Genotype both parents.'};
+     return{pA:'Intermediate (est.)',pB:'Unknown partner',prob:'25% if both carriers',risk:'green',rec:'Low concern unless both parents confirmed slow acetylators.'};
+   }},
+  {name:'MTHFR C677T',
+   calc:(a,b)=>{
+     if(a==='chad'&&b==='brigitte')return{pA:'C677T heterozygous (est.)',pB:'Unknown',prob:'25% child compound het if partner also carrier',risk:'amber',rec:'Compound heterozygous MTHFR significantly impairs folate metabolism. Pre-conception methylfolate for both parents.'};
+     if(a==='quinn'||b==='quinn')return{pA:'C677T homozygous',pB:'Unknown partner',prob:'100% child carries at least one C677T allele',risk:'amber',rec:'All children will carry C677T. Partner testing determines compound het risk. Methylfolate supplementation for mother.'};
+     return{pA:'Heterozygous (est.)',pB:'Unknown',prob:'25–50% depending on partner',risk:'green',rec:'Low risk with adequate folate supplementation.'};
+   }},
+  {name:'9p21 Cardiovascular',
+   calc:(a,b)=>{
+     if(a==='chad'&&b==='brigitte')return{pA:'Bilateral (2 copies)',pB:'Unknown',prob:'50%+ child inherits at least one 9p21 allele',risk:'amber',rec:'9p21 is a common variant — child cardiovascular risk elevated but manageable with Mediterranean diet from childhood.'};
+     if(a==='quinn'||b==='quinn')return{pA:'Bilateral (2 copies)',pB:'Unknown partner',prob:'50%+ if partner carries any 9p21',risk:'amber',rec:'Start cardiovascular prevention early. Mediterranean diet, exercise protocol from age 10.'};
+     return{pA:'One copy (est.)',pB:'Unknown',prob:'25–50% inheritance',risk:'green',rec:'Manageable with lifestyle intervention.'};
+   }},
+  {name:'APOE ε4',
+   calc:(a,b)=>{
+     if(a==='chad'&&b==='brigitte')return{pA:'ε4 heterozygous',pB:'Unknown (Brigitte 23andMe pending)',prob:'0–50% range until Brigitte tested',risk:'amber',rec:'If Brigitte also carries ε4, child has 25% chance of ε4/ε4 (homozygous — 12× Alzheimer\'s risk). Priority test.'};
+     return{pA:'Unknown',pB:'Unknown partner',prob:'Range unknown without genotyping',risk:'green',rec:'APOE genotyping recommended for all family planning.'};
+   }}
+];
+
+function renderCompatibility(){
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  const selA=window._compatA||'chad';
+  const selB=window._compatB||'brigitte';
+  document.getElementById('content').innerHTML=buildCompatHTML(selA,selB);
+  window.scrollTo(0,0);
+}
+
+function buildCompatHTML(selA,selB){
+  const personOpts=Object.values(PERSONS).filter(p=>!p.pending).map(p=>`<option value="${p.id}">${p.name.split(' ')[0]}</option>`).join('');
+  const unknownOpt='<option value="unknown">Unknown Partner</option>';
+  const rowsHTML=COMPAT_VARIANTS.map(v=>{
+    const result=v.calc(selA,selB);
+    const riskClass=result.risk==='high'?'compat-risk-red':result.risk==='amber'?'compat-risk-amber':'compat-risk-green';
+    const riskLabel=result.risk==='high'?'High Risk':result.risk==='amber'?'Moderate':'Low Risk';
+    return `<div class="compat-row">
+      <div class="compat-row-top">
+        <div class="compat-row-name">${v.name}</div>
+        <div class="compat-risk-badge ${riskClass}">${riskLabel}</div>
+      </div>
+      <div class="compat-genos">
+        <div class="compat-geno">Parent A: ${result.pA}</div>
+        <div class="compat-geno">Parent B: ${result.pB}</div>
+      </div>
+      <div class="compat-prob"><strong>Child probability:</strong> ${result.prob}</div>
+      <div class="compat-rec">${result.rec}</div>
+    </div>`;
+  }).join('');
+  const checklist=['Both parents: MTHFR genotyping','Both parents: APOE status','Brigitte: HLA-B*51 genotyping (urgent — affects B*51 child risk)','Both parents: NAT2 acetylator status','Discuss results with a genetic counselor before conception','Pre-conception methylfolate 800mcg for mother (MTHFR)','Review all variant interactions with OB/GYN'];
+  const checkHTML=checklist.map(c=>`<div class="compat-check-item">${c}</div>`).join('');
+  return `<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('home')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Family</button>
+    <div class="p-name">Genetic Compatibility</div>
+    <div class="p-sub">Family planning variant risk</div>
+  </div>
+  <div class="compat-view">
+    <div class="compat-selector">
+      <select class="compat-select" onchange="window._compatA=this.value;renderCompatibility()">${personOpts}${unknownOpt}</select>
+      <div class="compat-x">×</div>
+      <select class="compat-select" onchange="window._compatB=this.value;renderCompatibility()">${personOpts}${unknownOpt}</select>
+    </div>
+    ${rowsHTML}
+    <div class="compat-checklist">
+      <div class="compat-check-title">What to test before having children</div>
+      ${checkHTML}
+    </div>
+    <div class="compat-disclaimer">For educational purposes only. This is not genetic counseling. Please consult a board-certified genetic counselor for family planning decisions.</div>
+  </div></div>`;
 }
 
 /* ── Show/hide FAB based on current view ── */
