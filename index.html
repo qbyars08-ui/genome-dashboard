@@ -1331,6 +1331,29 @@ body.is-provider .back-btn svg{stroke:#111}
 .upgrade-testimonial-text{font-size:12px;color:var(--t2);line-height:1.6;font-style:italic;margin-bottom:8px}
 .upgrade-testimonial-author{font-size:11px;color:var(--t3)}
 
+/* ── P29 Clinical Trials Matcher ── */
+.trials-view{padding:0 16px 80px}
+.trials-summary{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin:12px 0;text-align:center}
+.trials-summary-num{font-size:28px;font-weight:900;color:var(--blue)}
+.trials-summary-label{font-size:11px;color:var(--t2);margin-top:2px}
+.trials-filter-chips{display:flex;gap:8px;padding:0 0 12px;overflow-x:auto;scrollbar-width:none}
+.trials-filter-chips::-webkit-scrollbar{display:none}
+.trial-filter-chip{flex-shrink:0;padding:5px 12px;border-radius:16px;border:1px solid var(--bd);background:var(--sf);color:var(--t2);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.trial-filter-chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.trial-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.trial-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+.trial-name{font-size:13px;font-weight:700;color:var(--t1);flex:1;line-height:1.4}
+.trial-badges{display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex-shrink:0}
+.trial-phase{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;background:var(--pur-b);color:var(--purple)}
+.trial-status-recruiting{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;background:var(--grn-b);color:var(--green)}
+.trial-status-active{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;background:var(--blu-b);color:var(--blue)}
+.trial-status-obs{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;background:var(--amb-b);color:var(--amber)}
+.trial-eligibility{font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+.trial-eligibility li{margin-left:14px}
+.trial-relevance{font-size:11px;color:var(--blue);line-height:1.4;padding:6px 8px;background:var(--blu-d);border-radius:var(--r-s);margin-bottom:8px}
+.trial-learn-btn{font-size:11px;font-weight:700;color:var(--blue);background:none;border:1px solid var(--blue);border-radius:var(--r-s);padding:5px 12px;cursor:pointer}
+.trials-disclaimer{font-size:10px;color:var(--t4);text-align:center;padding:12px 0;line-height:1.5}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -2005,6 +2028,7 @@ function route(){
   if(pid==='compatibility'){renderCompatibility();return;}
   if(pid==='brief'){renderBrief(parts[1]||'quinn');return;}
   if(pid==='upgrade'){renderUpgrade();return;}
+  if(pid==='trials'){renderTrials(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3047,6 +3071,7 @@ function renderMore(p){
     {icon:'<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',t:'Genetic Compatibility',s:'Family planning variant inheritance risk',fn:`nav('compatibility')`},
     {icon:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/>',t:'Daily Brief',s:'Personalized genomic morning summary',fn:`nav('brief/${p.id}')`},
     {icon:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',t:'Upgrade',s:'Unlock all features — Personal & Family plans',fn:`nav('upgrade')`,style:'color:var(--amber)'},
+    {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Clinical Trials',s:'Trials matched to your genetic profile',fn:`nav('trials/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6254,6 +6279,110 @@ function renderUpgrade(){
   window.scrollTo(0,0);
   const fab=document.getElementById('chat-fab');
   if(fab)fab.className='chat-fab';
+}
+
+/* ══════════════════════════════════════
+   P29 — CLINICAL TRIALS MATCHER
+══════════════════════════════════════ */
+const TRIALS_DATA={
+  quinn:[
+    {id:'qt1',name:'Apremilast for Behçet\'s Disease Mucocutaneous Manifestations (RELIEF-BD)',phase:'Phase 3',status:'recruiting',
+     eligibility:['Active BD with oral/genital ulcers','HLA-B*51 positive preferred','Age 18–65'],
+     relevance:'Directly relevant: your HLA-B*51 homozygous status is the primary inclusion criterion. Apremilast is a PDE4 inhibitor with strong BD efficacy data.',
+     link:'https://clinicaltrials.gov'},
+    {id:'qt2',name:'NK Cell Therapy for HLH-Associated EBV Reactivation',phase:'Phase 2',status:'recruiting',
+     eligibility:['Prior HLH episode','EBV-associated immune dysregulation','Ferritin >500 at enrollment or documented HLH history'],
+     relevance:'Your UNC13D heterozygous status and documented HLH episode make you a strong candidate. NK cell expansion protocols show promise for prevention of recurrence.',
+     link:'https://clinicaltrials.gov'},
+    {id:'qt3',name:'UNC13D Gene Therapy Safety Study in Familial HLH',phase:'Phase 1',status:'active',
+     eligibility:['UNC13D pathogenic variant (het or hom)','No active HLH at enrollment','Age 12+'],
+     relevance:'Your UNC13D heterozygous variant is the direct target of this gene correction approach. Phase 1 safety only — no efficacy endpoint yet.',
+     link:'https://clinicaltrials.gov'},
+    {id:'qt4',name:'Supervised Exercise Protocol for Post-Myocarditis Cardiac Recovery',phase:'Observational',status:'obs',
+     eligibility:['Myocarditis within prior 24 months','LVEF >45% at enrollment','Cleared by cardiology'],
+     relevance:'Your post-myocarditis status with cardiac MRI monitoring is exactly the population. Structured zone 2 protocol with echo monitoring every 8 weeks.',
+     link:'https://clinicaltrials.gov'}
+  ],
+  chad:[
+    {id:'ct1',name:'Lecanemab Prevention Trial in APOE4 Carriers Without Cognitive Symptoms',phase:'Phase 3',status:'recruiting',
+     eligibility:['APOE ε4 carrier','Age 55–80','No current MCI or dementia diagnosis','Amyloid PET positive or CSF biomarker eligible'],
+     relevance:'Your APOE ε4 heterozygous status is the primary inclusion criterion. Lecanemab clears amyloid — prevention trial targets carriers before symptoms.',
+     link:'https://clinicaltrials.gov'},
+    {id:'ct2',name:'Mediterranean Diet Intervention for 9p21 Cardiovascular Risk Reduction',phase:'Observational',status:'recruiting',
+     eligibility:['9p21 rs1333049 risk allele carrier','Age 45+','No prior MI or stroke'],
+     relevance:'9p21 bilateral carriers show the strongest benefit from Mediterranean diet — this observational study quantifies the protective effect at the variant level.',
+     link:'https://clinicaltrials.gov'},
+    {id:'ct3',name:'Pembrolizumab + Targeted Therapy for MC1R-High Cutaneous Melanoma',phase:'Phase 2',status:'active',
+     eligibility:['MC1R loss-of-function variants','Stage I–III melanoma history OR high-risk primary prevention'],
+     relevance:'Your MC1R ×4 allele profile places you in the highest-risk melanoma group. Immunotherapy prevention protocols for MC1R-high individuals are emerging.',
+     link:'https://clinicaltrials.gov'},
+    {id:'ct4',name:'FOXO3 Longevity Pathway Activation via Time-Restricted Eating',phase:'Observational',status:'recruiting',
+     eligibility:['FOXO3 rs2802292 G allele carrier','Age 50+','No insulin-dependent diabetes'],
+     relevance:'Your FOXO3 longevity variant is the direct target. Time-restricted eating activates FOXO3 — this study quantifies the effect in carriers vs. non-carriers.',
+     link:'https://clinicaltrials.gov'}
+  ]
+};
+
+function renderTrials(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  window._trialsFilter=window._trialsFilter||'all';
+  document.getElementById('content').innerHTML=buildTrialsHTML(p,window._trialsFilter);
+  window.scrollTo(0,0);
+  updateChatFab(pid);
+}
+
+function buildTrialsHTML(p,filter){
+  const allTrials=TRIALS_DATA[p.id]||TRIALS_DATA.quinn;
+  const filtered=filter==='all'?allTrials:filter==='recruiting'?allTrials.filter(t=>t.status==='recruiting'):allTrials.filter(t=>t.status==='obs');
+  const filters=['all','recruiting','obs'];
+  const filterLabels={all:'All',recruiting:'Actively Recruiting',obs:'Observational'};
+  const filterChips=filters.map(f=>`<div class="trial-filter-chip${f===filter?' active':''}" onclick="window._trialsFilter='${f}';renderTrials('${p.id}')">${filterLabels[f]}</div>`).join('');
+  const cardsHTML=filtered.map(t=>{
+    const statusClass=t.status==='recruiting'?'trial-status-recruiting':t.status==='active'?'trial-status-active':'trial-status-obs';
+    const statusLabel=t.status==='recruiting'?'Recruiting':t.status==='active'?'Active / Enrolling':'Observational';
+    const eligHTML=t.eligibility.map(e=>`<li>${e}</li>`).join('');
+    return `<div class="trial-card">
+      <div class="trial-card-top">
+        <div class="trial-name">${t.name}</div>
+        <div class="trial-badges">
+          <div class="trial-phase">${t.phase}</div>
+          <div class="${statusClass}">${statusLabel}</div>
+        </div>
+      </div>
+      <div class="trial-eligibility"><strong>Eligibility:</strong><ul>${eligHTML}</ul></div>
+      <div class="trial-relevance"><strong>Why relevant:</strong> ${t.relevance}</div>
+      <button class="trial-learn-btn" onclick="showTrialsToast()">Learn More →</button>
+    </div>`;
+  }).join('');
+  const recruitingCount=allTrials.filter(t=>t.status==='recruiting').length;
+  return `<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${p.id}')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Clinical Trials Matcher</div>
+  </div>
+  <div class="trials-view">
+    <div class="trials-summary">
+      <div class="trials-summary-num">${allTrials.length}</div>
+      <div class="trials-summary-label">trials matched to your genetic profile &nbsp;·&nbsp; ${recruitingCount} actively recruiting</div>
+    </div>
+    <div class="trials-filter-chips">${filterChips}</div>
+    ${filtered.length?cardsHTML:'<div class="no-data-msg">No trials match this filter.</div>'}
+    <div class="trials-disclaimer">Trial data is illustrative and for educational purposes. Always consult your physician before enrolling in any clinical trial. Visit ClinicalTrials.gov for official current listings.</div>
+  </div></div>`;
+}
+
+function showTrialsToast(){
+  let t=document.getElementById('trials-toast');
+  if(!t){
+    t=document.createElement('div');t.id='trials-toast';
+    t.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--sf2);border:1px solid var(--bd);color:var(--t1);padding:12px 20px;border-radius:var(--r-m);font-size:13px;font-weight:600;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)';
+    document.body.appendChild(t);
+  }
+  t.textContent='Opening ClinicalTrials.gov…';t.style.opacity='1';
+  clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},2500);
 }
 
 /* ── Show/hide FAB based on current view ── */
