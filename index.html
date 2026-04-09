@@ -1272,6 +1272,31 @@ body.is-provider .back-btn svg{stroke:#111}
 .compat-check-item::before{content:'☐ ';color:var(--blue)}
 .compat-disclaimer{font-size:10px;color:var(--t4);text-align:center;padding:12px 0;line-height:1.5}
 
+/* ── P27 Daily Brief ── */
+.brief-view{padding:0 16px 80px}
+.brief-greeting{padding:16px 0 4px}
+.brief-greeting-date{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.brief-greeting-text{font-size:18px;font-weight:700;color:var(--t1);line-height:1.4}
+.brief-section{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:10px}
+.brief-section-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.brief-focus-title{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.brief-focus-body{font-size:13px;color:var(--t2);line-height:1.6}
+.brief-action-card{background:var(--blu-d);border:1px solid var(--blu-b);border-radius:var(--r-s);padding:12px}
+.brief-action-text{font-size:13px;color:var(--t1);font-weight:600;line-height:1.5}
+.brief-fact{font-size:13px;color:var(--t2);line-height:1.6;font-style:italic}
+.brief-fact strong{color:var(--cyan);font-style:normal}
+.brief-log-btns{display:flex;gap:8px;flex-wrap:wrap}
+.brief-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
+.brief-week-strip{display:flex;gap:6px;justify-content:space-between;margin-top:8px}
+.brief-day-col{flex:1;text-align:center}
+.brief-day-label{font-size:9px;color:var(--t3);margin-bottom:4px}
+.brief-day-dots{display:flex;flex-direction:column;gap:2px;align-items:center}
+.brief-dot{width:7px;height:7px;border-radius:50%;background:var(--sf3)}
+.brief-dot.mood{background:var(--purple)}
+.brief-dot.sleep{background:var(--blue)}
+.brief-dot.workout{background:var(--green)}
+.brief-new-badge{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:10px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -1944,6 +1969,7 @@ function route(){
   if(pid==='reportcard'){renderReportCard(parts[1]||'quinn');return;}
   if(pid==='provider'){renderProvider(parts[1]||'quinn');return;}
   if(pid==='compatibility'){renderCompatibility();return;}
+  if(pid==='brief'){renderBrief(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2984,6 +3010,7 @@ function renderMore(p){
     {icon:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',t:'Genetic Report Card',s:'Letter grades across 8 health systems',fn:`nav('reportcard/${p.id}')`},
     {icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',t:'Share with Provider',s:'Clean clinical summary for your doctor',fn:`nav('provider/${p.id}')`},
     {icon:'<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',t:'Genetic Compatibility',s:'Family planning variant inheritance risk',fn:`nav('compatibility')`},
+    {icon:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/>',t:'Daily Brief',s:'Personalized genomic morning summary',fn:`nav('brief/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -5896,6 +5923,173 @@ function buildCompatHTML(selA,selB){
     </div>
     <div class="compat-disclaimer">For educational purposes only. This is not genetic counseling. Please consult a board-certified genetic counselor for family planning decisions.</div>
   </div></div>`;
+}
+
+/* ══════════════════════════════════════
+   P27 — DAILY BRIEF
+══════════════════════════════════════ */
+const BRIEF_FOCUS={
+  quinn:[
+    {day:1,title:'Cardiovascular Monday',body:'Your 9p21 bilateral makes today\'s Mediterranean breakfast the most important meal of the week. Olive oil, walnuts, and omega-3-rich fish activate PPAR-γ and suppress the 9p21 inflammatory pathway. What you eat today sets your cardiac trajectory for the week.'},
+    {day:2,title:'Neurology & Sleep',body:'Your brain health depends on last night\'s sleep. With your BDNF Val66Met variant, slow-wave sleep is when critical memory consolidation and BDNF production happens. How did you sleep? A 10-minute walk this morning will boost BDNF by 20%.'},
+    {day:3,title:'Exercise Wednesday',body:'Your ACTN3 profile and post-myocarditis status calls for zone 2 cardio today — 30 min walking or cycling at a conversational pace. This is the sweet spot for your cardiac recovery and mitochondrial health without overtaxing your immune system.'},
+    {day:4,title:'Medication Review',body:'Thursday is your check-in day. Did you take Prednisone with food this morning? Are you keeping up with Methylfolate and Methylcobalamin? Your MTHFR C677T means skipping these has a measurable impact within 48 hours. Review your schedule below.'},
+    {day:5,title:'Mental Health Friday',body:'COMT Met/Met means you retain dopamine longer — good for focus, but stress and conflict hit harder. Take stock of this week\'s stress load. Fluoxetine is doing heavy lifting, but behavioral buffering matters too. What one thing is weighing on you?'},
+    {day:6,title:'Recovery Saturday',body:'Your body recovers differently than average. With active Behçet\'s and post-myocarditis, Saturday is for active recovery: gentle stretching, anti-inflammatory foods, and ensuring 7–8hrs of sleep tonight. No intense exercise — let your immune system consolidate.'},
+    {day:0,title:'Weekly Reflection Sunday',body:'How did this week align with your genetic protocol? Rate: Did you get 7+ hrs sleep 5/7 nights? Did you eat Mediterranean at least 4 meals? Did you take all supplements? Did you move your body? Small consistent actions compound — your genome responds to patterns, not perfection.'}
+  ],
+  chad:[
+    {day:1,title:'Cardiovascular Monday',body:'9p21 bilateral + APOE ε4 means your Monday meal sets a cardiac and cognitive tone. Olive oil activates PPAR-γ at the 9p21 locus. Fatty fish raises DHA which APOE4 carriers process less efficiently — supplement gap to fill today.'},
+    {day:2,title:'Brain Health Tuesday',body:'APOE ε4 means amyloid can accumulate faster. Last night\'s sleep is your primary defense — deep sleep clears amyloid via the glymphatic system. Did you sleep 7+ hours? Consider a short walk — exercise is the #1 APOE4 modifier.'},
+    {day:3,title:'Exercise Wednesday',body:'FOXO3 longevity variant responds beautifully to moderate aerobic exercise. 30 minutes zone 2 cardio activates the FOXO3 pathway. Walking, cycling, swimming — the consistency matters more than intensity for your genetic profile.'},
+    {day:4,title:'Supplement Check',body:'CoQ10, Omega-3, Methylfolate, Vit D — APOE4 carriers have higher oxidative stress, and CoQ10 is a key antioxidant buffer. Did you take them this morning? Missing even 2 days compounds quickly for APOE4.'},
+    {day:5,title:'Stress & Brain Friday',body:'Cortisol is a major APOE4 accelerant — chronic stress literally speeds Alzheimer\'s risk. What\'s your stress load this week? One social connection call today is worth more than a supplement for your longevity profile.'},
+    {day:6,title:'Skin Check Saturday',body:'MC1R ×4 means your melanoma risk is significant. Monthly self-exam today — check all moles, any new spots, any changes. SPF 50 goes on every morning regardless of weather. Annual derm appointment booked?'},
+    {day:0,title:'Weekly Reflection Sunday',body:'FOXO3 carriers who live longest share one trait: consistent healthy habits over decades. This week: sleep, exercise, social connection, Mediterranean food. What was your weakest pillar? That\'s next week\'s focus.'}
+  ]
+};
+
+const BRIEF_ACTIONS={
+  quinn:['Take Prednisone with food right now','Log last night\'s sleep quality','Walk for 10 minutes — BDNF boost','Eat something with olive oil today','Check ferritin trend — BD monitoring','Take Methylfolate + Methylcobalamin'],
+  chad:['Take CoQ10 + Omega-3 with breakfast','Log today\'s mood','Walk 30 min — FOXO3 activation','Apply SPF 50 before going outside','Call someone today — cortisol reduction','Check Vit D supplement — APOE4 support']
+};
+
+const BRIEF_FACTS={
+  quinn:[
+    'Your <strong>HLA-B*51 homozygous</strong> status means Behçet\'s flares can be triggered by stress, trauma, or infection — your immune system is always on high alert.',
+    'The <strong>9p21</strong> variant increases cardiovascular risk by ~30%, but the Mediterranean diet can suppress the inflammatory pathway it controls.',
+    'Your <strong>MTHFR C677T</strong> means you convert folic acid to active folate at only 30% efficiency — methylfolate bypasses this entirely.',
+    'The <strong>FKBP5</strong> variant in your profile means your cortisol response is heightened — Prednisone works more powerfully for you than average.',
+    'Your <strong>UNC13D heterozygous</strong> status means EBV infection can trigger HLH — always report fevers >38.5°C urgently.',
+    'Your <strong>DBH TT</strong> variant means lower baseline norepinephrine — this explains the low HRV and contributes to fatigue.',
+    '<strong>Ferritin 7,105 → 217</strong> in 6 months is a remarkable recovery. Normal is under 200. You\'re almost there.',
+    'Your <strong>BDNF Val66Met</strong> variant means exercise has an even bigger brain benefit for you than average — 20% more BDNF per session.',
+    '<strong>Fluoxetine</strong> works differently in CYP2D6 intermediate metabolizers — your plasma level is higher than the stated dose suggests.',
+    'Your <strong>COMT Met/Met</strong> means you\'re a "worrier" genotype — you process threat signals longer, but also have higher baseline empathy.',
+    'The <strong>VDR variant</strong> in your profile means Vitamin D converts to the active form at reduced efficiency — your target is 50–80, not just 30.',
+    'Your <strong>FUT2 non-secretor</strong> status means you can\'t secrete blood group antigens into gut mucosa — increases gut dysbiosis risk.',
+    '<strong>9p21 bilateral</strong> means you inherited the cardiovascular risk allele from both parents — lifestyle adherence matters twice as much.',
+    'Your <strong>APOE status is unclear</strong> — getting genotyped would complete your cognitive risk picture significantly.'
+  ],
+  chad:[
+    'Your <strong>APOE ε4</strong> genotype means amyloid clearance during sleep is your #1 longevity lever — every hour below 7 has compounding cost.',
+    'The <strong>9p21 bilateral</strong> variant means cardiovascular disease risk is elevated, but Mediterranean diet directly suppresses the pathway it controls.',
+    'Your <strong>MC1R ×4</strong> profile means a single blistering sunburn carries significantly higher melanoma conversion risk than average.',
+    'The <strong>FOXO3 longevity variant</strong> you carry is found in 3× higher frequency in centenarians — your lifestyle is the key modifier.',
+    '<strong>CoQ10</strong> production declines with age and APOE4 carriers have higher mitochondrial stress — 200mg daily is genuinely protective.',
+    'Your <strong>MTHFR support</strong> via methylfolate is more important than most people realize — homocysteine elevation is a cardiovascular and brain risk.',
+    '<strong>Cortisol + APOE4</strong> is a dangerous combination — stress literally accelerates amyloid deposition. Stress management is a medical intervention.',
+    'The <strong>AFib family history</strong> combined with 9p21 means electrolyte balance (magnesium, potassium) deserves daily attention.',
+    'Your <strong>FOXO3 variant</strong> responds strongly to caloric restriction and time-restricted eating — even a 12hr eating window has measurable benefit.',
+    '<strong>Family history of breast cancer</strong> in first-degree relatives warrants BRCA discussion if not already done.',
+    'The <strong>lung cancer family history</strong> combined with any smoke exposure history means CT screening is likely appropriate at your age.',
+    '<strong>DHA omega-3</strong> is the specific fatty acid APOE4 carriers struggle to transport to the brain — supplement is not optional, it\'s therapeutic.',
+    'Your <strong>CAD family history + 9p21</strong> is the highest-priority combination — a CAC score would quantify your actual plaque burden.',
+    '<strong>Magnesium</strong> is depleted by stress and common in cardiovascular genetics — your evening dose supports sleep and cardiac rhythm simultaneously.'
+  ]
+};
+
+function getBriefFocus(pid){
+  const dow=new Date().getDay();
+  const list=BRIEF_FOCUS[pid]||BRIEF_FOCUS.quinn;
+  return list.find(f=>f.day===dow)||list[0];
+}
+
+function getBriefAction(pid){
+  const actions=BRIEF_ACTIONS[pid]||BRIEF_ACTIONS.quinn;
+  const idx=Math.floor(new Date().getDate())%actions.length;
+  return actions[idx];
+}
+
+function getBriefFact(pid){
+  const facts=BRIEF_FACTS[pid]||BRIEF_FACTS.quinn;
+  const idx=Math.floor(new Date().getDate())%facts.length;
+  return facts[idx];
+}
+
+function getBriefWeek(pid){
+  const days=[];
+  const dayLabels=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const dk=d.toISOString().split('T')[0];
+    const mood=ls(pid,'mental',[]).some(e=>e.date===dk);
+    const sleep=ls(pid,'sleep',[]).some(e=>e.date===dk);
+    const workout=ls(pid,'workouts',[]).some(e=>e.date===dk);
+    days.push({label:dayLabels[d.getDay()],mood,sleep,workout});
+  }
+  return days;
+}
+
+function renderBrief(pid){
+  const p=PERSONS[pid];
+  if(!p){nav('home');return;}
+  document.body.classList.remove('is-doctor','is-provider');
+  document.getElementById('nav').style.display='none';
+  const today=new Date();
+  const todayKey=today.toISOString().split('T')[0];
+  const lastSeen=ls(pid,'brief-last-seen','');
+  const isNew=lastSeen!==todayKey;
+  lw(pid,'brief-last-seen',todayKey);
+  const dateStr=today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const hour=today.getHours();
+  const greet=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
+  const focus=getBriefFocus(pid);
+  const action=getBriefAction(pid);
+  const fact=getBriefFact(pid);
+  const week=getBriefWeek(pid);
+  const weekHTML=week.map(d=>`<div class="brief-day-col">
+    <div class="brief-day-label">${d.label}</div>
+    <div class="brief-day-dots">
+      <div class="brief-dot${d.mood?' mood':''}"></div>
+      <div class="brief-dot${d.sleep?' sleep':''}"></div>
+      <div class="brief-dot${d.workout?' workout':''}"></div>
+    </div>
+  </div>`).join('');
+  const h=`<div class="view"><div class="p-hdr">
+    <button class="back-btn" onclick="nav('${pid}')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+    <div class="p-name">${p.name.split(' ')[0]}</div>
+    <div class="p-sub">Daily Brief${isNew?'<span class="brief-new-badge">NEW</span>':''}</div>
+  </div>
+  <div class="brief-view">
+    <div class="brief-greeting">
+      <div class="brief-greeting-date">${dateStr}</div>
+      <div class="brief-greeting-text">${greet}, ${p.name.split(' ')[0]}. Here's your genomic brief.</div>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-label">Today's Focus — ${focus.title}</div>
+      <div class="brief-focus-body">${focus.body}</div>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-label">Today's Top Action</div>
+      <div class="brief-action-card"><div class="brief-action-text">${action}</div></div>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-label">Genetic Fact of the Day</div>
+      <div class="brief-fact">${fact}</div>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-label">Quick Log</div>
+      <div class="brief-log-btns">
+        <div class="brief-log-btn" onclick="nav('mental/${pid}')">😐 Mood</div>
+        <div class="brief-log-btn" onclick="nav('sleep/${pid}')">😴 Sleep</div>
+        <div class="brief-log-btn" onclick="nav('exercise/${pid}')">🏃 Workout</div>
+        <div class="brief-log-btn" onclick="nav('trends/${pid}')">🧪 Labs</div>
+      </div>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-label">Week at a Glance</div>
+      <div style="display:flex;gap:6px;font-size:9px;color:var(--t3);margin-bottom:6px">
+        <span style="color:var(--purple)">● Mood</span>
+        <span style="color:var(--blue)">● Sleep</span>
+        <span style="color:var(--green)">● Workout</span>
+      </div>
+      <div class="brief-week-strip">${weekHTML}</div>
+    </div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+  updateChatFab(pid);
 }
 
 /* ── Show/hide FAB based on current view ── */
