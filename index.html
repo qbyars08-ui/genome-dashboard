@@ -1427,6 +1427,25 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P39 STRAND Sharing / Export ── */
+.share-view{padding:16px}
+.share-hdr{text-align:center;padding:20px 0 16px}
+.share-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.share-hdr-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.share-preview{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;margin-bottom:16px;font-family:'SF Mono',monospace;font-size:11px;color:var(--t2);line-height:1.7;white-space:pre-wrap;max-height:260px;overflow-y:auto}
+.share-preview-lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.share-explainer{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:var(--r-s);padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--t2);line-height:1.55}
+.share-explainer strong{color:var(--blue)}
+.share-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.share-btn{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 16px;cursor:pointer;transition:border-color .15s}
+.share-btn:hover{border-color:var(--blue)}
+.share-btn-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.share-btn-info{flex:1}
+.share-btn-title{font-size:14px;font-weight:700;color:var(--t1)}
+.share-btn-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.share-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a2e;border:1px solid var(--green);color:var(--green);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:1000}
+.share-toast.show{opacity:1}
+
 /* ── P38 Genetic Glossary ── */
 .gloss-view{padding:16px}
 .gloss-hdr{padding:20px 0 14px;text-align:center}
@@ -2259,6 +2278,7 @@ function route(){
   if(pid==='protocol'){renderProtocol(parts[1]||'quinn');return;}
   if(pid==='trajectory'){renderTrajectory(parts[1]||'quinn');return;}
   if(pid==='glossary'){renderGlossary(parts[1]||'');return;}
+  if(pid==='share'){renderShare(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3322,6 +3342,7 @@ function renderMore(p){
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Protocol Optimizer',s:'Gene-informed supplements with evidence base',fn:`nav('protocol/${p.id}')`,style:'color:var(--green)'},
     {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Risk Trajectory',s:'Current vs optimized lifetime risk comparison',fn:`nav('trajectory/${p.id}')`,style:'color:var(--purple)'},
     {icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',t:'Genetic Glossary',s:'40+ terms explained — searchable, filterable',fn:`nav('glossary')`},
+    {icon:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',t:'Share / Export',s:'Send your genomic summary to a doctor or family',fn:`nav('share/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6874,6 +6895,110 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P39 STRAND Sharing / Export ── */
+function buildShareSummary(p){
+  const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const d=p.doctor||{};
+  const pgx=(d.pgx||[]).map(r=>r.l+': '+r.v).join('\n  ');
+  const alerts=(d.alerts||[]).map(a=>'  ⚠ '+a).join('\n');
+  const meds=(p.meds||[]).map(m=>'  • '+(typeof m==='string'?m:m.name||'')).join('\n');
+  const topVariants={
+    quinn:'  • HLA-B*51 homozygous (Behçet\'s disease)\n  • MTHFR C677T compound het (methylation)\n  • FUT2 non-secretor (gut/serotonin)\n  • NAT2 slow acetylator (drug metabolism)\n  • FKBP5 variants (HPA axis)',
+    chad:'  • APOE ε4 carrier (Alzheimer\'s/CVD)\n  • 9p21 bilateral (CAD, doubled risk)\n  • CYP2C19 poor metabolizer\n  • SLCO1B1 risk variant (statins)\n  • MC1R ×4 (melanoma risk)'
+  };
+  const conditions={
+    quinn:'  • Behçet\'s disease (HLA-B*51 confirmed)\n  • Immune-mediated myocarditis (resolved, EF 56%)\n  • Terminal ileum scarring / bile acid malabsorption',
+    chad:'  • Elevated CAD risk (9p21 bilateral)\n  • APOE ε4 carrier — cognitive monitoring\n  • Dyslipidemia (LDL management)'
+  };
+  return `STRAND Genomic Profile Summary — ${p.name}
+Generated: ${today}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CRITICAL DRUG ALERTS:
+${alerts||'  None identified'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CURRENT MEDICATIONS:
+${meds||'  See full profile'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TOP GENETIC VARIANTS:
+${topVariants[p.id]||topVariants.quinn}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACTIVE CONDITIONS:
+${conditions[p.id]||conditions.quinn}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Full genomic profile managed in STRAND Genomic Intelligence Platform.
+This summary contains medication safety information only.
+No raw genetic data is included.`;
+}
+function renderShare(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const summary=buildShareSummary(p);
+  const emailBody=encodeURIComponent(summary);
+  const emailSubject=encodeURIComponent('Genomic Profile Summary — '+p.name+' (STRAND)');
+  const h=`<div class="view"><div class="share-view">
+    <div class="share-hdr">
+      <div class="share-hdr-title">Share / Export</div>
+      <div class="share-hdr-sub">${p.name} · Genomic profile summary</div>
+    </div>
+    <div class="share-explainer"><strong>What gets shared:</strong> This summary contains medication safety information, top variants, and active conditions only. No raw genetic data or full genomic files are included.</div>
+    <div class="share-preview-lbl">Preview</div>
+    <div class="share-preview" id="share-preview-text">${summary}</div>
+    <div class="share-actions">
+      <div class="share-btn" onclick="shareClipboard()">
+        <div class="share-btn-icon" style="background:rgba(59,130,246,.12)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </div>
+        <div class="share-btn-info"><div class="share-btn-title">Copy to clipboard</div><div class="share-btn-sub">Paste into any app, message, or EHR portal</div></div>
+      </div>
+      <div class="share-btn" onclick="shareDownload('${pid}')">
+        <div class="share-btn-icon" style="background:rgba(16,185,129,.12)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="share-btn-info"><div class="share-btn-title">Download as text file</div><div class="share-btn-sub">Save .txt file to your device</div></div>
+      </div>
+      <div class="share-btn" onclick="window.location.href='mailto:?subject=${emailSubject}&body=${emailBody}'">
+        <div class="share-btn-icon" style="background:rgba(139,92,246,.12)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="share-btn-info"><div class="share-btn-title">Email template</div><div class="share-btn-sub">Opens your mail app with the summary pre-filled</div></div>
+      </div>
+    </div>
+    <button class="back-btn" onclick="history.back()">← Back</button>
+  </div></div>
+  <div class="share-toast" id="share-toast">Copied to clipboard!</div>`;
+  document.getElementById('content').innerHTML=h;
+  window._shareSummary=summary;
+  window._sharePid=pid;
+  window.scrollTo(0,0);
+}
+function shareClipboard(){
+  const txt=window._shareSummary||'';
+  navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>showShareToast('Copied to clipboard!'));
+}
+function shareDownload(pid){
+  const p=PERSONS[pid]||QUINN;
+  const txt=window._shareSummary||'';
+  const blob=new Blob([txt],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='STRAND-'+p.name.replace(/\s+/g,'-')+'-Summary.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showShareToast('Downloaded!');
+}
+function showShareToast(msg){
+  const t=document.getElementById('share-toast');
+  if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
 }
 
 /* ── P38 Genetic Glossary ── */
