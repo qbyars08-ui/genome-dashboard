@@ -1427,6 +1427,40 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P36 Risk Trajectory ── */
+.traj-view{padding:16px}
+.traj-hdr{text-align:center;padding:20px 0 16px}
+.traj-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.traj-hdr-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.traj-scenarios{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.traj-scenario{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;text-align:center}
+.traj-scenario.optimized{border-color:var(--green);background:rgba(16,185,129,.05)}
+.traj-scenario-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.traj-metric{margin-bottom:12px}
+.traj-metric-val{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.traj-metric-lbl{font-size:10px;color:var(--t3);margin-top:2px}
+.traj-current .traj-metric-val{color:var(--t2)}
+.traj-optimized .traj-metric-val{color:var(--green)}
+.traj-lifebar-wrap{margin-bottom:20px}
+.traj-lifebar-lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.traj-lifebar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.traj-lifebar-name{font-size:12px;color:var(--t2);width:72px;flex-shrink:0}
+.traj-lifebar-track{flex:1;height:14px;background:var(--sf2);border-radius:7px;overflow:hidden}
+.traj-lifebar-fill{height:100%;border-radius:7px;transition:width 1s ease}
+.traj-lifebar-num{font-size:12px;font-weight:700;color:var(--t1);width:40px;text-align:right}
+.traj-interventions{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;margin-bottom:16px}
+.traj-int-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:12px}
+.traj-int-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.traj-int-item:last-child{border-bottom:none}
+.traj-int-toggle{width:36px;height:20px;background:var(--green);border-radius:10px;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.traj-int-toggle.off{background:var(--sf2)}
+.traj-int-knob{width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:18px;transition:left .2s}
+.traj-int-toggle.off .traj-int-knob{left:2px}
+.traj-int-info{flex:1}
+.traj-int-name{font-size:13px;font-weight:600;color:var(--t1)}
+.traj-int-impact{font-size:11px;color:var(--t2)}
+.traj-disclaimer{font-size:11px;color:var(--t4);text-align:center;padding:8px 0 20px;line-height:1.5}
+
 /* ── P35 Protocol Optimizer ── */
 .proto-view{padding:16px}
 .proto-hdr{padding:20px 0 4px;text-align:center}
@@ -2176,6 +2210,7 @@ function route(){
   if(pid==='healthscore'){renderHealthScore(parts[1]||'quinn');return;}
   if(pid==='medsafety'){renderMedSafety(parts[1]||'quinn');return;}
   if(pid==='protocol'){renderProtocol(parts[1]||'quinn');return;}
+  if(pid==='trajectory'){renderTrajectory(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3236,6 +3271,7 @@ function renderMore(p){
     {icon:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',t:'Health Score',s:'0–100 score tracking your genetic protocol',fn:`nav('healthscore/${p.id}')`,style:'color:var(--green)'},
     {icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',t:'Med Safety Card',s:'Wallet card — drug alerts + CYP profile',fn:`nav('medsafety/${p.id}')`},
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Protocol Optimizer',s:'Gene-informed supplements with evidence base',fn:`nav('protocol/${p.id}')`,style:'color:var(--green)'},
+    {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Risk Trajectory',s:'Current vs optimized lifetime risk comparison',fn:`nav('trajectory/${p.id}')`,style:'color:var(--purple)'},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6788,6 +6824,114 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P36 Risk Trajectory Calculator ── */
+const TRAJ_DATA={
+  quinn:{
+    current:{cad:42,alz:18,healthspan:68},
+    optimized:{cad:12,alz:10,healthspan:79},
+    interventions:[
+      {id:'med-diet',name:'Mediterranean diet',impact:'−12% CAD risk (INTERHEART)',cad:-12,alz:-2,hs:3},
+      {id:'exercise',name:'Exercise 5+ hrs/week',impact:'−4% CAD, −5% Alzheimer\'s risk (POINTER trial)',cad:-4,alz:-5,hs:4},
+      {id:'vitd',name:'Vitamin D optimization',impact:'−5% CAD, −2% Alzheimer\'s (VDR/immune)',cad:-5,alz:-2,hs:2},
+      {id:'sleep',name:'Sleep 7–9 hrs consistently',impact:'−2% Alzheimer\'s, +3 healthspan yrs',cad:-2,alz:-2,hs:3},
+      {id:'stress',name:'Stress management / mindfulness',impact:'−7% CAD risk, immune regulation',cad:-7,alz:1,hs:3}
+    ]
+  },
+  chad:{
+    current:{cad:55,alz:38,healthspan:71},
+    optimized:{cad:18,alz:21,healthspan:84},
+    interventions:[
+      {id:'med-diet',name:'Mediterranean diet',impact:'−18% CAD risk (INTERHEART)',cad:-18,alz:-3,hs:4},
+      {id:'exercise',name:'Exercise 5+ hrs/week',impact:'−17% Alzheimer\'s risk (EXERT trial)',cad:-5,alz:-17,hs:5},
+      {id:'omega3',name:'DHA 2g/day + NMN',impact:'−5% Alzheimer\'s (APOE4 + FADS1)',cad:-3,alz:-5,hs:2},
+      {id:'sleep',name:'Sleep 7+ hrs (amyloid clearance)',impact:'−5% Alzheimer\'s risk',cad:-2,alz:-5,hs:3},
+      {id:'statin',name:'Statin optimization (SLCO1B1-aware)',impact:'−11% CAD risk',cad:-11,alz:0,hs:3}
+    ]
+  }
+};
+function renderTrajectory(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const d=TRAJ_DATA[pid]||TRAJ_DATA.quinn;
+  const activeKey='traj-active-'+pid;
+  let active=d.interventions.map(i=>i.id);
+  function calcMetrics(){
+    let cad=d.current.cad,alz=d.current.alz,hs=d.current.healthspan;
+    d.interventions.forEach(iv=>{
+      if(active.includes(iv.id)){cad+=iv.cad;alz+=iv.alz;hs+=iv.hs;}
+    });
+    return{cad:Math.max(5,cad),alz:Math.max(5,alz),hs:Math.min(100,hs)};
+  }
+  function render(){
+    const m=calcMetrics();
+    const maxHS=100;
+    const curPct=Math.round((d.current.healthspan/maxHS)*100);
+    const optPct=Math.round((m.hs/maxHS)*100);
+    const intHTML=d.interventions.map(iv=>{
+      const on=active.includes(iv.id);
+      return `<div class="traj-int-item">
+        <div class="traj-int-toggle${on?'':' off'}" onclick="trajToggle('${pid}','${iv.id}')"><div class="traj-int-knob"></div></div>
+        <div class="traj-int-info"><div class="traj-int-name">${iv.name}</div><div class="traj-int-impact">${iv.impact}</div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('content').innerHTML=`<div class="view"><div class="traj-view">
+      <div class="traj-hdr"><div class="traj-hdr-title">Risk Trajectory</div><div class="traj-hdr-sub">${p.name} · What changes if you follow the protocol?</div></div>
+      <div class="traj-scenarios">
+        <div class="traj-scenario traj-current">
+          <div class="traj-scenario-lbl">Current Path</div>
+          <div class="traj-metric"><div class="traj-metric-val">${d.current.cad}%</div><div class="traj-metric-lbl">Lifetime CAD</div></div>
+          <div class="traj-metric"><div class="traj-metric-val">${d.current.alz}%</div><div class="traj-metric-lbl">Alzheimer's risk</div></div>
+          <div class="traj-metric"><div class="traj-metric-val">${d.current.healthspan}</div><div class="traj-metric-lbl">Healthspan yrs</div></div>
+        </div>
+        <div class="traj-scenario traj-optimized optimized">
+          <div class="traj-scenario-lbl">Optimized Path</div>
+          <div class="traj-metric"><div class="traj-metric-val" id="traj-cad-${pid}">${m.cad}%</div><div class="traj-metric-lbl">Lifetime CAD</div></div>
+          <div class="traj-metric"><div class="traj-metric-val" id="traj-alz-${pid}">${m.alz}%</div><div class="traj-metric-lbl">Alzheimer's risk</div></div>
+          <div class="traj-metric"><div class="traj-metric-val" id="traj-hs-${pid}">${m.hs}</div><div class="traj-metric-lbl">Healthspan yrs</div></div>
+        </div>
+      </div>
+      <div class="traj-lifebar-wrap">
+        <div class="traj-lifebar-lbl">Healthspan Comparison</div>
+        <div class="traj-lifebar-row"><div class="traj-lifebar-name">Current</div><div class="traj-lifebar-track"><div class="traj-lifebar-fill" style="width:${curPct}%;background:var(--t3)"></div></div><div class="traj-lifebar-num">${d.current.healthspan} yrs</div></div>
+        <div class="traj-lifebar-row"><div class="traj-lifebar-name">Optimized</div><div class="traj-lifebar-track"><div class="traj-lifebar-fill" id="traj-bar-${pid}" style="width:${optPct}%;background:linear-gradient(90deg,var(--green),var(--blue))"></div></div><div class="traj-lifebar-num" id="traj-bar-lbl-${pid}">${m.hs} yrs</div></div>
+      </div>
+      <div class="traj-interventions"><div class="traj-int-title">Toggle interventions to see their impact</div>${intHTML}</div>
+      <div class="traj-disclaimer">Population-level risk estimates based on published clinical trials. Not individual predictions. Consult your physician before making health decisions.</div>
+      <button class="back-btn" onclick="history.back()">← Back</button>
+    </div></div>`;
+    window.scrollTo(0,0);
+  }
+  window._trajActive=window._trajActive||{};
+  window._trajActive[pid]=active;
+  window._trajData=window._trajData||{};
+  window._trajData[pid]=d;
+  render();
+}
+function trajToggle(pid,id){
+  const d=window._trajData&&window._trajData[pid];
+  const active=window._trajActive&&window._trajActive[pid];
+  if(!d||!active)return;
+  const idx=active.indexOf(id);
+  if(idx>=0)active.splice(idx,1);
+  else active.push(id);
+  let cad=d.current.cad,alz=d.current.alz,hs=d.current.healthspan;
+  d.interventions.forEach(iv=>{if(active.includes(iv.id)){cad+=iv.cad;alz+=iv.alz;hs+=iv.hs;}});
+  cad=Math.max(5,cad);alz=Math.max(5,alz);hs=Math.min(100,hs);
+  const cadEl=document.getElementById('traj-cad-'+pid);
+  const alzEl=document.getElementById('traj-alz-'+pid);
+  const hsEl=document.getElementById('traj-hs-'+pid);
+  const barEl=document.getElementById('traj-bar-'+pid);
+  const barLbl=document.getElementById('traj-bar-lbl-'+pid);
+  if(cadEl)cadEl.textContent=cad+'%';
+  if(alzEl)alzEl.textContent=alz+'%';
+  if(hsEl)hsEl.textContent=hs;
+  if(barEl)barEl.style.width=Math.round((hs/100)*100)+'%';
+  if(barLbl)barLbl.textContent=hs+' yrs';
+  const toggle=event.currentTarget;
+  toggle.classList.toggle('off');
 }
 
 /* ── P35 Protocol Optimizer ── */
