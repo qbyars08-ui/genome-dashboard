@@ -1427,6 +1427,27 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P37 Family Health Alerts ── */
+.alerts-section{padding:0 16px 8px}
+.alerts-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 0 10px}
+.alerts-hdr-title{font-size:13px;font-weight:700;color:var(--t1)}
+.alerts-badge{background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px}
+.alert-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;position:relative;border-left:3px solid var(--bd)}
+.alert-card.urgent{border-left-color:#C0392B}
+.alert-card.action{border-left-color:var(--amber)}
+.alert-card.monitor{border-left-color:var(--blue)}
+.alert-card.dismissed{display:none}
+.alert-body{flex:1;min-width:0}
+.alert-top{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.alert-urgency{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:8px}
+.alert-urgency.urgent{background:rgba(192,57,43,.15);color:#E05A5A}
+.alert-urgency.action{background:rgba(245,158,11,.15);color:var(--amber)}
+.alert-urgency.monitor{background:rgba(59,130,246,.15);color:var(--blue)}
+.alert-person-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:var(--sf2);color:var(--t2)}
+.alert-text{font-size:12px;color:var(--t2);line-height:1.5}
+.alert-dismiss{font-size:18px;color:var(--t4);cursor:pointer;padding:0 0 0 6px;flex-shrink:0;line-height:1}
+.hub-title-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-direction:column}
+
 /* ── P36 Risk Trajectory ── */
 .traj-view{padding:16px}
 .traj-hdr{text-align:center;padding:20px 0 16px}
@@ -2373,6 +2394,7 @@ function renderHome(){
     </div>
     <div class="mc-arrow" style="color:#E05A5A">›</div>
   </div>
+  ${buildAlertsSection()}
   <div class="hub-updates">
     <div class="sec-lbl">Latest Updates</div>
     <div class="upd-item"><div class="upd-dot ud-r"></div><div class="upd-txt"><b>Quinn — cardiac cleared:</b> Dr. Margie Tucker (Oct 28 echo) — EF 56% normal. GLS -19.7%, QTc 368. Exercise still restricted (arrhythmia risk). Stress test + cardiac MRI scheduled Dec 2025.</div></div>
@@ -6824,6 +6846,47 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P37 Family Health Alerts ── */
+const FAMILY_ALERTS=[
+  {id:'a1',type:'urgent',person:'Quinn',text:'Lomotil refill needed. Morning diarrhea uncontrolled. Ask Dr. Crowley for cholestyramine — BAM from TI scarring, never trialed.'},
+  {id:'a2',type:'urgent',person:'Quinn',text:'Morning cortisol never tested. HPA axis status unknown after months of prednisone. Schedule with endocrinology.'},
+  {id:'a3',type:'action',person:'Quinn',text:'Cardiac MRI still needed. EF confirmed 56% but arrhythmia follow-up pending. Schedule alongside MR Enterography.'},
+  {id:'a4',type:'action',person:'Chad',text:'CAC score never done. 9p21 bilateral + family history = high priority. One scan, ~$100, no contrast needed.'},
+  {id:'a5',type:'action',person:'Chad',text:'Annual dermatology overdue. MC1R ×4 = 91st percentile melanoma risk. Full-body skin check this quarter.'},
+  {id:'a6',type:'monitor',person:'Quinn',text:'Testosterone 211 ng/dL. Recheck in 8 weeks as prednisone taper progresses. Should recover without intervention.'},
+  {id:'a7',type:'monitor',person:'Brigitte',text:'Carrier screening for BD-associated and NAT2 variants should be discussed with her doctor when 23andMe results arrive.'}
+];
+function buildAlertsSection(){
+  const now=Date.now();
+  const active=FAMILY_ALERTS.filter(a=>{
+    const dismissedAt=parseInt(localStorage.getItem('strand-alert-dismissed-'+a.id)||'0');
+    return now-dismissedAt>86400000;
+  });
+  if(!active.length)return '';
+  const cards=active.map(a=>`<div class="alert-card ${a.type}" id="alert-card-${a.id}">
+    <div class="alert-body">
+      <div class="alert-top">
+        <span class="alert-urgency ${a.type}">${a.type==='urgent'?'🔴 Urgent':a.type==='action'?'🟡 Action':'🔵 Monitor'}</span>
+        <span class="alert-person-chip">${a.person}</span>
+      </div>
+      <div class="alert-text">${a.text}</div>
+    </div>
+    <div class="alert-dismiss" onclick="dismissAlert('${a.id}')" title="Dismiss for 24h">×</div>
+  </div>`).join('');
+  return `<div class="alerts-section">
+    <div class="alerts-hdr">
+      <div class="alerts-hdr-title">Active Alerts</div>
+      <div class="alerts-badge">${active.length} active</div>
+    </div>
+    ${cards}
+  </div>`;
+}
+function dismissAlert(id){
+  localStorage.setItem('strand-alert-dismissed-'+id,Date.now().toString());
+  const el=document.getElementById('alert-card-'+id);
+  if(el){el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>{el.style.display='none';},300);}
 }
 
 /* ── P36 Risk Trajectory Calculator ── */
