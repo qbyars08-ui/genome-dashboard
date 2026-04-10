@@ -1427,6 +1427,36 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P35 Protocol Optimizer ── */
+.proto-view{padding:16px}
+.proto-hdr{padding:20px 0 4px;text-align:center}
+.proto-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.proto-hdr-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.proto-progress{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 16px;margin-bottom:16px}
+.proto-progress-lbl{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px;display:flex;justify-content:space-between}
+.proto-progress-bar{height:8px;background:var(--sf2);border-radius:4px;overflow:hidden}
+.proto-progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:4px;transition:width .5s}
+.proto-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);margin-bottom:10px;overflow:hidden}
+.proto-card-hdr{padding:14px 14px 12px;display:flex;align-items:flex-start;gap:12px}
+.proto-card-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.proto-card-main{flex:1;min-width:0}
+.proto-card-name{font-size:15px;font-weight:700;color:var(--t1)}
+.proto-card-dose{font-size:12px;color:var(--t2);margin-top:1px}
+.proto-card-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.proto-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.proto-badge-rct{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.proto-badge-obs{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.proto-badge-mech{background:var(--sf2);color:var(--t3);border:1px solid var(--bd)}
+.proto-toggle{padding:8px 14px 14px;border-top:1px solid var(--bd);display:flex;gap:8px}
+.proto-btn{flex:1;padding:8px;border-radius:var(--r-s);font-size:12px;font-weight:700;border:1px solid var(--bd);cursor:pointer;transition:all .15s}
+.proto-btn.taking{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+.proto-btn.not-taking{background:var(--sf2);color:var(--t3)}
+.proto-detail{padding:0 14px;font-size:12px;color:var(--t2);line-height:1.6;display:none}
+.proto-detail.open{display:block;padding-bottom:12px}
+.proto-detail-row{margin-bottom:6px}
+.proto-detail-label{font-weight:700;color:var(--t1);display:inline}
+.proto-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;width:100%;margin-top:8px}
+
 /* ── P34 Genetic Insights Feed ── */
 .insights-section{padding:0 16px 8px}
 .insights-lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;padding:18px 0 10px}
@@ -2145,6 +2175,7 @@ function route(){
   if(pid==='wearable'){renderWearable(parts[1]||'quinn');return;}
   if(pid==='healthscore'){renderHealthScore(parts[1]||'quinn');return;}
   if(pid==='medsafety'){renderMedSafety(parts[1]||'quinn');return;}
+  if(pid==='protocol'){renderProtocol(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3204,6 +3235,7 @@ function renderMore(p){
     {icon:'<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',t:'Wearable Data',s:'Apple Watch, Oura, Garmin — genetic context',fn:`nav('wearable/${p.id}')`},
     {icon:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',t:'Health Score',s:'0–100 score tracking your genetic protocol',fn:`nav('healthscore/${p.id}')`,style:'color:var(--green)'},
     {icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',t:'Med Safety Card',s:'Wallet card — drug alerts + CYP profile',fn:`nav('medsafety/${p.id}')`},
+    {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Protocol Optimizer',s:'Gene-informed supplements with evidence base',fn:`nav('protocol/${p.id}')`,style:'color:var(--green)'},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6756,6 +6788,99 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P35 Protocol Optimizer ── */
+const PROTOCOL_DATA={
+  quinn:[
+    {id:'methylfolate',icon:'🧬',name:'Methylfolate',dose:'800 mcg/day',why:'MTHFR C677T compound het — impaired folate conversion, elevated homocysteine',evidence:'rct',study:'Lamers 2011 — MTHFR carriers: methylfolate superior to folic acid for homocysteine reduction',timing:'Morning with food',interactions:'Avoid with unmetabolized folic acid; may increase SSRI effect'},
+    {id:'b12',icon:'💉',name:'Methylcobalamin B12',dose:'1000 mcg/day',why:'MTHFR + methylation cycle support; nervous system protection during BD activity',evidence:'obs',study:'Watanabe 2014 — methylcobalamin reduces nerve conduction deficits in inflammatory states',timing:'Morning, sublingual for best absorption',interactions:'Safe; excess excreted renally'},
+    {id:'vitd',icon:'☀️',name:'Vitamin D3',dose:'5000 IU/day',why:'Level 26.5 ng/mL — insufficient. VDR variants reduce receptor sensitivity. Active BD requires >40 ng/mL for T-reg function',evidence:'rct',study:'Aranow 2011 — vitamin D directly modulates immune response, reduces autoimmune flare frequency',timing:'Morning with fatty meal for absorption',interactions:'Take with K2 to prevent arterial calcification; monitor calcium quarterly'},
+    {id:'omega3',icon:'🐟',name:'Omega-3 DHA',dose:'2g DHA/day',why:'Anti-inflammatory; TNF-α suppression synergistic with BD management. FADS1 variants reduce ALA conversion',evidence:'rct',study:'VITAL trial 2019 — omega-3 reduces inflammatory markers; cardiovascular protection',timing:'With largest meal to reduce reflux',interactions:'May enhance anticoagulant effect; monitor if added warfarin ever'},
+    {id:'mag',icon:'🪨',name:'Magnesium Glycinate',dose:'400 mg/day',why:'Depleted by inflammation and prednisone use; required for 300+ enzymatic reactions including COMT methylation',evidence:'obs',study:'Serefko 2016 — magnesium deficiency correlates with depression and anxiety severity',timing:'Evening — promotes sleep quality via GABA modulation',interactions:'Reduce dose if diarrhea develops (use glycinate form, not oxide)'},
+    {id:'probiotic',icon:'🦠',name:'Probiotic (B. longum)',dose:'10B CFU/day',why:'FUT2 secretor-negative status → B. longum depletion → reduced serotonin precursor production',evidence:'rct',study:'Messaoudi 2011 — B. longum reduces cortisol and anxiety scores vs placebo',timing:'Morning, 30 min before food',interactions:'Separate from antibiotics by 2+ hours'},
+    {id:'coq10',icon:'⚡',name:'CoQ10',dose:'100 mg/day',why:'Mitochondrial support; prednisone depletes CoQ10; cardiac recovery support',evidence:'obs',study:'Mortensen 2014 — CoQ10 reduces cardiovascular mortality; supports mitochondrial energy production',timing:'With fatty meal for absorption',interactions:'May lower blood pressure; monitor if on antihypertensives'}
+  ],
+  chad:[
+    {id:'methylfolate',icon:'🧬',name:'Methylfolate',dose:'400 mcg/day',why:'MTHFR support; homocysteine reduction reduces CAD risk directly',evidence:'rct',study:'Homocysteine reduction trials — every 5 µmol/L reduction = 11% CAD risk reduction',timing:'Morning with food',interactions:'Monitor B12 levels; methylfolate works synergistically with methylcobalamin'},
+    {id:'omega3',icon:'🐟',name:'Omega-3 DHA',dose:'2g DHA/day',why:'APOE4 + FADS1 — direct DHA supplementation bypasses impaired conversion; brain and cardiovascular protection',evidence:'rct',study:'REDUCE-IT trial 2018 — high-dose omega-3 reduces major CV events 25% in at-risk patients',timing:'With largest meal',interactions:'Mild antiplatelet effect; note if on aspirin'},
+    {id:'vitd',icon:'☀️',name:'Vitamin D3',dose:'4000 IU/day',why:'Cardiovascular and cognitive protection; APOE4 carriers show enhanced neuroprotection with optimal levels',evidence:'rct',study:'VITAL-Cog 2022 — vitamin D supplementation reduced dementia incidence in observational arm',timing:'Morning with fatty meal',interactions:'Take with K2; monitor 25-OH-D annually, target 50–60 ng/mL'},
+    {id:'coq10',icon:'⚡',name:'CoQ10',dose:'200 mg/day',why:'Statin-induced CoQ10 depletion (SLCO1B1); mitochondrial energy support; cardiac protection',evidence:'rct',study:'Mortensen 2014 — CoQ10 200mg reduces cardiovascular events in heart failure patients',timing:'With fatty meal (morning or noon)',interactions:'Mandatory with statin therapy; monitor if on warfarin'},
+    {id:'mag',icon:'🪨',name:'Magnesium',dose:'400 mg/day',why:'Cardiovascular protection; 9p21 risk mitigation; reduces arterial stiffness',evidence:'obs',study:'Del Gobbo 2013 — magnesium intake inversely associated with CAD and sudden cardiac death',timing:'Evening',interactions:'Separate from other minerals by 2 hours'},
+    {id:'nmn',icon:'🔋',name:'NMN',dose:'500 mg/day',why:'NAD+ precursor; FOXO3 longevity variant may amplify AMPK pathway benefits; mitochondrial biogenesis',evidence:'mech',study:'Yoshino 2021 — NMN improves insulin sensitivity and muscle function in aging; APOE4 NAD+ depletion hypothesis',timing:'Morning, fasted for best absorption',interactions:'Generally safe; theoretical interaction with PARP inhibitors'},
+    {id:'quercetin',icon:'🌿',name:'Quercetin',dose:'500 mg/day',why:'Senolytic properties; anti-inflammatory; synergistic with NMN for AMPK activation',evidence:'mech',study:'Kirkland 2020 — quercetin + dasatinib clears senescent cells; quercetin alone has favorable anti-inflammatory profile',timing:'With food',interactions:'May inhibit CYP3A4 at high doses; separate from some medications'}
+  ]
+};
+function renderProtocol(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const items=PROTOCOL_DATA[pid]||PROTOCOL_DATA.quinn;
+  const takenKey=pid+'-protocol-taken';
+  let taken=JSON.parse(ls(pid,takenKey,'[]'));
+  const takenCount=taken.filter(Boolean).length;
+  const pct=Math.round((takenCount/items.length)*100);
+  let cards=items.map((item,i)=>{
+    const isTaking=taken.includes(item.id);
+    const badgeCls=item.evidence==='rct'?'proto-badge-rct':item.evidence==='obs'?'proto-badge-obs':'proto-badge-mech';
+    const badgeLbl=item.evidence==='rct'?'Tier 1 — RCT':item.evidence==='obs'?'Tier 2 — Observational':'Tier 3 — Mechanistic';
+    return `<div class="proto-card" id="pcrd-${pid}-${item.id}">
+      <div class="proto-card-hdr" onclick="toggleProtoDetail('${pid}','${item.id}')">
+        <div class="proto-card-icon">${item.icon}</div>
+        <div class="proto-card-main">
+          <div class="proto-card-name">${item.name}</div>
+          <div class="proto-card-dose">${item.dose}</div>
+          <div class="proto-card-badges"><span class="proto-badge ${badgeCls}">${badgeLbl}</span></div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="proto-detail" id="pd-${pid}-${item.id}">
+        <div class="proto-detail-row"><span class="proto-detail-label">Why: </span>${item.why}</div>
+        <div class="proto-detail-row"><span class="proto-detail-label">Key study: </span>${item.study}</div>
+        <div class="proto-detail-row"><span class="proto-detail-label">Timing: </span>${item.timing}</div>
+        <div class="proto-detail-row"><span class="proto-detail-label">Interactions: </span>${item.interactions}</div>
+      </div>
+      <div class="proto-toggle">
+        <button class="proto-btn ${isTaking?'taking':'not-taking'}" onclick="toggleProtoTaken('${pid}','${item.id}',this)">${isTaking?'✓ Taking':'Not taking'}</button>
+      </div>
+    </div>`;
+  }).join('');
+  const h=`<div class="view"><div class="proto-view">
+    <div class="proto-hdr">
+      <div class="proto-hdr-title">Your Gene-Informed Protocol</div>
+      <div class="proto-hdr-sub">${p.name} · Personalized supplement plan</div>
+    </div>
+    <div class="proto-progress">
+      <div class="proto-progress-lbl"><span>Protocol completeness</span><span id="proto-pct-${pid}">${takenCount} of ${items.length} items</span></div>
+      <div class="proto-progress-bar"><div class="proto-progress-fill" id="proto-bar-${pid}" style="width:${pct}%"></div></div>
+    </div>
+    ${cards}
+    <div class="proto-add-btn" onclick="alert('Custom supplement logging coming in a future update.')">+ Add custom supplement</div>
+    <div style="padding:12px 0 24px"><button class="back-btn" onclick="history.back()">← Back</button></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function toggleProtoDetail(pid,id){
+  const el=document.getElementById('pd-'+pid+'-'+id);
+  if(el)el.classList.toggle('open');
+}
+function toggleProtoTaken(pid,id,btn){
+  const takenKey=pid+'-protocol-taken';
+  let taken=JSON.parse(ls(pid,takenKey,'[]'));
+  const idx=taken.indexOf(id);
+  if(idx>=0)taken.splice(idx,1);
+  else taken.push(id);
+  lw(pid,takenKey,JSON.stringify(taken));
+  btn.className='proto-btn '+(idx<0?'taking':'not-taking');
+  btn.textContent=idx<0?'✓ Taking':'Not taking';
+  const items=PROTOCOL_DATA[pid]||PROTOCOL_DATA.quinn;
+  const tc=taken.length;
+  const pct=Math.round((tc/items.length)*100);
+  const bar=document.getElementById('proto-bar-'+pid);
+  const lbl=document.getElementById('proto-pct-'+pid);
+  if(bar)bar.style.width=pct+'%';
+  if(lbl)lbl.textContent=tc+' of '+items.length+' items';
 }
 
 /* ── P34 Genetic Insights Feed ── */
