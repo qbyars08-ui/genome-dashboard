@@ -1427,6 +1427,36 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P33 Med Safety Card ── */
+.msc-view{padding:16px}
+.msc-hdr{text-align:center;padding:20px 0 16px}
+.msc-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.msc-hdr-sub{font-size:13px;color:var(--t2)}
+.msc-card-wrap{display:flex;justify-content:center;margin:0 auto 24px;max-width:400px}
+.msc-card{width:340px;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.35);font-family:'SF Mono',monospace}
+.msc-front{background:#1a1a2e;padding:18px 16px 14px;min-height:200px}
+.msc-front-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.msc-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:.02em}
+.msc-dob{font-size:10px;color:#9CA3AF}
+.msc-warn-badge{background:linear-gradient(135deg,#C0392B,#E05A5A);padding:4px 10px;border-radius:20px;font-size:9px;font-weight:800;color:#fff;letter-spacing:.12em;text-transform:uppercase}
+.msc-alert-box{background:rgba(192,57,43,.2);border:1px solid #C0392B;border-radius:6px;padding:8px 10px;margin-bottom:6px}
+.msc-alert-drug{font-size:11px;font-weight:800;color:#E05A5A;letter-spacing:.05em}
+.msc-alert-reason{font-size:10px;color:#F87171;margin-top:1px}
+.msc-cyp-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.msc-cyp-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:3px 8px;border-radius:4px;font-size:9px;color:#D1D5DB;font-family:inherit}
+.msc-front-logo{font-size:9px;color:#4B5563;margin-top:10px;letter-spacing:.08em;text-transform:uppercase}
+.msc-back{background:#0f0f1a;padding:16px;min-height:160px;border-top:1px solid #2d2d4e}
+.msc-back-section{margin-bottom:10px}
+.msc-back-label{font-size:9px;font-weight:700;color:#6B7280;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.msc-back-content{font-size:10px;color:#D1D5DB;line-height:1.5}
+.msc-qr{width:44px;height:44px;float:right;margin:-4px 0 0 8px}
+.msc-print-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:14px 24px;border-radius:var(--r-m);border:none;cursor:pointer;width:calc(100% - 32px);margin:0 16px 16px}
+@media print{
+  .msc-print-btn{display:none!important}
+  .msc-card{width:85.6mm;page-break-inside:avoid;box-shadow:none}
+  .msc-card-wrap{page-break-after:always}
+}
+
 @media print{
   /* ── Hide all chrome ── */
   #loader,#nav,.print-btn,.back-btn,.doc-badge,
@@ -2104,6 +2134,7 @@ function route(){
   if(pid==='trials'){renderTrials(parts[1]||'quinn');return;}
   if(pid==='wearable'){renderWearable(parts[1]||'quinn');return;}
   if(pid==='healthscore'){renderHealthScore(parts[1]||'quinn');return;}
+  if(pid==='medsafety'){renderMedSafety(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3161,6 +3192,7 @@ function renderMore(p){
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Clinical Trials',s:'Trials matched to your genetic profile',fn:`nav('trials/${p.id}')`},
     {icon:'<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',t:'Wearable Data',s:'Apple Watch, Oura, Garmin — genetic context',fn:`nav('wearable/${p.id}')`},
     {icon:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',t:'Health Score',s:'0–100 score tracking your genetic protocol',fn:`nav('healthscore/${p.id}')`,style:'color:var(--green)'},
+    {icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',t:'Med Safety Card',s:'Wallet card — drug alerts + CYP profile',fn:`nav('medsafety/${p.id}')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6713,6 +6745,89 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P33 Med Safety Card ── */
+function renderMedSafety(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const data={
+    quinn:{
+      name:'Quinn Byars',dob:'DOB: 1993',
+      alerts:[
+        {drug:'NO DAPSONE',reason:'Hemolysis risk — G6PD unknown'},
+        {drug:'NO COLCHICINE (high dose)',reason:'CNS toxicity — renal caution'},
+        {drug:'NSAIDs — reduce 25%',reason:'GI/renal risk, use lowest dose'}
+      ],
+      cyp:['CYP2D6: unknown','CYP2C9: normal','NAT2: slow'],
+      meds:['Prednisone (tapering)','Fluoxetine 20mg','Pantoprazole','Lomotil PRN'],
+      emergency:'Chad Byars · (503) 555-0100',
+      conditions:['Behçet\'s disease','Cardiac myositis (resolved)','TI scarring/BAM']
+    },
+    chad:{
+      name:'Chad Byars',dob:'DOB: 1963',
+      alerts:[
+        {drug:'NO CLOPIDOGREL',reason:'CYP2C19 poor — no activation'},
+        {drug:'STATINS — monitor',reason:'SLCO1B1 — myopathy risk'},
+        {drug:'WARFARIN — caution',reason:'CYP2C9 intermediate'}
+      ],
+      cyp:['CYP2C9: intermediate','CYP2C19: poor','SLCO1B1: risk','CYP1A2: ultra-rapid'],
+      meds:['Lisinopril','Atorvastatin','ASA 81mg','Vitamin D3'],
+      emergency:'Brigitte Byars · (503) 555-0101',
+      conditions:['CAD risk — 9p21','APOE ε4 carrier','MC1R ×4']
+    }
+  };
+  const d=data[pid]||data.quinn;
+  const qrSVG=buildQRPlaceholder();
+  const alertsHTML=d.alerts.map(a=>`<div class="msc-alert-box"><div class="msc-alert-drug">${a.drug}</div><div class="msc-alert-reason">${a.reason}</div></div>`).join('');
+  const cypHTML=d.cyp.map(c=>`<div class="msc-cyp-chip">${c}</div>`).join('');
+  const medsHTML=d.meds.join(' · ');
+  const condHTML=d.conditions.join(' · ');
+  let h=`<div class="view"><div class="msc-view">
+  <div class="msc-hdr">
+    <div class="msc-hdr-title">Med Safety Card</div>
+    <div class="msc-hdr-sub">Laminate and carry in your wallet</div>
+  </div>
+  <div class="msc-card-wrap"><div class="msc-card">
+    <div class="msc-front">
+      <div class="msc-front-top">
+        <div><div class="msc-name">${d.name}</div><div class="msc-dob">${d.dob}</div></div>
+        <div class="msc-warn-badge">⚠ Drug Alerts</div>
+      </div>
+      ${alertsHTML}
+      <div class="msc-cyp-row">${cypHTML}</div>
+      <div class="msc-front-logo">STRAND Genomic Intelligence</div>
+    </div>
+    <div class="msc-back">
+      <div style="overflow:hidden">
+        ${qrSVG}
+        <div class="msc-back-section"><div class="msc-back-label">Current Medications</div><div class="msc-back-content">${medsHTML}</div></div>
+        <div class="msc-back-section"><div class="msc-back-label">Conditions</div><div class="msc-back-content">${condHTML}</div></div>
+        <div class="msc-back-section"><div class="msc-back-label">Emergency Contact</div><div class="msc-back-content">${d.emergency}</div></div>
+        <div class="msc-back-section"><div class="msc-back-label">Full Profile</div><div class="msc-back-content">STRAND Genomic Intelligence app</div></div>
+      </div>
+    </div>
+  </div></div>
+  <button class="msc-print-btn" onclick="window.print()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print Wallet Card
+  </button>
+  <div style="padding:0 16px 24px">
+    <button class="back-btn" onclick="history.back()">← Back</button>
+  </div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function buildQRPlaceholder(){
+  const cells=[];
+  const size=11;
+  const seed=[[1,1,1,1,1,1,1,0,1,0,1],[1,0,0,0,0,0,1,0,0,1,0],[1,0,1,1,1,0,1,0,1,0,1],[1,0,1,1,1,0,1,0,0,1,1],[1,0,1,1,1,0,1,0,1,0,0],[1,0,0,0,0,0,1,0,1,1,0],[1,1,1,1,1,1,1,0,1,0,1],[0,0,0,0,0,0,0,0,0,1,0],[1,0,1,1,0,1,1,1,1,0,1],[0,1,0,0,1,0,0,0,1,1,0],[1,1,1,0,1,1,1,0,1,0,1]];
+  let svg=`<svg class="msc-qr" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
+  seed.forEach((row,r)=>row.forEach((v,c)=>{if(v)svg+=`<rect x="${c}" y="${r}" width="1" height="1" fill="#6B7280"/>`;  }));
+  svg+=`</svg>`;
+  return svg;
 }
 
 /* ── Show/hide FAB based on current view ── */
