@@ -1427,6 +1427,35 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P41 Settings ── */
+.settings-view{padding:16px}
+.settings-hdr{padding:20px 0 16px;text-align:center}
+.settings-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.settings-hdr-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.settings-section{margin-bottom:20px}
+.settings-section-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;padding:0 2px}
+.settings-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);overflow:hidden}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--bd)}
+.settings-row:last-child{border-bottom:none}
+.settings-row-info{flex:1;min-width:0;margin-right:12px}
+.settings-row-label{font-size:14px;font-weight:600;color:var(--t1)}
+.settings-row-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.settings-toggle{width:44px;height:24px;border-radius:12px;background:var(--sf2);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.settings-toggle.on{background:var(--blue)}
+.settings-toggle-knob{width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.settings-toggle.on .settings-toggle-knob{left:22px}
+.settings-explainer{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:var(--r-s);padding:10px 12px;font-size:12px;color:var(--t2);line-height:1.55;margin-top:6px}
+.settings-danger-btn{width:100%;padding:13px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:var(--r-m);font-size:14px;font-weight:700;color:#E05A5A;cursor:pointer;margin-top:8px}
+.settings-about{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:16px;text-align:center}
+.settings-about-logo{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.settings-about-ver{font-size:12px;color:var(--t3)}
+.settings-about-tag{font-size:12px;color:var(--t2);margin-top:4px;font-style:italic}
+.settings-gear-btn{position:absolute;top:18px;right:16px;background:none;border:none;color:var(--t3);cursor:pointer;padding:4px;z-index:10}
+.hub-hdr{position:relative}
+body.hide-genes .story-gene-chip{display:none}
+body.compact-view .cat-hdr{padding:10px 14px}
+body.compact-view .mc{padding:10px 14px}
+
 /* ── P40 Onboarding Tour ── */
 .tour-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .3s;pointer-events:none}
 .tour-overlay.active{opacity:1;pointer-events:all}
@@ -2311,11 +2340,12 @@ function route(){
   if(pid==='trajectory'){renderTrajectory(parts[1]||'quinn');return;}
   if(pid==='glossary'){renderGlossary(parts[1]||'');return;}
   if(pid==='share'){renderShare(parts[1]||'quinn');return;}
+  if(pid==='settings'){renderSettings();return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
 window.addEventListener('hashchange',route);
-window.addEventListener('DOMContentLoaded',function(){startLoader();});
+window.addEventListener('DOMContentLoaded',function(){applySettings();startLoader();});
 
 function nav(hash){location.hash=hash;}
 
@@ -2425,6 +2455,7 @@ function renderHome(){
   let h=`<div class="view">
   <div class="strand-top-stripe"></div>
   <div class="hub-hdr">
+    <button class="settings-gear-btn" onclick="nav('settings')" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     <div class="strand-wordmark">
       <div class="strand-wordmark-row"><div class="hub-mark"></div><div class="strand-name">STRAND</div></div>
       <div class="strand-sub">Genomic Intelligence</div>
@@ -3378,6 +3409,7 @@ function renderMore(p){
     {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Risk Trajectory',s:'Current vs optimized lifetime risk comparison',fn:`nav('trajectory/${p.id}')`,style:'color:var(--purple)'},
     {icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',t:'Genetic Glossary',s:'40+ terms explained — searchable, filterable',fn:`nav('glossary')`},
     {icon:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',t:'Share / Export',s:'Send your genomic summary to a doctor or family',fn:`nav('share/${p.id}')`},
+    {icon:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',t:'Settings',s:'Display, privacy, notifications, about STRAND',fn:`nav('settings')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6930,6 +6962,116 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P41 Settings ── */
+function getSettings(){
+  try{return JSON.parse(localStorage.getItem('strand-settings')||'{}');}catch(e){return {};}
+}
+function saveSettings(key,val){
+  const s=getSettings();s[key]=val;
+  localStorage.setItem('strand-settings',JSON.stringify(s));
+}
+function applySettings(){
+  const s=getSettings();
+  document.body.classList.toggle('hide-genes',!!s.hideGenes);
+  document.body.classList.toggle('compact-view',!!s.compactView);
+}
+function renderSettings(){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  applySettings();
+  const s=getSettings();
+  const PERSONS_LIST=['quinn','chad'];
+  const defaultPerson=s.defaultPerson||'quinn';
+  const personOpts=PERSONS_LIST.map(id=>`<option value="${id}" ${id===defaultPerson?'selected':''}>${PERSONS[id]?.name||id}</option>`).join('');
+  function tog(key,label,sub){
+    const on=!!s[key];
+    return `<div class="settings-row">
+      <div class="settings-row-info"><div class="settings-row-label">${label}</div>${sub?`<div class="settings-row-sub">${sub}</div>`:''}  </div>
+      <button class="settings-toggle${on?' on':''}" id="stog-${key}" onclick="settingsToggle('${key}')"><div class="settings-toggle-knob"></div></button>
+    </div>`;
+  }
+  const h=`<div class="view"><div class="settings-view">
+    <div class="settings-hdr"><div class="settings-hdr-title">Settings</div><div class="settings-hdr-sub">STRAND Genomic Intelligence</div></div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Profile</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-info"><div class="settings-row-label">Default profile</div><div class="settings-row-sub">Opens on launch</div></div>
+          <select style="background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s);padding:6px 10px;color:var(--t1);font-size:13px" onchange="saveSettings('defaultPerson',this.value)">${personOpts}</select>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Notifications</div>
+      <div class="settings-card">
+        ${tog('dailyBrief','Daily Brief reminder','Morning genomic summary prompt')}
+        ${tog('weeklySum','Weekly health summary','Sunday evening recap')}
+        ${tog('alertBadges','Alert badges on home','Show active alert count')}
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Display</div>
+      <div class="settings-card">
+        ${tog('hideGenes','Show gene codes','Display monospace gene chip codes')}
+        ${tog('compactView','Compact view','Reduce card and list padding')}
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Privacy</div>
+      <div class="settings-card">
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
+          <div class="settings-row-label">Data storage</div>
+          <div class="settings-explainer">All data is stored locally on this device only. Nothing is sent to any server. Your genetic data never leaves your browser.</div>
+        </div>
+      </div>
+      <button class="settings-danger-btn" onclick="settingsClearData()">Clear all data</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">About STRAND</div>
+      <div class="settings-about">
+        <div class="settings-about-logo">STRAND</div>
+        <div class="settings-about-ver">Version 1.0.0 · Built April 2026</div>
+        <div class="settings-about-tag">Your genome, finally explained.</div>
+        <div style="margin-top:10px"><span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="nav('glossary')">Genetic Glossary</span> &middot; <span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="startTour()">Take the Tour</span></div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Feedback</div>
+      <div class="settings-card">
+        <div class="settings-row" style="cursor:pointer" onclick="window.location.href='mailto:feedback@strand.health?subject=STRAND Feedback'">
+          <div class="settings-row-info"><div class="settings-row-label">Send feedback</div><div class="settings-row-sub">Ideas, bugs, or just to say hello</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:4px 0 24px"><button class="back-btn" onclick="history.back()">← Back</button></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function settingsToggle(key){
+  const s=getSettings();
+  const newVal=!s[key];
+  saveSettings(key,newVal);
+  const btn=document.getElementById('stog-'+key);
+  if(btn)btn.className='settings-toggle'+(newVal?' on':'');
+  if(key==='hideGenes')document.body.classList.toggle('hide-genes',newVal);
+  if(key==='compactView')document.body.classList.toggle('compact-view',newVal);
+}
+function settingsClearData(){
+  if(confirm('Are you sure? This will delete all logged data, preferences, and tracked items. This cannot be undone.')){
+    localStorage.clear();
+    location.reload();
+  }
 }
 
 /* ── P40 Onboarding Tour ── */
