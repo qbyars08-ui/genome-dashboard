@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Byars Genomic Intelligence</title>
+<title>STRAND — Genomic Intelligence</title>
 <style>
 /* ══════════════════════════════════════
    DESIGN TOKENS
@@ -119,6 +119,21 @@ body.is-doctor #nav .nb.on::after{background:#111}
 .hub-wordmark{display:inline-flex;align-items:center;gap:9px;margin-bottom:18px}
 .hub-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);flex-shrink:0}
 .hub-mark-lbl{font-size:12px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase}
+/* ── STRAND Branding ── */
+.strand-wordmark{display:inline-flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:6px}
+.strand-wordmark-row{display:inline-flex;align-items:center;gap:10px}
+.strand-name{font-size:28px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.strand-sub{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--t3)}
+.strand-hero{font-size:15px;color:var(--t2);font-style:italic;margin-bottom:18px;margin-top:2px}
+.strand-top-stripe{height:3px;background:linear-gradient(90deg,var(--blue) 0%,var(--purple) 100%);position:sticky;top:0;z-index:100;width:100%}
+.strand-what{margin:0 16px 16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);overflow:hidden}
+.strand-what-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none}
+.strand-what-title{font-size:13px;font-weight:700;color:var(--t1)}
+.strand-what-chevron{font-size:12px;color:var(--t3);transition:transform .2s}
+.strand-what-chevron.open{transform:rotate(180deg)}
+.strand-what-body{font-size:13px;color:var(--t2);line-height:1.65;padding:0 16px 14px;display:none}
+.strand-what-body.open{display:block}
+.hub-foot-strand{padding:20px 24px;text-align:center;font-size:11px;color:var(--t4);line-height:1.7;border-top:1px solid var(--bd);margin-top:8px}
 .hub-title{font-size:32px;font-weight:700;letter-spacing:-.04em;line-height:1.1}
 .hub-sub{font-size:14px;font-weight:400;color:var(--t2);margin-top:5px;letter-spacing:.01em}
 
@@ -1485,7 +1500,7 @@ body.is-provider .back-btn svg{stroke:#111}
     <div class="ob-logo-mark">
       <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
     </div>
-    <div class="ob-logo-name">Byars Genomics</div>
+    <div class="ob-logo-name">STRAND</div>
     <div class="ob-logo-sub">Family Precision Medicine</div>
   </div>
   <!-- Step 1: Welcome -->
@@ -2201,8 +2216,13 @@ function renderHome(){
     {p:PEGGY, status:'MT-H1 shared · Lung cancer · Chad\'s maternal aunt'}
   ];
   let h=`<div class="view">
+  <div class="strand-top-stripe"></div>
   <div class="hub-hdr">
-    <div class="hub-wordmark"><div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div></div>
+    <div class="strand-wordmark">
+      <div class="strand-wordmark-row"><div class="hub-mark"></div><div class="strand-name">STRAND</div></div>
+      <div class="strand-sub">Genomic Intelligence</div>
+    </div>
+    <div class="strand-hero">Your genome, finally explained.</div>
     <div class="hub-title">The Byars Family</div>
     <div class="hub-sub">Your family's health, mapped together</div>
   </div>
@@ -2254,7 +2274,14 @@ function renderHome(){
     <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Nebula WGS en route:</b> Will resolve CYP2D6 (fluoxetine dosing), deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups.</div></div>
     <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>April 2026 labs:</b> Testosterone 211 (low — HPG suppression, taper will fix). LDL 142 + ApoB 103 (diet now). VitD 26.5. Ferritin 217 — stop NovaFerrum.</div></div>
   </div>
-  <div class="hub-foot">Built with care by the Byars family &middot; Portland, Oregon<br>Powered by science, designed for families &middot; Not a substitute for clinical care</div>
+  <div class="strand-what">
+    <div class="strand-what-hdr" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.strand-what-chevron').classList.toggle('open')">
+      <div class="strand-what-title">What is STRAND?</div>
+      <div class="strand-what-chevron">▼</div>
+    </div>
+    <div class="strand-what-body">STRAND is a personal genomic intelligence platform. Upload your 23andMe or Ancestry data and get a complete picture of your medication safety, disease risk, family inheritance patterns, and a personalized health protocol — all in one place. Built for families who take their health seriously.</div>
+  </div>
+  <div class="hub-foot-strand">STRAND Genomic Intelligence &middot; Portland, Oregon &middot; Built for families &middot; Not a substitute for clinical care</div>
   </div>`;
   document.getElementById('content').innerHTML=h;
 }
@@ -2934,7 +2961,7 @@ function renderDoctor(p){
   // ── Screen view (dark UI) ──────────────────────────────────────────────
   let screen=`<div class="doc-view screen-only">
   <div class="doc-hdr">
-    <div class="doc-facility">Byars Family Genomic Intelligence</div>
+    <div class="doc-facility">STRAND Genomic Intelligence</div>
     <div class="doc-pname">${d.pname}</div>
     <div class="doc-dob">${d.dob}</div>
     <div class="doc-date">Report date: ${today}</div>
@@ -2977,7 +3004,7 @@ function renderDoctor(p){
       <strong>Clinical Context:</strong> ${d.dob}<br>
       <strong>Report Date:</strong> ${today}<br>
       <strong>Classification:</strong> ${d.badge}<br>
-      <strong>Prepared By:</strong> Byars Family Genomic Intelligence Platform<br>
+      <strong>Prepared By:</strong> STRAND Genomic Intelligence Platform<br>
     </div>
     <div class="doc-cover-line"></div>
     <div style="font-size:10pt;color:#555;margin-top:16pt;line-height:1.7">
@@ -3497,7 +3524,7 @@ function renderCompare(pidA, pidB){
   let h=`<div class="view">
   <div class="cmp-hdr">
     <div class="hub-wordmark" style="justify-content:center;margin-bottom:10px">
-      <div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div>
+      <div class="hub-mark"></div><div class="hub-mark-lbl">STRAND</div>
     </div>
     <div class="cmp-title">Family Genetic Comparison</div>
     <div class="cmp-sub">Select two family members to see shared variants,<br>differences, and what it means for your family</div>
@@ -3692,7 +3719,7 @@ function renderAncestry(){
   let h=`<div class="view">
   <div class="anc-hdr">
     <div class="hub-wordmark" style="justify-content:center;margin-bottom:12px">
-      <div class="hub-mark"></div><div class="hub-mark-lbl">Byars Genomics</div>
+      <div class="hub-mark"></div><div class="hub-mark-lbl">STRAND</div>
     </div>
     <div class="anc-title">Your Genetic Journey</div>
     <div class="anc-sub">Chad Byars · 200,000 years of human migration, written in your DNA</div>
