@@ -1427,6 +1427,23 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P40 Onboarding Tour ── */
+.tour-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .3s;pointer-events:none}
+.tour-overlay.active{opacity:1;pointer-events:all}
+.tour-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-xl);padding:28px 24px 24px;max-width:420px;width:100%;text-align:center}
+.tour-step-num{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.tour-illustration{height:120px;border-radius:var(--r-m);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:48px;width:100%}
+.tour-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+.tour-desc{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:24px}
+.tour-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+.tour-dot{width:8px;height:8px;border-radius:50%;background:var(--sf2);transition:background .2s,width .2s}
+.tour-dot.active{background:var(--blue);width:20px;border-radius:4px}
+.tour-actions{display:flex;gap:10px;align-items:center}
+.tour-next-btn{flex:1;background:var(--blue);color:#fff;border:none;border-radius:var(--r-m);padding:14px;font-size:15px;font-weight:700;cursor:pointer}
+.tour-skip{font-size:12px;color:var(--t3);cursor:pointer;padding:4px 8px}
+.tour-start-link{font-size:12px;color:var(--t3);cursor:pointer;text-align:center;padding:8px 0;display:block}
+.tour-start-link:hover{color:var(--t2)}
+
 /* ── P39 STRAND Sharing / Export ── */
 .share-view{padding:16px}
 .share-hdr{text-align:center;padding:20px 0 16px}
@@ -1663,6 +1680,21 @@ body.is-provider .back-btn svg{stroke:#111}
 </div>
 
 <nav id="nav" role="navigation" aria-label="Main navigation"></nav>
+
+<!-- ── Tour Overlay ── -->
+<div class="tour-overlay" id="tour-overlay">
+  <div class="tour-card">
+    <div class="tour-step-num" id="tour-step-num">Step 1 of 6</div>
+    <div class="tour-illustration" id="tour-illustration"></div>
+    <div class="tour-title" id="tour-title"></div>
+    <div class="tour-desc" id="tour-desc"></div>
+    <div class="tour-dots" id="tour-dots"></div>
+    <div class="tour-actions">
+      <div class="tour-skip" onclick="endTour()">Skip Tour</div>
+      <button class="tour-next-btn" id="tour-next-btn" onclick="tourNext()">Next →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Onboarding Overlay ── -->
 <div class="ob-overlay" id="ob-overlay">
@@ -2449,6 +2481,9 @@ function renderHome(){
     <div class="upd-item"><div class="upd-dot ud-a"></div><div class="upd-txt"><b>Coming up:</b> Morning cortisol — never tested despite months of prednisone. Schedule MR Enterography + cardiac MRI together. Endocrinology referral for testosterone 211 + HPA axis.</div></div>
     <div class="upd-item"><div class="upd-dot ud-b"></div><div class="upd-txt"><b>Nebula WGS en route:</b> Will resolve CYP2D6 (fluoxetine dosing), deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups.</div></div>
     <div class="upd-item"><div class="upd-dot ud-g"></div><div class="upd-txt"><b>April 2026 labs:</b> Testosterone 211 (low — HPG suppression, taper will fix). LDL 142 + ApoB 103 (diet now). VitD 26.5. Ferritin 217 — stop NovaFerrum.</div></div>
+  </div>
+  <div style="text-align:center;padding:4px 0 8px">
+    <span class="tour-start-link" onclick="startTour()">${localStorage.getItem('strand-tour-complete')?'↺ Replay Tour':'✦ Take the Tour'}</span>
   </div>
   <div class="strand-what">
     <div class="strand-what-hdr" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.strand-what-chevron').classList.toggle('open')">
@@ -6895,6 +6930,51 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P40 Onboarding Tour ── */
+const TOUR_STEPS=[
+  {icon:'👨‍👩‍👧',bg:'rgba(59,130,246,.12)',title:'Meet your family',desc:'STRAND maps every family member\'s genome in one place. See inherited risks, shared variants, and how your DNA connects across generations.'},
+  {icon:'🧬',bg:'rgba(139,92,246,.12)',title:'Your genetic profile',desc:'Every variant that matters — organized by body system. Immune, cardiovascular, neurology, pharmacogenomics — all explained in plain language.'},
+  {icon:'📈',bg:'rgba(16,185,129,.12)',title:'Your lifespan, in your hands',desc:'Adjust your lifestyle sliders and watch your estimated lifespan change in real time. See exactly how much each intervention adds.'},
+  {icon:'💬',bg:'rgba(245,158,11,.12)',title:'Ask your genome anything',desc:'The AI Health Assistant knows your full genetic profile. Ask "Is it safe for me to take ibuprofen?" and get a personalized answer in seconds.'},
+  {icon:'📖',bg:'rgba(59,130,246,.12)',title:'Your complete health story',desc:'A narrative report connecting every dot — why your body does what it does, told in chapters. The kind of clarity most people never get.'},
+  {icon:'🆘',bg:'rgba(192,57,43,.12)',title:'The page that saves your life',desc:'Emergency Info is readable in 3 seconds by any paramedic. Drug alerts, allergies, critical conditions — ready when it matters most.'}
+];
+let _tourStep=0;
+function startTour(){
+  _tourStep=0;
+  renderTourStep();
+  document.getElementById('tour-overlay').classList.add('active');
+}
+function renderTourStep(){
+  const step=TOUR_STEPS[_tourStep];
+  const total=TOUR_STEPS.length;
+  const el=id=>document.getElementById(id);
+  if(el('tour-step-num'))el('tour-step-num').textContent='Step '+(_tourStep+1)+' of '+total;
+  if(el('tour-illustration')){
+    el('tour-illustration').style.background=step.bg;
+    el('tour-illustration').textContent=step.icon;
+  }
+  if(el('tour-title'))el('tour-title').textContent=step.title;
+  if(el('tour-desc'))el('tour-desc').textContent=step.desc;
+  if(el('tour-dots')){
+    el('tour-dots').innerHTML=TOUR_STEPS.map((_,i)=>`<div class="tour-dot${i===_tourStep?' active':''}"></div>`).join('');
+  }
+  if(el('tour-next-btn'))el('tour-next-btn').textContent=_tourStep===total-1?'Finish ✓':'Next →';
+}
+function tourNext(){
+  if(_tourStep<TOUR_STEPS.length-1){
+    _tourStep++;
+    renderTourStep();
+  } else {
+    endTour();
+  }
+}
+function endTour(){
+  localStorage.setItem('strand-tour-complete','1');
+  const ov=document.getElementById('tour-overlay');
+  if(ov){ov.style.opacity='0';setTimeout(()=>ov.classList.remove('active'),300);}
 }
 
 /* ── P39 STRAND Sharing / Export ── */
