@@ -1427,6 +1427,16 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P34 Genetic Insights Feed ── */
+.insights-section{padding:0 16px 8px}
+.insights-lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;padding:18px 0 10px}
+.insight-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 14px 12px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.insight-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.insight-body{flex:1;min-width:0}
+.insight-headline{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:4px;line-height:1.25}
+.insight-text{font-size:12px;color:var(--t2);line-height:1.55;margin-bottom:8px}
+.insight-chip{display:inline-block;background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer}
+
 /* ── P33 Med Safety Card ── */
 .msc-view{padding:16px}
 .msc-hdr{text-align:center;padding:20px 0 16px}
@@ -2390,6 +2400,7 @@ function renderOverview(p){
     </div>`;
   });
   h+=`</div>`;
+  h+=buildInsightsFeed(p);
   return h;
 }
 
@@ -6745,6 +6756,47 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P34 Genetic Insights Feed ── */
+const INSIGHTS={
+  quinn:[
+    {icon:'🦠',bg:'rgba(139,92,246,.12)',headline:'Your gut makes your mood',text:'FUT2 secretor-negative status leads to dysbiosis, depleting the serotonin substrate your gut produces. This may explain partial SSRI response even at therapeutic doses.',chip:'View Gut Health',nav:'quinn/overview'},
+    {icon:'⚡',bg:'rgba(245,158,11,.12)',headline:'Testosterone drives more than energy',text:'At 211 ng/dL, low testosterone affects motivation, bone density, and recovery time. HPG suppression from prednisone is the likely cause — levels should recover with taper.',chip:'View Hormones',nav:'quinn/overview'},
+    {icon:'🕐',bg:'rgba(59,130,246,.12)',headline:'Your clock genes need consistency',text:'Six circadian variants identified. For you, timing matters more than duration — irregular sleep schedules disrupt immune regulation and may worsen BD flares.',chip:'Sleep Optimizer',nav:'sleep/quinn'},
+    {icon:'💊',bg:'rgba(239,68,68,.12)',headline:'The cholestyramine gap',text:'Terminal ileum scarring from BD has almost certainly caused bile acid malabsorption — the textbook cause of your morning diarrhea. Cholestyramine has never been trialed.',chip:'View Doctor Card',nav:'quinn/doctor'},
+    {icon:'🧠',bg:'rgba(139,92,246,.12)',headline:'Why Prozac may feel partial',text:'CYP2D6 status is unknown (Nebula WGS will resolve this), and gut serotonin production is compromised. Both factors can limit fluoxetine effectiveness.',chip:'Drug Interactions',nav:'interactions/quinn'},
+    {icon:'🏃',bg:'rgba(16,185,129,.12)',headline:'Exercise is BD medicine',text:'Anti-inflammatory exercise suppresses TNF-α — the same cytokine your biologics target. Even 30 min/day of moderate activity has measurable immune modulation.',chip:'Exercise Optimizer',nav:'exercise/quinn'},
+    {icon:'☀️',bg:'rgba(245,158,11,.12)',headline:'Vitamin D is immune therapy',text:'At 26.5 ng/mL, your vitamin D is insufficient. For active Behçet\'s, levels below 40 ng/mL correlate with more frequent flares and reduced regulatory T-cell function.',chip:'View Protocol',nav:'protocol/quinn'},
+    {icon:'❤️',bg:'rgba(239,68,68,.12)',headline:'Your heart recovered for a reason',text:'The myocarditis was immune-mediated, not ischemic — meaning the underlying tissue was healthy. Full EF recovery confirms no permanent structural damage.',chip:'View Cardiac',nav:'quinn/overview'}
+  ],
+  chad:[
+    {icon:'🏃',bg:'rgba(16,185,129,.12)',headline:'Exercise is your Alzheimer\'s prescription',text:'The EXERT trial showed APOE4 carriers who exercise 5+ hrs/week reduce Alzheimer\'s risk by 45%. No drug achieves this. This is the single highest-impact intervention.',chip:'Exercise Optimizer',nav:'exercise/chad'},
+    {icon:'☀️',bg:'rgba(245,158,11,.12)',headline:'Your skin needs a doctor every year',text:'MC1R ×4 variants place you at the 91st percentile for melanoma risk. Annual full-body dermatology screening catches lesions at stage 1 — 98% 5-year survival.',chip:'View Skin Risk',nav:'chad/overview'},
+    {icon:'🌙',bg:'rgba(59,130,246,.12)',headline:'Sleep clears your brain',text:'During deep sleep, the glymphatic system flushes amyloid-beta — the protein that accumulates in Alzheimer\'s. For APOE4 carriers, 7+ hours is neurologically protective.',chip:'Sleep Optimizer',nav:'sleep/chad'},
+    {icon:'🫒',bg:'rgba(16,185,129,.12)',headline:'The Mediterranean diet eliminates your top risk',text:'9p21 bilateral variant doubles CAD risk, but the INTERHEART study showed Mediterranean diet adherence cuts that risk by up to 18%. Diet is a direct genetic countermeasure.',chip:'Food & Nutrition',nav:'food/chad'},
+    {icon:'🫀',bg:'rgba(239,68,68,.12)',headline:'Know your CAC score',text:'With 9p21 bilateral and family history of CAD, a coronary artery calcium scan gives you a definitive baseline. One scan, $100, no radiation risk — could save your life.',chip:'View Heart Risk',nav:'chad/overview'},
+    {icon:'☕',bg:'rgba(139,92,246,.12)',headline:'Caffeine is safe for you',text:'CYP1A2 ultra-rapid metabolizer status means you process caffeine quickly, reducing cardiovascular risk. 1–3 cups/day is fine and may have protective cognitive effects.',chip:'View Drug Metabolism',nav:'chad/overview'},
+    {icon:'🧬',bg:'rgba(59,130,246,.12)',headline:'Your family history is in your genome',text:'9p21 confirmed bilaterally — the same risk your father carried. This is why the family history of CAD is so strong. Your children should be screened at 35.',chip:'Family Comparison',nav:'compare'},
+    {icon:'🐟',bg:'rgba(16,185,129,.12)',headline:'Omega-3 is brain food for your genotype',text:'APOE4 carriers with high omega-3 DHA intake show significantly better cognitive aging trajectories. FADS1 variants affect conversion — direct DHA supplementation is optimal.',chip:'View Protocol',nav:'protocol/chad'}
+  ]
+};
+function buildInsightsFeed(p){
+  const pool=INSIGHTS[p.id]||INSIGHTS.quinn;
+  const shuffled=[...pool].sort(()=>Math.random()-.5).slice(0,3);
+  let h=`<div class="insights-section"><div class="insights-lbl">Insights for You</div>`;
+  shuffled.forEach(ins=>{
+    h+=`<div class="insight-card">
+      <div class="insight-icon" style="background:${ins.bg}">${ins.icon}</div>
+      <div class="insight-body">
+        <div class="insight-headline">${ins.headline}</div>
+        <div class="insight-text">${ins.text}</div>
+        <div class="insight-chip" onclick="nav('${ins.nav}')">${ins.chip} →</div>
+      </div>
+    </div>`;
+  });
+  h+=`</div>`;
+  return h;
 }
 
 /* ── P33 Med Safety Card ── */
