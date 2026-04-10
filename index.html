@@ -1427,6 +1427,32 @@ body.is-provider .back-btn svg{stroke:#111}
 .hs-log-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .hs-log-btn{flex:1;min-width:80px;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-s);font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;text-align:center}
 
+/* ── P38 Genetic Glossary ── */
+.gloss-view{padding:16px}
+.gloss-hdr{padding:20px 0 14px;text-align:center}
+.gloss-hdr-title{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.gloss-hdr-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.gloss-search{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:0 12px;margin-bottom:12px}
+.gloss-search-icon{color:var(--t3);flex-shrink:0}
+.gloss-search-input{flex:1;background:none;border:none;outline:none;font-size:14px;color:var(--t1);padding:12px 0}
+.gloss-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.gloss-filter{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid var(--bd);background:var(--sf);color:var(--t2);cursor:pointer;transition:all .15s}
+.gloss-filter.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.gloss-term-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);margin-bottom:8px;overflow:hidden}
+.gloss-term-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;gap:10px}
+.gloss-term-left{flex:1;min-width:0}
+.gloss-term-name{font-size:14px;font-weight:700;color:var(--t1)}
+.gloss-term-name.gene{font-family:'SF Mono',monospace;color:var(--blue)}
+.gloss-term-pronoun{font-size:11px;color:var(--t3);font-style:italic;margin-top:1px}
+.gloss-term-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.gloss-term-chip{font-size:9px;padding:1px 6px;border-radius:8px;background:var(--sf2);color:var(--t3);border:1px solid var(--bd)}
+.gloss-term-body{padding:0 14px;font-size:12px;color:var(--t2);line-height:1.65;display:none}
+.gloss-term-body.open{display:block;padding-bottom:12px}
+.gloss-term-example{margin-top:6px;padding:8px 10px;background:var(--sf2);border-radius:var(--r-s);font-size:11px;color:var(--t2);border-left:2px solid var(--blue)}
+.gloss-term-actions{display:flex;gap:6px;margin-top:8px}
+.gloss-term-copy{font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;padding:4px 8px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-s)}
+.gloss-empty{text-align:center;padding:40px 0;color:var(--t3);font-size:14px}
+
 /* ── P37 Family Health Alerts ── */
 .alerts-section{padding:0 16px 8px}
 .alerts-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 0 10px}
@@ -2232,6 +2258,7 @@ function route(){
   if(pid==='medsafety'){renderMedSafety(parts[1]||'quinn');return;}
   if(pid==='protocol'){renderProtocol(parts[1]||'quinn');return;}
   if(pid==='trajectory'){renderTrajectory(parts[1]||'quinn');return;}
+  if(pid==='glossary'){renderGlossary(parts[1]||'');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -2410,7 +2437,7 @@ function renderHome(){
     </div>
     <div class="strand-what-body">STRAND is a personal genomic intelligence platform. Upload your 23andMe or Ancestry data and get a complete picture of your medication safety, disease risk, family inheritance patterns, and a personalized health protocol — all in one place. Built for families who take their health seriously.</div>
   </div>
-  <div class="hub-foot-strand">STRAND Genomic Intelligence &middot; Portland, Oregon &middot; Built for families &middot; Not a substitute for clinical care</div>
+  <div class="hub-foot-strand">STRAND Genomic Intelligence &middot; Portland, Oregon &middot; Built for families &middot; Not a substitute for clinical care<br><span style="color:var(--blue);cursor:pointer" onclick="nav('glossary')">Genetic Glossary</span> &middot; <span style="color:var(--blue);cursor:pointer" onclick="nav('settings')">Settings</span></div>
   </div>`;
   document.getElementById('content').innerHTML=h;
 }
@@ -3294,6 +3321,7 @@ function renderMore(p){
     {icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',t:'Med Safety Card',s:'Wallet card — drug alerts + CYP profile',fn:`nav('medsafety/${p.id}')`},
     {icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Protocol Optimizer',s:'Gene-informed supplements with evidence base',fn:`nav('protocol/${p.id}')`,style:'color:var(--green)'},
     {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Risk Trajectory',s:'Current vs optimized lifetime risk comparison',fn:`nav('trajectory/${p.id}')`,style:'color:var(--purple)'},
+    {icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',t:'Genetic Glossary',s:'40+ terms explained — searchable, filterable',fn:`nav('glossary')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
   ];
@@ -6846,6 +6874,135 @@ function renderHealthScore(pid){
   document.getElementById('content').innerHTML=h;
   window.scrollTo(0,0);
   updateChatFab(pid);
+}
+
+/* ── P38 Genetic Glossary ── */
+const GLOSSARY=[
+  {term:'HLA-B*51',cat:'immune',gene:true,pronoun:'HLA bee-fifty-one',def:'A specific variant of the HLA-B gene that is the strongest known genetic risk factor for Behçet\'s disease. It encodes a protein on immune cell surfaces that helps present antigens to T-cells, but in B*51 carriers this process may trigger inappropriate inflammation.',example:'Quinn carries HLA-B*51 homozygously — both copies — giving her the highest possible genetic predisposition for Behçet\'s.',persons:['Quinn']},
+  {term:'APOE ε4',cat:'neuro',gene:true,pronoun:'AY-poh-ee epsilon four',def:'A variant of the Apolipoprotein E gene that increases Alzheimer\'s disease risk 3–4× for one copy and 8–12× for two copies. It also affects cholesterol transport and cardiovascular risk. About 25% of people carry one copy.',example:'Chad carries one APOE ε4 allele, raising his lifetime Alzheimer\'s risk to ~38% vs ~11% population baseline.',persons:['Chad']},
+  {term:'CYP2C9',cat:'drug',gene:true,pronoun:'sip-two-see-nine',def:'A liver enzyme that metabolizes many common drugs including warfarin, NSAIDs, and some anticonvulsants. Intermediate or poor metabolizers process these drugs more slowly, leading to higher blood levels and increased side effect risk.',example:'Chad is a CYP2C9 intermediate metabolizer, meaning warfarin would require lower doses and NSAIDs carry higher GI risk.',persons:['Chad']},
+  {term:'CYP2D6',cat:'drug',gene:true,pronoun:'sip-two-dee-six',def:'The enzyme responsible for metabolizing ~25% of all prescribed drugs, including many antidepressants, antipsychotics, and opioids. Poor metabolizers experience stronger effects from standard doses; ultra-rapid metabolizers may see no effect at all.',example:'Quinn\'s CYP2D6 status is unknown — pending Nebula WGS. This directly affects her fluoxetine dosing.',persons:['Quinn']},
+  {term:'NAT2',cat:'drug',gene:true,pronoun:'nat-two',def:'N-acetyltransferase 2, an enzyme that detoxifies certain drugs and environmental chemicals. Slow acetylators accumulate drugs like isoniazid and some sulfa drugs to toxic levels. Relevant for Behçet\'s treatment options.',example:'Quinn is a NAT2 slow acetylator, which is one reason dapsone (a sulfa drug) poses particular risk.',persons:['Quinn']},
+  {term:'MTHFR',cat:'neuro',gene:true,pronoun:'meth-eff-tee-aitch-eff-arr',def:'Methylenetetrahydrofolate reductase — the enzyme that converts folate into its active form. Variants (C677T and A1298C) impair this conversion, raising homocysteine levels and affecting methylation throughout the body, including in the brain.',example:'Quinn carries MTHFR C677T compound heterozygous, requiring methylfolate (pre-activated folate) rather than standard folic acid.',persons:['Quinn']},
+  {term:'FUT2',cat:'immune',gene:true,pronoun:'fyoot-two',def:'Fucosyltransferase 2 — controls whether you are a "secretor" of blood group antigens into body fluids. Non-secretors (like Quinn) have significantly different gut microbiome composition, including depleted Bifidobacterium longum.',example:'Quinn is FUT2 secretor-negative, which depletes her gut B. longum levels, reducing serotonin precursor production.',persons:['Quinn']},
+  {term:'ABCB1',cat:'drug',gene:true,pronoun:'ay-bee-see-bee-one',def:'Also called P-glycoprotein or MDR1 — a drug efflux pump in the intestine, liver, and blood-brain barrier. Variants alter how much of a drug gets into the brain or is absorbed from the gut. Affects many psychiatric and neurological medications.',example:'Quinn\'s ABCB1 variants may affect CNS drug penetration, relevant for Behçet\'s CNS involvement risk.',persons:['Quinn']},
+  {term:'UNC13D',cat:'immune',gene:true,pronoun:'unk-thirteen-dee',def:'A gene critical for cytotoxic T-cell and NK cell function. Variants are associated with familial hemophagocytic lymphohistiocytosis (HLH) — a life-threatening immune hyperactivation syndrome that can be triggered by infection or inflammation.',example:'Quinn carries UNC13D variants; deep sequencing via Nebula WGS is pending to characterize full HLH risk.',persons:['Quinn']},
+  {term:'FOXO3',cat:'neuro',gene:true,pronoun:'fox-oh-three',def:'A transcription factor strongly associated with human longevity. Certain variants have been found enriched in centenarian populations across multiple ethnic groups. FOXO3 regulates insulin signaling, stress resistance, and DNA repair.',example:'Chad carries a favorable FOXO3 variant, providing some counterbalance to APOE4 risk.',persons:['Chad']},
+  {term:'MC1R',cat:'immune',gene:true,pronoun:'em-see-one-arr',def:'Melanocortin 1 receptor — the primary gene controlling skin and hair pigmentation. Multiple variants significantly increase melanoma and non-melanoma skin cancer risk, especially with UV exposure.',example:'Chad carries 4 MC1R variants, placing him at the 91st percentile for melanoma risk — annual dermatology is mandatory.',persons:['Chad']},
+  {term:'9p21',cat:'cardio',gene:false,pronoun:'nine-pee-twenty-one',def:'A chromosomal region containing no protein-coding genes, but strongly associated with coronary artery disease risk through regulatory mechanisms. The bilateral (two-copy) variant approximately doubles lifetime CAD risk.',example:'Chad carries 9p21 bilaterally — his strongest single CAD risk factor, and the likely explanation for the family history of heart disease.',persons:['Chad']},
+  {term:'PITX2',cat:'cardio',gene:true,pronoun:'pit-ex-two',def:'A transcription factor gene with variants strongly associated with atrial fibrillation. It regulates cardiac development and the pulmonary vein sleeves where most AFib originates.',example:'Chad carries PITX2 variants associated with elevated AFib risk — relevant given the family history of atrial fibrillation.',persons:['Chad']},
+  {term:'FKBP5',cat:'neuro',gene:true,pronoun:'eff-kay-bee-pee-five',def:'A gene that regulates the stress hormone response by modulating the glucocorticoid receptor. Variants are associated with PTSD susceptibility, depression after trauma, and altered cortisol recovery after stress.',example:'Quinn carries FKBP5 variants affecting HPA axis regulation — relevant during her prednisone taper and cortisol testing.',persons:['Quinn']},
+  {term:'DBH',cat:'neuro',gene:true,pronoun:'dee-bee-aitch',def:'Dopamine beta-hydroxylase — converts dopamine to norepinephrine. Variants alter the dopamine:norepinephrine balance, affecting focus, motivation, and stress response.',example:'Quinn\'s DBH variants contribute to her autonomic nervous system profile and may affect medication responses.',persons:['Quinn']},
+  {term:'COMT',cat:'neuro',gene:true,pronoun:'comt',def:'Catechol-O-methyltransferase — degrades dopamine and other catecholamines in the prefrontal cortex. The Val158Met variant creates "warrior" (fast) vs "worrier" (slow) metabolizer phenotypes affecting stress response and executive function.',example:'Quinn\'s COMT variants affect her prefrontal dopamine regulation and pain processing.',persons:['Quinn']},
+  {term:'BDNF',cat:'neuro',gene:true,pronoun:'bee-dee-en-eff',def:'Brain-derived neurotrophic factor — promotes neuronal survival, growth, and synaptic plasticity. The Val66Met variant reduces activity-dependent BDNF secretion, affecting learning, memory, and antidepressant response.',example:'Quinn carries BDNF Val66Met, affecting neuroplasticity and potentially explaining partial antidepressant response.',persons:['Quinn']},
+  {term:'ACTN3',cat:'cardio',gene:true,pronoun:'ak-tin-three',def:'Alpha-actinin-3 — a structural protein found only in fast-twitch muscle fibers. The R577X variant (common in endurance athletes) removes ACTN3 from fast-twitch fibers, affecting power vs endurance balance.',example:'Chad\'s ACTN3 profile influences his optimal exercise modality — relevant for his exercise prescription.',persons:['Chad']},
+  {term:'SLCO1B1',cat:'drug',gene:true,pronoun:'slco-one-bee-one',def:'A liver transporter gene that controls statin uptake into liver cells. The *5 variant (*521T>C) dramatically increases statin blood levels, raising the risk of myopathy (muscle damage) — the main statin side effect.',example:'Chad carries SLCO1B1 risk variants, meaning standard statin doses have a higher myopathy risk. Lower doses or pravastatin (less affected) are preferred.',persons:['Chad']},
+  {term:'SNP',cat:'all',gene:false,pronoun:'snip',def:'Single nucleotide polymorphism — a one-letter difference in DNA at a specific position. The most common type of genetic variation; humans differ at about 4–5 million SNPs from each other. Most are harmless; some affect health.',example:'HLA-B*51, APOE ε4, and 9p21 are all detected by analyzing specific SNPs in the genome.',persons:[]},
+  {term:'Variant',cat:'all',gene:false,pronoun:'vair-ee-ant',def:'Any difference in DNA sequence from the reference genome. Variants range from single-letter changes (SNPs) to large deletions or duplications. "Pathogenic" variants cause disease; "benign" variants don\'t; many are "variants of uncertain significance."',example:'Quinn\'s HLA-B*51 is a pathogenic variant for Behçet\'s disease.',persons:[]},
+  {term:'Genotype',cat:'all',gene:false,pronoun:'jee-no-type',def:'The specific genetic variants a person carries at a particular position or across the whole genome. Your genotype is fixed from birth; it\'s the "what you have" — phenotype is the "what it does."',example:'Quinn\'s genotype at HLA-B is *51/*51 (homozygous).',persons:[]},
+  {term:'Phenotype',cat:'all',gene:false,pronoun:'fee-no-type',def:'The observable characteristics or traits that result from the interaction of your genotype with your environment. The same genotype can produce different phenotypes depending on diet, lifestyle, medications, and stress.',example:'Behçet\'s disease is a phenotype — Quinn\'s HLA-B*51 genotype predisposes her, but environmental triggers determine expression.',persons:[]},
+  {term:'Pharmacogenomics',cat:'drug',gene:false,pronoun:'far-ma-ko-jee-NO-mix',def:'The study of how genetic variants affect drug response — including metabolism, efficacy, and side effects. Enables personalized prescribing: right drug, right dose, right patient.',example:'Chad\'s CYP2C9/2C19 and SLCO1B1 results are pharmacogenomic findings that directly change his prescribing.',persons:['Chad','Quinn']},
+  {term:'Epigenetics',cat:'all',gene:false,pronoun:'ep-ih-jeh-NET-ix',def:'Changes in gene expression that don\'t alter the DNA sequence itself — caused by chemical "tags" (methylation, acetylation) on DNA or histones. Epigenetic changes can be influenced by diet, stress, and environment, and some are heritable.',example:'Prednisone alters epigenetic regulation of the HPA axis — one reason Quinn\'s cortisol response needs testing.',persons:['Quinn']},
+  {term:'Methylation',cat:'neuro',gene:false,pronoun:'meth-ih-LAY-shun',def:'Adding a methyl group (-CH3) to DNA or a protein. DNA methylation typically silences genes. The methylation cycle (requiring folate, B12, B6) produces methyl groups used throughout the body for hundreds of reactions including neurotransmitter production.',example:'Quinn\'s MTHFR variants impair her methylation cycle, requiring supplemental methylfolate and methylcobalamin.',persons:['Quinn']},
+  {term:'Haplogroup',cat:'all',gene:false,pronoun:'HAP-lo-group',def:'A group of people sharing a common ancestor on the matrilineal (mitochondrial) or patrilineal (Y-chromosome) line. Haplogroups trace ancient migration patterns and can indicate ancestral geographic origins.',example:'Chad carries mitochondrial haplogroup MT-H1 — from his mother\'s maternal line, tracing back to Ice Age Europe.',persons:['Chad']},
+  {term:'Behçet\'s disease',cat:'immune',gene:false,pronoun:'beh-CHETS',def:'A rare systemic vasculitis (inflammation of blood vessels) characterized by recurrent oral ulcers, genital ulcers, uveitis, and skin lesions. Can involve the GI tract, nervous system, and cardiovascular system. Strongly associated with HLA-B*51.',example:'Quinn meets International Study Group criteria for Behçet\'s disease with GI, cardiac, and mucocutaneous involvement.',persons:['Quinn']},
+  {term:'Bile acid malabsorption',cat:'immune',gene:false,pronoun:'bile acid mal-ab-SORP-shun',def:'A condition where bile acids aren\'t reabsorbed in the terminal ileum and spill into the colon, causing osmotic diarrhea. Can be caused by terminal ileum damage (Crohn\'s, surgical resection) or idiopathic (primary BAM).',example:'Quinn\'s TI scarring from BD almost certainly causes BAM — the textbook first-line treatment is cholestyramine, never trialed.',persons:['Quinn']},
+  {term:'HPA axis',cat:'neuro',gene:false,pronoun:'aitch-pee-ay axis',def:'Hypothalamic-pituitary-adrenal axis — the body\'s central stress response system. Controls cortisol production. Suppressed by long-term corticosteroid use (like prednisone), requiring gradual tapering to avoid adrenal insufficiency.',example:'Quinn\'s HPA axis has never been tested despite months of prednisone — morning cortisol and ACTH stimulation test are indicated.',persons:['Quinn']},
+  {term:'HPG axis',cat:'neuro',gene:false,pronoun:'aitch-pee-jay axis',def:'Hypothalamic-pituitary-gonadal axis — controls testosterone and estrogen production. Suppressed by chronic illness, corticosteroids, and systemic inflammation, causing secondary hypogonadism.',example:'Quinn\'s testosterone of 211 ng/dL reflects HPG suppression from prednisone — expected to recover with taper.',persons:['Quinn']},
+  {term:'Amyloid-beta',cat:'neuro',gene:false,pronoun:'AM-ih-loyd bay-ta',def:'A protein fragment that accumulates in plaques in Alzheimer\'s disease. Cleared during sleep by the brain\'s glymphatic system. APOE4 impairs amyloid clearance, accelerating plaque formation.',example:'Chad\'s APOE4 status means his brain clears amyloid-beta less efficiently — making 7+ hours of sleep a medical priority.',persons:['Chad']},
+  {term:'AMPK',cat:'all',gene:false,pronoun:'am-pee-kay',def:'AMP-activated protein kinase — a master metabolic switch activated by fasting, exercise, and caloric restriction. Promotes mitochondrial biogenesis, fat burning, and cellular repair (autophagy). Target of metformin and NMN/NAD+ pathway.',example:'Chad\'s NMN + quercetin protocol activates AMPK, mimicking some effects of caloric restriction.',persons:['Chad']},
+  {term:'NAD+',cat:'all',gene:false,pronoun:'en-ay-dee plus',def:'Nicotinamide adenine dinucleotide — a coenzyme essential for cellular energy metabolism. Declines ~50% between ages 40–60. Required for sirtuins (longevity genes) and PARP (DNA repair). NMN and NR are precursors that boost NAD+.',example:'Chad\'s NMN supplementation targets NAD+ restoration, which may be especially relevant for APOE4 carriers.',persons:['Chad']},
+  {term:'Cytokine storm',cat:'immune',gene:false,pronoun:'SY-toh-kyne storm',def:'A life-threatening overactivation of the immune system producing massive quantities of inflammatory cytokines. Can occur in severe infections, autoimmune disease, or as a complication of immunotherapy. Associated with HLH and severe BD.',example:'Quinn\'s cardiac myositis was caused by immune-mediated cytokine activity — not ischemia. UNC13D variants raise HLH risk.',persons:['Quinn']},
+  {term:'HLH',cat:'immune',gene:false,pronoun:'aitch-el-aitch',def:'Hemophagocytic lymphohistiocytosis — a rare but life-threatening syndrome of immune hyperactivation where activated macrophages engulf blood cells. Can be genetic (familial) or triggered by infection/inflammation. UNC13D is a key gene.',example:'Quinn\'s UNC13D variants require characterization — if pathogenic, any severe infection could theoretically trigger HLH.',persons:['Quinn']},
+  {term:'ICBD criteria',cat:'immune',gene:false,pronoun:'eye-see-bee-dee',def:'International Criteria for Behçet\'s Disease — the scoring system used to diagnose BD. Oral ulcers (2 pts), genital ulcers (2 pts), eye lesions (2 pts), skin lesions (1 pt), neurological signs (1 pt), vascular manifestations (1 pt). Score ≥4 = BD.',example:'Quinn scores ≥6 on ICBD criteria, meeting the threshold for Behçet\'s disease diagnosis.',persons:['Quinn']},
+  {term:'Myocarditis',cat:'cardio',gene:false,pronoun:'my-oh-kar-DY-tis',def:'Inflammation of the myocardium (heart muscle), which can impair cardiac function. Causes include viral infection, autoimmune disease, and drug reactions. Immune-mediated myocarditis can be fully reversible with treatment.',example:'Quinn developed myocarditis as part of her BD systemic involvement — now fully resolved with EF 56% and normal GLS.',persons:['Quinn']}
+];
+function renderGlossary(anchor){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(null);
+  const cats=[
+    {id:'all',label:'All'},
+    {id:'immune',label:'Immune'},
+    {id:'drug',label:'Drug Metabolism'},
+    {id:'cardio',label:'Cardiovascular'},
+    {id:'neuro',label:'Neurology'}
+  ];
+  let activeCat='all';
+  let searchVal='';
+  function filteredTerms(){
+    return GLOSSARY.filter(t=>{
+      const catMatch=activeCat==='all'||t.cat===activeCat;
+      const q=searchVal.toLowerCase();
+      const textMatch=!q||t.term.toLowerCase().includes(q)||t.def.toLowerCase().includes(q);
+      return catMatch&&textMatch;
+    });
+  }
+  function renderList(){
+    const terms=filteredTerms();
+    if(!terms.length)return `<div class="gloss-empty">No terms match your search.</div>`;
+    return terms.map(t=>{
+      const persChips=t.persons.map(pn=>`<span class="gloss-term-chip">${pn}</span>`).join('');
+      return `<div class="gloss-term-card" id="gterm-${t.term.replace(/[^a-z0-9]/gi,'_')}">
+        <div class="gloss-term-hdr" onclick="toggleGlossTerm(this)">
+          <div class="gloss-term-left">
+            <div class="gloss-term-name${t.gene?' gene':''}">${t.term}</div>
+            ${t.pronoun?`<div class="gloss-term-pronoun">${t.pronoun}</div>`:''}
+            <div class="gloss-term-chips">${persChips}</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="gloss-term-body">
+          <div>${t.def}</div>
+          ${t.example?`<div class="gloss-term-example"><b>In this family:</b> ${t.example}</div>`:''}
+          <div class="gloss-term-actions">
+            <div class="gloss-term-copy" onclick="copyGlossDef('${t.term.replace(/'/g,'\\'')}','${t.def.replace(/'/g,'\\'').replace(/"/g,'&quot;')}')">Copy definition</div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  function fullRender(){
+    const filterHTML=cats.map(c=>`<div class="gloss-filter${activeCat===c.id?' active':''}" onclick="glossSetCat('${c.id}')">${c.label}</div>`).join('');
+    const h=`<div class="view"><div class="gloss-view">
+      <div class="gloss-hdr"><div class="gloss-hdr-title">Genetic Glossary</div><div class="gloss-hdr-sub">${GLOSSARY.length} terms explained in plain language</div></div>
+      <div class="gloss-search">
+        <svg class="gloss-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="gloss-search-input" id="gloss-search" placeholder="Search terms..." value="${searchVal}" oninput="glossSearch(this.value)">
+      </div>
+      <div class="gloss-filters" id="gloss-filters">${filterHTML}</div>
+      <div id="gloss-list">${renderList()}</div>
+      <div style="padding:12px 0 24px"><button class="back-btn" onclick="history.back()">← Back</button></div>
+    </div></div>`;
+    document.getElementById('content').innerHTML=h;
+    window.scrollTo(0,0);
+    if(anchor){
+      const el=document.getElementById('gterm-'+anchor.replace(/[^a-z0-9]/gi,'_'));
+      if(el){el.scrollIntoView({behavior:'smooth'});el.querySelector('.gloss-term-hdr').click();}
+    }
+  }
+  window._glossState={activeCat:'all',searchVal:''};
+  window.glossSetCat=function(cat){
+    window._glossState.activeCat=cat;
+    activeCat=cat;
+    document.querySelectorAll('.gloss-filter').forEach(el=>el.classList.toggle('active',el.textContent===cats.find(c=>c.id===cat)?.label));
+    document.getElementById('gloss-list').innerHTML=renderList();
+  };
+  window.glossSearch=function(val){
+    window._glossState.searchVal=val;
+    searchVal=val;
+    document.getElementById('gloss-list').innerHTML=renderList();
+  };
+  fullRender();
+}
+function toggleGlossTerm(hdr){
+  const body=hdr.nextElementSibling;
+  if(body)body.classList.toggle('open');
+}
+function copyGlossDef(term,def){
+  navigator.clipboard&&navigator.clipboard.writeText(term+': '+def).then(()=>{
+    const btns=document.querySelectorAll('.gloss-term-copy');
+    btns.forEach(b=>{if(b.textContent==='Copy definition'&&b.closest('.gloss-term-card')&&b.closest('.gloss-term-card').id.includes(term.replace(/[^a-z0-9]/gi,'_'))){b.textContent='Copied!';setTimeout(()=>{b.textContent='Copy definition';},1500);}});
+  });
 }
 
 /* ── P37 Family Health Alerts ── */
