@@ -394,11 +394,62 @@ a{color:inherit;text-decoration:none}
     <button class="btn" onclick="showTrack('meds')" id="tt-meds">Meds</button>
     <button class="btn" onclick="showTrack('protocol')" id="tt-protocol">Protocol</button>
     <button class="btn" onclick="showTrack('journal')" id="tt-journal">Journal</button>
+    <button class="btn" onclick="showTrack('whoop')" id="tt-whoop">WHOOP</button>
+    <button class="btn" onclick="showTrack('incoming')" id="tt-incoming">Incoming</button>
   </div>
   <div id="track-labs" class="track-sec"></div>
   <div id="track-meds" class="track-sec" style="display:none"></div>
   <div id="track-protocol" class="track-sec" style="display:none"></div>
   <div id="track-journal" class="track-sec" style="display:none"></div>
+  <div id="track-whoop" class="track-sec" style="display:none">
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">HRV Trend</div><div class="input-card-gene g-green">Recovery</div></div>
+      <div style="display:flex;gap:12px;margin-bottom:8px">
+        <div style="flex:1;background:var(--surface-hover);border-radius:var(--radius-s);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--text-1)">65</div><div style="font-size:9px;color:var(--text-3);margin-top:2px">Apr 10</div></div>
+        <div style="flex:1;background:var(--surface-hover);border-radius:var(--radius-s);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--green)">89</div><div style="font-size:9px;color:var(--text-3);margin-top:2px">Apr 11</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-2);line-height:1.5">HRV up 37% in one day. Positive recovery signal. With BD inflammation active (bilateral ulcers today), watch for HRV to drop — that's your early flare warning. Track daily.</div>
+    </div>
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">Resting Heart Rate</div><div class="input-card-gene g-green">Improving</div></div>
+      <div style="display:flex;gap:12px;margin-bottom:8px">
+        <div style="flex:1;background:var(--surface-hover);border-radius:var(--radius-s);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--text-1)">60</div><div style="font-size:9px;color:var(--text-3);margin-top:2px">Apr 10</div></div>
+        <div style="flex:1;background:var(--surface-hover);border-radius:var(--radius-s);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--green)">56</div><div style="font-size:9px;color:var(--text-3);margin-top:2px">Apr 11</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text-2);line-height:1.5">RHR dropping = less systemic stress. Post-myocarditis (EF was 33%), tracking RHR is critical. Sustained rise above 70 = flag for cardiology. Your 56 bpm is excellent.</div>
+    </div>
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">Sleep Architecture</div><div class="input-card-gene">6 Clock Genes</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.8;margin-bottom:8px">
+        <b style="color:var(--text-1)">Apr 10:</b> Deep 1h57m | REM 2h10m | Light 4h58m | Restorative 41%<br>
+        <b style="color:var(--text-1)">Apr 11:</b> Deep 1h56m | REM 2h34m | Light 4h38m | Restorative 45%
+      </div>
+      <div style="font-size:11px;color:var(--text-2);line-height:1.5"><b style="color:var(--green)">This is genuinely good.</b> ~2 hours deep sleep is above average for any age. With 6 disrupted circadian clock genes (CRY1, CLOCK, NPAS2 bilateral + PER2, PER3, ADA from Brigitte), getting 41-45% restorative sleep means your body is compensating well. APOE4 needs deep sleep for glymphatic amyloid clearance — you're hitting that target. REM increasing (2h10m to 2h34m) is also positive.</div>
+    </div>
+    <div class="input-card" style="border-color:var(--amber-border)"><div class="input-card-top"><div class="input-card-t">What To Watch For</div><div class="input-card-gene g-red">Flare Detection</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.8">
+        <b style="color:var(--red)">HRV drops below 50</b> — inflammatory flare likely incoming<br>
+        <b style="color:var(--red)">RHR rises above 65</b> — systemic stress response active<br>
+        <b style="color:var(--amber)">Deep sleep drops below 1h</b> — restorative capacity compromised<br>
+        <b style="color:var(--amber)">Recovery score below 33%</b> — body not healing, modify activity<br>
+        <b style="color:var(--green)">HRV above 80 + RHR below 58</b> — good recovery window for exercise
+      </div>
+    </div>
+  </div>
+  <div id="track-incoming" class="track-sec" style="display:none">
+    <div class="input-card" style="border-color:var(--red-border)"><div class="input-card-top"><div class="input-card-t">Cortisol Spit Test</div><div class="input-card-gene g-red">Arriving Today</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6">4-point salivary cortisol. Collect at waking, noon, afternoon, bedtime. Ship same day. Results in 5-10 business days. Looking for: flat or low morning cortisol = HPA suppression from months of prednisone.</div>
+    </div>
+    <div class="input-card" style="border-color:var(--amber-border)"><div class="input-card-top"><div class="input-card-t">Nebula WGS</div><div class="input-card-gene">Mailed Today</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6">30x whole genome sequencing. Spit kit in mail. Process: register kit, spit, ship back. 8-12 weeks for results. Will resolve: ERAP1 Hap10, deep UNC13D, full CYP2D6, complete haplogroups, structural variants.</div>
+    </div>
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">MR Enterography</div><div class="input-card-gene">Scheduled</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6">Active inflammation vs scarring. Strictures. BAM confirmation. Push for cardiac MRI same session. Request versed for sedation.</div>
+    </div>
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">WHOOP Strap</div><div class="input-card-gene g-green">Day 3 Active</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6">Continuous HRV, recovery, strain, sleep staging. 1 week of data = baseline established. IBD research shows HRV drops predict flares days before symptoms. Your early warning system.</div>
+    </div>
+    <div class="input-card"><div class="input-card-top"><div class="input-card-t">Brother's 23andMe</div><div class="input-card-gene">Kit Ordered</div></div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.6">Processing 3-6 weeks after spit. Will answer: B*51 status, COMT, CYP2C9, and the natural experiment (gene dosage vs environment).</div>
+    </div>
+  </div>
 </div>
 
 <!-- DOCTOR -->
@@ -412,12 +463,21 @@ a{color:inherit;text-decoration:none}
       <div class="doc-row"><span class="doc-row-l">ICBD Score</span><span class="doc-row-v alert">4 (oral 2 + genital 2)</span></div>
       <div class="doc-row"><span class="doc-row-l">Sept 2025</span><span class="doc-row-v alert">EBV crisis, ferritin 7105, EF 33%</span></div>
     </div>
+    <div class="doc-sec"><div class="doc-sec-t">Active Flare — April 12, 2026</div>
+      <div class="doc-row"><span class="doc-row-l">Oral Ulcers</span><span class="doc-row-v alert">Bilateral (L + R lower). Cannot eat without opioid pain relief.</span></div>
+      <div class="doc-row"><span class="doc-row-l">Jaw Pain</span><span class="doc-row-v alert">Left side, pain on chewing and smiling</span></div>
+      <div class="doc-row"><span class="doc-row-l">Topical Tx</span><span class="doc-row-v">Clobetasol + dexamethasone mouthwash — NOT controlling</span></div>
+      <div class="doc-row"><span class="doc-row-l">Diarrhea</span><span class="doc-row-v alert">Daily morning, persistent, Lomotil ran out</span></div>
+      <div class="doc-row"><span class="doc-row-l">Cortisol</span><span class="doc-row-v">Spit test arriving today. NEVER tested on prednisone.</span></div>
+    </div>
     <div class="doc-sec"><div class="doc-sec-t">Current Medications</div>
-      <div class="doc-row"><span class="doc-row-l">Prednisone</span><span class="doc-row-v">18mg tapering</span></div>
+      <div class="doc-row"><span class="doc-row-l">Prednisone</span><span class="doc-row-v alert">20mg — bumped from 18mg for flare 4/12</span></div>
       <div class="doc-row"><span class="doc-row-l">Fluoxetine</span><span class="doc-row-v">30mg (tapering from 40)</span></div>
       <div class="doc-row"><span class="doc-row-l">Enalapril</span><span class="doc-row-v">2.5mg BID</span></div>
       <div class="doc-row"><span class="doc-row-l">Topiramate</span><span class="doc-row-v">10mg BID</span></div>
       <div class="doc-row"><span class="doc-row-l">Famotidine</span><span class="doc-row-v">Standard</span></div>
+      <div class="doc-row"><span class="doc-row-l">Clobetasol</span><span class="doc-row-v">Topical for ulcers — insufficient</span></div>
+      <div class="doc-row"><span class="doc-row-l">Dexa Mouthwash</span><span class="doc-row-v">Dexamethasone rinse — insufficient</span></div>
     </div>
     <div class="doc-sec"><div class="doc-sec-t">Key Labs (Rhythm April 2026)</div>
       <div class="doc-row"><span class="doc-row-l">Testosterone</span><span class="doc-row-v alert">211 ng/dL (LOW)</span></div>
@@ -822,7 +882,7 @@ function showTimeline(){
 /* Update showTrack to include journal */
 const origShowTrack=showTrack;
 showTrack=function(t){
-  ['labs','meds','protocol','journal'].forEach(x=>{
+  ['labs','meds','protocol','journal','whoop','incoming'].forEach(x=>{
     const el=document.getElementById('track-'+x);if(el)el.style.display=x===t?'':'none';
     const tb=document.getElementById('tt-'+x);if(tb){tb.classList.toggle('btn-p',x===t);if(x!==t)tb.classList.remove('btn-p')}
   });
