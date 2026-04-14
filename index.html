@@ -1637,6 +1637,135 @@ body.compact-view .mc{padding:10px 14px}
 .msc-back-content{font-size:10px;color:#D1D5DB;line-height:1.5}
 .msc-qr{width:44px;height:44px;float:right;margin:-4px 0 0 8px}
 .msc-print-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:14px 24px;border-radius:var(--r-m);border:none;cursor:pointer;width:calc(100% - 32px);margin:0 16px 16px}
+
+/* ── P42 Action Queue ── */
+.aq-view{padding:0 0 32px}
+.aq-hdr{padding:56px 20px 20px;background:linear-gradient(160deg,rgba(91,139,212,.12) 0%,transparent 60%)}
+.aq-hdr-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.aq-hdr-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.aq-hdr-name{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.aq-hdr-sub{font-size:13px;color:var(--t2);margin-top:1px}
+.aq-score-row{display:flex;gap:10px;margin-top:14px}
+.aq-score-chip{flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;text-align:center}
+.aq-score-val{font-size:22px;font-weight:800;line-height:1}
+.aq-score-lbl{font-size:10px;color:var(--t2);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+.aq-section{padding:20px 16px 0}
+.aq-section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.aq-section-dot{width:8px;height:8px;border-radius:50%}
+.aq-section-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+.aq-section-count{font-size:11px;color:var(--t3);margin-left:auto}
+.aq-item{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:14px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;transition:background .15s,border-color .15s,opacity .3s}
+.aq-item.done-item{opacity:.45}
+.aq-item.done-item .aq-item-title{text-decoration:line-through;color:var(--t3)}
+.aq-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;cursor:pointer;transition:background .15s,border-color .15s}
+.aq-check.checked{background:var(--green);border-color:var(--green)}
+.aq-check svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none;opacity:0;transition:opacity .15s}
+.aq-check.checked svg{opacity:1}
+.aq-item-body{flex:1;min-width:0}
+.aq-item-title{font-size:14px;font-weight:700;margin-bottom:3px;line-height:1.3}
+.aq-item-why{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+.aq-item-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.04em}
+.aq-impact-high{background:rgba(224,90,90,.15);color:var(--red)}
+.aq-impact-med{background:rgba(201,168,76,.15);color:var(--amber)}
+.aq-impact-low{background:rgba(90,173,139,.15);color:var(--green)}
+.aq-progress-bar{height:4px;background:var(--sf3);border-radius:2px;margin:0 16px 4px;overflow:hidden}
+.aq-progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:2px;transition:width .6s var(--expo)}
+.aq-progress-lbl{font-size:11px;color:var(--t3);padding:0 16px;margin-bottom:16px}
+
+/* ── P43 Supplement Stack ── */
+.supp-view{padding:0 0 32px}
+.supp-hdr{padding:56px 20px 20px}
+.supp-hdr-title{font-size:24px;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
+.supp-hdr-sub{font-size:13px;color:var(--t2)}
+.supp-tabs{display:flex;gap:0;padding:0 16px 16px;border-bottom:1px solid var(--bd);margin-bottom:4px}
+.supp-tab{flex:1;padding:8px 4px;font-size:12px;font-weight:700;color:var(--t3);text-align:center;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;cursor:pointer}
+.supp-tab.on{color:var(--t1);border-bottom-color:var(--blue)}
+.supp-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);margin:8px 16px;overflow:hidden;transition:border-color .15s}
+.supp-card.taking{border-color:var(--green);background:rgba(90,173,139,.04)}
+.supp-card-top{padding:14px 14px 10px;display:flex;align-items:flex-start;gap:12px}
+.supp-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.supp-card-body{flex:1;min-width:0}
+.supp-name{font-size:15px;font-weight:800;margin-bottom:2px}
+.supp-dose{font-size:12px;color:var(--t2);margin-bottom:4px}
+.supp-why{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+.supp-tags{display:flex;flex-wrap:wrap;gap:4px}
+.supp-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--sf3);color:var(--t2)}
+.supp-tag.evidence{background:rgba(90,173,139,.15);color:var(--green)}
+.supp-tag.caution{background:rgba(201,168,76,.15);color:var(--amber)}
+.supp-card-foot{border-top:1px solid var(--bd);padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.supp-taking-toggle{display:flex;align-items:center;gap:8px;cursor:pointer}
+.supp-toggle-lbl{font-size:12px;font-weight:700;color:var(--t2)}
+.supp-toggle{width:38px;height:22px;border-radius:11px;background:var(--sf3);border:1px solid var(--bd);position:relative;transition:background .2s;flex-shrink:0}
+.supp-toggle.on{background:var(--green);border-color:var(--green)}
+.supp-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s var(--spring)}
+.supp-toggle.on::after{transform:translateX(16px)}
+.supp-evidence-badge{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.04em}
+.supp-stack-summary{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-m);margin:16px 16px 8px;padding:16px}
+.supp-summary-title{font-size:13px;font-weight:700;margin-bottom:10px}
+.supp-summary-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd)}
+.supp-summary-row:last-child{border-bottom:none}
+.supp-summary-lbl{font-size:12px;color:var(--t2)}
+.supp-summary-val{font-size:12px;font-weight:700}
+
+/* ── P44 Symptom Decoder ── */
+.symp-view{padding:0 0 40px}
+.symp-hdr{padding:56px 20px 20px;text-align:center}
+.symp-hdr-title{font-size:24px;font-weight:800;letter-spacing:-.4px;margin-bottom:6px}
+.symp-hdr-sub{font-size:13px;color:var(--t2);line-height:1.6}
+.symp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px}
+.symp-chip{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-m);padding:10px 12px;cursor:pointer;transition:background .15s,border-color .15s;display:flex;align-items:center;gap:8px}
+.symp-chip.sel{background:rgba(91,139,212,.12);border-color:var(--blue)}
+.symp-chip-icon{font-size:18px;flex-shrink:0}
+.symp-chip-lbl{font-size:12px;font-weight:700;line-height:1.3}
+.symp-decode-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:15px;font-weight:800;padding:16px 24px;border-radius:var(--r-m);border:none;cursor:pointer;width:calc(100% - 32px);margin:0 16px 20px;letter-spacing:.01em;transition:opacity .2s}
+.symp-decode-btn:disabled{opacity:.5;cursor:not-allowed}
+.symp-result{margin:0 16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);overflow:hidden;display:none}
+.symp-result.show{display:block;animation:vi .35s var(--expo) both}
+.symp-result-hdr{padding:16px 16px 12px;border-bottom:1px solid var(--bd);background:linear-gradient(135deg,rgba(91,139,212,.08),rgba(155,122,219,.08))}
+.symp-result-title{font-size:16px;font-weight:800;margin-bottom:4px}
+.symp-result-sub{font-size:12px;color:var(--t2)}
+.symp-explanation{padding:16px}
+.symp-exp-item{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
+.symp-exp-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.symp-exp-symptom{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.symp-exp-chain{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:6px}
+.symp-exp-variant{font-size:11px;font-weight:700;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:4px 8px;display:inline-block;color:var(--purple);margin-bottom:6px}
+.symp-exp-action{font-size:12px;font-weight:700;color:var(--green)}
+.symp-reset-btn{width:calc(100% - 32px);margin:12px 16px 0;padding:12px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-m);font-size:13px;font-weight:700;color:var(--t2);cursor:pointer}
+
+/* ── P45 Body Map ── */
+.bmap-view{padding:0 0 40px}
+.bmap-hdr{padding:56px 20px 16px;text-align:center}
+.bmap-hdr-title{font-size:24px;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
+.bmap-hdr-sub{font-size:13px;color:var(--t2)}
+.bmap-wrap{position:relative;margin:0 auto;width:200px;height:420px}
+.bmap-svg{width:200px;height:420px}
+.bmap-hotspot{position:absolute;cursor:pointer;transition:transform .15s var(--spring)}
+.bmap-hotspot:hover{transform:scale(1.15)}
+.bmap-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;border:2px solid rgba(255,255,255,.2);box-shadow:0 2px 8px rgba(0,0,0,.4);transition:box-shadow .15s}
+.bmap-dot.risk-high{background:var(--red);box-shadow:0 2px 12px rgba(224,90,90,.5)}
+.bmap-dot.risk-med{background:var(--amber);box-shadow:0 2px 12px rgba(201,168,76,.4)}
+.bmap-dot.risk-low{background:var(--green);box-shadow:0 2px 12px rgba(90,173,139,.3)}
+.bmap-dot.risk-ok{background:var(--sf3);border-color:var(--bd2)}
+.bmap-legend{display:flex;gap:12px;justify-content:center;padding:8px 16px 20px;flex-wrap:wrap}
+.bmap-leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)}
+.bmap-leg-dot{width:10px;height:10px;border-radius:50%}
+.bmap-detail{margin:0 16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-l);overflow:hidden;display:none}
+.bmap-detail.show{display:block;animation:vi .3s var(--expo) both}
+.bmap-detail-hdr{padding:16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px}
+.bmap-detail-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.bmap-detail-name{font-size:17px;font-weight:800;margin-bottom:2px}
+.bmap-detail-score{font-size:12px;color:var(--t2)}
+.bmap-detail-variants{padding:12px 16px 0}
+.bmap-detail-variant-lbl{font-size:11px;font-weight:700;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.bmap-variant-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.bmap-variant-row:last-child{border-bottom:none}
+.bmap-variant-gene{font-size:12px;font-weight:800;color:var(--purple);width:90px;flex-shrink:0}
+.bmap-variant-text{font-size:12px;color:var(--t2);line-height:1.5}
+.bmap-detail-action{padding:12px 16px 16px;border-top:1px solid var(--bd);margin-top:4px}
+.bmap-action-btn{width:100%;padding:12px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-m);font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;text-align:left}
+.bmap-tap-hint{text-align:center;font-size:12px;color:var(--t3);padding:0 0 12px;font-style:italic}
+
 @media print{
   .msc-print-btn{display:none!important}
   .msc-card{width:85.6mm;page-break-inside:avoid;box-shadow:none}
@@ -2341,6 +2470,10 @@ function route(){
   if(pid==='glossary'){renderGlossary(parts[1]||'');return;}
   if(pid==='share'){renderShare(parts[1]||'quinn');return;}
   if(pid==='settings'){renderSettings();return;}
+  if(pid==='actions'){renderActionQueue(parts[1]||'quinn');return;}
+  if(pid==='supplements'){renderSupplementStack(parts[1]||'quinn');return;}
+  if(pid==='symptoms'){renderSymptomDecoder(parts[1]||'quinn');return;}
+  if(pid==='bodymap'){renderBodyMap(parts[1]||'quinn');return;}
   if(pid==='peggy'){location.href='peggy.html';return;}
   renderPerson(PERSONS[pid],tab);
 }
@@ -3409,6 +3542,10 @@ function renderMore(p){
     {icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',t:'Risk Trajectory',s:'Current vs optimized lifetime risk comparison',fn:`nav('trajectory/${p.id}')`,style:'color:var(--purple)'},
     {icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',t:'Genetic Glossary',s:'40+ terms explained — searchable, filterable',fn:`nav('glossary')`},
     {icon:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',t:'Share / Export',s:'Send your genomic summary to a doctor or family',fn:`nav('share/${p.id}')`},
+    {icon:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',t:'Action Queue',s:'Prioritized health to-do list — today through next visit',fn:`nav('actions/${p.id}')`,style:'color:var(--blue)'},
+    {icon:'<path d="M9 2h6l2 4H7L9 2z"/><rect x="5" y="6" width="14" height="14" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="12" y1="8" x2="12" y2="14"/>',t:'Supplement Stack',s:'Gene-informed stack — toggle what you take',fn:`nav('supplements/${p.id}')`,style:'color:var(--green)'},
+    {icon:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>',t:'Symptom Decoder',s:'Select symptoms — get genomic explanation',fn:`nav('symptoms/${p.id}')`,style:'color:var(--orange)'},
+    {icon:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',t:'Body Map',s:'Visual genetic risk map — tap any body system',fn:`nav('bodymap/${p.id}')`,style:'color:var(--purple)'},
     {icon:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',t:'Settings',s:'Display, privacy, notifications, about STRAND',fn:`nav('settings')`},
     {icon:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',t:'Emergency Info',s:'Allergies · meds · drug alerts for paramedics',fn:`nav('emergency/${p.id}')`,style:'color:var(--red)'},
     ...(p.id==='quinn'?[{icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',t:'Your Complete Health Story',s:'Why your body does what it does — the full picture',fn:`nav('story/quinn')`,style:'color:var(--blue)'}]:[])
@@ -7302,7 +7439,7 @@ function renderGlossary(anchor){
           <div>${t.def}</div>
           ${t.example?`<div class="gloss-term-example"><b>In this family:</b> ${t.example}</div>`:''}
           <div class="gloss-term-actions">
-            <div class="gloss-term-copy" onclick="copyGlossDef('${t.term.replace(/'/g,'\\'')}','${t.def.replace(/'/g,'\\'').replace(/"/g,'&quot;')}')">Copy definition</div>
+            <div class="gloss-term-copy" onclick="copyGlossDef('${t.term.replace(/'/g,"\\'")}','${t.def.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">Copy definition</div>
           </div>
         </div>
       </div>`;
@@ -7716,6 +7853,462 @@ function buildQRPlaceholder(){
   seed.forEach((row,r)=>row.forEach((v,c)=>{if(v)svg+=`<rect x="${c}" y="${r}" width="1" height="1" fill="#6B7280"/>`;  }));
   svg+=`</svg>`;
   return svg;
+}
+
+/* ══════════════════════════════════════
+   P42 — ACTION QUEUE
+══════════════════════════════════════ */
+const ACTION_QUEUE={
+  quinn:[
+    {id:'aq-lomotil',timeframe:'today',title:'Refill Lomotil',why:'You ran out. BAM diarrhea from TI scarring is your most disruptive daily symptom — this controls it.',impact:'high',tag:'GI',link:'quinn/doctor'},
+    {id:'aq-novaferrum',timeframe:'today',title:'Stop NovaFerrum',why:'Ferritin 217 is elevated — continued iron supplementation raises oxidative stress and worsens inflammation.',impact:'high',tag:'Labs'},
+    {id:'aq-vitd',timeframe:'week',title:'Vitamin D 4,000 IU/day',why:'At 26.5 ng/mL, your VitD is insufficient. For active BD, levels under 40 ng/mL correlate with more frequent flares and reduced Treg function.',impact:'high',tag:'Protocol'},
+    {id:'aq-cholestyramine',timeframe:'week',title:'Ask Dr. Crowley about cholestyramine',why:'Textbook first-line for BAM. You have TI scarring confirmed on colonoscopy — bile acid malabsorption is the most likely cause of morning diarrhea. Never trialed.',impact:'high',tag:'GI'},
+    {id:'aq-cortisol',timeframe:'week',title:'Get morning cortisol tested',why:'You\'ve been on prednisone for months. HPA axis suppression is likely and has never been measured — could explain fatigue, low testosterone, slow recovery.',impact:'high',tag:'Endocrine'},
+    {id:'aq-testosterone',timeframe:'week',title:'Endocrinology referral — testosterone 211',why:'HPG suppression from prednisone. The taper should fix it, but levels need repeat testing and an endocrine consult to confirm full recovery.',impact:'med',tag:'Hormones'},
+    {id:'aq-mre',timeframe:'month',title:'Schedule MR Enterography',why:'TI scarring documented on colonoscopy. MRE shows current inflammatory activity vs. fibrosis — critical to know before changing BD treatment.',impact:'med',tag:'Imaging'},
+    {id:'aq-cardiac-mri',timeframe:'month',title:'Cardiac MRI + stress test',why:'Scheduled Dec 2025 per Dr. Tucker. Confirms full myocarditis resolution and clears path to resuming full exercise.',impact:'med',tag:'Cardiac'},
+    {id:'aq-nebula',timeframe:'month',title:'Register Nebula WGS kit',why:'Resolves CYP2D6 (fluoxetine dosing), deep UNC13D sequencing, ERAP1 Hap10, and complete haplogroups — closes all remaining drug metabolism gaps.',impact:'med',tag:'Genomics'},
+    {id:'aq-omega3',timeframe:'doctor',title:'Add Omega-3 DHA 2g/day',why:'Anti-inflammatory effect proven in autoimmune conditions. FUT2 status means you likely have suboptimal gut absorption — high-dose fish oil directly addresses the inflammatory load.',impact:'med',tag:'Protocol'},
+    {id:'aq-erap1',timeframe:'doctor',title:'Ask rheumatologist about ERAP1 typing',why:'ERAP1 Hap10 interacts with HLA-B*51 to drive BD severity. Understanding your ERAP1 haplotype informs biologic selection — currently under investigation for BD.',impact:'low',tag:'BD'},
+    {id:'aq-fluoxetine',timeframe:'doctor',title:'Discuss fluoxetine dose with Dr. Crowley',why:'CYP2D6 status unknown, FUT2 gut dysbiosis reduces serotonin substrate. Both factors can limit effectiveness. Nebula WGS will clarify metabolizer status.',impact:'low',tag:'MH'}
+  ],
+  chad:[
+    {id:'aq-derm',timeframe:'today',title:'Schedule annual full-body dermatology',why:'MC1R ×4 variants place you at the 91st percentile for melanoma risk. Annual screening catches stage 1 lesions — 98% 5-year survival.',impact:'high',tag:'Skin'},
+    {id:'aq-exercise',timeframe:'today',title:'5+ hrs aerobic exercise this week',why:'APOE4 carriers who exercise 5+ hrs/week reduce Alzheimer\'s risk by 45% (EXERT trial). No drug achieves this. This is the highest single impact action.',impact:'high',tag:'Brain'},
+    {id:'aq-vitd-chad',timeframe:'week',title:'Vitamin D 5,000 IU/day',why:'Dark Nordic skin + APOE4 status increases need. VitD is both neuroprotective and cardioprotective — two of your top three genetic risks.',impact:'high',tag:'Protocol'},
+    {id:'aq-cac',timeframe:'month',title:'Get coronary artery calcium (CAC) score',why:'9p21 bilateral + family history of CAD. One $100 scan establishes a definitive cardiovascular baseline — if CAC=0, 99% chance of no event in 10 years.',impact:'high',tag:'Heart'},
+    {id:'aq-mediterranean',timeframe:'week',title:'Start Mediterranean diet tracking',why:'9p21 bilateral doubles CAD risk, but INTERHEART shows Mediterranean adherence cuts that risk by 18%. Diet is a direct genetic countermeasure.',impact:'med',tag:'Diet'},
+    {id:'aq-omega3-chad',timeframe:'week',title:'Omega-3 DHA 2g/day',why:'APOE4 carriers with high DHA show significantly better cognitive aging. FADS1 variants affect conversion — direct DHA supplementation is optimal.',impact:'med',tag:'Brain'},
+    {id:'aq-clopidogrel',timeframe:'doctor',title:'Confirm clopidogrel is not prescribed',why:'CYP2C19 poor metabolizer — clopidogrel cannot be activated in your system. Any cardiologist must know this before prescribing antiplatelet therapy.',impact:'high',tag:'Drug Safety'},
+    {id:'aq-cognitive',timeframe:'month',title:'Baseline cognitive testing',why:'APOE4 carrier — early cognitive testing establishes a baseline to track against. The earlier you establish it, the more meaningful future comparisons are.',impact:'med',tag:'Brain'}
+  ]
+};
+function renderActionQueue(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const items=ACTION_QUEUE[pid]||ACTION_QUEUE.quinn;
+  const doneKey=`aq-done-${pid}`;
+  let done=JSON.parse(localStorage.getItem(doneKey)||'[]');
+  const total=items.length;
+  const doneCount=done.length;
+  const pct=Math.round((doneCount/total)*100);
+
+  function renderItems(timeframe,label,dotColor){
+    const group=items.filter(i=>i.timeframe===timeframe);
+    if(!group.length)return'';
+    let html=`<div class="aq-section">
+      <div class="aq-section-hdr">
+        <div class="aq-section-dot" style="background:${dotColor}"></div>
+        <div class="aq-section-title">${label}</div>
+        <div class="aq-section-count">${group.filter(i=>done.includes(i.id)).length}/${group.length}</div>
+      </div>`;
+    group.forEach(item=>{
+      const isDone=done.includes(item.id);
+      const impactClass=item.impact==='high'?'aq-impact-high':item.impact==='med'?'aq-impact-med':'aq-impact-low';
+      const impactLabel=item.impact==='high'?'High Impact':item.impact==='med'?'Medium':'Low';
+      html+=`<div class="aq-item${isDone?' done-item':''}" id="aqitem-${item.id}">
+        <div class="aq-check${isDone?' checked':''}" onclick="aqToggle('${pid}','${item.id}')">
+          <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <div class="aq-item-body">
+          <div class="aq-item-title">${item.title}</div>
+          <div class="aq-item-why">${item.why}</div>
+          <span class="aq-item-tag ${impactClass}">${impactLabel} · ${item.tag}</span>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+    return html;
+  }
+
+  let h=`<div class="view"><div class="aq-view">
+  <div class="aq-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')" style="margin-bottom:12px">← Back</button>
+    <div class="aq-hdr-top">
+      <div class="aq-hdr-icon">✓</div>
+      <div><div class="aq-hdr-name">${p.name.split(' ')[0]}'s Actions</div>
+      <div class="aq-hdr-sub">Genomic-priority health to-do list</div></div>
+    </div>
+    <div class="aq-score-row">
+      <div class="aq-score-chip"><div class="aq-score-val" style="color:var(--blue)">${pct}%</div><div class="aq-score-lbl">Complete</div></div>
+      <div class="aq-score-chip"><div class="aq-score-val" style="color:var(--red)">${items.filter(i=>i.impact==='high'&&!done.includes(i.id)).length}</div><div class="aq-score-lbl">High Priority</div></div>
+      <div class="aq-score-chip"><div class="aq-score-val" style="color:var(--green)">${doneCount}</div><div class="aq-score-lbl">Done</div></div>
+    </div>
+  </div>
+  <div class="aq-progress-bar"><div class="aq-progress-fill" id="aq-progress-fill" style="width:${pct}%"></div></div>
+  <div class="aq-progress-lbl">${doneCount} of ${total} actions complete</div>
+  ${renderItems('today','Do Today','var(--red)')}
+  ${renderItems('week','This Week','var(--amber)')}
+  ${renderItems('month','This Month','var(--blue)')}
+  ${renderItems('doctor','Next Doctor Visit','var(--purple)')}
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function aqToggle(pid,id){
+  const doneKey=`aq-done-${pid}`;
+  let done=JSON.parse(localStorage.getItem(doneKey)||'[]');
+  const idx=done.indexOf(id);
+  if(idx>-1)done.splice(idx,1);
+  else done.push(id);
+  localStorage.setItem(doneKey,JSON.stringify(done));
+  renderActionQueue(pid);
+}
+
+/* ══════════════════════════════════════
+   P43 — SUPPLEMENT STACK
+══════════════════════════════════════ */
+const SUPPS={
+  quinn:[
+    {id:'vitd',icon:'☀️',bg:'rgba(201,168,76,.15)',name:'Vitamin D3 + K2',dose:'5,000 IU D3 / 100mcg K2 · with fat',why:'VitD 26.5 ng/mL is insufficient. For BD with active inflammation, target 50–70 ng/mL. K2 directs calcium to bone not arteries.',evidence:'A',caution:false,tags:['BD','Immune','Bone'],category:'core'},
+    {id:'omega3',icon:'🐟',bg:'rgba(90,173,139,.15)',name:'Omega-3 DHA/EPA',dose:'2–3g EPA/DHA · with largest meal',why:'Anti-inflammatory via EPA, neuroprotective via DHA. Proven in autoimmune conditions. FUT2 gut issues may limit conversion from ALA.',evidence:'A',caution:false,tags:['Inflammation','Gut','Brain'],category:'core'},
+    {id:'mag',icon:'🪨',bg:'rgba(91,139,212,.15)',name:'Magnesium Glycinate',dose:'300–400mg · evening',why:'Depleted by stress and inflammation. Supports sleep quality, nerve function, and muscle recovery — all areas your genomic profile flags.',evidence:'B',caution:false,tags:['Sleep','Nervous System'],category:'core'},
+    {id:'probiotics',icon:'🦠',bg:'rgba(155,122,219,.15)',name:'Probiotics (multi-strain)',dose:'10–50 billion CFU · morning, away from food',why:'FUT2 non-secretor status leads to gut dysbiosis. Targeted probiotic support may partially offset reduced colonization resistance.',evidence:'B',caution:false,tags:['Gut','FUT2','Microbiome'],category:'core'},
+    {id:'zinc',icon:'⚡',bg:'rgba(212,133,90,.15)',name:'Zinc Picolinate',dose:'15–25mg · with food',why:'Immune regulation, wound healing, testosterone production. Low zinc is common in BD and correlates with flare frequency.',evidence:'B',caution:true,tags:['BD','Immune','Hormones'],category:'core'},
+    {id:'nac',icon:'🧬',bg:'rgba(91,139,212,.15)',name:'N-Acetyl Cysteine (NAC)',dose:'600mg · twice daily · with food',why:'Glutathione precursor. Reduces oxidative stress from chronic inflammation. GSTP1 variant reduces endogenous antioxidant production.',evidence:'B',caution:false,tags:['Antioxidant','BD'],category:'advanced'},
+    {id:'quercetin',icon:'🍎',bg:'rgba(90,173,139,.15)',name:'Quercetin',dose:'500mg · with bromelain · twice daily',why:'Anti-inflammatory flavonoid. Inhibits TNF-α and IL-6 — same cytokine pathways your biologics target. Strong mechanistic rationale for BD.',evidence:'B',caution:false,tags:['BD','Inflammation'],category:'advanced'},
+    {id:'b12',icon:'🔴',bg:'rgba(224,90,90,.15)',name:'Methylcobalamin B12',dose:'1,000mcg sublingual · daily',why:'Terminal ileum scarring impairs B12 absorption — this is the primary absorption site. Deficiency causes neuropathy and cognitive issues.',evidence:'A',caution:false,tags:['GI','Neurological','TI'],category:'core'},
+    {id:'coq10',icon:'💛',bg:'rgba(201,168,76,.15)',name:'CoQ10 (Ubiquinol form)',dose:'200mg · with fat',why:'Mitochondrial support. Cardiac inflammation depletes CoQ10. The ubiquinol form is better absorbed in young adults.',evidence:'B',caution:false,tags:['Cardiac','Energy'],category:'advanced'}
+  ],
+  chad:[
+    {id:'vitd-chad',icon:'☀️',bg:'rgba(201,168,76,.15)',name:'Vitamin D3 + K2',dose:'5,000 IU D3 / 100mcg K2 · with fat',why:'Neuroprotective for APOE4. Also cardioprotective — two of your top genetic risks addressed with one supplement.',evidence:'A',caution:false,tags:['Brain','Heart','APOE4'],category:'core'},
+    {id:'omega3-chad',icon:'🐟',bg:'rgba(90,173,139,.15)',name:'Omega-3 DHA/EPA',dose:'3g EPA/DHA · with largest meal',why:'APOE4 carriers with high DHA show significantly better cognitive aging trajectories. FADS1 variants affect conversion — direct DHA is optimal.',evidence:'A',caution:false,tags:['Brain','Heart','APOE4'],category:'core'},
+    {id:'mag-chad',icon:'🪨',bg:'rgba(91,139,212,.15)',name:'Magnesium Glycinate',dose:'400mg · evening',why:'Cardioprotective, improves sleep architecture, reduces cortisol. Depleted by cardiovascular stress.',evidence:'B',caution:false,tags:['Heart','Sleep'],category:'core'},
+    {id:'coq10-chad',icon:'💛',bg:'rgba(201,168,76,.15)',name:'CoQ10 (Ubiquinol form)',dose:'200–300mg · with fat',why:'Statin users often have CoQ10 depletion. Supports mitochondrial function and cardiac energy production.',evidence:'B',caution:false,tags:['Heart','Statin'],category:'core'},
+    {id:'lions-mane',icon:'🍄',bg:'rgba(155,122,219,.15)',name:'Lion\'s Mane Mushroom',dose:'1,000mg · morning',why:'NGF stimulation supports neurogenesis. Emerging evidence for APOE4 carriers shows improved cognitive biomarkers at 12 weeks.',evidence:'B',caution:false,tags:['Brain','APOE4'],category:'advanced'},
+    {id:'pterostilbene',icon:'🫐',bg:'rgba(91,139,212,.15)',name:'Pterostilbene',dose:'100mg · with resveratrol 100mg · daily',why:'SIRT1 activator. More bioavailable than resveratrol. APOE4 carriers show upregulated SIRT1 response — directly relevant to longevity pathway.',evidence:'B',caution:false,tags:['Brain','APOE4','Longevity'],category:'advanced'},
+    {id:'niacin',icon:'🟡',bg:'rgba(212,133,90,.15)',name:'Niacin (B3)',dose:'250–500mg flush-free · with food',why:'APOE4 carriers have increased NAD+ consumption. Niacin supports NAD+ synthesis critical for DNA repair and cognitive function.',evidence:'B',caution:true,tags:['Brain','NAD+'],category:'advanced'}
+  ]
+};
+function renderSupplementStack(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const supps=SUPPS[pid]||SUPPS.quinn;
+  const takingKey=`supp-taking-${pid}`;
+  let taking=JSON.parse(localStorage.getItem(takingKey)||'[]');
+  const activeTab=localStorage.getItem(`supp-tab-${pid}`)||'all';
+
+  const displayed=activeTab==='taking'?supps.filter(s=>taking.includes(s.id)):activeTab==='core'?supps.filter(s=>s.category==='core'):supps;
+  const totalCost=taking.length*18;
+
+  let h=`<div class="view"><div class="supp-view">
+  <div class="supp-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')" style="margin-bottom:12px">← Back</button>
+    <div class="supp-hdr-title">${p.name.split(' ')[0]}'s Stack</div>
+    <div class="supp-hdr-sub">Gene-informed supplements · ${taking.length} active · ~$${totalCost}/mo</div>
+  </div>
+  <div class="supp-tabs">
+    <div class="supp-tab${activeTab==='all'?' on':''}" onclick="suppTab('${pid}','all')">All (${supps.length})</div>
+    <div class="supp-tab${activeTab==='core'?' on':''}" onclick="suppTab('${pid}','core')">Core</div>
+    <div class="supp-tab${activeTab==='taking'?' on':''}" onclick="suppTab('${pid}','taking')">Taking (${taking.length})</div>
+  </div>`;
+
+  displayed.forEach(s=>{
+    const isTaking=taking.includes(s.id);
+    h+=`<div class="supp-card${isTaking?' taking':''}">
+      <div class="supp-card-top">
+        <div class="supp-icon" style="background:${s.bg}">${s.icon}</div>
+        <div class="supp-card-body">
+          <div class="supp-name">${s.name}</div>
+          <div class="supp-dose">${s.dose}</div>
+          <div class="supp-why">${s.why}</div>
+          <div class="supp-tags">
+            <span class="supp-tag evidence">Evidence: ${s.evidence}</span>
+            ${s.caution?'<span class="supp-tag caution">⚠ Monitor</span>':''}
+            ${s.tags.map(t=>`<span class="supp-tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="supp-card-foot">
+        <div class="supp-taking-toggle" onclick="suppToggle('${pid}','${s.id}')">
+          <div class="supp-toggle${isTaking?' on':''}"></div>
+          <div class="supp-toggle-lbl">${isTaking?'Taking':'Add to stack'}</div>
+        </div>
+        <div class="supp-evidence-badge">${s.category==='core'?'CORE':'ADVANCED'}</div>
+      </div>
+    </div>`;
+  });
+
+  if(taking.length>0){
+    const morning=supps.filter(s=>taking.includes(s.id)&&(s.dose.includes('morning')||s.dose.includes('daily'))).map(s=>s.name);
+    const evening=supps.filter(s=>taking.includes(s.id)&&s.dose.includes('evening')).map(s=>s.name);
+    const withFood=supps.filter(s=>taking.includes(s.id)&&s.dose.includes('food')).map(s=>s.name);
+    h+=`<div class="supp-stack-summary">
+      <div class="supp-summary-title">Your Stack Schedule</div>
+      ${morning.length?`<div class="supp-summary-row"><div class="supp-summary-lbl">Morning</div><div class="supp-summary-val">${morning.join(', ')}</div></div>`:''}
+      ${withFood.length?`<div class="supp-summary-row"><div class="supp-summary-lbl">With meals</div><div class="supp-summary-val">${withFood.join(', ')}</div></div>`:''}
+      ${evening.length?`<div class="supp-summary-row"><div class="supp-summary-lbl">Evening</div><div class="supp-summary-val">${evening.join(', ')}</div></div>`:''}
+      <div class="supp-summary-row"><div class="supp-summary-lbl">Est. monthly cost</div><div class="supp-summary-val">~$${totalCost}</div></div>
+    </div>`;
+  }
+
+  h+=`<div style="height:24px"></div></div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function suppToggle(pid,id){
+  const k=`supp-taking-${pid}`;
+  let taking=JSON.parse(localStorage.getItem(k)||'[]');
+  const idx=taking.indexOf(id);
+  if(idx>-1)taking.splice(idx,1);
+  else taking.push(id);
+  localStorage.setItem(k,JSON.stringify(taking));
+  renderSupplementStack(pid);
+}
+function suppTab(pid,tab){
+  localStorage.setItem(`supp-tab-${pid}`,tab);
+  renderSupplementStack(pid);
+}
+
+/* ══════════════════════════════════════
+   P44 — SYMPTOM DECODER
+══════════════════════════════════════ */
+const SYMPTOMS_LIST=[
+  {id:'fatigue',icon:'😴',label:'Fatigue'},
+  {id:'brain-fog',icon:'🧠',label:'Brain Fog'},
+  {id:'diarrhea',icon:'🌊',label:'Diarrhea'},
+  {id:'mouth-sores',icon:'🔴',label:'Mouth Sores'},
+  {id:'eye-pain',icon:'👁',label:'Eye Pain'},
+  {id:'joint-pain',icon:'🦴',label:'Joint Pain'},
+  {id:'skin-rash',icon:'🔶',label:'Skin Rash'},
+  {id:'mood-low',icon:'🌧',label:'Low Mood'},
+  {id:'anxiety',icon:'⚡',label:'Anxiety'},
+  {id:'poor-sleep',icon:'🌙',label:'Poor Sleep'},
+  {id:'heart-palp',icon:'💓',label:'Heart Palp'},
+  {id:'nausea',icon:'🤢',label:'Nausea'},
+  {id:'muscle-weak',icon:'💪',label:'Muscle Weakness'},
+  {id:'headache',icon:'🤕',label:'Headache'},
+  {id:'appetite-loss',icon:'🍽',label:'Low Appetite'},
+  {id:'fever',icon:'🌡',label:'Low-Grade Fever'}
+];
+const SYMPTOM_DECODE={
+  quinn:{
+    'fatigue':['HLA-B*51/B*51','Chronic immune activation from BD keeps your inflammatory baseline elevated — this is fatigue with a genomic cause. Prednisone HPA suppression (likely at your dose/duration) compounds this by disrupting cortisol rhythm. Low testosterone (211 ng/dL) from HPG suppression adds a third independent pathway. This isn\'t psychological — it\'s three separate biological mechanisms converging.','Test morning cortisol + repeat testosterone after full prednisone taper.'],
+    'diarrhea':['TI Scarring + BAM','Terminal ileum scarring from BD flares has almost certainly caused bile acid malabsorption. Unabsorbed bile acids reach the colon and act as powerful stimulants — causing watery morning diarrhea that is largely independent of what you eat. Cholestyramine is the textbook first-line treatment and has never been trialed.','Cholestyramine trial — ask Dr. Crowley. Lomotil for symptomatic relief now.'],
+    'mouth-sores':['HLA-B*51/B*51','These are pathognomonic Behçet\'s aphthous ulcers. Driven directly by your homozygous HLA-B*51 — the antigen presents peptides that trigger autoreactive T-cell attack on mucosal surfaces. Frequency tracks with systemic inflammatory activity. This is your BD\'s primary clinical expression.','Track frequency and severity. Significant increase warrants earlier rheumatology visit.'],
+    'brain-fog':['FUT2 AA + COMT','FUT2 non-secretor status leads to dysbiosis — disrupting gut-brain serotonin production (90% of serotonin is made in the gut). COMT Met/Met slows catecholamine clearance, creating a chaotic neurotransmitter environment under stress. Add inflammatory cytokines crossing the blood-brain barrier and you have three converging fog mechanisms.','Probiotics for gut-brain axis. Consistent sleep schedule. Reduce inflammatory load.'],
+    'joint-pain':['HLA-B*51/B*51','BD arthritis follows the same HLA-B*51 autoreactive mechanism as oral ulcers — T-cells attacking synovial tissue. Typically non-erosive, asymmetric, and large-joint. Correlates with systemic flare activity. NSAIDs provide relief but carry GI/renal risk given your profile.','NSAIDs at lowest dose with food. Discuss colchicine (ABCB1 caution) vs biologic escalation.'],
+    'mood-low':['CYP2D6 unknown + FUT2','Fluoxetine effectiveness is limited by: (1) unknown CYP2D6 status — may be metabolizing it too fast or too slow, (2) gut serotonin depletion from FUT2 dysbiosis, (3) testosterone 211 which independently causes anhedonia and motivational deficit. Three separate causes of depression-like symptoms beyond the illness burden itself.','Nebula WGS will resolve CYP2D6. Testosterone should recover with prednisone taper.'],
+    'poor-sleep':['Circadian variants × 6','Six clock gene variants identified. For your genotype, sleep timing consistency matters more than duration — irregular schedules dramatically worsen immune regulation. Prednisone taken in the morning is less disruptive to sleep architecture than evening dosing.','Strict sleep schedule. Morning prednisone dosing. Avoid caffeine after 2pm.'],
+    'eye-pain':['HLA-B*51/B*51','Behçet\'s uveitis is the most sight-threatening manifestation of BD. It follows the same HLA-B*51-driven autoreactive mechanism. ANY eye pain, redness, or visual change in a B*51 patient requires same-day ophthalmology evaluation — this is a medical urgency.','GO TO URGENT CARE OR OPHTHALMOLOGY TODAY if eye symptoms are new or worsening.'],
+    'heart-palp':['Cardiac history','Post-myocarditis arrhythmia risk is real. Dr. Tucker\'s Oct 28 report showed QTc 368 (normal) and EF 56% (normal), but arrhythmia risk during recovery is why exercise is still restricted. Palpitations should be logged with time, duration, and activity level.','Any sustained palpitations: contact Dr. Tucker. Log episodes with timestamps.'],
+    'anxiety':['COMT Met/Met + BDNF','COMT Met/Met slows dopamine/norepinephrine breakdown in the prefrontal cortex — creates a cognitive and emotional \"gain too high\" state under stress. BDNF Val/Val may reduce stress-buffering neuroplasticity. This is a wired-in baseline that requires active management.','Aerobic exercise is the best pharmacological match for this genotype. Consistent routine.'],
+    'nausea':['Pantoprazole + GI','Can be related to gastric acid suppression timing, Lomotil, or BD GI involvement. Morning nausea on prednisone is common. Also check meal timing relative to medications.','Take prednisone with food. Confirm pantoprazole timing with Dr. Crowley.'],
+    'muscle-weak':['Prednisone + testosterone 211','Prednisone causes myopathy — muscle protein breakdown — especially at higher doses or extended duration. Combined with testosterone 211 (which supports muscle protein synthesis), you have simultaneous breakdown acceleration and synthesis impairment. This should resolve as the taper completes.','Gentle resistance training within cardiac restriction. Protein 1.2–1.6g/kg/day.'],
+    'default':['HLA-B*51/B*51 + Multiple Pathways','This symptom has multiple potential genomic contributors in your profile. Your immune activation from HLA-B*51, gut dysbiosis from FUT2, and current medication interactions all affect how symptoms manifest.','Track frequency and severity. Report to Dr. Crowley or Dr. Tucker at next visit.']
+  },
+  chad:{
+    'fatigue':['APOE4 + Circadian','APOE4 affects mitochondrial efficiency — cellular energy production runs less efficiently. Add any sleep quality issues (circadian variants) and the result is persistent low-grade fatigue that isn\'t explained by workload.','Prioritize sleep hygiene. CoQ10 supports mitochondrial function for APOE4 carriers.'],
+    'brain-fog':['APOE4 + FADS1','APOE4 carriers have increased amyloid-beta clearance demand. FADS1 variants reduce DHA synthesis from dietary ALA — and DHA is the primary structural lipid in brain cell membranes. Suboptimal DHA levels directly affect cognitive processing speed.','Direct DHA supplementation (2–3g/day). Exercise drives BDNF. Sleep is critical.'],
+    'joint-pain':['MTHFR C677T','Homocysteine elevation from MTHFR variants promotes systemic inflammation. This can manifest as joint stiffness and pain, especially in the morning.','Methylfolate (not folic acid) supplementation. B12 as methylcobalamin.'],
+    'poor-sleep':['Circadian variants','CRY1/PER3 variants affect sleep timing and architecture. Coffee after 2pm (even as a fast metabolizer) can delay sleep onset for genotypes with these variants.','Consistent sleep schedule is mandatory, not optional, for your genotype.'],
+    'default':['9p21 + APOE4','This symptom should be evaluated in the context of your cardiovascular and neurological genetic risk profile.','Discuss with your PCP at next visit. Track frequency.']
+  }
+};
+let _sympSel=[];
+function renderSymptomDecoder(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  _sympSel=[];
+  const p=PERSONS[pid]||QUINN;
+  let h=`<div class="view"><div class="symp-view">
+  <div class="symp-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')" style="margin-bottom:12px">← Back</button>
+    <div class="symp-hdr-title">Symptom Decoder</div>
+    <div class="symp-hdr-sub">Select what you're feeling — get the genomic explanation for ${p.name.split(' ')[0]}</div>
+  </div>
+  <div class="symp-grid" id="symp-grid">`;
+  SYMPTOMS_LIST.forEach(s=>{
+    h+=`<div class="symp-chip" id="sympchip-${s.id}" onclick="sympToggle('${pid}','${s.id}')">
+      <span class="symp-chip-icon">${s.icon}</span>
+      <span class="symp-chip-lbl">${s.label}</span>
+    </div>`;
+  });
+  h+=`</div>
+  <button class="symp-decode-btn" id="symp-decode-btn" disabled onclick="sympDecode('${pid}')">Decode My Symptoms →</button>
+  <div class="symp-result" id="symp-result"></div>
+  <button class="symp-reset-btn" id="symp-reset-btn" style="display:none" onclick="renderSymptomDecoder('${pid}')">← Clear & Start Over</button>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function sympToggle(pid,id){
+  const chip=document.getElementById(`sympchip-${id}`);
+  const idx=_sympSel.indexOf(id);
+  if(idx>-1){_sympSel.splice(idx,1);chip.classList.remove('sel');}
+  else{_sympSel.push(id);chip.classList.add('sel');}
+  document.getElementById('symp-decode-btn').disabled=_sympSel.length===0;
+}
+function sympDecode(pid){
+  const decodeDB=SYMPTOM_DECODE[pid]||SYMPTOM_DECODE.quinn;
+  const result=document.getElementById('symp-result');
+  let html=`<div class="symp-result-hdr">
+    <div class="symp-result-title">Genomic Explanation for ${_sympSel.length} Symptom${_sympSel.length>1?'s':''}</div>
+    <div class="symp-result-sub">Based on your genetic profile and current clinical status</div>
+  </div><div class="symp-explanation">`;
+  _sympSel.forEach(id=>{
+    const s=SYMPTOMS_LIST.find(x=>x.id===id);
+    const decode=decodeDB[id]||decodeDB['default'];
+    html+=`<div class="symp-exp-item">
+      <div class="symp-exp-symptom">${s.icon} ${s.label}</div>
+      <div class="symp-exp-variant">${decode[0]}</div>
+      <div class="symp-exp-chain">${decode[1]}</div>
+      <div class="symp-exp-action">→ ${decode[2]}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  result.innerHTML=html;
+  result.classList.add('show');
+  document.getElementById('symp-reset-btn').style.display='block';
+  result.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ══════════════════════════════════════
+   P45 — BODY MAP
+══════════════════════════════════════ */
+const BODY_ZONES={
+  quinn:[
+    {id:'bm-brain',label:'Brain & Mood',icon:'🧠',color:'var(--purple)',risk:'med',top:'28px',left:'79px',
+     score:'Moderate',variants:[
+       {gene:'FUT2 AA',text:'Non-secretor status depletes gut serotonin — 90% of serotonin is gut-produced.'},
+       {gene:'COMT Met/Met',text:'Slow catecholamine clearance — elevated dopamine/NE under stress.'},
+       {gene:'BDNF Val/Val',text:'Standard neuroplasticity — stress buffer is functional but not enhanced.'}
+     ],action:'Mental Health → Symptom Decoder',nav:'mental/quinn'},
+    {id:'bm-eyes',label:'Eyes',icon:'👁',color:'var(--red)',risk:'high',top:'54px',left:'79px',
+     score:'HIGH — Uveitis risk',variants:[
+       {gene:'HLA-B*51/B*51',text:'Homozygous — highest uveitis risk. Any eye pain = same-day ophthalmology.'},
+       {gene:'BD Active',text:'Uveitis is most sight-threatening BD manifestation. Zero tolerance policy.'}
+     ],action:'Emergency Info — eye pain protocol',nav:'emergency/quinn'},
+    {id:'bm-heart',label:'Heart',icon:'❤️',color:'var(--amber)',risk:'med',top:'155px',left:'65px',
+     score:'Monitoring — recovered',variants:[
+       {gene:'Myocarditis (resolved)',text:'Immune-mediated. EF 56%, GLS -19.7%, QTc 368 — all normal Oct 28.'},
+       {gene:'Exercise restricted',text:'Arrhythmia risk during recovery. Cardiac MRI + stress test pending.'},
+       {gene:'Dr. Tucker — Cardiology',text:'Next follow-up per cardiac MRI schedule (Dec 2025).'}
+     ],action:'View cardiology data',nav:'quinn/overview'},
+    {id:'bm-gut',label:'Gut',icon:'🫁',color:'var(--red)',risk:'high',top:'195px',left:'93px',
+     score:'HIGH — TI + BAM',variants:[
+       {gene:'TI Scarring',text:'Colonoscopy-confirmed. Terminal ileum is primary B12 and bile acid absorption site.'},
+       {gene:'FUT2 AA',text:'Non-secretor — dysbiosis, poor probiotic colonization, gut barrier issues.'},
+       {gene:'BAM',text:'Bile acid malabsorption — cholestyramine never trialed. Morning diarrhea cause.'}
+     ],action:'View gut health',nav:'quinn/overview'},
+    {id:'bm-immune',label:'Immune',icon:'🛡',color:'var(--red)',risk:'high',top:'155px',left:'93px',
+     score:'HIGH — Active BD',variants:[
+       {gene:'HLA-B*51/B*51',text:'Homozygous — highest BD susceptibility. Autoreactive T-cells, TNF-α pathway.'},
+       {gene:'UNC13D VUS',text:'Possible NK/T-cell dysfunction variant — significance under investigation.'},
+       {gene:'TNF pathway',text:'Chronic activation. Exercise and VitD are direct immunomodulatory interventions.'}
+     ],action:'Clinical Trials',nav:'trials/quinn'},
+    {id:'bm-hormones',label:'Hormones',icon:'⚡',color:'var(--amber)',risk:'med',top:'230px',left:'65px',
+     score:'Low T — resolving',variants:[
+       {gene:'Testosterone 211',text:'HPG suppression from prednisone. Should recover with full taper.'},
+       {gene:'HPA axis',text:'Cortisol never tested despite months of prednisone — test urgently.'},
+       {gene:'DBH TT (Brigitte)',text:'Possible inherited norepinephrine metabolism variant.'}
+     ],action:'Action Queue — cortisol test',nav:'actions/quinn'},
+    {id:'bm-joints',label:'Joints',icon:'🦴',color:'var(--amber)',risk:'med',top:'290px',left:'65px',
+     score:'BD arthritis risk',variants:[
+       {gene:'HLA-B*51/B*51',text:'BD arthritis — non-erosive, large-joint, tracks with flare activity.'},
+       {gene:'ABCB1',text:'Reduced colchicine transport — affects standard BD arthritis treatment.'}
+     ],action:'Interaction Checker',nav:'interactions/quinn'},
+    {id:'bm-skin',label:'Skin',icon:'🔶',color:'var(--amber)',risk:'med',top:'115px',left:'65px',
+     score:'BD skin involvement',variants:[
+       {gene:'HLA-B*51/B*51',text:'Pseudofolliculitis and erythema nodosum are classic BD skin manifestations.'},
+       {gene:'MC1R status',text:'No known MC1R variants — skin cancer risk appears standard.'}
+     ],action:'Symptom Decoder — skin rash',nav:'symptoms/quinn'}
+  ],
+  chad:[
+    {id:'bm-brain-chad',label:'Brain',icon:'🧠',color:'var(--red)',risk:'high',top:'28px',left:'79px',
+     score:'HIGH — APOE4',variants:[
+       {gene:'APOE ε4/ε3',text:'Single copy — 3× Alzheimer\'s risk vs average. Exercise is the #1 intervention.'},
+       {gene:'FADS1',text:'Reduced DHA synthesis — brain structure lipid shortfall. Direct DHA supplementation critical.'}
+     ],action:'Exercise Optimizer',nav:'exercise/chad'},
+    {id:'bm-heart-chad',label:'Heart',icon:'❤️',color:'var(--red)',risk:'high',top:'155px',left:'65px',
+     score:'HIGH — 9p21',variants:[
+       {gene:'9p21 bilateral',text:'Doubles CAD risk. Family history of CAD confirms expression.'},
+       {gene:'CYP2C19 poor',text:'NO CLOPIDOGREL — cannot activate. Cardiologist must know this.'},
+       {gene:'SLCO1B1',text:'Statin myopathy risk — monitor CK if on atorvastatin.'}
+     ],action:'Action Queue — CAC score',nav:'actions/chad'},
+    {id:'bm-skin-chad',label:'Skin',icon:'🔶',color:'var(--red)',risk:'high',top:'115px',left:'65px',
+     score:'HIGH — MC1R ×4',variants:[
+       {gene:'MC1R ×4',text:'91st percentile melanoma risk. Annual dermatology screening is mandatory.'},
+       {gene:'Sun history',text:'Significant cumulative exposure noted. Blue eyes, fair skin.'}
+     ],action:'Action Queue — dermatology',nav:'actions/chad'},
+    {id:'bm-gut-chad',label:'Gut',icon:'🫁',color:'var(--green)',risk:'low',top:'195px',left:'93px',
+     score:'Low risk',variants:[
+       {gene:'NAT2 slow (partial)',text:'Slower acetylation — some dietary sensitivities possible.'},
+       {gene:'No IBD variants',text:'No known inflammatory bowel disease risk variants.'}
+     ],action:'Food & Nutrition',nav:'food/chad'}
+  ]
+};
+let _bmActive=null;
+function renderBodyMap(pid){
+  document.getElementById('nav').style.display='none';
+  updateChatFab(pid);
+  const p=PERSONS[pid]||QUINN;
+  const zones=BODY_ZONES[pid]||BODY_ZONES.quinn;
+  const riskColor={high:'var(--red)',med:'var(--amber)',low:'var(--green)',ok:'var(--sf3)'};
+
+  let dots='';
+  zones.forEach(z=>{
+    dots+=`<div class="bmap-hotspot" style="top:${z.top};left:${z.left}" onclick="bmSelect('${pid}','${z.id}')">
+      <div class="bmap-dot risk-${z.risk}" title="${z.label}"></div>
+    </div>`;
+  });
+
+  let h=`<div class="view"><div class="bmap-view">
+  <div class="bmap-hdr">
+    <button class="back-btn" onclick="nav('${pid}/more')" style="margin-bottom:12px">← Back</button>
+    <div class="bmap-hdr-title">${p.name.split(' ')[0]}'s Body Map</div>
+    <div class="bmap-hdr-sub">Tap a hotspot to see the genomic story for that system</div>
+  </div>
+  <div class="bmap-tap-hint">Tap a dot to explore</div>
+  <div style="display:flex;justify-content:center">
+  <div class="bmap-wrap">
+    <svg class="bmap-svg" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body silhouette -->
+      <ellipse cx="100" cy="42" rx="26" ry="30" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+      <path d="M74 72 Q68 90 66 120 L60 200 Q58 220 62 240 L66 300 L70 370 Q72 385 78 388 L84 388 L86 310 L92 260 L100 260 L108 260 L114 310 L116 388 L122 388 Q128 385 130 370 L134 300 L138 240 Q142 220 140 200 L134 120 Q132 90 126 72 Q116 66 100 64 Q84 66 74 72Z" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+      <path d="M66 80 L44 140 Q42 160 46 170 L52 168 L60 120 L66 100Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+      <path d="M134 80 L156 140 Q158 160 154 170 L148 168 L140 120 L134 100Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    </svg>
+    ${dots}
+  </div>
+  </div>
+  <div class="bmap-legend">
+    <div class="bmap-leg-item"><div class="bmap-leg-dot" style="background:var(--red)"></div>High Risk</div>
+    <div class="bmap-leg-item"><div class="bmap-leg-dot" style="background:var(--amber)"></div>Moderate</div>
+    <div class="bmap-leg-item"><div class="bmap-leg-dot" style="background:var(--green)"></div>Low Risk</div>
+  </div>
+  <div class="bmap-detail" id="bmap-detail"></div>
+  <div style="height:32px"></div>
+  </div></div>`;
+  document.getElementById('content').innerHTML=h;
+  window.scrollTo(0,0);
+}
+function bmSelect(pid,zoneId){
+  const zones=BODY_ZONES[pid]||BODY_ZONES.quinn;
+  const z=zones.find(x=>x.id===zoneId);
+  if(!z)return;
+  const detail=document.getElementById('bmap-detail');
+  const riskLabel={high:'High Risk',med:'Moderate Risk',low:'Low Risk',ok:'No Known Risk'};
+  const riskColor={high:'var(--red)',med:'var(--amber)',low:'var(--green)',ok:'var(--green)'};
+  let varHTML=z.variants.map(v=>`<div class="bmap-variant-row"><div class="bmap-variant-gene">${v.gene}</div><div class="bmap-variant-text">${v.text}</div></div>`).join('');
+  detail.innerHTML=`
+    <div class="bmap-detail-hdr">
+      <div class="bmap-detail-icon" style="background:${riskColor[z.risk]}22">${z.icon}</div>
+      <div><div class="bmap-detail-name">${z.label}</div>
+      <div class="bmap-detail-score" style="color:${riskColor[z.risk]}">${riskLabel[z.risk]} · ${z.score}</div></div>
+    </div>
+    <div class="bmap-detail-variants">
+      <div class="bmap-detail-variant-lbl">Key Variants</div>
+      ${varHTML}
+    </div>
+    <div class="bmap-detail-action">
+      <button class="bmap-action-btn" onclick="nav('${z.nav}')">→ ${z.action}</button>
+    </div>`;
+  detail.classList.add('show');
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 /* ── Show/hide FAB based on current view ── */
