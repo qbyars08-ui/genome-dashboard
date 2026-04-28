@@ -1,0 +1,11 @@
+# Private data folder (Phase 3 redaction work — never deploy)
+_private/
+
+# Raw family genome data (if ever symlinked or copied into this directory)
+Family-Data/
+
+# Development notes that don't belong in the deployed site
+DEPLOY.md
+
+# Node artifacts (shouldn't exist, but safety net)
+node_modules/

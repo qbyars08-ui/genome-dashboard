@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STRAND — Peggy Rome</title>
+  <title>STRAND — Your Genome</title>
   <link rel="stylesheet" href="assets/strand.css">
   <link rel="stylesheet" href="assets/strand-cards.css">
 </head>
@@ -14,23 +14,23 @@
       <nav id="strand-rail"></nav>
       <main id="strand-main">
         <div id="section-overview" class="section active"></div>
-        <div id="section-actions" class="section"></div>
-        <div id="section-ancestry" class="section"></div>
-        <div id="section-family" class="section"></div>
-        <div id="section-clinical" class="section"></div>
+        <div id="section-genetics" class="section"></div>
+        <div id="section-tracking" class="section"></div>
+        <div id="section-doctor"   class="section"></div>
       </main>
     </div>
   </div>
   <section id="strand-family-rail"></section>
   <footer id="strand-footer"></footer>
-  <script src="data/peggy.js"></script>
+
+  <!-- Load user data from localStorage BEFORE shell/app run -->
+  <script src="assets/strand-user-loader.js"></script>
   <!-- Private PACS viewer URLs — gitignored and vercelignored. Falls back silently if absent. -->
   <script src="_private/imaging-urls.js" onerror="this.onerror=null;this.remove();"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="assets/strand-shell.js"></script>
   <script src="assets/strand-tracking.js"></script>
   <script src="assets/strand-cards.js"></script>
-  <script src="assets/strand-family-tree.js"></script>
   <script src="assets/strand-app.js"></script>
 </body>
 </html>

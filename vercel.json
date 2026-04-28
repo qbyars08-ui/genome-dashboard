@@ -1,0 +1,63 @@
+{
+  "cleanUrls": false,
+  "trailingSlash": false,
+
+  "rewrites": [
+    { "source": "/",          "destination": "/landing.html" },
+    { "source": "/quinn",     "destination": "/quinn.html" },
+    { "source": "/chad",      "destination": "/chad-brainmap.html" },
+    { "source": "/brigitte",  "destination": "/brigitte.html" },
+    { "source": "/brother",   "destination": "/brother.html" },
+    { "source": "/peggy",     "destination": "/peggy.html" },
+    { "source": "/behcets",   "destination": "/behcets.html" },
+    { "source": "/you",       "destination": "/you.html" },
+    { "source": "/onboard",   "destination": "/onboard.html" }
+  ],
+
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    }
+  ]
+}

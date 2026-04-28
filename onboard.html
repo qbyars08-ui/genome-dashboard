@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRAND — Load Your Genome</title>
+  <link rel="stylesheet" href="assets/strand.css">
+  <link rel="stylesheet" href="assets/strand-onboard.css">
+</head>
+<body>
+  <header id="strand-onboard-topbar" aria-label="STRAND navigation">
+    <div class="topbar-brand">&#9655; <span>STRAND</span></div>
+    <nav class="onboard-family-pills" aria-label="Family members">
+      <!-- injected by strand-onboard.js -->
+    </nav>
+  </header>
+
+  <main id="onboard-main" aria-label="Genome upload onboarding">
+    <!-- All onboard UI rendered here by strand-onboard.js -->
+  </main>
+
+  <footer id="strand-footer" aria-label="Site footer">
+    <div class="footer-copy">
+      <span>STRAND</span> · Byars Family Genomic Intelligence · <span id="onboard-year"></span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Family Hub</a>
+    </div>
+  </footer>
+
+  <script src="assets/strand-variant-panel.js"></script>
+  <script src="assets/strand-onboard.js"></script>
+  <script>document.getElementById('onboard-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

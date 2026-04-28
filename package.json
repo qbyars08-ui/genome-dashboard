@@ -1,0 +1,9 @@
+{
+  "name": "strand-genome-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "STRAND — AI-assisted genomic and family health dashboards for chronically ill patients and families drowning in medical data without answers",
+  "scripts": {
+    "dev": "python3 -m http.server 8743"
+  }
+}
